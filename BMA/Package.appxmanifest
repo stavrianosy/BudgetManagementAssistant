@@ -17,7 +17,7 @@
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="BMA.App">
       <VisualElements DisplayName="BMA" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="BMA" ForegroundText="light" BackgroundColor="#464646">
         <DefaultTile ShowName="allLogos" />
-        <SplashScreen Image="Assets\SplashScreen.jpg" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
     </Application>
   </Applications>

@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Canvas Background="White">
-        <Image x:Name="SplashImage" Stretch="None" Source="/Assets/SplashScreen.jpg"/>
+        <Image x:Name="SplashImage" Stretch="None" Source="/Assets/SplashScreen.png"/>
         <ProgressRing x:Name="Progress" Width="50" Height="50" IsActive="True" IsEnabled="True" Foreground="Black"/>
         <TextBlock x:Name="ProgressText" Text="Initializing..." Style="{StaticResource SubheaderTextStyle}" Foreground="Black"/>
     </Canvas>
