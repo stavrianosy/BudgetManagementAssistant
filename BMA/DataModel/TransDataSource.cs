@@ -1,0 +1,152 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Windows.Data.Json;
+using Windows.Networking.Connectivity;
+using Windows.Storage;
+using Windows.UI.Popups;
+
+namespace BMA.DataModel
+{
+    public class TransDataSource
+    {
+        private const string GROUP_FOLDER = "Groups";
+
+        private static readonly string Utf8ByteOrderMark =
+            Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
+
+        public async Task LoadGroups()
+        {
+            if (Config.TestOnly)
+            {
+                LoadTestGroups();
+            }
+            else
+            {
+                await LoadAllGroups();
+            }
+
+        }
+
+        public async Task LoadAllGroups()
+        {
+            var existing = await LoadCachedGroups();
+            var live = await LoadLiveGroups();
+
+            //foreach (var liveGroup in live
+            //    .Where(liveGroup => !existing.Contains(liveGroup, new BaseItemComparer())))
+            //{
+            //    existing.Add(liveGroup);
+            //    await StorageUtility.SaveItem(GROUP_FOLDER, liveGroup);
+            //}
+
+            //foreach (var group in existing.OrderBy(e => e.Title))
+            //{
+            //    GroupList.Add(group);
+            //}
+        }
+
+        private async Task<IList<TransGroup>> LoadCachedGroups()
+        {
+            var retVal = new List<TransGroup>();
+            foreach (var item in await StorageUtility.ListItems(GROUP_FOLDER))
+            {
+                try
+                {
+                    var group = await StorageUtility.RestoreItem<TransGroup>(GROUP_FOLDER, item);
+                    retVal.Add(group);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            return retVal;
+        }
+
+        private static async Task<IList<TransGroup>> LoadLiveGroups()
+        {
+            var retVal = new List<TransGroup>();
+            var info = NetworkInformation.GetInternetConnectionProfile();
+
+            if (info == null || info.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.InternetAccess)
+            {
+                return retVal;
+            }
+
+            //var content = await PathIO.ReadTextAsync("ms-appx:///Assets/Blogs.js");
+            //content = content.Trim(Utf8ByteOrderMark.ToCharArray());
+            //var transactions = JsonArray.Parse(content);
+
+            //foreach (JsonValue item in transactions)
+            //{
+            //    MessageDialog dialog = null;
+                
+            //    try
+            //    {
+            //        var uri = item.GetObject()["BlogUri"].GetString();
+            //        //var group = new BlogGroup
+            //        //{
+            //        //    Id = uri,
+            //        //    RssUri = new Uri(uri, UriKind.Absolute)
+            //        //};
+
+            //        //var client = GetSyndicationClient();
+            //        //var feed = await client.RetrieveFeedAsync(group.RssUri);
+
+            //        //group.Title = feed.Title.Text;
+
+            //        //retVal.Add(group);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        dialog = new MessageDialog(ex.Message);
+            //    }
+            //    if (dialog != null)
+            //    {
+            //        await dialog.ShowAsync();
+            //    }
+            //}
+
+            return retVal;
+        }
+
+        private void LoadTestGroups()
+        {
+        }
+
+        private static async Task<IList<TransItem>> LoadCachedItems(TransGroup group)
+        {
+            var retVal = new List<TransItem>();
+
+            var groupFolder = group.Id.GetHashCode().ToString();
+
+            foreach (var item in await StorageUtility.ListItems(groupFolder))
+            {
+                try
+                {
+                    var post = await StorageUtility.RestoreItem<TransItem>(groupFolder, item);
+                    post.Group = group;
+                    retVal.Add(post);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+
+            return retVal;
+        }
+
+        public async Task LoadAllItems(TransGroup group)
+        {
+            var cachedItems = await LoadCachedItems(group);
+        }
+        public ObservableCollection<TransGroup> GroupList { get; set; }
+
+    }
+}
