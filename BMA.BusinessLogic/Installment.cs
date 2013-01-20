@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace BMA.DataModel
+namespace BMA.BusinessLogic
 {
-    public class TransGroup:BaseItem
+    public class Installment
     {
+        public int InstallmentId { get; set; }
     }
 }

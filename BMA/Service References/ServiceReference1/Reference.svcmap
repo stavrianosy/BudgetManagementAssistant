@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b9a20ceb-f41d-4d24-8102-8c32c8abe7cd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.2.10/CakePromoService/CakePromoService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CakePromoService.xsd" MetadataType="Schema" ID="32fddf05-7706-4c30-b137-a9eaf6d8aa8a" SourceId="1" SourceUrl="http://mediapc/CakePromoService/CakePromoService.svc?xsd=xsd0" />
+    <MetadataFile FileName="Main.wsdl" MetadataType="Wsdl" ID="71a0fad4-c3be-454b-afa1-5fd0de971b4f" SourceId="1" SourceUrl="http://mediapc/CakePromoService/CakePromoService.svc?wsdl" />
+    <MetadataFile FileName="CakePromoService.disco" MetadataType="Disco" ID="7a53e611-61f1-46c8-b632-1d23a8ddb8aa" SourceId="1" SourceUrl="http://mediapc/CakePromoService/CakePromoService.svc?disco" />
+    <MetadataFile FileName="CakePromoService1.xsd" MetadataType="Schema" ID="9f59d3ba-c9c7-4f1a-99de-eaf7c68d516e" SourceId="1" SourceUrl="http://mediapc/CakePromoService/CakePromoService.svc?xsd=xsd1" />
+    <MetadataFile FileName="CakePromoService2.xsd" MetadataType="Schema" ID="3167a7eb-dc9a-4a6e-afe6-21a2d84544ae" SourceId="1" SourceUrl="http://mediapc/CakePromoService/CakePromoService.svc?xsd=xsd2" />
+    <MetadataFile FileName="CakePromoService3.xsd" MetadataType="Schema" ID="b24e0774-cdb7-4e28-9a0a-7426e22dc574" SourceId="1" SourceUrl="http://mediapc/CakePromoService/CakePromoService.svc?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

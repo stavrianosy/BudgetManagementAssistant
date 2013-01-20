@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Transaction" nillable="true" type="tns:Transaction" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransaction" nillable="true" type="tns:ArrayOfTransaction" />
+  <xs:complexType name="Transaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:double" />
+      <xs:element minOccurs="0" name="Category" nillable="true" type="tns:Category" />
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreatedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CreatedUser" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="ModifiedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ModifiedUser" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="NameOfPlace" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TipAmount" type="xs:double" />
+      <xs:element minOccurs="0" name="TransactionId" type="xs:int" />
+      <xs:element minOccurs="0" name="TransactionReason" nillable="true" type="tns:TransactionReason" />
+      <xs:element minOccurs="0" name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Transaction" nillable="true" type="tns:Transaction" />
+  <xs:complexType name="Category">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CategoryId" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Category" nillable="true" type="tns:Category" />
+  <xs:complexType name="User">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="UserId" type="xs:int" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="TransactionReason">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionReasonId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionReason" nillable="true" type="tns:TransactionReason" />
+  <xs:complexType name="TypeTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TypeTransactionId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
+</xs:schema>

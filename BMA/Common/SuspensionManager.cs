@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,6 +23,8 @@ namespace BMA.Common
     {
 
         private static Dictionary<string, object> _sessionState = new Dictionary<string, object>();
+        private static List<Type> _knownTypes = new List<Type>();
+        private const string sessionStateFilename = "_sessionState.xml";
 
         private static DependencyProperty FrameSessionStateKeyProperty =
             DependencyProperty.RegisterAttached("_FrameSessionStateKey", typeof(String), typeof(SuspensionManager), null);
@@ -108,6 +114,40 @@ namespace BMA.Common
 
             // Check to see if navigation state can be restored
             RestoreFrameNavigationState(frame);
+        }
+
+        /// <summary>
+        /// Restores previously saved <see cref="SessionState"/>.  Any <see cref="Frame"/> instances
+        /// registered with <see cref="RegisterFrame"/> will also restore their prior navigation
+        /// state, which in turn gives their active <see cref="Page"/> an opportunity restore its
+        /// state.
+        /// </summary>
+        /// <returns>An asynchronous task that reflects when session state has been read.  The
+        /// content of <see cref="SessionState"/> should not be relied upon until this task
+        /// completes.</returns>
+        public static async Task RestoreAsync()
+        {
+            _sessionState = new Dictionary<String, Object>();
+
+            // Get the input stream for the SessionState file
+            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(sessionStateFilename);
+            using (IInputStream inStream = await file.OpenSequentialReadAsync())
+            {
+                // Deserialize the Session State
+                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), _knownTypes);
+                _sessionState = (Dictionary<string, object>)serializer.ReadObject(inStream.AsStreamForRead());
+            }
+
+            // Restore any registered frames to their saved state
+            foreach (var weakFrameReference in _registeredFrames)
+            {
+                Frame frame;
+                if (weakFrameReference.TryGetTarget(out frame))
+                {
+                    frame.ClearValue(FrameSessionStateProperty);
+                    RestoreFrameNavigationState(frame);
+                }
+            }
         }
 
         private static void RestoreFrameNavigationState(Frame frame)
