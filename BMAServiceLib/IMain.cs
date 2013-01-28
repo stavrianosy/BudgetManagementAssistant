@@ -13,5 +13,21 @@ namespace BMAServiceLib
     {
         [OperationContract]
         List<Transaction> GetAllTransactions();
+
+        [OperationContract]
+        List<Budget> GetAllBudgets();
+
+        [OperationContract]
+        Dictionary<Category, List<Transaction>> GetAllTransCategories();
+
+        [OperationContract]
+        List<TypeTransaction> GetAllTypeTransactions();
+
+        [OperationContract]
+        StartupInfo LoadItemCounts();
+
+        [OperationContract]
+        StaticTypeList GetAllStaticData();
+
     }
 }

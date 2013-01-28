@@ -1,0 +1,68 @@
+﻿<common:LayoutAwarePage
+    x:Class="BMA.Pages.BudgetPage.BudgetDetailFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BMA.Pages.BudgetPage"
+    xmlns:common="using:BMA.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Background="BlueViolet">
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Name"></TextBlock>
+                <TextBox x:Name="txtName"  
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" 
+                     TextChanged="txtName_TextChanged" Width="395" />
+            </StackPanel>
+        </Border>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Amount" />
+                <TextBox x:Name="txtAmount" 
+                     Width="395" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" 
+                     TextChanged="txtAmount_TextChanged" />
+            </StackPanel>
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="From" />
+                <TextBox x:Name="dtFrom" 
+                     Width="395" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"/>
+            </StackPanel>
+        </Border>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Reason" />
+            <TextBox x:Name="dtTo" 
+                     Width="395" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"/>
+        </StackPanel>
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Duration" Margin="140 0 0 0" />
+                <TextBox x:Name="txtDuration" 
+                     Width="270" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" IsEnabled="False"/>
+            </StackPanel>
+        </Border>
+        <StackPanel Orientation="Horizontal" Margin="140 0 0 0">
+            <CheckBox x:Name="cbInstallment" Checked="cbInstallment_Checked" />
+            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Include installments" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
+            <TextBox x:Name="txtComments" 
+                     TextWrapping="Wrap" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Height="140" Width="530" 
+                     Margin="10 0 0 20" 
+                     TextChanged="txtComments_TextChanged"/>
+        </StackPanel>
+    </StackPanel>
+</common:LayoutAwarePage>

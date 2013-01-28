@@ -38,7 +38,9 @@ namespace BMA
             InitializeComponent();
             Suspending += OnSuspending;
             RegisterChannel();
-            Instance.DataSource = new TransDataSource();
+
+            Instance.StaticDataSource = new StaticDataSource();
+            Instance.TransDataSource = new TransDataSource();
         }
 
         public PushNotificationChannel Channel { get; private set; }
@@ -126,7 +128,8 @@ namespace BMA
         }
         public bool Extended { get; set; }
 
-        public TransDataSource DataSource { get; private set; }
+        public TransDataSource TransDataSource { get; private set; }
+        public StaticDataSource StaticDataSource { get; private set; }
 
         public void RegisterForShare()
         {

@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml.Data;
 
 namespace BMA.Common
 {
     /// <summary>
     /// Implementation of <see cref="INotifyPropertyChanged"/> to simplify models.
-    /// </summary>    
+    /// </summary>
     [Windows.Foundation.Metadata.WebHostHidden]
-    [DataContract]
     public abstract class BindableBase : INotifyPropertyChanged
     {
         /// <summary>

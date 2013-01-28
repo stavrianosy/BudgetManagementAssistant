@@ -1,27 +1,31 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace BMA.BusinessLogic
 {
+    //[DataContractAttribute(IsReference = true)] 
     [DataContract]
-    public abstract class BaseItem //: BindableBase
+    public abstract class BaseItem : BindableBase
     {
-        [DataMember]
-        public int Id { get; set; }
+        //[DataMember]
+        //public int Id { get; set; }
 
         [DataMember]
-        public string Title { get; set; }
+        [Required]
+        public DateTime ModifiedDate { get; set; }
 
         [DataMember]
-        public DateTime? ModifiedDate { get; set; }
+        [Required]
+        public User ModifiedUser { get; set; }
 
         [DataMember]
-        public int ModifiedUserId { get; set; }
+        [Required]
+        public DateTime CreatedDate { get; set; }
 
         [DataMember]
-        public DateTime? CreatedDate { get; set; }
+        [Required]
+        public User CreatedUser { get; set; }
 
-        [DataMember]
-        public int CreatedUserId { get; set; }
     }
 }

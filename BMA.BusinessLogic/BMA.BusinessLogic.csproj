@@ -39,9 +39,16 @@
   <ItemGroup>
     <Compile Include="BaseItem.cs" />
     <Compile Include="BaseItemComparer.cs" />
+    <Compile Include="BindableBase.cs" />
     <Compile Include="Budget.cs" />
     <Compile Include="Category.cs" />
-    <Compile Include="TransactionReason.cs" />
+    <Compile Include="PeriodicInOut.cs" />
+    <Compile Include="StartupInfo.cs" />
+    <Compile Include="StaticTypeList.cs" />
+    <Compile Include="Target.cs" />
+    <Compile Include="TypeExpense.cs" />
+    <Compile Include="TypePeriodicInOut.cs" />
+    <Compile Include="TypeTransactionReason.cs" />
     <Compile Include="Installment.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,6 +56,7 @@
     <Compile Include="Transaction.cs" />
     <Compile Include="TransGroup.cs" />
     <Compile Include="TransItem.cs" />
+    <Compile Include="TypeSavingsDencity.cs" />
     <Compile Include="TypeTransaction.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>

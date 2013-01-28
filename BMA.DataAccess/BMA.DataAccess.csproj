@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityContext.cs" />
-    <Compile Include="Migrations\201301191746316_AddAllTables.cs" />
-    <Compile Include="Migrations\201301191746316_AddAllTables.Designer.cs">
-      <DependentUpon>201301191746316_AddAllTables.cs</DependentUpon>
+    <Compile Include="Migrations\201301240117206_AllTables.cs" />
+    <Compile Include="Migrations\201301240117206_AllTables.Designer.cs">
+      <DependentUpon>201301240117206_AllTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,8 +66,8 @@
     <Content Include="Migrations\UsefulNuget Commands.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201301191746316_AddAllTables.resx">
-      <DependentUpon>201301191746316_AddAllTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201301240117206_AllTables.resx">
+      <DependentUpon>201301240117206_AllTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

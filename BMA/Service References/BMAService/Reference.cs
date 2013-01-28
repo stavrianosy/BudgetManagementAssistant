@@ -19,7 +19,22 @@ namespace BMA.BMAService {
     public interface IMain {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTransactionsResponse")]
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> GetAllTransactionsAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Transaction>> GetAllTransactionsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllBudgets", ReplyAction="http://tempuri.org/IMain/GetAllBudgetsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Budget>> GetAllBudgetsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllTransCategories", ReplyAction="http://tempuri.org/IMain/GetAllTransCategoriesResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<BMA.BusinessLogic.Category, System.Collections.Generic.List<BMA.BusinessLogic.Transaction>>> GetAllTransCategoriesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllTypeTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTypeTransactionsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeTransaction>> GetAllTypeTransactionsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/LoadItemCounts", ReplyAction="http://tempuri.org/IMain/LoadItemCountsResponse")]
+        System.Threading.Tasks.Task<BMA.BusinessLogic.StartupInfo> LoadItemCountsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllStaticData", ReplyAction="http://tempuri.org/IMain/GetAllStaticDataResponse")]
+        System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> GetAllStaticDataAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -65,8 +80,28 @@ namespace BMA.BMAService {
                 base(binding, remoteAddress) {
         }
         
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> GetAllTransactionsAsync() {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Transaction>> GetAllTransactionsAsync() {
             return base.Channel.GetAllTransactionsAsync();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Budget>> GetAllBudgetsAsync() {
+            return base.Channel.GetAllBudgetsAsync();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<BMA.BusinessLogic.Category, System.Collections.Generic.List<BMA.BusinessLogic.Transaction>>> GetAllTransCategoriesAsync() {
+            return base.Channel.GetAllTransCategoriesAsync();
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeTransaction>> GetAllTypeTransactionsAsync() {
+            return base.Channel.GetAllTypeTransactionsAsync();
+        }
+        
+        public System.Threading.Tasks.Task<BMA.BusinessLogic.StartupInfo> LoadItemCountsAsync() {
+            return base.Channel.LoadItemCountsAsync();
+        }
+        
+        public System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> GetAllStaticDataAsync() {
+            return base.Channel.GetAllStaticDataAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync() {

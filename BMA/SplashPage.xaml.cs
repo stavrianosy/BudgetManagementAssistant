@@ -1,8 +1,8 @@
-﻿using BMA.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -16,6 +16,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
+using BMA.Common;
+
+using BMA.Pages.TransactionPage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -108,14 +112,10 @@ namespace BMA
                                        ? "Loading transactions..."
                                        : "Initializing for first use: this may take several minutes...";
 
-            await App.Instance.DataSource.LoadGroups();
+            await App.Instance.TransDataSource.LoadGroups();
 
-            foreach (var group in App.Instance.DataSource.GroupList)
-            {
-                Progress.IsActive = true;
-                ProgressText.Text = "Loading " + group.Title;
-                await App.Instance.DataSource.LoadAllItems(group);
-            }
+            ProgressText.Text = string.Format("Loading Settings...");
+            await App.Instance.StaticDataSource.LoadStaticData();
 
             ApplicationData.Current.LocalSettings.Values["Initialized"] = false;
 
@@ -124,9 +124,9 @@ namespace BMA
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
-            var list = App.Instance.DataSource.GroupList;
+            var list = App.Instance.TransDataSource.GroupList;
 
-            var totalNew = list.Sum(g => g.NewItemCount);
+            var totalNew = list.Sum(g => g.BudgetId);
 
             if (totalNew > 99)
             {
@@ -151,7 +151,7 @@ namespace BMA
                             // from i in g.Items
                             // orderby i.PostDate descending
                             // select i).Take(5)
-                        orderby i.Title
+                        orderby i.Name
                         select i;
 
             var x = 0;
@@ -214,7 +214,7 @@ namespace BMA
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if (!rootFrame.Navigate(typeof(GroupedItemsPage), "AllGroups"))
+                if (!rootFrame.Navigate(typeof(MainPage), "AllGroups"))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -232,12 +232,12 @@ namespace BMA
 
             if (query.Length < 3) return;
 
-            var suggestions = (from g in App.Instance.DataSource.GroupList
+            var suggestions = (from g in App.Instance.TransDataSource.GroupList
                                //from i in g.Items
                                //from keywords in i.Title.Split(' ')
                                //let keyword = Regex.Replace(
                                //    keywords.ToLower(), @"[^\w\.@-]", "")
-                               where g.Title.ToLower().Contains(query)
+                               where g.Name.ToLower().Contains(query)
                                //&& keyword.StartsWith(query)
                                //orderby keyword
                                select g).Distinct();

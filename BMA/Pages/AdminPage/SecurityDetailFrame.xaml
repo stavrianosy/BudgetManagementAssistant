@@ -1,0 +1,40 @@
+﻿<common:LayoutAwarePage
+    x:Class="BMA.Pages.AdminPage.SecurityDetailFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BMA.Pages.AdminPage"
+    xmlns:common="using:BMA.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Background="IndianRed">
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Old Password" Width="230"></TextBlock>
+                <TextBox x:Name="txtName"  
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" 
+                     TextChanged="txtOld_TextChanged" Width="395" />
+            </StackPanel>
+        </Border>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="New Password"  Width="230"/>
+            <TextBox x:Name="txtAmount" 
+                     Width="395" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" 
+                     TextChanged="txtNew_TextChanged" />
+        </StackPanel>
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Confirm Password"  Width="230"/>
+                <TextBox x:Name="txtConfirm" 
+                     Width="395" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"
+                         TextChanged="txtConfirm_TextChanged" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</common:LayoutAwarePage>

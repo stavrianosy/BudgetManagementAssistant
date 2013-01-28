@@ -1,0 +1,44 @@
+﻿<common:LayoutAwarePage
+    x:Class="BMA.Pages.AdminPage.NotificationDetailFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BMA.Pages.AdminPage"
+    xmlns:common="using:BMA.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Background="IndianRed">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="530" Text="* Reminder to confirm all the captured transactions of the day" />
+        </StackPanel>
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Name"></TextBlock>
+                <TextBox x:Name="txtName"  
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" 
+                     TextChanged="txtName_TextChanged" Width="395" />
+            </StackPanel>
+        </Border>
+        <Border Padding="0 10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Time" />
+                <TextBox x:Name="txtTime" 
+                     Width="395" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"
+                         TextChanged="txtTime_TextChanged"/>
+            </StackPanel>
+        </Border>
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
+            <TextBox x:Name="txtComments" 
+                     TextWrapping="Wrap" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Height="140" Width="530" 
+                     Margin="10 0 0 20" 
+                     TextChanged="txtComments_TextChanged"/>
+        </StackPanel>
+    </StackPanel>
+</common:LayoutAwarePage>

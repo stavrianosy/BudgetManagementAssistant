@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class Notification
+    public class Notification : BaseItem
     {
         public int NotificationId { get; set; }
     }

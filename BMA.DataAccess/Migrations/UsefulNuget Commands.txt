@@ -9,14 +9,3 @@ Update-Database -Verbose -StartUpProjectName BMA.DataAccess
 
 C:\windows\Microsoft.Net\Framework64\v3.0\Windows Communication Foundation\ 
 ServiceModelReg –i 
-
-
----------------------------
-Microsoft Visual Studio
----------------------------
-Unable to activate Windows Store app 'ec854831-16b0-4c18-9bd0-a38b2293b514_yzekw4x8qxe1g!App'. The activation request failed with error 'This application can't be activated by the Built-in Administrator'.
-
-See help for advice on troubleshooting the issue.
----------------------------
-OK   Help   
----------------------------

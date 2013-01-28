@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class User
+    public class User : BaseItem
     {
         public int UserId { get; set; }
 

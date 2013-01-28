@@ -10,12 +10,12 @@ namespace BMA.BusinessLogic
     {
         public bool Equals(BaseItem x, BaseItem y)
         {
-            return x.Id.Equals(y.Id);
+            return true;// x.Id.Equals(y.Id);
         }
 
         public int GetHashCode(BaseItem obj)
         {
-            return obj.Id.GetHashCode();
+            return 0;// obj.Id.GetHashCode();
         }
     }
 }

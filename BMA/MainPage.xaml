@@ -1,0 +1,146 @@
+﻿<common:LayoutAwarePage
+    x:Name="pageRoot"
+    x:Class="BMA.MainPage"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BMA"
+    xmlns:common="using:BMA.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        <x:String x:Key="AppName">My Application</x:String>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines two rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the rest of the page layout
+    -->
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition MaxHeight="450"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
+            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="groupGridView">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="1" Grid.Row="0" Margin="5 10" Orientation="Horizontal">
+                <TextBlock Text="ADMINISTRATION:" Style="{StaticResource BMA_Text_Menu}" Margin="0 0 15 0" ></TextBlock>
+                <TextBlock Text="PERIODIC IN/OUT" Style="{StaticResource BMA_Text_Menu}" Tapped="PeriodicInOut_Tapped" ></TextBlock>
+                <TextBlock Text="CATEGORIES" Style="{StaticResource BMA_Text_Menu}" Tapped="Categories_Tapped" ></TextBlock>
+                <TextBlock Text="EXPENSE REASON" Style="{StaticResource BMA_Text_Menu}" Tapped="ExpenseReason_Tapped" ></TextBlock>
+                <TextBlock Text="SECURITY" Style="{StaticResource BMA_Text_Menu}" Tapped="Security_Tapped" ></TextBlock>
+                <TextBlock Text="NOTIFICATIONS" Style="{StaticResource BMA_Text_Menu}" Tapped="Notifications_Tapped" ></TextBlock>
+                <TextBlock x:Name="ProgressText" Text="Initializing..." Style="{StaticResource SubheaderTextStyle}" ></TextBlock>
+                <ProgressRing x:Name="Progress" Width="50" Height="50" ></ProgressRing>
+            </StackPanel>
+            <Grid Grid.Column="1" Grid.Row="1" x:Name="menuGridView">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400"></ColumnDefinition>
+                    <ColumnDefinition Width="400"></ColumnDefinition>
+                    <ColumnDefinition Width="400"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Border Tapped="brdTransactions_Tapped" Padding="5" Grid.Row="1" Grid.Column="0" Background="DarkKhaki" Margin="5">
+                    <StackPanel x:Name="spTransactions" >
+                        <TextBlock Text="Transactions" Style="{StaticResource BMA_Text_Large}"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                            <TextBlock Text="{Binding LoadCounts.TransactionCount}" Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                        </StackPanel>
+                        <Border Padding="10 5">
+                            <StackPanel >
+                                <TextBlock Text="Details: " Style="{StaticResource BMA_Text_Item}" />
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Item}"></TextBlock>
+                                    <TextBlock Text="{Binding LoadCounts.TransactionCount}" Style="{StaticResource BMA_Text_Item}"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+                <Border Padding="5" Grid.Column="1" Grid.Row="1" Background="BlueViolet" Margin="5" Tapped="brdBudgets_Tapped">
+                    <StackPanel x:Name="spBudgets">
+                        <TextBlock Text="Budgets" Style="{StaticResource BMA_Text_Large}"></TextBlock>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                            <TextBlock Text="{Binding LoadCounts.BudgetCount}" Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Padding="5" Grid.Column="2" Grid.Row="1" Background="CadetBlue" Margin="5" Tapped="brdTargets_Tapped">
+                    <StackPanel x:Name="spSavingsAssistant">
+                        <TextBlock Text="Savings Assistant" Style="{StaticResource BMA_Text_Large}"></TextBlock>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="{Binding LoadCounts.TargetCount}"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+
+            <!-- Visual states reflect the application's view state -->
+            <VisualStateGroup x:Name="ApplicationViewStates">
+                <VisualState x:Name="FullScreenLandscape"/>
+                <VisualState x:Name="Filled"/>
+
+                <!-- The entire page respects the narrower 100-pixel margin convention for portrait -->
+                <VisualState x:Name="FullScreenPortrait">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PortraitBackButtonStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+
+                <!-- The back button and title have different styles when snapped -->
+                <VisualState x:Name="Snapped">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedBackButtonStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+    
+    <Page.BottomAppBar>
+        <AppBar>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
+</common:LayoutAwarePage>

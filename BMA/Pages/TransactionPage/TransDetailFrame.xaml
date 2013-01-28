@@ -1,0 +1,67 @@
+﻿<common:LayoutAwarePage
+    x:Class="BMA.Pages.TransactionPage.TransDetailFrame"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BMA.Pages.TransactionPage"
+    xmlns:common="using:BMA.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <StackPanel Background="BlueViolet">
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Type"></TextBlock>
+        <ComboBox x:Name="cmbType" 
+                  Width="395" 
+                  Style="{StaticResource ItemDetailStore}" 
+                  ItemsSource="{Binding TypeTransactions}" 
+                  DisplayMemberPath="Name" 
+                  SelectedValuePath="TypeTransactionId" 
+                  SelectedValue="{Binding Path=TypeTransaction}" 
+                  SelectionChanged="cmbType_SelectionChanged"/>
+    </StackPanel>
+    <Border Padding="0 10">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Amount" />
+            <TextBox x:Name="txtAmount" 
+                     Width="170" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0" 
+                     TextChanged="txtAmount_TextChanged" />
+            <TextBlock Style="{StaticResource ItemDetailTextBox}" Margin="0" Text="€" />
+            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Tips" Margin="30 0 0 0" />
+                <TextBox x:Name="txtTip" 
+                         Width="130" 
+                         Style="{StaticResource ItemDetailText}"
+                         TextChanged="txtTip_TextChanged"></TextBox>
+        </StackPanel>
+    </Border>
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Category" />
+            <ComboBox x:Name="cmbCategory" Width="395" Style="{StaticResource ItemDetailStore}"
+                              ItemsSource="{Binding Path=Categories}" DisplayMemberPath="Name" SelectedValuePath="CategoryId"
+                      SelectionChanged="cmbCategory_SelectionChanged"/>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Reason" />
+            <ComboBox x:Name="cmbReason" Width="395" Style="{StaticResource ItemDetailStore}"
+                              ItemsSource="{Binding Path=TypeTransactionReasons}" DisplayMemberPath="Name" SelectedValuePath="TypeTransactionReasonId"
+                      SelectionChanged="cmbReason_SelectionChanged"/>
+    </StackPanel>
+    <StackPanel HorizontalAlignment="Left">
+        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Name of place" />
+            <TextBox x:Name="txtNameOfPlace" Style="{StaticResource ItemDetailText}" Width="530" Margin="10 0 0 0"
+                     TextChanged="txtNameOfPlace_TextChanged"/>
+    </StackPanel>
+    <StackPanel HorizontalAlignment="Left">
+        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
+            <TextBox x:Name="txtComments" 
+                     TextWrapping="Wrap" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Height="140" Width="530" 
+                     Margin="10 0 0 20" 
+                     TextChanged="txtComments_TextChanged"/>
+    </StackPanel>
+    </StackPanel>
+</common:LayoutAwarePage>
+    

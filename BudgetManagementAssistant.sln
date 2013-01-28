@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMAServiceHost", "BMAServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMAServiceLib", "BMAServiceLib\BMAServiceLib.csproj", "{C31072DE-DF1E-4E46-99C7-E8890121F05B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,16 @@ Global
 		{C31072DE-DF1E-4E46-99C7-E8890121F05B}.Release|ARM.ActiveCfg = Release|Any CPU
 		{C31072DE-DF1E-4E46-99C7-E8890121F05B}.Release|x64.ActiveCfg = Release|Any CPU
 		{C31072DE-DF1E-4E46-99C7-E8890121F05B}.Release|x86.ActiveCfg = Release|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|x64.ActiveCfg = Release|Any CPU
+		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

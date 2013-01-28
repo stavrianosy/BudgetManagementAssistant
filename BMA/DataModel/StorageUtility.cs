@@ -65,7 +65,7 @@ namespace BMA.DataModel
                                                  .CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
                 var file =
                     await
-                    folder.CreateFileAsync(item.Id.GetHashCode().ToString(), CreationCollisionOption.ReplaceExisting);
+                    folder.CreateFileAsync(item.CreatedUser.GetHashCode().ToString(), CreationCollisionOption.ReplaceExisting);
                 var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                 using (var outStream = stream.GetOutputStreamAt(0))
                 {

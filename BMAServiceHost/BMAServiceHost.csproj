@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tester.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BMAService.svc" />
@@ -49,12 +50,22 @@
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
+      <Project>{36525b21-e773-403b-8882-18c4dbf996b4}</Project>
+      <Name>BMA.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BMAServiceLib\BMAServiceLib.csproj">
       <Project>{c31072de-df1e-4e46-99c7-e8890121f05b}</Project>
       <Name>BMAServiceLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)BMA.BusinessLogic.dll" "$(TargetDir)..\"
+copy "$(TargetDir)BMAServiceLib.dll" "$(TargetDir)..\"
+copy "$(TargetDir)BMA.DataAccess.dll" "$(TargetDir)..\"
+copy "$(TargetDir)EntityFramework.dll" "$(TargetDir)..\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
