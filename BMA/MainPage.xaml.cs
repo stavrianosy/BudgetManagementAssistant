@@ -129,7 +129,7 @@ namespace BMA
 
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
-            Frame.Navigate(typeof(GroupDetailPage), ((Transaction)group).TransactionId);
+           // Frame.Navigate(typeof(GroupDetailPage), ((Transaction)group).TransactionId);
         }
 
         private void PeriodicInOut_Tapped(object sender, TappedRoutedEventArgs e)
