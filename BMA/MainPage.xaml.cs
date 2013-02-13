@@ -62,20 +62,10 @@ namespace BMA
 
         private async void brdTransactions_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ProgressText.Text = ApplicationData.Current.LocalSettings.Values.ContainsKey("Initialized")
-                   && (bool)ApplicationData.Current.LocalSettings.Values["Initialized"]
-                                       ? "Loading transactions..."
-                                       : "Initializing: this may take several minutes...";
-
             // Determine what group the Button instance represents
             var frameworkElement = sender as FrameworkElement;
             if (frameworkElement == null) return;
             var group = frameworkElement.DataContext;
-
-            await App.Instance.TransDataSource.LoadTransactions();
-
-            Progress.IsActive = true;
-            Progress.IsEnabled = true;
 
             foreach (var trans in App.Instance.TransDataSource.TransactionList)
             {
@@ -86,27 +76,27 @@ namespace BMA
 
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
-            Frame.Navigate(typeof(GroupedItemsPage));
+            Frame.Navigate(typeof(TransactionItemsPage));
         }
 
         private async void brdBudgets_Tapped(object sender, TappedRoutedEventArgs e)
         {
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
-            ProgressText.Text = ApplicationData.Current.LocalSettings.Values.ContainsKey("Initialized")
-                    && (bool)ApplicationData.Current.LocalSettings.Values["Initialized"]
-                                        ? "Loading transactions..."
-                                        : "Initializing: this may take several minutes...";
+            //ProgressText.Text = ApplicationData.Current.LocalSettings.Values.ContainsKey("Initialized")
+            //        && (bool)ApplicationData.Current.LocalSettings.Values["Initialized"]
+            //                            ? "Loading transactions..."
+            //                            : "Initializing: this may take several minutes...";
 
             // Determine what group the Button instance represents
             var frameworkElement = sender as FrameworkElement;
             if (frameworkElement == null) return;
             var group = frameworkElement.DataContext;
 
-            await App.Instance.TransDataSource.LoadAllBudgets();
+            //await App.Instance.TransDataSource.LoadAllBudgets();
 
-            Progress.IsActive = true;
-            Progress.IsEnabled = true;
+            //Progress.IsActive = true;
+            //Progress.IsEnabled = true;
 
             foreach (var trans in App.Instance.TransDataSource.BudgetList)
             {
@@ -132,30 +122,45 @@ namespace BMA
            // Frame.Navigate(typeof(GroupDetailPage), ((Transaction)group).TransactionId);
         }
 
-        private void PeriodicInOut_Tapped(object sender, TappedRoutedEventArgs e)
+        private void brdPeriodicInOut_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(PeriodicInOutItemsPage));
         }
 
-        private void Notifications_Tapped(object sender, TappedRoutedEventArgs e)
+        private void brdNotifications_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(NotificationItemsPage));
         }
 
-        private void Security_Tapped(object sender, TappedRoutedEventArgs e)
+        private void brdSecurity_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(SecurityItemsPage));
 
         }
 
-        private void ExpenseReason_Tapped(object sender, TappedRoutedEventArgs e)
+        private void brdExpenseReason_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(ExpenseItemsPage));
         }
 
-        private void Categories_Tapped(object sender, TappedRoutedEventArgs e)
+        private void brdCategories_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(CategoryItemsPage));
+        }
+
+        private void brdTransactionTypes_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void brdFrequencies_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void brdBudgetThreshold_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
         }
 
     }

@@ -114,22 +114,29 @@
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="DataModel\StaticDataSource.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="DataModel\StatusConverter.cs" />
+    <Compile Include="DataModel\TransactionType.cs" />
     <Compile Include="DataModel\TransDataSource.cs" />
     <Compile Include="DataModel\Config.cs" />
     <Compile Include="DataModel\StorageUtility.cs" />
+    <Compile Include="Pages\AdminPage\BudgetThresholdDetailFrame.xaml.cs">
+      <DependentUpon>BudgetThresholdDetailFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminPage\BudgetThresholdItemsPage.xaml.cs">
+      <DependentUpon>BudgetThresholdItemsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AdminPage\CategoryDetailFrame.xaml.cs">
       <DependentUpon>CategoryDetailFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AdminPage\CategoryItemsPage.xaml.cs">
       <DependentUpon>CategoryItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\ExpenseDetailFrame.xaml.cs">
-      <DependentUpon>ExpenseDetailFrame.xaml</DependentUpon>
+    <Compile Include="Pages\AdminPage\ReasonDetailFrame.xaml.cs">
+      <DependentUpon>ReasonDetailFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\ExpenseItemsPage.xaml.cs">
-      <DependentUpon>ExpenseItemsPage.xaml</DependentUpon>
+    <Compile Include="Pages\AdminPage\ReasonItemsPage.xaml.cs">
+      <DependentUpon>ReasonItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\LayoutAwarePage.cs" />
     <Compile Include="Pages\AdminPage\PeriodicInOutDetailFrame.xaml.cs">
       <DependentUpon>PeriodicInOutDetailFrame.xaml</DependentUpon>
     </Compile>
@@ -153,6 +160,9 @@
     </Compile>
     <Compile Include="Pages\AdminPage\TypePeriodicInOutItemsPage.xaml.cs">
       <DependentUpon>TypePeriodicInOutItemsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BlankPage1.xaml.cs">
+      <DependentUpon>BlankPage1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\BudgetPage\BudgetDetailFrame.xaml.cs">
       <DependentUpon>BudgetDetailFrame.xaml</DependentUpon>
@@ -178,6 +188,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TransactionPage\TransactionItemsPage.xaml.cs">
+      <DependentUpon>TransactionItemsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\BMAService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -196,6 +209,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="BMA_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Budget.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
@@ -204,9 +218,6 @@
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
     <None Include="Properties\ServiceReferences.Designer.ClientConfig" />
     <None Include="Service References\BMAService\BMAService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\BMAService\BMAService1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAService\BMAService2.xsd">
@@ -219,8 +230,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\budget.jpg" />
-    <Content Include="Assets\income.png" />
+    <Content Include="Assets\income.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\Logo.scale-100.png" />
+    <Content Include="Assets\Logo.scale-140.png" />
+    <Content Include="Assets\Logo.scale-180.png" />
+    <Content Include="Assets\Logo.scale-80.png" />
     <Content Include="Assets\outcome.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
@@ -231,6 +248,7 @@
     </Content>
     <Content Include="Assets\transaction.png" />
     <Content Include="Assets\Transactions.js" />
+    <Content Include="Assets\WideLogo.scale-100.png" />
     <Content Include="Common\ReadMe.txt" />
     <None Include="Service References\BMAService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
@@ -254,6 +272,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\AdminPage\BudgetThresholdDetailFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AdminPage\BudgetThresholdItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AdminPage\CategoryDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -262,11 +288,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPage\ExpenseDetailFrame.xaml">
+    <Page Include="Pages\AdminPage\ReasonDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPage\ExpenseItemsPage.xaml">
+    <Page Include="Pages\AdminPage\ReasonItemsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -302,6 +328,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\BlankPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\BudgetPage\BudgetDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -334,6 +364,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\TransactionPage\TransactionItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SplashPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -344,15 +378,23 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\BMAService\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
       <Project>{36525b21-e773-403b-8882-18c4dbf996b4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WrapPanel\WrapPanel.csproj">
+      <Project>{b8925ea7-2e0e-4e3a-bcdc-48ead86cc7c7}</Project>
+      <Name>WrapPanel</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\BMAService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WinRTXamlToolkit">
+      <HintPath>..\packages\winrtxamltoolkit.1.3.5.3\lib\netcore45\WinRTXamlToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

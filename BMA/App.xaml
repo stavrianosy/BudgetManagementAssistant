@@ -2,7 +2,7 @@
     x:Class="BMA.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:BMA">
+    xmlns:local="using:BMA" RequestedTheme="Light">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -16,7 +16,8 @@
                 <ResourceDictionary Source="Common/BMAStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <x:String x:Key="AppName">Wintellog</x:String>
+            <x:String x:Key="AppName">Budget Management &amp; Assistant</x:String>
+            <x:String x:Key="AppNameShort">BMA</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

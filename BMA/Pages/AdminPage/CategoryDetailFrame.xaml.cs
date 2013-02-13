@@ -1,4 +1,5 @@
-﻿using BMA.Common;
+﻿using BMA.BusinessLogic;
+using BMA.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,38 +23,39 @@ namespace BMA.Pages.AdminPage
     /// </summary>
     public sealed partial class CategoryDetailFrame : BMA.Common.LayoutAwarePage
     {
+        Category currCategory;
+
         public CategoryDetailFrame()
         {
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.  The Parameter
-        /// property is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void LoadState(object navigationParameter, Dictionary<string, object> pageState)
         {
+            App.Instance.Share = null;
+
+            currCategory = navigationParameter as Category;
+
+            DefaultViewModel["Category"] = currCategory;
+
+            this.IsEnabled = currCategory != null;
+
+            this.UpdateLayout();
         }
 
         private void txtName_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            currCategory.Name = txtName.Text;
         }
 
-        private void txtAmount_TextChanged(object sender, TextChangedEventArgs e)
+        private void dtFrom_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            currCategory.FromDate = DateTime.Now;
         }
 
-        private void cbInstallment_Checked(object sender, RoutedEventArgs e)
+        private void dtTo_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-        }
-
-        private void txtComments_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            currCategory.ToDate = DateTime.Now;
         }
     }
 }

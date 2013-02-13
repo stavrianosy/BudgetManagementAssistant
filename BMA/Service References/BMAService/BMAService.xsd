@@ -28,9 +28,7 @@
       <xs:extension base="tns:BindableBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="CreatedUser" nillable="true" type="tns:User" />
           <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="ModifiedUser" nillable="true" type="tns:User" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -40,23 +38,14 @@
     <xs:sequence />
   </xs:complexType>
   <xs:element name="BindableBase" nillable="true" type="tns:BindableBase" />
-  <xs:complexType name="User">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="UserId" type="xs:int" />
-          <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="User" nillable="true" type="tns:User" />
   <xs:complexType name="Category">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseItem">
         <xs:sequence>
           <xs:element minOccurs="0" name="CategoryId" type="xs:int" />
+          <xs:element minOccurs="0" name="FromDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ToDate" type="xs:dateTime" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -98,6 +87,7 @@
           <xs:element minOccurs="0" name="BudgetId" type="xs:int" />
           <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="FromDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="HasChanged" type="xs:boolean" />
           <xs:element minOccurs="0" name="IncludeInstallments" type="xs:boolean" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="ToDate" type="xs:dateTime" />

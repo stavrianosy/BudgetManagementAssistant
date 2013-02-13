@@ -19,6 +19,10 @@ namespace BMA.DataModel
     {
         #region Private members
         private const string STATIC_FOLDER = "Static";
+        private const string STATIC_CATEGORY_FOLDER = "Static_Category";
+        private const string STATIC_TYPETRANSACTION_FOLDER = "Static_TypeTransaction";
+        private const string STATIC_TYPETRANSACTIONREASON_FOLDER = "Static_TypeTransactionReason";
+        private const string STATIC_TYPESAVINGFREQUENCY_FOLDER = "Static_TypeSavingsFrequency";
 
         private static readonly string Utf8ByteOrderMark =
                     Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
@@ -45,88 +49,70 @@ namespace BMA.DataModel
         #region Public methods
         public async Task LoadStaticData()
         {
-            var existing = await LoadCachedStaticData();
-            var live = await LoadLiveStaticData();
+            StaticTypeList existing = new StaticTypeList();
+            var info = NetworkInformation.GetInternetConnectionProfile();
+            if (info == null || info.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.InternetAccess)
+            {
+                existing.TypeTransactions = await LoadCachedTypeTransaction(STATIC_TYPETRANSACTION_FOLDER);
+                existing.Categories = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
+                existing.TypeTransactionReasons = await LoadCachedTypeTransactionReason(STATIC_TYPETRANSACTIONREASON_FOLDER);
+                existing.TypeSavingsDencities = await LoadCachedTypeSavingsDencity(STATIC_TYPESAVINGFREQUENCY_FOLDER);
+            }
+            else
+            {
+                existing = await LoadLiveStaticData();
+                await UpdateCacheStaticData(existing);
+            }
+//            var live = await LoadLiveStaticData();
 
-            await LoadTypeTransactionData(existing, live);
-            await LoadTypeCategoryData(existing, live);
-            await LoadTypeSavingsDencityData(existing, live);
-            await LoadTypeTransactionReasonData(existing, live);
+            LoadTypeTransactionData(existing.TypeTransactions);
+            LoadTypeCategoryData(existing.Categories);
+            LoadTypeSavingsDencityData(existing.TypeSavingsDencities);
+            LoadTypeTransactionReasonData(existing.TypeTransactionReasons);
         }
 
-        public async Task LoadTypeTransactionData(StaticTypeList existing, StaticTypeList live)
+        public void LoadTypeTransactionData(List<TypeTransaction> existing)
         {
-            existing.TypeTransactions = existing.TypeTransactions ?? new List<TypeTransaction>();
-            live.TypeTransactions = live.TypeTransactions ?? new List<TypeTransaction>();
+            existing = existing ?? new List<TypeTransaction>();
+            //live.TypeTransactions = live.TypeTransactions ?? new List<TypeTransaction>();
 
-            foreach (var item in live.TypeTransactions
-                .Where(i => !existing.TypeTransactions.Contains(i, new BaseItemComparer())))
+            foreach (var item in existing)
             {
-                existing.TypeTransactions.Add(item);
-                await StorageUtility.SaveItem(STATIC_FOLDER, item);
+                if (TypeTransactionList.Where(t => t.TypeTransactionId == item.TypeTransactionId).Count() == 0)
+                    TypeTransactionList.Add(item);
             }
-
-            foreach (var itemExisting in existing.TypeTransactions.OrderBy(e => e.TypeTransactionId))
-                foreach (var itemLive in live.TypeTransactions.OrderBy(e => e.Name))
-                {
-                    TypeTransactionList.Add(itemLive);
-                }
         }
-        public async Task LoadTypeCategoryData(StaticTypeList existing, StaticTypeList live)
+        public void LoadTypeCategoryData(List<Category> existing)
         {
-            existing.Categories = existing.Categories ?? new List<Category>();
-            live.Categories = live.Categories ?? new List<Category>();
+            existing = existing ?? new List<Category>();
 
-            foreach (var item in live.Categories
-                .Where(i => !existing.Categories.Contains(i, new BaseItemComparer())))
+            foreach (var item in existing)
             {
-                existing.Categories.Add(item);
-                await StorageUtility.SaveItem(STATIC_FOLDER, item);
+                if (CategoryList.Where(t => t.CategoryId == item.CategoryId).Count() == 0)
+                    CategoryList.Add(item);
             }
-
-            foreach (var itemExisting in existing.Categories.OrderBy(e => e.CategoryId))
-                foreach (var itemLive in live.Categories.OrderBy(e => e.Name))
-                {
-                    CategoryList.Add(itemLive);
-                }
         }
 
-        public async Task LoadTypeSavingsDencityData(StaticTypeList existing, StaticTypeList live)
+        public void LoadTypeSavingsDencityData(List<TypeSavingsDencity> existing)
         {
-            existing.TypeSavingsDencities = existing.TypeSavingsDencities ?? new List<TypeSavingsDencity>();
-            live.TypeSavingsDencities = live.TypeSavingsDencities ?? new List<TypeSavingsDencity>();
+            existing = existing ?? new List<TypeSavingsDencity>();
 
-            foreach (var item in live.TypeSavingsDencities
-                .Where(i => !existing.TypeSavingsDencities.Contains(i, new BaseItemComparer())))
+            foreach (var item in existing)
             {
-                existing.TypeSavingsDencities.Add(item);
-                await StorageUtility.SaveItem(STATIC_FOLDER, item);
+                if (TypeSavingsDencityList.Where(t => t.TypeSavingsDencityId== item.TypeSavingsDencityId).Count() == 0)
+                    TypeSavingsDencityList.Add(item);
             }
-
-            foreach (var itemExisting in existing.TypeSavingsDencities.OrderBy(e => e.TypeSavingsDencityId))
-                foreach (var itemLive in live.TypeSavingsDencities.OrderBy(e => e.Name))
-                {
-                    TypeSavingsDencityList.Add(itemLive);
-                }
         }
 
-        public async Task LoadTypeTransactionReasonData(StaticTypeList existing, StaticTypeList live)
+        public void LoadTypeTransactionReasonData(List<TypeTransactionReason> existing)
         {
-            existing.TypeTransactionReasons = existing.TypeTransactionReasons ?? new List<TypeTransactionReason>();
-            live.TypeTransactionReasons = live.TypeTransactionReasons ?? new List<TypeTransactionReason>();
+            existing = existing ?? new List<TypeTransactionReason>();
 
-            foreach (var item in live.TypeTransactionReasons
-                .Where(i => !existing.TypeTransactionReasons.Contains(i, new BaseItemComparer())))
+            foreach (var item in existing)
             {
-                existing.TypeTransactionReasons.Add(item);
-                await StorageUtility.SaveItem(STATIC_FOLDER, item);
+                if (TypeTransactionReasonList.Where(t => t.TypeTransactionReasonId == item.TypeTransactionReasonId).Count() == 0)
+                    TypeTransactionReasonList.Add(item);
             }
-
-            foreach (var itemExisting in existing.TypeTransactionReasons.OrderBy(e => e.TypeTransactionReasonId))
-                foreach (var itemLive in live.TypeTransactionReasons.OrderBy(e => e.Name))
-                {
-                    TypeTransactionReasonList.Add(itemLive);
-                }
         }
 #endregion
 
@@ -156,15 +142,69 @@ namespace BMA.DataModel
 
             return retVal;
         }
-        private async Task<StaticTypeList> LoadCachedStaticData()
+        private async Task<List<Category>> LoadCachedCategory(string folder)
         {
-            var retVal = new StaticTypeList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_FOLDER))
+            var retVal = new List<Category>();
+            foreach (var item in await StorageUtility.ListItems(folder))
             {
                 try
                 {
-                    //var staticType = await StorageUtility.RestoreItem<StaticTypeList>(STATIC_FOLDER, item);
-                    //retVal = staticType;
+                    var staticType = await StorageUtility.RestoreItem<Category>(folder, item);
+                    retVal.Add(staticType);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            return retVal;
+        }
+
+        private async Task<List<TypeTransaction>> LoadCachedTypeTransaction(string folder)
+        {
+            var retVal = new List<TypeTransaction>();
+            foreach (var item in await StorageUtility.ListItems(folder))
+            {
+                try
+                {
+                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(folder, item);
+                    retVal.Add(staticType);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            return retVal;
+        }
+
+        private async Task<List<TypeTransactionReason>> LoadCachedTypeTransactionReason(string folder)
+        {
+            var retVal = new List<TypeTransactionReason>();
+            foreach (var item in await StorageUtility.ListItems(folder))
+            {
+                try
+                {
+                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(folder, item);
+                    retVal.Add(staticType);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            return retVal;
+        }
+
+        private async Task<List<TypeSavingsDencity>> LoadCachedTypeSavingsDencity(string folder)
+        {
+            var retVal = new List<TypeSavingsDencity>();
+            foreach (var item in await StorageUtility.ListItems(folder))
+            {
+                try
+                {
+                    var staticType = await StorageUtility.RestoreItem<TypeSavingsDencity>(folder, item);
+                    retVal.Add(staticType);
                 }
                 catch (Exception ex)
                 {
@@ -175,5 +215,32 @@ namespace BMA.DataModel
         }
 
         #endregion
+        #region Save
+        public async Task SaveCategory(ObservableCollection<Category> categories)
+        {
+            var client = new BMAService.MainClient();
+            var result = await client.SaveCategoriesAsync(categories);
+        }
+        #endregion
+
+        private async Task UpdateCacheStaticData(StaticTypeList staticDataList)
+        {
+            await StorageUtility.Clear(STATIC_CATEGORY_FOLDER);
+            await StorageUtility.Clear(STATIC_TYPESAVINGFREQUENCY_FOLDER);
+            await StorageUtility.Clear(STATIC_TYPETRANSACTION_FOLDER);
+            await StorageUtility.Clear(STATIC_TYPETRANSACTIONREASON_FOLDER);
+
+            foreach (var item in staticDataList.Categories)
+                await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
+
+            foreach (var item in staticDataList.TypeTransactions)
+                await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
+
+            foreach (var item in staticDataList.TypeTransactionReasons)
+                await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
+
+            foreach (var item in staticDataList.TypeSavingsDencities)
+                await StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);
+        }
     }
 }

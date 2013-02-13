@@ -19,76 +19,103 @@ namespace BMA.Pages.TransactionPage
 {
     public sealed partial class TransDetailFrame : BMA.Common.LayoutAwarePage
     {
-        bool isDirty = false;
+        #region Private Members
+        Transaction currTransaction;
+        #endregion
 
+        #region Constructors
         public TransDetailFrame()
         {
             this.InitializeComponent();
         }
+        #endregion
 
+        #region Events
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             App.Instance.Share = null;
-            
+
+            currTransaction = navigationParameter as Transaction;
+
             DefaultViewModel["TypeTransactions"] = App.Instance.StaticDataSource.TypeTransactionList;
             DefaultViewModel["Categories"] = App.Instance.StaticDataSource.CategoryList;
             DefaultViewModel["TypeTransactionReasons"] = App.Instance.StaticDataSource.TypeTransactionReasonList;
+            DefaultViewModel["Transaction"] = currTransaction;
+
+            this.IsEnabled = currTransaction != null;
 
             this.UpdateLayout();
-
-            this.IsEnabled = false;
-
-            if (navigationParameter is Transaction)
-            {
-                this.IsEnabled = true;
-
-                var trans = navigationParameter as Transaction;
-
-                cmbType.SelectedValue = trans.TransactionType==null ? 0 : trans.TransactionType.TypeTransactionId ;
-                txtAmount.Text = trans.Amount.ToString();
-                txtTip.Text = trans.TipAmount.ToString();
-                cmbCategory.SelectedValue = trans.Category == null ? 0 : trans.Category.CategoryId;
-                cmbReason.SelectedValue = trans.TransactionReasonType == null ? 0 : trans.TransactionReasonType.TypeTransactionReasonId;
-                txtNameOfPlace.Text = trans.NameOfPlace ?? String.Empty;
-                txtComments.Text = trans.Comments ?? String.Empty;
-
-                isDirty = false;
-            }
         }
 
         private void txtAmount_TextChanged(object sender, TextChangedEventArgs e)
         {
-            isDirty = true;
+            RepositionInsertionPoint((sender as TextBox));
+            
+            double result = 0d;
+            double.TryParse(txtAmount.Text, out result);
+
+            currTransaction.Amount = result;
+
+
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            isDirty = true;
+            TypeTransaction transType = (TypeTransaction)(sender as ComboBox).SelectedItem;
+            currTransaction.TransactionType = transType;
         }
 
         private void txtTip_TextChanged(object sender, TextChangedEventArgs e)
         {
-            isDirty = true;
+            RepositionInsertionPoint((sender as TextBox));
+            
+            double result = 0d;
+            double.TryParse(txtTip.Text, out result);
+
+            currTransaction.TipAmount = result;
         }
 
         private void txtComments_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            currTransaction.Comments = txtComments.Text;
         }
 
         private void txtNameOfPlace_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            currTransaction.NameOfPlace = txtNameOfPlace.Text;
         }
 
         private void cmbReason_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            TypeTransactionReason transType = (TypeTransactionReason)(sender as ComboBox).SelectedItem;
+            currTransaction.TransactionReasonType = transType;
         }
 
         private void cmbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Category transCat = (Category)(sender as ComboBox).SelectedItem;
+            currTransaction.Category = transCat;
         }
+
+        private void txtAmount_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //txtAmount.SelectionStart = 0;
+            //txtAmount.SelectionLength = txtAmount.Text.Length-1;
+        }
+        #endregion
+
+        private void txtAmount_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //(sender as TextBox).SelectAll();
+        }
+
+        #region Private Methods
+        private void RepositionInsertionPoint(TextBox textBox)
+        {
+            if (textBox.Text.Length == 1)
+                textBox.SelectionStart = 1;
+        }
+        #endregion
+
     }
 }

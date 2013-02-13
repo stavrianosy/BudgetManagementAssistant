@@ -6,166 +6,141 @@
     xmlns:common="using:BMA.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Height="750" >
 
-    <StackPanel Background="IndianRed" Margin="0,0,0,-426">
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal" Height="93">
-                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}"></TextBlock>
-                <ToggleButton x:Name="tbIncome" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" IsChecked="True" 
-                              AutomationProperties.Name="Income"
-                    Content="&#xE14C;" />
-                <ToggleButton x:Name="tbOutcome" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" 
-                    AutomationProperties.Name="Outcome"
-                    Content="&#xE1A3;"/>
-            </StackPanel>
-        </Border>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Purpose" />
-            <TextBox x:Name="txtPurpose" 
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible" Background="IndianRed" >
+        <StackPanel  Margin="0 0 0 20" Background="IndianRed" 
+                     Height="auto" >
+            <Border Padding="0 10">
+                <StackPanel Orientation="Horizontal" Height="93">
+                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}"></TextBlock>
+                    <RadioButton x:Name="rbIncome" Content="Income" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group1"/>
+                    <RadioButton x:Name="rbOutcome" Content="Outcome" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group1"/>
+                </StackPanel>
+            </Border>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Purpose" />
+                <TextBox x:Name="txtPurpose" 
                      Width="395" 
                      Style="{StaticResource ItemDetailText}" 
                      Margin="10 0 0 0" />
-        </StackPanel>
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Type" />
-                <ComboBox x:Name="cmbType" 
+            </StackPanel>
+            <Border Padding="0 10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Type" />
+                    <ComboBox x:Name="cmbType" 
                   Width="395" 
                   Style="{StaticResource ItemDetailStore}" 
                   ItemsSource="{Binding TypeTransactions}" 
                   DisplayMemberPath="Name" 
                   SelectedValuePath="TypeTransactionId" 
                   SelectedValue="{Binding Path=TypeTransaction}" />
-            </StackPanel>
-        </Border>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Amount" />
-            <TextBox x:Name="txtAmount" 
+                </StackPanel>
+            </Border>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Amount" />
+                <TextBox x:Name="txtAmount" 
                      Width="395" 
                      Style="{StaticResource ItemDetailText}" 
                      Margin="10 0 0 0"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
-            <TextBox x:Name="txtComments" 
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
+                <TextBox x:Name="txtComments" 
                      TextWrapping="Wrap" 
                      Style="{StaticResource ItemDetailText}" 
                      Height="140" Width="530" 
                      Margin="10 0 0 20" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Recurrence pattern" />
-        </StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Margin="10 0 0 0">
-                <ToggleButton x:Name="tbDaily" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" IsChecked="True" 
-                              AutomationProperties.Name="Daily"
-                    Content="&#xE14C;" />
-                <ToggleButton x:Name="tbWeekly" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" 
-                    AutomationProperties.Name="Weekly" IsChecked="True"
-                    Content="&#xE1A3;"/>
-                <ToggleButton x:Name="tbMonthly" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" IsChecked="True" 
-                              AutomationProperties.Name="Monthly"
-                    Content="&#xE14C;" />
-                <ToggleButton x:Name="tbYearly" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" 
-                    AutomationProperties.Name="Yearly"
-                    Content="&#xE1A3;"/>
             </StackPanel>
-            <StackPanel Grid.Column="1">
-                <StackPanel Orientation="Horizontal">
-                    <ToggleButton x:Name="tbRule1" Width="40"
-                    Style="{StaticResource ToggleAppBarButtonStyle}" 
-                    Content="&#xE1A3;"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text="Day" />
-                    <TextBox x:Name="txtDay" 
-                     Width="50" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" of every" />
-                    <TextBox x:Name="txtEvery" 
-                     Width="50" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" months(s)" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <ToggleButton x:Name="tbRule2" Width="40"
-                    Style="{StaticResource ToggleAppBarButtonStyle}" 
-                    Content="&#xE1A3;"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text="The" />
-                    <TextBox x:Name="txtNumOfDay" 
-                     Width="50" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0"/>
-                    <ComboBox x:Name="txtNameOfDay" 
-                     Width="50" 
-                     Margin="10 0 0 0"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" of every" />
-                    <TextBox x:Name="txtEvery2" 
-                     Width="50" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" months(s)" />
-                </StackPanel>
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Recurrence pattern" />
             </StackPanel>
-        </Grid>
-        <StackPanel HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Range of recurrence" />
-        </StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Start" />
-                <TextBox x:Name="dtStartDate" 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Margin="0 0 0 10" Orientation="Horizontal">
+                    <RadioButton x:Name="rbDaily" Content="Daily" Style="{StaticResource BMA_TextRadioButtonStyle}" IsChecked="True" GroupName="group2"/>
+                    <RadioButton x:Name="rbWeekly" Content="Weekly" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group2"/>
+                    <RadioButton x:Name="rbMonthly" Content="Monthly" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group2"/>
+                    <RadioButton x:Name="rbYearlyly" Content="Yearly" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group2"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                        <RadioButton x:Name="rbRule1" Style="{StaticResource BMA_TextRadioButtonStyle}" IsChecked="True" GroupName="groupRules"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text="Day" />
+                        <TextBox x:Name="txtDay" 
+                     Width="50" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" of every" />
+                        <TextBox x:Name="txtEvery" 
+                     Width="50" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" months(s)" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin="0 0 0 10">
+                        <RadioButton x:Name="rbRule2" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="groupRules"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text="The" />
+                        <TextBox x:Name="txtNumOfDay" 
+                     Width="50" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"/>
+                        <ComboBox x:Name="txtNameOfDay" 
+                     Width="50" 
+                     Margin="10 0 0 0"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" of every" />
+                        <TextBox x:Name="txtEvery2" 
+                     Width="50" 
+                     Style="{StaticResource ItemDetailText}" 
+                     Margin="10 0 0 0"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text=" months(s)" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Range of recurrence" />
+            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Start" />
+                    <TextBox x:Name="dtStartDate" 
                      Width="250" 
                      Style="{StaticResource ItemDetailText}" 
                      Margin="10 0 0 0"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Margin="10 0" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal">
-                    <ToggleButton x:Name="tbNoEndDate" Width="40" Margin="0 -20"
-                        Style="{StaticResource ToggleAppBarButtonStyle}" 
-                        Content="&#xE1A3;"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="No end date" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <ToggleButton x:Name="tbEndAfter" Width="40" Margin="0 -20"
-                        Style="{StaticResource ToggleAppBarButtonStyle}" 
-                        Content="&#xE1A3;"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="End after " />
-                    <TextBox x:Name="txtEndAfter" 
+                <StackPanel Grid.Row="1" Margin="10 0" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal"  Margin="0 0 0 10">
+                        <RadioButton x:Name="rbNoEndDate" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group3"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="No end date" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin="0 0 0 10">
+                        <RadioButton x:Name="rbEndAfter" Style="{StaticResource BMA_TextRadioButtonStyle}" GroupName="group3"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="End after " />
+                        <TextBox x:Name="txtEndAfter" 
                      Style="{StaticResource ItemDetailText}" 
                      Margin="10 0 0 0"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox}" Text=" occurrence(s)" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <ToggleButton x:Name="tbEndBy" Width="40" Margin="0 -20"
-                        Style="{StaticResource ToggleAppBarButtonStyle}" 
-                        Content="&#xE1A3;"/>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="End by" />
-                    <TextBox x:Name="dtEndBy" 
+                        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text=" occurrence(s)" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" >
+                        <RadioButton x:Name="rbEndBy" Style="{StaticResource BMA_TextRadioButtonStyle}" IsChecked="True" GroupName="group3"/>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="End by" />
+                        <TextBox x:Name="dtEndBy" 
                      Style="{StaticResource ItemDetailText}" 
                              Width="200"
                      Margin="10 0 0 0"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource ItemDetailTextBox}" Text=" *End by date, depends on the pattern." Margin="0 -7" />
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel>
-                    <TextBlock Style="{StaticResource ItemDetailTextBox}" Text=" *End by date, depends on the pattern." Margin="0 -7" />
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-    </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </common:LayoutAwarePage>

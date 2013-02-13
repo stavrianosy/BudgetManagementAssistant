@@ -109,22 +109,28 @@ namespace BMA
             
             ProgressText.Text = ApplicationData.Current.LocalSettings.Values.ContainsKey("Initialized")
                    && (bool)ApplicationData.Current.LocalSettings.Values["Initialized"]
-                                       ? "Loading transactions..."
+                                       ? "Loading ..."
                                        : "Initializing for first use: this may take several minutes...";
 
-            await App.Instance.TransDataSource.LoadGroups();
+            await App.Instance.TransDataSource.LoadAllGroups();
+            
+            ProgressText.Text = string.Format("Loading Transactions...");
+            await App.Instance.TransDataSource.LoadTransactions();
+
+            ProgressText.Text = string.Format("Loading Budgets...");
+            await App.Instance.TransDataSource.LoadBudgets();
 
             ProgressText.Text = string.Format("Loading Settings...");
             await App.Instance.StaticDataSource.LoadStaticData();
 
-            ApplicationData.Current.LocalSettings.Values["Initialized"] = false;
+            ApplicationData.Current.LocalSettings.Values["Initialized"] = true;
 
             // Create a Frame to act as the navigation context and associate it with
             // a SuspensionManager key
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
-            var list = App.Instance.TransDataSource.GroupList;
+            var list = App.Instance.TransDataSource.BudgetList;
 
             var totalNew = list.Sum(g => g.BudgetId);
 

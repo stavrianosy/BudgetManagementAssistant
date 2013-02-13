@@ -25,10 +25,11 @@ namespace BMA.DataModel
         private static readonly string Utf8ByteOrderMark =
             Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
 
+        #region Constructor
         public TransDataSource()
         {
             GroupList = new ObservableCollection<Budget>();
-            TransactionList = new ObservableCollection<Category>();
+            TransactionList = new ObservableCollection<Transaction>();
             BudgetList = new ObservableCollection<Budget>();
 
             if (DesignMode.DesignModeEnabled)
@@ -36,25 +37,15 @@ namespace BMA.DataModel
                 LoadTestGroups();
             }
         }
+        #endregion
 
-        public async Task LoadGroups()
-        {
-            if (Config.TestOnly)
-            {
-                LoadTestGroups();
-            }
-            else
-            {
-                await LoadAllGroups();
-            }
-        }
-
+        #region Load
         public async Task LoadTransactions()
         {
             if (Config.TestOnly)
                 LoadTestGroups();
             else
-                await LoadAllTransactions();
+                await LoadAllTransactions(0);
         }
 
         public async Task LoadBudgets()
@@ -63,6 +54,12 @@ namespace BMA.DataModel
                 LoadTestGroups();
             else
                 await LoadAllBudgets();
+        }
+
+
+        public async Task LoadTransactionsForBudget(int budgetId)
+        {
+            await LoadAllTransactions(budgetId);
         }
 
         public async Task LoadAllGroups()
@@ -85,50 +82,60 @@ namespace BMA.DataModel
             LoadCounts = live;
         }
 
-        public async Task LoadAllTransactions()
+        public async Task LoadAllTransactions(int budgetId)
         {
-            var existing = await LoadCachedTransactions();
-            var live = await LoadLiveTransactions();
+            ICollection<Transaction> existing = null;
 
-            foreach (var liveGroup in live
-                .Where(liveGroup => !existing.Contains(liveGroup, new BaseItemComparer())))
+            var info = NetworkInformation.GetInternetConnectionProfile();
+            if (info == null || info.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.InternetAccess)
             {
-                existing.Add(liveGroup);
-                await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, liveGroup);
+                existing = await LoadCachedTransactions();                
+            }
+            else
+            {
+                existing = await LoadLiveTransactions(budgetId);
+                await UpdateCacheTransactions(existing);
             }
 
-            foreach (var transExisting in existing.OrderBy(e => e.CategoryId))
-                foreach (var transLive in live.OrderBy(e => e.Name))
-                {
-                    TransactionList.Add(transLive);
-                }            
+            foreach (var trans in existing)
+            {
+                if (TransactionList.Where(t => t.TransactionId == trans.TransactionId).Count() == 0)
+                    TransactionList.Add(trans);
+            }    
         }
 
         public async Task LoadAllBudgets()
         {
-            var existing = await LoadCachedBudgets();
-            var live = await LoadLiveBudgets();
+            ICollection<Budget> existing = null;
 
-            foreach (var liveGroup in live
-                .Where(liveGroup => !existing.Contains(liveGroup, new BaseItemComparer())))
+
+            var info = NetworkInformation.GetInternetConnectionProfile();
+            if (info == null || info.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.InternetAccess)
             {
-                existing.Add(liveGroup);
-                await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, liveGroup);
+                existing = await LoadCachedBudgets();
+            }
+            else
+            {
+                existing = await LoadLiveBudgets();
+                await UpdateCacheBudgets(existing);
             }
 
-            foreach (var budgetExisting in existing.OrderBy(e => e.BudgetId))
-                foreach (var budgetLive in live.OrderBy(e => e.Name))
-                {
-                    BudgetList.Add(budgetLive);
-                }
+            foreach (var budget in existing)
+            {
+                if (BudgetList.Where(b => b.BudgetId == budget.BudgetId).Count() == 0)
+                    BudgetList.Add(budget);
+            }
         }
 
-
-        private static async Task<ICollection<Category>> LoadLiveTransactions()
+        private static async Task<ICollection<Transaction>> LoadLiveTransactions()
+        {
+            return await LoadLiveTransactions(0); 
+        }
+        
+        private static async Task<ICollection<Transaction>> LoadLiveTransactions(int budgetId)
         {
 
-            var retVal = new List<Category>();
-            var temp = new Dictionary<Category, List<Transaction>>();
+            var retVal = new List<Transaction>();
             var info = NetworkInformation.GetInternetConnectionProfile();
 
             if (info == null || info.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.InternetAccess)
@@ -139,15 +146,16 @@ namespace BMA.DataModel
             try
             {
                 var client = new BMAService.MainClient();
-                var result = await client.GetAllTransCategoriesAsync();
+                var result = budgetId == 0 ? await client.GetLatestTransactionsAsync() : await client.GetTransactionsForBudgetAsync(budgetId);
+                retVal.AddRange(result);
 
-                foreach (var item in result)
-                {
-                    var transList = item.Value.Where(c => c.Category.CategoryId == item.Key.CategoryId).ToList();
-                    item.Key.Transactions = new List<Transaction>();
-                    item.Key.Transactions.AddRange(transList);
-                    retVal.Add(item.Key);
-                }
+                //foreach (var item in result)
+                //{
+                //    var transList = item.Value.Where(c => c.Category.CategoryId == item.Key.CategoryId).ToList();
+                //    item.Key.Transactions = new List<Transaction>();
+                //    item.Key.Transactions.AddRange(transList);
+                //    retVal.Add(item.Key);
+                //}
             }
             catch (Exception ex)
             {
@@ -201,14 +209,14 @@ namespace BMA.DataModel
             return retVal;
         }
 
-        private async Task<ICollection<Category>> LoadCachedTransactions()
+        private async Task<ICollection<Transaction>> LoadCachedTransactions()
         {
-            var retVal = new List<Category>();
+            var retVal = new List<Transaction>();
             foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER))
             {
                 try
                 {
-                    var trans = await StorageUtility.RestoreItem<Category>(TRANSACTIONS_FOLDER, item);
+                    var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item);
                     retVal.Add(trans);
                 }
                 catch (Exception ex)
@@ -236,7 +244,6 @@ namespace BMA.DataModel
             }
             return retVal;
         }
-
 
         private static async Task<StartupInfo> LoadLiveGroups()
         {
@@ -361,7 +368,7 @@ namespace BMA.DataModel
 
         public ObservableCollection<Budget> GroupList { get; set; }
 
-        public ObservableCollection<Category> TransactionList { get; set; }
+        public ObservableCollection<Transaction> TransactionList { get; set; }
 
         public ObservableCollection<Budget> BudgetList { get; set; }
 
@@ -387,5 +394,36 @@ namespace BMA.DataModel
             return retVal;
         }
         
+        #endregion
+
+        #region Save
+        public async Task SaveTransaction(ObservableCollection<Transaction> transactions)
+        {
+            var client = new BMAService.MainClient();
+            var result = await client.SaveTransactionsAsync(transactions);
+            await UpdateCacheTransactions(result);
+        }
+
+        public async Task SaveBudgets(ObservableCollection<Budget> budgets)
+        {
+            var client = new BMAService.MainClient();
+            //var result = await client.(budgets);
+            //await UpdateCacheBudgets(result);
+        }
+        #endregion
+
+        private async Task UpdateCacheBudgets(ICollection<Budget> budgetList)
+        {
+            await StorageUtility.Clear(BUDGETS_FOLDER);
+            foreach (var item in budgetList)
+                await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId);
+        }
+
+        private async Task UpdateCacheTransactions(ICollection<Transaction> transList)
+        {
+            await StorageUtility.Clear(TRANSACTIONS_FOLDER);
+                foreach (var item in transList)
+                    await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
+        }
     }
 }

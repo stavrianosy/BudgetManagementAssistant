@@ -12,14 +12,8 @@
         <Border Padding="0 10">
             <StackPanel Orientation="Horizontal" Height="93">
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}"></TextBlock>
-                <ToggleButton x:Name="tbIncome" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" IsChecked="True" 
-                              AutomationProperties.Name="Income"
-                    Content="&#xE14C;" />
-                <ToggleButton x:Name="tbOutcome" 
-                    Style="{StaticResource ToggleAppBarButtonStyle}" 
-                    AutomationProperties.Name="Outcome"
-                    Content="&#xE1A3;"/>
+                <RadioButton x:Name="rbIncome" GroupName="grpType"  Style="{StaticResource BMA_TextRadioButtonStyle}" Content="Income" />
+                <RadioButton  x:Name="rbExpense"  GroupName="grpType"  Style="{StaticResource BMA_TextRadioButtonStyle}" Content="Expense" />
             </StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal">

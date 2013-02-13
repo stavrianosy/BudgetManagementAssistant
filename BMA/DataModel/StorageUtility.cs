@@ -45,8 +45,25 @@ namespace BMA.DataModel
             var retVal = (T)serializer.ReadObject(inStream.AsStreamForRead());
             return retVal;
         }
+        
+        public static async Task Clear(string folderName)
+        {
+            if (string.IsNullOrEmpty(folderName))
+            {
+                throw new ArgumentNullException("folderName");
+            }
 
-        public static async Task SaveItem<T>(string folderName, T item)
+            try
+            {
+                await ApplicationData.Current.LocalFolder.CreateFolderAsync(folderName, CreationCollisionOption.ReplaceExisting);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
+        public static async Task SaveItem<T>(string folderName, T item, int id)
             where T : BaseItem
         {
             if (string.IsNullOrEmpty(folderName))
@@ -61,12 +78,11 @@ namespace BMA.DataModel
 
             try
             {
-                var folder = await ApplicationData.Current.LocalFolder
-                                                 .CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
-                var file =
-                    await
-                    folder.CreateFileAsync(item.CreatedUser.GetHashCode().ToString(), CreationCollisionOption.ReplaceExisting);
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
+                
+                var file = await folder.CreateFileAsync(id.GetHashCode().ToString(), CreationCollisionOption.ReplaceExisting);
                 var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                
                 using (var outStream = stream.GetOutputStreamAt(0))
                 {
                     var serializer = new DataContractJsonSerializer(typeof(T));
