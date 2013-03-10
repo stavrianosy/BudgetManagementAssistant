@@ -13,20 +13,47 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            
+            //Transaction t1 = new Transaction();
+            //Transaction t2 = new Transaction();
+            //TransactionList tl = new TransactionList();
+            //tl.Add(t1);
+            //tl.Add(t2);
+
+            //t1.HasChanges = true;
+
+            //tl.GetChanges<TransactionList>();
+
+            User user = new User();
+            user.UserName = "asa";
+            user.Password = "asa";
+            user.Email = "asa@www.com";
+
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
+            ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
             //BMAServiceLib.Main a = new BMAServiceLib.Main();
+
+            //var auth = b.AuthenticateUser(new User() { UserName="1111", Password="2222"});
+            var usr = b.GetUpcomingNotifications(DateTime.Now);
+            var bud = a.GetAllBudgets();
+
             var trans = a.GetAllTransactions();
+            var list = new TransactionList();
+
+            //Transaction aaaa = trans[0];
+            list.Add(trans[0]);
+
             trans[0].Amount = 16d;
             var arr = trans.ToArray();
 
-            var st = a.GetAllStaticData();
+            var aa = a.SyncTransactions(list.ToList());
 
-            var b = a.SaveTransactions(trans);
+            //var st = a.GetAllStaticData();
 
-            var arrC = st.Categories.ToList();
+            //var b1 = a.SaveTransactions(trans);
 
-            var c = a.SaveCategories(st.Categories);
+           // var arrC = st.Categories.ToList();
+
+           // var c = a.SaveCategories(st.Categories);
         }
     }
 }
