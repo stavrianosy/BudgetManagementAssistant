@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BMAService.svc" />
+    <Content Include="BMAStaticDataService.svc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.config" />

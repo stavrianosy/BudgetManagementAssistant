@@ -13,7 +13,7 @@ namespace BMAServiceLib
     public interface IMain
     {
         [OperationContract]
-        List<Transaction> GetAllTransactions();
+        TransactionList GetAllTransactions();
 
         [OperationContract]
         TransactionList GetLatestTransactions();
@@ -22,13 +22,10 @@ namespace BMAServiceLib
         TransactionList GetLatestTransactionsLimit(int latestRecs);
 
         [OperationContract]
-        List<Transaction> GetTransactionsForBudget(int budgetId);
+        TransactionList GetTransactionsForBudget(int budgetId);
 
         [OperationContract]
-        List<Budget> GetAllBudgets();
-
-        //[OperationContract]
-        //Dictionary<Category, List<Transaction>> GetAllTransCategories();
+        BudgetList GetAllBudgets();
 
         [OperationContract]
         List<TypeTransaction> GetAllTypeTransactions();
@@ -37,16 +34,15 @@ namespace BMAServiceLib
         StartupInfo LoadItemCounts();
 
         [OperationContract]
-        StaticTypeList GetAllStaticData();
+        TransactionList SaveTransactions(TransactionList transactions);
 
         [OperationContract]
-        TransactionList SaveTransactions(Transaction[] transactions);
+        TransactionList SyncTransactions(TransactionList transactions);
 
         [OperationContract]
-        TransactionList SaveTransaction(Transaction transaction);
+        BudgetList SaveBudgets(BudgetList transactions);
 
         [OperationContract]
-        List<Category> SaveCategories(Category[] categories);
-
+        BudgetList SyncBudgets(BudgetList budgets);
     }
 }

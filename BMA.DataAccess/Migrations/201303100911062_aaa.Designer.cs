@@ -11,7 +11,7 @@ namespace BMA.DataAccess.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201302050804293_aaa"; }
+            get { return "201303100911062_aaa"; }
         }
         
         string IMigrationMetadata.Source

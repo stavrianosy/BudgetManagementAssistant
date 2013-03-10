@@ -45,9 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityContext.cs" />
-    <Compile Include="Migrations\201302050804293_aaa.cs" />
-    <Compile Include="Migrations\201302050804293_aaa.Designer.cs">
-      <DependentUpon>201302050804293_aaa.cs</DependentUpon>
+    <Compile Include="Migrations\201302212215268_initializeDB.cs" />
+    <Compile Include="Migrations\201302212215268_initializeDB.Designer.cs">
+      <DependentUpon>201302212215268_initializeDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201303100911062_aaa.cs" />
+    <Compile Include="Migrations\201303100911062_aaa.Designer.cs">
+      <DependentUpon>201303100911062_aaa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,8 +70,11 @@
     <Content Include="Migrations\UsefulNuget Commands.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201302050804293_aaa.resx">
-      <DependentUpon>201302050804293_aaa.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201302212215268_initializeDB.resx">
+      <DependentUpon>201302212215268_initializeDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201303100911062_aaa.resx">
+      <DependentUpon>201303100911062_aaa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
