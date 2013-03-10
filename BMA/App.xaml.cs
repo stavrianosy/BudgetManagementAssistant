@@ -1,4 +1,6 @@
-﻿using BMA.DataModel;
+﻿using BMA.BusinessLogic;
+using BMA.DataModel;
+using Callisto.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +10,9 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.Connectivity;
 using Windows.Networking.PushNotifications;
+using Windows.Storage;
 using Windows.UI.ApplicationSettings;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -41,6 +45,7 @@ namespace BMA
 
             Instance.StaticDataSource = new StaticDataSource();
             Instance.TransDataSource = new TransDataSource();
+            Instance.User = new User();
         }
 
         public PushNotificationChannel Channel { get; private set; }
@@ -90,17 +95,22 @@ namespace BMA
         {
             var aboutCommand = new SettingsCommand("About", "About", SettingsHandler);
             args.Request.ApplicationCommands.Add(aboutCommand);
+
+            var securityCommand = new SettingsCommand("Security", "Security", SettingsHandler);
+            args.Request.ApplicationCommands.Add(securityCommand);
         }
-        
+
+        private SettingsFlyout _flyout;
         void SettingsHandler(IUICommand command)
         {
-            //_flyout = new SettingsFlyout
-            //{
-            //    HeaderText = "About",
-            //    Content = new WintellogSettings(),
-            //    IsOpen = true
-            //};
-            //_flyout.Closed += (o, e) => _flyout = null;
+            _flyout = new SettingsFlyout
+            {
+                HeaderBrush = new SolidColorBrush(new Windows.UI.Color(){A=80, R=0, G=0, B=0}),
+                HeaderText = command.Label,
+                Content = new Pages.Settings.Security(),
+                IsOpen = true
+            };
+            _flyout.Closed += (o, e) => _flyout = null;
         }
         private static void ExtendedSplash(SplashScreen splashScreen, object args)
         {
@@ -130,6 +140,31 @@ namespace BMA
 
         public TransDataSource TransDataSource { get; private set; }
         public StaticDataSource StaticDataSource { get; private set; }
+        public User User { get; private set; }
+        public bool IsOnline {
+            get {
+                var info = NetworkInformation.GetInternetConnectionProfile();
+                var isOnline = false;
+
+                isOnline = info != null && info.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+
+                return isOnline;
+            }
+        }
+
+        public bool PendingSync
+        {
+            get
+            {
+                bool result = false;
+
+                if (ApplicationData.Current.LocalSettings.Values.ContainsKey("IsSync") &&
+                    !(bool)ApplicationData.Current.LocalSettings.Values["IsSync"])
+                    result = true;
+
+                return result;
+            }
+        }
 
         public void RegisterForShare()
         {
