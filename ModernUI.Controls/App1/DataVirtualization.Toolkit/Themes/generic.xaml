@@ -1,0 +1,116 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DataVirtualization.Toolkit.DataPoint"
+    xmlns:plotter ="using:DataVirtualization.Toolkit.Plotter"
+    xmlns:common="using:DataVirtualization.Toolkit"
+    xmlns:Legends="using:DataVirtualization.Toolkit.Legends"
+    xmlns:Charting="using:DataVirtualization.Toolkit.Charting">
+    <Style TargetType="local:PieDataPoint">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PieDataPoint">
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Path x:Name="Slice" Stroke="Black" StrokeThickness="0">
+                            <Path.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF006789"/>
+                                    <GradientStop Color="#FF00C0FF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Path.Fill>
+                        </Path>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="local:LineDataPoint">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LineDataPoint">
+                    <Ellipse x:Name="Point" Fill="#FF137FD0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Charting:PieChart">
+        <Setter Property="Palette">
+            <Setter.Value>
+                <common:PaletteCollection>
+                    <ResourceDictionary>
+                        <LinearGradientBrush x:Key="Background" EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFB9D6F7"/>
+                            <GradientStop Color="#FF284B70" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <LinearGradientBrush x:Key="Background" EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFF6FF00"/>
+                            <GradientStop Color="#FFCDD229" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <LinearGradientBrush x:Key="Background" EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF830F0F"/>
+                            <GradientStop Color="#FFE11919" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ResourceDictionary>
+                    <ResourceDictionary>
+                        <LinearGradientBrush x:Key="Background" EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF10FF00"/>
+                            <GradientStop Color="#FF00C233" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ResourceDictionary>
+                </common:PaletteCollection>
+            </Setter.Value>
+            
+        </Setter>
+        <Setter Property="ItemsSource">
+            <Setter.Value>
+                <common:DataItemCollection>
+                    <common:DataItem Name="Data1" Value="50"/>
+                    <common:DataItem Name="Data2" Value="150"/>
+                    <common:DataItem Name="Data3" Value="100"/>
+                    <common:DataItem Name="Data4" Value="30"/>
+                </common:DataItemCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Charting:PieChart">
+                    <Grid x:Name="Container">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" x:Name="PlotArea"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <plotter:PiePlotter x:Name="Pie" Grid.Column="0" >
+                         </plotter:PiePlotter>
+                        <Legends:Legend x:Name="Legend" Grid.Column="1"></Legends:Legend>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+<Style TargetType="plotter:PiePlotter">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="plotter:PiePlotter">
+                    <Canvas x:Name="Container" Margin="0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="Legends:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Legends:LegendItem">
+                    <StackPanel Margin="5,0" Height="50" Orientation="Horizontal">
+                        <Rectangle x:Name="reg" Fill="#FFF4F4F5" Height="35" Stroke="Black" VerticalAlignment="Top" Width="55" Margin="5" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="text" Margin="0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" FontSize="14.667" LineHeight="8" HorizontalAlignment="Center" Width="150"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
