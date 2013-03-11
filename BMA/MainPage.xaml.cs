@@ -217,7 +217,7 @@ namespace BMA
             {
                 await App.Instance.TransDataSource.SyncTransactions();
                 await App.Instance.TransDataSource.SyncBudgets();
-                //await App.Instance.StaticDataSource.LoadStaticData();
+                await App.Instance.StaticDataSource.SyncStaticData();
 
                 txtMessage.Text = string.Format("Last update: {0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
             }

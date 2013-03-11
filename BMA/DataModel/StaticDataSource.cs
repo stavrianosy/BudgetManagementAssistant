@@ -12,6 +12,7 @@ using BMA.Common;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using Windows.Networking.Connectivity;
+using Windows.Storage;
 
 namespace BMA.DataModel
 {
@@ -416,6 +417,52 @@ namespace BMA.DataModel
 
         #endregion
         #region Save
+
+        public async Task SyncStaticData()
+        {
+            try
+            {
+                var staticData = new StaticTypeList();
+
+                staticData.BudgetThresholds = await LoadCachedBudgetThreshold(STATIC_BUDGETTHRESHOLD_FOLDER);
+                staticData.Categories = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
+                staticData.TypeIntervals = await LoadCachedInterval(STATIC_TYPEINTERVAL_FOLDER);
+                staticData.Notifications = await LoadCachedNotification(STATIC_NOTIFICATION_FOLDER);
+                staticData.TypeFrequencies = await LoadCachedTypeFrequency(STATIC_TYPEFREQUENCY_FOLDER);
+                //staticData.TypeSavingsDencities = await LoadCachedTypeSavingsDencity(STATIC_TYPESAVINGFREQUENCY_FOLDER);
+                staticData.TypeTransactions = await LoadCachedTypeTransaction(STATIC_TYPETRANSACTION_FOLDER);
+                staticData.TypeTransactionReasons = await LoadCachedTypeTransactionReason(STATIC_TYPETRANSACTIONREASON_FOLDER);
+
+                var client = new BMAStaticDataService.StaticClient();
+                var result = await client.SyncStaticDataAsync(staticData);
+
+                ApplicationData.Current.LocalSettings.Values["IsSync"] = true;
+
+                await UpdateCacheBudgetThresholds(result.BudgetThresholds);
+                await UpdateCacheCategory(result.Categories);
+                await UpdateCacheNotification(result.Notifications);
+                await UpdateCacheTypeFrequency(result.TypeFrequencies);
+                await UpdateCacheTypeInterval(result.TypeIntervals);
+                //await UpdateCacheTypeSavingsDencity(result.TypeSavingsDencities);
+                await UpdateCacheTypeTransaction(result.TypeTransactions);
+                await UpdateCacheTypeTransactionReason(result.TypeTransactionReasons);
+
+                LoadBudgetThresholdData(result.BudgetThresholds);
+                LoadTypeCategoryData(result.Categories);
+                LoadTypeFrequencyData(result.TypeFrequencies);
+                LoadTypeSavingsDencityData(result.TypeSavingsDencities);
+                LoadTypeTransactionData(result.TypeTransactions);
+                LoadTypeTransactionReasonData(result.TypeTransactionReasons);
+                LoadNotificationData(result.Notifications);
+                LoadIntervalData(result.TypeIntervals);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task SaveCategory(ObservableCollection<Category> categories)
         {
             try

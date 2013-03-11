@@ -14,23 +14,16 @@
   </xs:complexType>
   <xs:element name="User" nillable="true" type="tns:User" />
   <xs:complexType name="BaseItem">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BindableBase">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="CreatedUser" nillable="true" type="tns:User" />
-          <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
-          <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="ModifiedUser" nillable="true" type="tns:User" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CreatedUser" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="HasChanges" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ModifiedUser" nillable="true" type="tns:User" />
+    </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseItem" nillable="true" type="tns:BaseItem" />
-  <xs:complexType name="BindableBase">
-    <xs:sequence />
-  </xs:complexType>
-  <xs:element name="BindableBase" nillable="true" type="tns:BindableBase" />
   <xs:complexType name="StaticTypeList">
     <xs:sequence>
       <xs:element minOccurs="0" name="BudgetThresholds" nillable="true" type="tns:ArrayOfBudgetThreshold" />
