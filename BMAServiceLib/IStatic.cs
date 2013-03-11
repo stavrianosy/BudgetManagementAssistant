@@ -36,27 +36,52 @@ namespace BMAServiceLib
         List<TypeTransaction> GetAllTypeTransactions();
 
         [OperationContract]
-        List<Category> SaveCategories(Category[] categories);
-
-        [OperationContract]
-        List<TypeTransactionReason> SaveTypeTransactionReasons(TypeTransactionReason[] typeTransactionReason);
-
-        [OperationContract]
-        List<Notification> SaveNotifications(Notification[] notifications);
-
-        [OperationContract]
-        List<TypeTransaction> SaveTypeTransactions(TypeTransaction[] typeTransactions);
-
-        [OperationContract]
-        List<TypeFrequency> SaveTypeFrequencies(TypeFrequency[] typeFrequencies);
-
-        [OperationContract]
-        List<TypeInterval> SaveTypeIntervals(TypeInterval[] interval);
-
-        [OperationContract]
-        List<BudgetThreshold> SaveBudgetThresholds(BudgetThreshold[] budgetThreshold);
-
-        [OperationContract]
         List<Notification> GetUpcomingNotifications(DateTime clientTime);
+
+        [OperationContract]
+        StaticTypeList SyncStaticData(StaticTypeList staticData);
+
+        [OperationContract]
+        List<Category> SyncCategories(List<Category> categories);
+
+        [OperationContract]
+        List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+
+        [OperationContract]
+        List<Notification> SyncNotifications(List<Notification> notifications);
+
+        [OperationContract]
+        List<TypeTransaction> SyncTypeTransactions(List<TypeTransaction> typeTransactions);
+
+        [OperationContract]
+        List<TypeFrequency> SyncTypeFrequencies(List<TypeFrequency> typeFrequencies);
+
+        [OperationContract]
+        List<TypeInterval> SyncTypeIntervals(List<TypeInterval> interval);
+
+        [OperationContract]
+        List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThreshold);
+
+        [OperationContract]
+        List<Category> SaveCategories(List<Category> categories);
+
+        [OperationContract]
+        List<TypeTransactionReason> SaveTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+
+        [OperationContract]
+        List<Notification> SaveNotifications(List<Notification> notifications);
+
+        [OperationContract]
+        List<TypeTransaction> SaveTypeTransactions(List<TypeTransaction> typeTransactions);
+
+        [OperationContract]
+        List<TypeFrequency> SaveTypeFrequencies(List<TypeFrequency> typeFrequencies);
+
+        [OperationContract]
+        List<TypeInterval> SaveTypeIntervals(List<TypeInterval> interval);
+
+        [OperationContract]
+        List<BudgetThreshold> SaveBudgetThresholds(List<BudgetThreshold> budgetThreshold);
+
     }
 }
