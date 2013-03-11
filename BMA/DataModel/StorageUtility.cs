@@ -88,6 +88,7 @@ namespace BMA.DataModel
                     var serializer = new DataContractJsonSerializer(typeof(T));
                     serializer.WriteObject(outStream.AsStreamForWrite(), item);
                     await outStream.FlushAsync();
+                    stream.Dispose();
                 }
             }
             catch (Exception ex)

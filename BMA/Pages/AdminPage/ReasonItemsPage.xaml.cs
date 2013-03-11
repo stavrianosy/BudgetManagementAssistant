@@ -2,10 +2,13 @@
 using BMA.Common;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,13 +25,73 @@ namespace BMA.Pages.AdminPage
     /// A page that displays a collection of item previews.  In the Split Application this page
     /// is used to display and select one of the available groups.
     /// </summary>
-    public sealed partial class ExpenseItemsPage : BMA.Common.LayoutAwarePage
+    public sealed partial class ReasonItemsPage : BMA.Common.LayoutAwarePage
     {
-        public ExpenseItemsPage()
+        #region Private Members
+        TypeTransactionReason currTypeTransReason;
+        List<TypeTransactionReason> originalTypeTransReasonList;
+        bool isDirty;
+        #endregion
+
+        #region Constructor
+        public ReasonItemsPage()
         {
+            App.Instance.StaticDataSource.TypeTransactionReasonList.CollectionChanged += TypeTransactionReasonList_CollectionChanged;
+
             this.InitializeComponent();
         }
+        #endregion
 
+        #region Private Methods
+        private TypeTransactionReason NewTypeTransactionReason()
+        {
+            currTypeTransReason = new TypeTransactionReason();
+
+            currTypeTransReason.PropertyChanged += new PropertyChangedEventHandler(currTypeTransReason_PropertyChanged);
+
+            return currTypeTransReason;
+        }
+
+        private void DisplayData()
+        {
+            EnableAppBarStatus(true);
+            // Navigate to the appropriate destination page, configuring the new page
+            // by passing required information as a navigation parameter
+            frmReason.Navigate(typeof(ReasonDetailFrame), currTypeTransReason);
+        }
+
+        private void EnableAppBarStatus(bool status)
+        {
+            AppBarDoneButton.IsEnabled = status;
+            AppBarCancelButton.IsEnabled = status;
+            AppBarDeleteButton.IsEnabled = status;
+
+            AppBarAddButton.IsEnabled = !status;
+        }
+
+        private void SyncLists()
+        {
+            originalTypeTransReasonList = App.Instance.StaticDataSource.TypeTransactionReasonList.ToList();
+        }
+
+        private void RevertCurrentList()
+        {
+            App.Instance.StaticDataSource.TypeTransactionReasonList.Clear();
+            foreach (var item in originalTypeTransReasonList)
+                App.Instance.StaticDataSource.TypeTransactionReasonList.Add(item);
+        }
+
+        private void DisplayData(TypeTransactionReason expense)
+        {
+            EnableAppBarStatus(true);
+            // Navigate to the appropriate destination page, configuring the new page
+            // by passing required information as a navigation parameter
+            frmReason.Navigate(typeof(ReasonDetailFrame), expense);
+        }
+
+        #endregion
+
+        #region Events
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
         /// provided when recreating a page from a prior session.
@@ -40,49 +103,89 @@ namespace BMA.Pages.AdminPage
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
             App.Instance.Share = null;
-            EnableAppBarStatus(false);
 
-            //DefaultViewModel["Budgets"] = App.Instance.TransDataSource.BudgetList;
+            frmReason.Navigate(typeof(ReasonDetailFrame));
 
-            ExpenseDetailFrame.Navigate(typeof(ExpenseDetailFrame));
+            SyncLists();
 
-            //DefaultViewModel["Categories"] = App.Instance.TransDataSource.CategoryList;
-
-            //itemsViewSource.Source = App.Instance.TransDataSource.CategoryList;
+            this.DataContext = App.Instance.StaticDataSource.TypeTransactionReasonList;
+            itemsViewSource.Source = this.DataContext;
 
             itemGridView.ItemsSource = itemsViewSource.Source;
+
+            EnableAppBarStatus(false);
         }
 
-        private void DisplayData(TypeExpense expense)
+        private async void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            EnableAppBarStatus(true);
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            ExpenseDetailFrame.Navigate(typeof(ExpenseDetailFrame), expense);
+            MessageDialog dialog = null;
+            if (currTypeTransReason != null && currTypeTransReason.HasChanges)
+            {
+                dialog = new MessageDialog("The are changes. Please save the first.");
+                //await dialog.ShowAsync();
+                //return;
+            }
+            currTypeTransReason = e.ClickedItem as TypeTransactionReason;
+            currTypeTransReason.PropertyChanged += new PropertyChangedEventHandler(currTypeTransReason_PropertyChanged);
+
+            DisplayData();
         }
 
-        private void EnableAppBarStatus(bool status)
+        void TypeTransactionReasonList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            AppBarDoneButton.IsEnabled = status;
-            AppBarCancelButton.IsEnabled = status;
-            AppBarAddButton.IsEnabled = status;
+            isDirty = true;
         }
 
-        private void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
+        void currTypeTransReason_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            isDirty = true;
+        }
 
+        private async void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            var tempReason = (frmReason.Content as ReasonDetailFrame);
+            tempReason.UpdateLayout();
+
+            EnableAppBarStatus(false);
+
+            var saveOC = App.Instance.StaticDataSource.TypeTransactionReasonList.Where(t => t.HasChanges).ToObservableCollection();
+
+           await App.Instance.StaticDataSource.SaveTypeTransactionReason(saveOC);
+
+            SyncLists();
         }
 
         private void Add_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            currTypeTransReason = NewTypeTransactionReason();
+            ((ObservableCollection<TypeTransactionReason>)DataContext).Add(currTypeTransReason);
 
+            DisplayData();
+
+            EnableAppBarStatus(true);
         }
 
         private void Cancel_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            DisplayData();
 
+            EnableAppBarStatus(false);
+
+            RevertCurrentList();
         }
+
+        private void Delete_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            currTypeTransReason.IsDeleted = true;
+
+            ((ObservableCollection<TypeTransactionReason>)DataContext).Remove(currTypeTransReason);
+
+            DisplayData();
+
+            EnableAppBarStatus(true);
+        }
+
+        #endregion
     }
 }

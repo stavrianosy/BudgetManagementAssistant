@@ -21,11 +21,11 @@ namespace BMA.Pages.AdminPage
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ExpenseDetailFrame : BMA.Common.LayoutAwarePage
+    public sealed partial class ReasonDetailFrame : LayoutAwarePage
     {
-     TypeTransactionReason currTypeTransReason;
+        TypeTransactionReason currTypeTransReason;
 
-        public ExpenseDetailFrame()
+        public ReasonDetailFrame()
         {
             this.InitializeComponent();
         }
@@ -46,16 +46,6 @@ namespace BMA.Pages.AdminPage
         private void txtName_TextChanged(object sender, TextChangedEventArgs e)
         {
             currTypeTransReason.Name = txtName.Text;
-        }
-
-        private void dtFrom_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //currTypeTransReason.From = dtFrom.Text;
-        }
-
-        private void dtTo_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

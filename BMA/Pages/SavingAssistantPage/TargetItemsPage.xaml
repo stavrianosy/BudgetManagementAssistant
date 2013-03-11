@@ -130,6 +130,9 @@
                     <Button x:Name="AppBarAddButton" 
                             Style="{StaticResource AddAppBarButtonStyle}" 
                             Click="Add_AppBarButtonClick"/>
+                    <Button x:Name="AppBarDeleteButton" 
+                            Style="{StaticResource RemoveAppBarButtonStyle}" 
+                            Click="Delete_AppBarButtonClick"/>
                     <Button x:Name="AppBarCancelButton" 
                             Style="{StaticResource CancelAppBarButtonStyle}" 
                             Click="Cancel_AppBarButtonClick"/>

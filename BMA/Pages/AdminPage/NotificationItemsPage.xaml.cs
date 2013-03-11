@@ -1,10 +1,13 @@
 ﻿using BMA.BusinessLogic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,10 +26,71 @@ namespace BMA.Pages.AdminPage
     /// </summary>
     public sealed partial class NotificationItemsPage : BMA.Common.LayoutAwarePage
     {
+        #region Private Members
+        Notification currNotification;
+        List<Notification> originalNotificationList;
+        bool isDirty;
+        #endregion
+
+        #region Constructor
         public NotificationItemsPage()
         {
+            App.Instance.StaticDataSource.NotificationList.CollectionChanged += NotificationList_CollectionChanged;
+
             this.InitializeComponent();
         }
+        #endregion
+
+        #region Private Methods
+        private Notification NewNotification()
+        {
+            currNotification = new Notification();
+
+            currNotification.PropertyChanged += new PropertyChangedEventHandler(currNotification_PropertyChanged);
+
+            return currNotification;
+        }
+
+        private void DisplayData()
+        {
+            EnableAppBarStatus(true);
+            // Navigate to the appropriate destination page, configuring the new page
+            // by passing required information as a navigation parameter
+            frmNotification.Navigate(typeof(NotificationDetailFrame), currNotification);
+        }
+
+        private void EnableAppBarStatus(bool status)
+        {
+            AppBarDoneButton.IsEnabled = status;
+            AppBarCancelButton.IsEnabled = status;
+            AppBarDeleteButton.IsEnabled = status;
+
+            AppBarAddButton.IsEnabled = !status;
+        }
+
+        private void SyncLists()
+        {
+            originalNotificationList = App.Instance.StaticDataSource.NotificationList.ToList();
+        }
+
+        private void RevertCurrentList()
+        {
+            App.Instance.StaticDataSource.NotificationList.Clear();
+            foreach (var item in originalNotificationList)
+                App.Instance.StaticDataSource.NotificationList.Add(item);
+        }
+
+        private void DisplayData(Notification notification)
+        {
+            EnableAppBarStatus(true);
+            // Navigate to the appropriate destination page, configuring the new page
+            // by passing required information as a navigation parameter
+            frmNotification.Navigate(typeof(NotificationDetailFrame), notification);
+        }
+
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
@@ -39,49 +103,90 @@ namespace BMA.Pages.AdminPage
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
             App.Instance.Share = null;
-            EnableAppBarStatus(false);
 
-            //DefaultViewModel["Budgets"] = App.Instance.TransDataSource.BudgetList;
+            frmNotification.Navigate(typeof(NotificationDetailFrame));
 
-            NotificationDetailFrame.Navigate(typeof(NotificationDetailFrame));
+            SyncLists();
 
-            //DefaultViewModel["Notifications"] = App.Instance.TransDataSource.NotificationList;
-
-            //itemsViewSource.Source = App.Instance.TransDataSource.NotificationList;
+            this.DataContext = App.Instance.StaticDataSource.NotificationList;
+            itemsViewSource.Source = this.DataContext;
 
             itemGridView.ItemsSource = itemsViewSource.Source;
+
+            EnableAppBarStatus(false);
         }
 
-        private void DisplayData(Notification notification)
+        private async void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            EnableAppBarStatus(true);
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            NotificationDetailFrame.Navigate(typeof(NotificationDetailFrame), notification);
+            MessageDialog dialog = null;
+            if (currNotification != null && currNotification.HasChanges)
+            {
+                dialog = new MessageDialog("The are changes. Please save the first.");
+                //await dialog.ShowAsync();
+                //return;
+            }
+            currNotification = e.ClickedItem as Notification;
+            currNotification.PropertyChanged += new PropertyChangedEventHandler(currNotification_PropertyChanged);
+
+            DisplayData();
         }
 
-        private void EnableAppBarStatus(bool status)
+        void NotificationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            AppBarDoneButton.IsEnabled = status;
-            AppBarCancelButton.IsEnabled = status;
-            AppBarAddButton.IsEnabled = status;
+            isDirty = true;
         }
 
-        private void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
+        void currNotification_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            isDirty = true;
+        }
 
+        private async void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            var tempNotification = (frmNotification.Content as NotificationDetailFrame);
+            tempNotification.UpdateLayout();
+
+            EnableAppBarStatus(false);
+
+            var saveOC = App.Instance.StaticDataSource.NotificationList.Where(t => t.HasChanges).ToObservableCollection();
+
+            await App.Instance.StaticDataSource.SaveNotification(saveOC);
+
+            SyncLists();
         }
 
         private void Add_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            currNotification = NewNotification();
+            ((ObservableCollection<Notification>)DataContext).Add(currNotification);
 
+            DisplayData();
+
+            EnableAppBarStatus(true);
         }
 
         private void Cancel_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            DisplayData();
 
+            EnableAppBarStatus(false);
+
+            RevertCurrentList();
         }
+
+        private void Delete_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            currNotification.IsDeleted = true;
+
+            ((ObservableCollection<Notification>)DataContext).Remove(currNotification);
+
+            DisplayData();
+
+            EnableAppBarStatus(true);
+        }
+
+        #endregion
+
     }
 }

@@ -1,0 +1,56 @@
+﻿<common:LayoutAwarePage
+    x:Class="BMA.Pages.Reports.TransactionBudget.Criteria"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BMA.Pages.Reports"
+    xmlns:common="using:BMA.Common"
+    xmlns:winRTX="using:WinRTXamlToolkit.Controls"
+    
+    xmlns:Series="using:ModernUI.Toolkit.Data.Charting.Charts.Series"
+    xmlns:Axis="using:ModernUI.Toolkit.Data.Charting.Charts.Axis" 
+    xmlns:Charting="using:ModernUI.Toolkit.Data.Charting"
+    xmlns:DataPoints="using:ModernUI.Toolkit.Data.Charting.Charts.DataPoints"
+    xmlns:Chart="using:ModernUI.Toolkit.Data.Charting.Charts.Chart"
+    xmlns:series="using:ModernUI.Toolkit.Data.Charting.Charts.Series"
+    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid>        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Background="#FFA6EC40" Padding="0 10 ">
+            <winRTX:WrapPanel Orientation="Horizontal" MaxWidth="500" HorizontalAlignment="Left">
+                <Grid Height="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" VerticalAlignment="Center" Text="Budgets" Width="80" ></TextBlock>
+                        <ComboBox x:Name="cbBudget" 
+                                  ItemTemplate="{StaticResource BMA_BudgetReport}"
+                                  ItemsSource="{Binding Budgets}"
+                                  FontSize="20"
+                                  Height="36"                                 
+                                  SelectionChanged="cbBudgets_SelectionChanged" Width="170" />
+                    </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="89,0,0,0">
+                    <Button x:Name="brdViewReport" Width="187" Padding="6" Background="CadetBlue" BorderBrush="#FFCCCCCC"
+                            Tapped="brdViewReport_Tapped">
+                        <TextBlock HorizontalAlignment="Center" FontSize="22" Foreground="White" Text="Graph"></TextBlock>
+                    </Button>
+                    <Button x:Name="brdViewReportPie" Width="187" Padding="6" Background="CadetBlue" BorderBrush="#FFCCCCCC"
+                            Tapped="brdViewReportPie_Tapped">
+                        <TextBlock HorizontalAlignment="Center" FontSize="22" Foreground="White" Text="Pie"></TextBlock>
+                    </Button>
+                </StackPanel>
+                </Grid>
+            </winRTX:WrapPanel>
+        </Border>
+        <Frame Grid.Row="1" x:Name="frmGraph" />
+    </Grid>
+</common:LayoutAwarePage>

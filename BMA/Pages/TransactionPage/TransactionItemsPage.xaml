@@ -71,22 +71,22 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <StackPanel Background="#AAAAAA" Orientation="Horizontal">
-                        <TextBlock Text="Transaction list" Style="{StaticResource pageSubTitle}" ></TextBlock>
+                        <TextBlock Text="transaction list" Style="{StaticResource pageSubTitle}" ></TextBlock>
                         <TextBlock x:Name="txtBudget" Style="{StaticResource pageSubTitle}" ></TextBlock>
                     </StackPanel>
                     <ListView Grid.Row="1"
                         x:Name="itemGridView"
                         AutomationProperties.AutomationId="ItemsGridView"
-                        AutomationProperties.Name="Items"
+                        AutomationProperties.Name="Items"                              
                         TabIndex="1" 
+                        Width="500"
                         HorizontalAlignment="Left"
-                        Padding="30,0,116,40"
+                        Padding="30,0,30,40"
                         ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-                        ItemTemplate="{StaticResource Blog250x250ItemTemplate}"
-                        SelectionMode="None"
-                        IsItemClickEnabled="True"
+                        ItemTemplate="{StaticResource BMA_Transaction_ItemTemplate}" 
+                        IsItemClickEnabled="false"
                         IsSwipeEnabled="false" 
-                        ItemClick="ItemGridView_ItemClick"/>
+                        SelectionChanged="ItemGridView_SelectionChanged"/>
                 </Grid>
             </Grid>
         </ScrollViewer>
@@ -109,6 +109,9 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Text">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppNameShort}"/>
                         </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AppBarLeft" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>                        
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="(Grid.Row)">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
                         </ObjectAnimationUsingKeyFrames>
@@ -144,6 +147,25 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Padding">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
                         </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="ItemTemplate">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Transaction_ItemTemplate_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- APP BAR -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="appBarCol_Left" Storyboard.TargetProperty="Width">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AppBarDoneButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource DoneAppBarButtonStyle_Small}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AppBarAddButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AddAppBarButtonStyle_Small}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AppBarDeleteButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource RemoveAppBarButtonStyle_Small}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AppBarCancelButton" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource CancelAppBarButtonStyle_Small}"/>
+                        </ObjectAnimationUsingKeyFrames>                        
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
@@ -153,10 +175,10 @@
         <AppBar Style="{StaticResource footerCharm}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition x:Name="appBarCol_Left" />
+                    <ColumnDefinition x:Name="appBarCol_Right" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0" >
+                <StackPanel Orientation="Horizontal" x:Name="AppBarLeft" HorizontalAlignment="Left" Grid.Column="0" >
                     <Button x:Name="AppBarBudgetButton" 
                             Style="{StaticResource HomeAppBarButtonStyle}" 
                             Click="GoHome"/>
@@ -164,7 +186,7 @@
                             Style="{StaticResource BudgetAppBarButtonStyle}" 
                             Click="Budget_AppBarButtonClick"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" 
+                <StackPanel Orientation="Horizontal" Grid.Column="1"  x:Name="AppBarRight"
                             HorizontalAlignment="Right">
                     <Button x:Name="AppBarDoneButton" 
                             Style="{StaticResource DoneAppBarButtonStyle}" 

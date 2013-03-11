@@ -39,17 +39,17 @@ namespace BMA.BMAService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/LoadItemCounts", ReplyAction="http://tempuri.org/IMain/LoadItemCountsResponse")]
         System.Threading.Tasks.Task<BMA.BusinessLogic.StartupInfo> LoadItemCountsAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllStaticData", ReplyAction="http://tempuri.org/IMain/GetAllStaticDataResponse")]
-        System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> GetAllStaticDataAsync();
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SaveTransactions", ReplyAction="http://tempuri.org/IMain/SaveTransactionsResponse")]
         System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> SaveTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SaveTransaction", ReplyAction="http://tempuri.org/IMain/SaveTransactionResponse")]
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> SaveTransactionAsync(BMA.BusinessLogic.Transaction transaction);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SaveCategories", ReplyAction="http://tempuri.org/IMain/SaveCategoriesResponse")]
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>> SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SaveBudgets", ReplyAction="http://tempuri.org/IMain/SaveBudgetsResponse")]
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>> SaveBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncBudgets", ReplyAction="http://tempuri.org/IMain/SyncBudgetsResponse")]
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>> SyncBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -123,20 +123,20 @@ namespace BMA.BMAService {
             return base.Channel.LoadItemCountsAsync();
         }
         
-        public System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> GetAllStaticDataAsync() {
-            return base.Channel.GetAllStaticDataAsync();
-        }
-        
         public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> SaveTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
             return base.Channel.SaveTransactionsAsync(transactions);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> SaveTransactionAsync(BMA.BusinessLogic.Transaction transaction) {
-            return base.Channel.SaveTransactionAsync(transaction);
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
+            return base.Channel.SyncTransactionsAsync(transactions);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>> SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories) {
-            return base.Channel.SaveCategoriesAsync(categories);
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>> SaveBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions) {
+            return base.Channel.SaveBudgetsAsync(transactions);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>> SyncBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets) {
+            return base.Channel.SyncBudgetsAsync(budgets);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync() {

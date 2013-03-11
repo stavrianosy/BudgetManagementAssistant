@@ -45,7 +45,7 @@ namespace BMA.Pages.AdminPage
 
             //DefaultViewModel["Budgets"] = App.Instance.TransDataSource.BudgetList;
 
-            SecurityDetailFrame.Navigate(typeof(SecurityDetailFrame));
+            frmSecurity.Navigate(typeof(SecurityDetailFrame));
 
             //DefaultViewModel["Securitys"] = App.Instance.TransDataSource.SecurityList;
 
@@ -59,29 +59,43 @@ namespace BMA.Pages.AdminPage
             EnableAppBarStatus(true);
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
-            SecurityDetailFrame.Navigate(typeof(SecurityDetailFrame), security);
+            frmSecurity.Navigate(typeof(SecurityDetailFrame), security);
         }
 
         private void EnableAppBarStatus(bool status)
         {
             AppBarDoneButton.IsEnabled = status;
             AppBarCancelButton.IsEnabled = status;
-            AppBarAddButton.IsEnabled = status;
         }
 
-        private void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
+        #region Events
+
+        private async void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            //var tempTrans = (frmTransDetail.Content as TransDetailFrame);
+            //tempTrans.UpdateLayout();
 
-        }
+            //EnableAppBarStatus(false);
 
-        private void Add_AppBarButtonClick(object sender, RoutedEventArgs e)
-        {
+            //var saveOC = App.Instance.TransDataSource.BudgetList.Where(t => t.HasChanges).ToObservableCollection();
+            //foreach (var trans in App.Instance.TransDataSource.TransactionList.Where(t => t.HasChanged))
+            //    saveOC.Add(trans);
 
+            //await App.Instance.TransDataSource.SaveTransaction(saveOC);
+
+            //SyncLists();
         }
 
         private void Cancel_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            //DisplayData();
 
+            //EnableAppBarStatus(false);
+
+            //RevertCurrentList();
         }
+
+
+        #endregion
     }
 }

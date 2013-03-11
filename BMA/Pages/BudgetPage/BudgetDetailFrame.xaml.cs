@@ -108,6 +108,12 @@ namespace BMA.Pages.BudgetPage
             }
         }
 
+        private void RepositionInsertionPoint(TextBox textBox)
+        {
+            if (textBox.Text.Length == 1)
+                textBox.SelectionStart = 1;
+        }
+
         private DateTime GetDateFromControl(ComboBox control, DateTime date, bool controlIsYear)
         {
             DateTime result = new DateTime();
@@ -132,6 +138,8 @@ namespace BMA.Pages.BudgetPage
 
         private void txtAmount_TextChanged(object sender, TextChangedEventArgs e)
         {
+            RepositionInsertionPoint((sender as TextBox));
+
             double result = 0d;
             double.TryParse(txtAmount.Text, out result);
 

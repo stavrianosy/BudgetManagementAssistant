@@ -1,52 +1,28 @@
 ﻿<common:LayoutAwarePage
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    DataContext="{Binding DefaultViewModel.TypeTransactionReason, RelativeSource={RelativeSource Self}}"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BMA.Pages.AdminPage"
     xmlns:common="using:BMA.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="using:WinRTXamlToolkit.Controls"
-    xmlns:Charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    x:Class="BMA.Pages.AdminPage.ExpenseDetailFrame"
+    x:Class="BMA.Pages.AdminPage.ReasonDetailFrame"
     mc:Ignorable="d">
 
-    <StackPanel Background="IndianRed">
+    <StackPanel Style="{StaticResource InputFrame}">
         <Border Padding="0 10">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Name"/>
-                <TextBox x:Name="txtName"
+                <TextBox x:Name="txtName"  Text="{Binding Name}"
 					Style="{StaticResource ItemDetailText}" 
 					Margin="10 0 0 0" 
 					TextChanged="txtName_TextChanged" Width="395" />
             </StackPanel>
         </Border>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="auto" Text="Suggested time:" />
-        </StackPanel>
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="From" />
-                <TextBox x:Name="dtFrom" TextChanged="dtFrom_TextChanged"
-					Width="395" 
-					Style="{StaticResource ItemDetailText}" 
-					Margin="10 0 0 0"/>
-            </StackPanel>
-        </Border>
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="To" />
-                <TextBox x:Name="dtTo"  TextChanged="dtTo_TextChanged"
-					Width="395" 
-					Style="{StaticResource ItemDetailText}" 
-					Margin="10 0 0 0"/>
-            </StackPanel>
-        </Border>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Width="530" Text="* This will be the selected option according to the time of day" />
-        </StackPanel>
         <StackPanel HorizontalAlignment="Left">
             <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
-            <TextBox x:Name="txtComments" 
+            <TextBox x:Name="txtComments"
 				TextWrapping="Wrap" 
 				Style="{StaticResource ItemDetailText}" 
 				Height="140" Width="530" 

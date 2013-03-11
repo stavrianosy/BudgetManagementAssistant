@@ -15,7 +15,7 @@
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
             x:Name="itemsViewSource"
-            Source="{Binding Items}"/>
+            Source="{Binding Budgets}"/>
     </Page.Resources>
 
     <!--
@@ -23,39 +23,11 @@
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    <Grid Style="{StaticResource LayoutRootStyle}">
+    <Grid Style="{StaticResource LayoutRootStyle}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!-- Horizontal scrolling grid used in most view states -->
-        <GridView
-            x:Name="itemGridView"
-            AutomationProperties.AutomationId="ItemsGridView"
-            AutomationProperties.Name="Items"
-            TabIndex="1"
-            Grid.RowSpan="2"
-            Padding="116,136,116,46"
-            ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-            ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
-            SelectionMode="None"
-            IsSwipeEnabled="false"/>
-
-        <!-- Vertical scrolling list only used when snapped -->
-        <ListView
-            x:Name="itemListView"
-            AutomationProperties.AutomationId="ItemsListView"
-            AutomationProperties.Name="Items"
-            TabIndex="1"
-            Grid.Row="1"
-            Visibility="Collapsed"
-            Margin="0,-10,0,0"
-            Padding="10,0,0,60"
-            ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-            ItemTemplate="{StaticResource Standard80ItemTemplate}"
-            SelectionMode="None"
-            IsSwipeEnabled="false"/>
 
         <!-- Back button and page title -->
         <Grid>
@@ -63,21 +35,59 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
+            <StackPanel Grid.ColumnSpan="2" Style="{StaticResource pageHeader}"/>
+            <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Up}" Style="{StaticResource BackButtonStyle}"/>
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" IsHitTestVisible="false" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
-
-        <!-- Content -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" >
-                <Frame x:Name="SecurityDetailFrame"/>
-            </StackPanel>
-        </Grid>
-
+        <ScrollViewer Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5">
+                        <LinearGradientBrush.RelativeTransform>
+                            <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="180"/>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FFA0AA05"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="#7FA0AA0A" Offset="0.34"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid x:Name="frmPanel">
+                    <Frame x:Name="frmSecurity"/>
+                </Grid>
+                <Grid Grid.Column="1" x:Name="ContainerGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Background="#AAAAAA" Orientation="Horizontal">
+                        <TextBlock Text="budget list" Style="{StaticResource pageSubTitle}" ></TextBlock>
+                    </StackPanel>
+                    <ListView Grid.Row="1"
+            x:Name="itemGridView"
+            AutomationProperties.AutomationId="ItemsGridView"
+            AutomationProperties.Name="Items"
+            TabIndex="1"
+            Grid.Column="1"
+            Padding="30,0,0,40"
+            ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
+            ItemTemplate="{StaticResource BMA_Budget_ItemTemplate}"
+            SelectionMode="None"
+            IsItemClickEnabled="True"
+            IsSwipeEnabled="false" />
+                </Grid>
+            </Grid>
+        </ScrollViewer>
         <VisualStateManager.VisualStateGroups>
 
             <!-- Visual states reflect the application's view state -->
@@ -89,14 +99,25 @@
                 <VisualState x:Name="FullScreenPortrait">
                     <Storyboard>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PortraitBackButtonStyle}"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedBackButtonStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Text">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppNameShort}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="(Grid.Row)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="(Grid.Column)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Padding">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="96,136,86,56"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
-
                 <!--
                     The back button and title have different styles when snapped, and the list representation is substituted
                     for the grid displayed in all other view states
@@ -109,18 +130,24 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
-
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemListView" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Text">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppNameShort}"/>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="(Grid.Row)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="(Grid.Column)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Padding">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
+
     <Page.BottomAppBar>
         <AppBar>
             <Grid>
@@ -129,18 +156,15 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0" >
-                    <Button x:Name="AppBarBudgetButton" 
+                    <Button x:Name="AppBarHomeButton" 
                             Style="{StaticResource HomeAppBarButtonStyle}" 
-                            Click="GoHome"/>                    
+                            Click="GoHome"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" 
                             HorizontalAlignment="Right">
                     <Button x:Name="AppBarDoneButton" 
                             Style="{StaticResource DoneAppBarButtonStyle}" 
                             Click="Done_AppBarButtonClick"/>
-                    <Button x:Name="AppBarAddButton" 
-                            Style="{StaticResource AddAppBarButtonStyle}" 
-                            Click="Add_AppBarButtonClick"/>
                     <Button x:Name="AppBarCancelButton" 
                             Style="{StaticResource CancelAppBarButtonStyle}" 
                             Click="Cancel_AppBarButtonClick"/>

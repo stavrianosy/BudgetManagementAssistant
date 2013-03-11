@@ -5,69 +5,216 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BMA.Pages.BudgetPage"
     xmlns:common="using:BMA.Common"
-    xmlns:winRTX="using:WinRTXamlToolkit.Controls"
+    xmlns:WinRTX="using:WinRTXamlToolkit.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Background="BlueViolet">
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal">
+    <StackPanel Background="#FFFFA913">
+        <StackPanel x:Name="FrameContent" Width="520" HorizontalAlignment="Left">
+            <Grid x:Name="grdRow_Name">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="colField_R1" Width="115" ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Name"></TextBlock>
-                <TextBox x:Name="txtName" Text="{Binding Name}"
+                <Grid x:Name="grdContent_R1" Grid.Column="1">
+                    <TextBox x:Name="txtName" Text="{Binding Name}"
                      Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0" 
-                     TextChanged="txtName_TextChanged" Width="395" />
-            </StackPanel>
-        </Border>
-            <StackPanel Orientation="Horizontal">
+                     TextChanged="txtName_TextChanged" />
+                </Grid>
+            </Grid>
+            <Grid x:Name="grdRow_Amount">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="colField_R2" Width="115" ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Amount" />
-                <TextBox x:Name="txtAmount" Text="{Binding Amount}"
-                     Width="395" InputScope="Number"
+                <Grid x:Name="grdContent_R2" Grid.Column="1">
+                    <TextBox x:Name="txtAmount" Text="{Binding Amount}"
+                     InputScope="Number"
                      Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0" 
                      TextChanged="txtAmount_TextChanged" />
-            </StackPanel>
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal">
+                </Grid>
+            </Grid>
+            <Grid  x:Name="grdRow_From">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="colField_R3" Width="115" ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="From" />
-                <ComboBox x:Name="cbFromYear" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbFromYear_SelectionChanged" Width="130" />
-                <ComboBox x:Name="cbFromMonth" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbFromMonth_SelectionChanged" Width="150" />
-                <ComboBox x:Name="cbFromDay" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbFromDay_SelectionChanged"  Width="80" />
-            </StackPanel>
-        </Border>
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal">
+                <Grid x:Name="grdContent_R3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="cbFromYear" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbFromYear_SelectionChanged" />
+                        <ComboBox x:Name="cbFromMonth" Grid.Column="1" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbFromMonth_SelectionChanged" />
+                        <ComboBox x:Name="cbFromDay" Grid.Column="2" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbFromDay_SelectionChanged"/>
+                    </Grid>
+                </Grid>
+            <Grid  x:Name="grdRow_To">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="colField_R4" Width="115" ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="To" />
-                <ComboBox x:Name="cbToYear" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbToYear_SelectionChanged" Width="130" />
-                <ComboBox x:Name="cbToMonth" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbToMonth_SelectionChanged" Width="150" >
-                    <winRTX:WrapPanel Height="100" Width="100"/>
-                </ComboBox>
-                <ComboBox x:Name="cbToDay" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbToDay_SelectionChanged"  Width="80" />
-            </StackPanel>
+                <Grid x:Name="grdContent_R4" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="cbToYear" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbToYear_SelectionChanged"/>
+                    <ComboBox x:Name="cbToMonth" Grid.Column="1" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbToMonth_SelectionChanged" />
+                    <ComboBox x:Name="cbToDay" Grid.Column="2" Style="{StaticResource ItemDetailStore}" SelectionChanged="cbToDay_SelectionChanged" />
+                </Grid>
+            </Grid>
+            <Grid x:Name="grdRow_Duration">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="colField_R5" Width="115" ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid x:Name="grdContent_R5" Grid.Column="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Duration" />
+                        <TextBox x:Name="txtDuration" Text="{Binding DurrationDays}"
+                     Width="130" IsEnabled="False"
+                     Style="{StaticResource ItemDetailText}"/>
+                    <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="days"  />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="140 0 0 0" Visibility="Collapsed">
+            <CheckBox x:Name="cbInstallment" Unchecked="cbInstallment_CheckedChange" Checked="cbInstallment_CheckedChange" IsChecked="{Binding IncludeInstallments}" Style="{StaticResource ItemDetailCheckBox}" Content="Include installments" Width="362" VerticalAlignment="Center" />
         </StackPanel>
-        <Border Padding="0 10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Duration" Margin="140 0 0 0" />
-                <TextBox x:Name="txtDuration" Text="{Binding DurrationDays}"
-                     Width="170" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0" IsEnabled="False"/>
-                <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="days"  />
-            </StackPanel>
-           
-        </Border>
-        <StackPanel Orientation="Horizontal" Margin="140 0 0 0">
-            <CheckBox x:Name="cbInstallment" Unchecked="cbInstallment_CheckedChange" Checked="cbInstallment_CheckedChange" IsChecked="{Binding IncludeInstallments}" Style="{StaticResource ItemDetailCheckBox}" Content="Include installments" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
-            <TextBox x:Name="txtComments" Text="{Binding Comments}"
+            <Grid  x:Name="grdRow_Comments">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="colField_R6" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource ItemDetailTextBox}" Text="Comments" />
+                <TextBox x:Name="txtComments" Grid.Row="1" Text="{Binding Transaction.Comments}"
                      TextWrapping="Wrap" 
                      Style="{StaticResource ItemDetailText}" 
-                     Height="140" Width="530" 
-                     Margin="10 0 0 20" 
+                     Height="140" Margin="5 0 0 0"
                      TextChanged="txtComments_TextChanged"/>
+            </Grid>
         </StackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <!-- Visual states reflect the application's view state -->
+            <VisualStateGroup x:Name="ApplicationViewStates">
+                <VisualState x:Name="FullScreenLandscape"/>
+                <VisualState x:Name="Filled"/>
+                <VisualState x:Name="FullScreenPortrait" />
+
+                <VisualState x:Name="Snapped">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FrameContent" Storyboard.TargetProperty="Width">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="315"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- ROW 1 -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R1" Storyboard.TargetProperty="(Grid.Row)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R1" Storyboard.TargetProperty="(Grid.Column)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R1" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- ROW 2 -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R2" Storyboard.TargetProperty="(Grid.Row)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R2" Storyboard.TargetProperty="(Grid.Column)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R2" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- ROW 3 -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R3" Storyboard.TargetProperty="(Grid.Row)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R3" Storyboard.TargetProperty="(Grid.Column)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R3" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- ROW 4 -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R4" Storyboard.TargetProperty="(Grid.Row)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R4" Storyboard.TargetProperty="(Grid.Column)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="grdContent_R4" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- ROW 5 -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="colField_R5" Storyboard.TargetProperty="Width">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!-- SWITCH STYLES -->
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="txtName" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_ItemDetailText_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="txtAmount" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_ItemDetailText_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="cbFromYear" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Combobox_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="cbFromMonth" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Combobox_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="cbFromDay" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Combobox_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="cbToYear" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Combobox_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="cbToMonth" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Combobox_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="cbToDay" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_Combobox_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="txtDuration" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_ItemDetailText_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="txtComments" Storyboard.TargetProperty="Style">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BMA_ItemDetailText_Snapped}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </StackPanel>
 </common:LayoutAwarePage>

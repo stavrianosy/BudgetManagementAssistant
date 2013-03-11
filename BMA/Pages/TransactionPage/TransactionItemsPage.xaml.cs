@@ -31,7 +31,8 @@ namespace BMA.Pages.TransactionPage
         #region Private Members
         bool isDirty;
         Transaction currTransaction;
-        List<Transaction> originalTransactionList;        
+        Budget currBudget;
+        TransactionList originalTransactionList;
         #endregion
 
         #region Constructor
@@ -45,11 +46,11 @@ namespace BMA.Pages.TransactionPage
         #region Private Methods
         private Transaction NewTransaction()
         {
-            currTransaction = new Transaction
-            {
-                Category = App.Instance.StaticDataSource.CategoryList.Where(c => c.FromDate.Hour <= DateTime.Now.Hour && c.ToDate.Hour >= DateTime.Now.Hour).FirstOrDefault(),
-                TransactionType = App.Instance.StaticDataSource.TypeTransactionList.Single(t => t.Name == "Expense")                
-            };
+            currTransaction = new Transaction(
+            App.Instance.StaticDataSource.CategoryList.ToList(),
+            App.Instance.StaticDataSource.TypeTransactionList.ToList(),
+            App.Instance.StaticDataSource.TypeTransactionReasonList.ToList(),
+            App.Instance.User);
 
             currTransaction.PropertyChanged += new PropertyChangedEventHandler(currTransaction_PropertyChanged);
 
@@ -75,16 +76,50 @@ namespace BMA.Pages.TransactionPage
 
         private void SyncLists()
         {
-            originalTransactionList = App.Instance.TransDataSource.TransactionList.ToList();
+            originalTransactionList = new TransactionList();
+
+            foreach (var item in App.Instance.TransDataSource.TransactionList)
+                originalTransactionList.Add(item);
         }
 
         private void RevertCurrentList()
         {
             App.Instance.TransDataSource.TransactionList.Clear();
+
+            if (originalTransactionList == null)
+                return;
+            
             foreach (var item in originalTransactionList)
                 App.Instance.TransDataSource.TransactionList.Add(item);
         }
 
+        private void ClearItem()
+        {
+            currTransaction = null;
+            DisplayData();
+        }
+        
+        private void DisplayItem()
+        {
+            MessageDialog dialog = null;
+
+            if (currTransaction == null)
+                return;
+            
+            if (currTransaction.HasChanges)
+            {
+                dialog = new MessageDialog("There are changes. Please save the first.");
+                //await dialog.ShowAsync();
+                //return;
+            }
+            
+            currTransaction.PropertyChanged += new PropertyChangedEventHandler(currTransaction_PropertyChanged);
+
+            DisplayData();
+
+            currTransaction.HasChanges = false;
+            isDirty = false;
+        }
         #endregion
 
         #region Events
@@ -105,21 +140,31 @@ namespace BMA.Pages.TransactionPage
 
             SyncLists();
 
-            this.DataContext = App.Instance.TransDataSource.TransactionList;
-            itemsViewSource.Source = App.Instance.TransDataSource.TransactionList;
+            if (navigationParameter is Budget)
+            {
+                currBudget = (navigationParameter as Budget);
+                txtBudget.Text = string.Format("{0} {1}", "for budget", currBudget.Name);
+
+                this.DataContext = App.Instance.TransDataSource.TransactionList.FilterOnDateRange(currBudget.FromDate, currBudget.ToDate);
+            }
+            else
+            {
+                this.DataContext = App.Instance.TransDataSource.TransactionList; 
+            }
+
+            itemsViewSource.Source = this.DataContext;
 
             itemGridView.ItemsSource = itemsViewSource.Source;
 
             EnableAppBarStatus(false);
 
-            if (navigationParameter is Budget)
-                txtBudget.Text = string.Format("{0} {1}", "for budget", (navigationParameter as Budget).Name);
         }
 
         void currTransaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             isDirty = true;
             EnableAppBarStatus(true);
+            App.Instance.TransDataSource.TransactionList.SortByCreatedDate();
         }
 
         void TransactionList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -128,27 +173,19 @@ namespace BMA.Pages.TransactionPage
             //EnableAppBarStatus(true);
         }
 
-        private async void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ItemGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageDialog dialog = null;
-            if (currTransaction != null && currTransaction.HasChanged)
-            {
-                dialog = new MessageDialog("The are changes. Please save the first.");
-                //await dialog.ShowAsync();
-                //return;
-            }
-            currTransaction = e.ClickedItem as Transaction;
-            currTransaction.PropertyChanged += new PropertyChangedEventHandler(currTransaction_PropertyChanged);
+            currTransaction = (sender as ListView).SelectedItem as Transaction;
 
-            DisplayData();
-
-            currTransaction.HasChanged = false;
-            isDirty = false;
+            if (currTransaction != null)
+                DisplayItem();
+            else
+                ClearItem();
         }
 
-        private async void Budget_AppBarButtonClick(object sender, RoutedEventArgs e)
+        private void Budget_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            await App.Instance.TransDataSource.LoadAllBudgets();
+            //await App.Instance.TransDataSource.LoadAllBudgets();
             Frame.Navigate(typeof(ItemsPage));
         }
 
@@ -159,9 +196,7 @@ namespace BMA.Pages.TransactionPage
 
             EnableAppBarStatus(false);
 
-            var saveOC = new ObservableCollection<Transaction>();
-            foreach (var trans in App.Instance.TransDataSource.TransactionList.Where(t => t.HasChanged))
-                saveOC.Add(trans);
+            var saveOC = App.Instance.TransDataSource.TransactionList.Where(t => t.HasChanges).ToObservableCollection();
 
             await App.Instance.TransDataSource.SaveTransaction(saveOC);
 
@@ -189,7 +224,9 @@ namespace BMA.Pages.TransactionPage
 
         private void Delete_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            ((ObservableCollection<Transaction>)DataContext).Remove(currTransaction);
+            currTransaction.IsDeleted = true;
+         
+            //   ((ObservableCollection<Transaction>)DataContext).Remove(currTransaction);
 
             DisplayData();
 

@@ -8,32 +8,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Background="IndianRed">
+    <StackPanel Style="{StaticResource InputFrame}">
         <Border Padding="0 10">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Old Password" Width="230"></TextBlock>
-                <TextBox x:Name="txtName"  
-                     Style="{StaticResource ItemDetailText}" 
+                <PasswordBox x:Name="txtName"  
+                     Style="{StaticResource ItemDetailPassword}" 
                      Margin="10 0 0 0" 
-                     TextChanged="txtOld_TextChanged" Width="395" />
+                     Width="395" />
             </StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal">
             <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="New Password"  Width="230"/>
-            <TextBox x:Name="txtAmount" 
+            <PasswordBox x:Name="txtAmount" 
                      Width="395" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0" 
-                     TextChanged="txtNew_TextChanged" />
+                     Style="{StaticResource ItemDetailPassword}" 
+                     Margin="10 0 0 0" />
         </StackPanel>
         <Border Padding="0 10">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource ItemDetailTextBox_Trans}" Text="Confirm Password"  Width="230"/>
-                <TextBox x:Name="txtConfirm" 
+                <PasswordBox x:Name="txtConfirm" 
                      Width="395" 
-                     Style="{StaticResource ItemDetailText}" 
-                     Margin="10 0 0 0"
-                         TextChanged="txtConfirm_TextChanged" />
+                     Style="{StaticResource ItemDetailPassword}" 
+                     Margin="10 0 0 0"/>
             </StackPanel>
         </Border>
     </StackPanel>

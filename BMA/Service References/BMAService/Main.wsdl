@@ -49,29 +49,29 @@
   <wsdl:message name="IMain_LoadItemCounts_OutputMessage">
     <wsdl:part name="parameters" element="tns:LoadItemCountsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMain_GetAllStaticData_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllStaticData" />
-  </wsdl:message>
-  <wsdl:message name="IMain_GetAllStaticData_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllStaticDataResponse" />
-  </wsdl:message>
   <wsdl:message name="IMain_SaveTransactions_InputMessage">
     <wsdl:part name="parameters" element="tns:SaveTransactions" />
   </wsdl:message>
   <wsdl:message name="IMain_SaveTransactions_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveTransactionsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMain_SaveTransaction_InputMessage">
-    <wsdl:part name="parameters" element="tns:SaveTransaction" />
+  <wsdl:message name="IMain_SyncTransactions_InputMessage">
+    <wsdl:part name="parameters" element="tns:SyncTransactions" />
   </wsdl:message>
-  <wsdl:message name="IMain_SaveTransaction_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SaveTransactionResponse" />
+  <wsdl:message name="IMain_SyncTransactions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SyncTransactionsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMain_SaveCategories_InputMessage">
-    <wsdl:part name="parameters" element="tns:SaveCategories" />
+  <wsdl:message name="IMain_SaveBudgets_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBudgets" />
   </wsdl:message>
-  <wsdl:message name="IMain_SaveCategories_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SaveCategoriesResponse" />
+  <wsdl:message name="IMain_SaveBudgets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBudgetsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SyncBudgets_InputMessage">
+    <wsdl:part name="parameters" element="tns:SyncBudgets" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SyncBudgets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SyncBudgetsResponse" />
   </wsdl:message>
   <wsdl:portType name="IMain">
     <wsdl:operation name="GetAllTransactions">
@@ -102,21 +102,21 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/LoadItemCounts" message="tns:IMain_LoadItemCounts_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/LoadItemCountsResponse" message="tns:IMain_LoadItemCounts_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllStaticData">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllStaticData" message="tns:IMain_GetAllStaticData_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetAllStaticDataResponse" message="tns:IMain_GetAllStaticData_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="SaveTransactions">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactions" message="tns:IMain_SaveTransactions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionsResponse" message="tns:IMain_SaveTransactions_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SaveTransaction">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransaction" message="tns:IMain_SaveTransaction_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionResponse" message="tns:IMain_SaveTransaction_OutputMessage" />
+    <wsdl:operation name="SyncTransactions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SyncTransactions" message="tns:IMain_SyncTransactions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SyncTransactionsResponse" message="tns:IMain_SyncTransactions_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SaveCategories">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveCategories" message="tns:IMain_SaveCategories_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveCategoriesResponse" message="tns:IMain_SaveCategories_OutputMessage" />
+    <wsdl:operation name="SaveBudgets">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveBudgets" message="tns:IMain_SaveBudgets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveBudgetsResponse" message="tns:IMain_SaveBudgets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SyncBudgets">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SyncBudgets" message="tns:IMain_SyncBudgets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SyncBudgetsResponse" message="tns:IMain_SyncBudgets_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IMain" type="tns:IMain">
@@ -184,15 +184,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllStaticData">
-      <soap:operation soapAction="http://tempuri.org/IMain/GetAllStaticData" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="SaveTransactions">
       <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactions" style="document" />
       <wsdl:input>
@@ -202,8 +193,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SaveTransaction">
-      <soap:operation soapAction="http://tempuri.org/IMain/SaveTransaction" style="document" />
+    <wsdl:operation name="SyncTransactions">
+      <soap:operation soapAction="http://tempuri.org/IMain/SyncTransactions" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -211,8 +202,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SaveCategories">
-      <soap:operation soapAction="http://tempuri.org/IMain/SaveCategories" style="document" />
+    <wsdl:operation name="SaveBudgets">
+      <soap:operation soapAction="http://tempuri.org/IMain/SaveBudgets" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SyncBudgets">
+      <soap:operation soapAction="http://tempuri.org/IMain/SyncBudgets" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

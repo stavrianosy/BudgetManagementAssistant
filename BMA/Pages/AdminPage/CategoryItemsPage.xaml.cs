@@ -26,20 +26,76 @@ namespace BMA.Pages.AdminPage
     /// </summary>
     public sealed partial class CategoryItemsPage : BMA.Common.LayoutAwarePage
     {
+        #region Private Members
+        bool isDirty;
         Category currCategory;
+        List<Category> originalCategoryList;
+        #endregion
 
+        #region Constructor
         public CategoryItemsPage()
         {
             App.Instance.StaticDataSource.CategoryList.CollectionChanged += CategoryList_CollectionChanged;
             this.InitializeComponent();
         }
+        #endregion
+
+        #region Private Methods
+        private void DisplayData()
+        {
+            EnableAppBarStatus(true);
+            // Navigate to the appropriate destination page, configuring the new page
+            // by passing required information as a navigation parameter
+            frmCategoryDetail.Navigate(typeof(CategoryDetailFrame), currCategory);
+        }
+
+        private void EnableAppBarStatus(bool status)
+        {
+            AppBarDoneButton.IsEnabled = status;
+            AppBarCancelButton.IsEnabled = status;
+            AppBarDeleteButton.IsEnabled = status;
+
+            AppBarAddButton.IsEnabled = !status;
+        }
+
+        private Category NewCategory()
+        {
+            currCategory = new Category();
+
+            currCategory.PropertyChanged += new PropertyChangedEventHandler(currCategory_PropertyChanged);
+
+            return currCategory;
+        }
+
+        private void SyncLists()
+        {
+            originalCategoryList = App.Instance.StaticDataSource.CategoryList.ToList();
+        }
+
+        private void RevertCurrentList()
+        {
+            App.Instance.StaticDataSource.CategoryList.Clear();
+
+            if (originalCategoryList == null)
+                return;
+
+            foreach (var item in originalCategoryList)
+                App.Instance.StaticDataSource.CategoryList.Add(item);
+        }
+        #endregion
+
+        #region Events
 
         void CategoryList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            isDirty = true;
+            EnableAppBarStatus(true);
         }
 
         void currCategory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            isDirty = true;
+            EnableAppBarStatus(true);
         }
 
         /// <summary>
@@ -57,68 +113,49 @@ namespace BMA.Pages.AdminPage
 
             frmCategoryDetail.Navigate(typeof(CategoryDetailFrame));
 
+            SyncLists();
+
             this.DataContext = App.Instance.StaticDataSource.CategoryList;
+            
             itemsViewSource.Source = App.Instance.StaticDataSource.CategoryList;
 
             itemGridView.ItemsSource = itemsViewSource.Source;
 
-            AppBarAddButton.IsEnabled = true;
-            AppBarDoneButton.IsEnabled = false;
-            AppBarCancelButton.IsEnabled = false;
-        }
-
-        private void DisplayData()
-        {
-            EnableAppBarStatus(true);
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            frmCategoryDetail.Navigate(typeof(CategoryDetailFrame), currCategory);
-        }
-
-        private async void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            MessageDialog dialog = null;
-            if (currCategory != null && currCategory.HasChanged)
-            {
-                dialog = new MessageDialog("The are changes. Please save the first.");
-                //await dialog.ShowAsync();
-                //return;
-            }
-            currCategory = e.ClickedItem as Category;
-            currCategory.PropertyChanged += new PropertyChangedEventHandler(currCategory_PropertyChanged);
-
-            DisplayData();
-        }
-
-        private void EnableAppBarStatus(bool status)
-        {
-            AppBarDoneButton.IsEnabled = status;
-            AppBarCancelButton.IsEnabled = status;
+            EnableAppBarStatus(false);
         }
 
         private async void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
-            var tempCategory = (frmCategoryDetail.Content as CategoryDetailFrame);
-            tempCategory.UpdateLayout();
+            var temp = (frmCategoryDetail.Content as CategoryDetailFrame);
+            temp.UpdateLayout();
 
-            AppBarAddButton.IsEnabled = true;
-            //AppBarDoneButton.IsEnabled = false;
-            AppBarCancelButton.IsEnabled = false;
+            EnableAppBarStatus(false);
 
-             var saveOC = new ObservableCollection<Category>();
-            foreach (var cat in App.Instance.StaticDataSource.CategoryList.Where(t => t.HasChanged))
-                saveOC.Add(cat);
+            var saveOC = App.Instance.StaticDataSource.CategoryList.Where(t => t.HasChanges).ToObservableCollection();
 
             await App.Instance.StaticDataSource.SaveCategory(saveOC);
+
+            SyncLists();
         }
 
         private void Cancel_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
             DisplayData();
 
-            AppBarAddButton.IsEnabled = true;
-            AppBarDoneButton.IsEnabled = false;
-            AppBarCancelButton.IsEnabled = false;
+            EnableAppBarStatus(false);
+
+            RevertCurrentList();
+        }
+
+        private void Delete_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            currCategory.IsDeleted = true;
+
+            ((ObservableCollection<Category>)DataContext).Remove(currCategory);
+
+            DisplayData();
+
+            EnableAppBarStatus(true);
         }
 
         private void Add_AppBarButtonClick(object sender, RoutedEventArgs e)
@@ -128,18 +165,28 @@ namespace BMA.Pages.AdminPage
 
             DisplayData();
 
-            AppBarAddButton.IsEnabled = false;
-            AppBarDoneButton.IsEnabled = true;
-            AppBarCancelButton.IsEnabled = true;
+            EnableAppBarStatus(true);
         }
 
-        private Category NewCategory()
+        private async void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            currCategory = new Category();
-
+            MessageDialog dialog = null;
+            if (currCategory != null && currCategory.HasChanges)
+            {
+                dialog = new MessageDialog("The are changes. Please save the first.");
+                //await dialog.ShowAsync();
+                //return;
+            }
+            currCategory = e.ClickedItem as Category;
             currCategory.PropertyChanged += new PropertyChangedEventHandler(currCategory_PropertyChanged);
 
-            return currCategory;
+            DisplayData();
+
+            currCategory.HasChanges = false;
+            isDirty = false;
         }
+
+        #endregion
+
     }
 }

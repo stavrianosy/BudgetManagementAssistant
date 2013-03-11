@@ -41,19 +41,52 @@ namespace BMA.Pages.SavingAssistantPage
             // TODO: Assign a bindable collection of items to this.DefaultViewModel["Items"]
         }
 
-        private void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
-        {
+        #region Events
 
+        private async void Done_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            //var tempTrans = (frmTransDetail.Content as TransDetailFrame);
+            //tempTrans.UpdateLayout();
+
+            //EnableAppBarStatus(false);
+
+            //var saveOC = App.Instance.TransDataSource.BudgetList.Where(t => t.HasChanges).ToObservableCollection();
+            //foreach (var trans in App.Instance.TransDataSource.TransactionList.Where(t => t.HasChanged))
+            //    saveOC.Add(trans);
+
+            //await App.Instance.TransDataSource.SaveTransaction(saveOC);
+
+            //SyncLists();
         }
 
         private void Add_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            //currTransaction = NewTransaction();
+            //((ObservableCollection<Transaction>)DataContext).Add(currTransaction);
 
+            //DisplayData();
+
+            //EnableAppBarStatus(true);
         }
 
         private void Cancel_AppBarButtonClick(object sender, RoutedEventArgs e)
         {
+            //DisplayData();
 
+            //EnableAppBarStatus(false);
+
+            //RevertCurrentList();
         }
+
+        private void Delete_AppBarButtonClick(object sender, RoutedEventArgs e)
+        {
+            //((ObservableCollection<Transaction>)DataContext).Remove(currTransaction);
+
+            //DisplayData();
+
+            //EnableAppBarStatus(true);
+        }
+
+        #endregion
     }
 }
