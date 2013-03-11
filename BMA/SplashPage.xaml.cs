@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Navigation;
 using BMA.Common;
 
 using BMA.Pages.TransactionPage;
+using System.Threading.Tasks;
+using Windows.Networking.Connectivity;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -53,9 +55,12 @@ namespace BMA
             InitializeComponent();
             PositionElements();
             App.Instance.RegisterForShare();
+
+            flyLogin.LoginSuccess += flyLogin_LoginSuccess;
+
         }
 
-
+        
         private void PositionElements()
         {
             var x = _splash == null ? 2 : _splash.ImageLocation.X;
@@ -104,7 +109,7 @@ namespace BMA
         {
         }
 
-        async void ExtendedSplashScreen_Loaded(object sender, RoutedEventArgs e)
+        void ExtendedSplashScreen_Loaded(object sender, RoutedEventArgs e)
         {
             
             ProgressText.Text = ApplicationData.Current.LocalSettings.Values.ContainsKey("Initialized")
@@ -112,16 +117,51 @@ namespace BMA
                                        ? "Loading ..."
                                        : "Initializing for first use: this may take several minutes...";
 
-            await App.Instance.TransDataSource.LoadAllGroups();
+            flyLogin.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            flyLogin.Width = canvasSplash.ActualWidth;
+            //flyLogin.Height = canvasSplash.ActualHeight;           
+
+            var verCenter = canvasSplash.ActualHeight / 2 - flyLogin.ActualHeight / 2;
+            //var vertBottom = canvasSplash.ActualHeight - verCenter + ;
             
-            ProgressText.Text = string.Format("Loading Transactions...");
-            await App.Instance.TransDataSource.LoadTransactions();
+            flyLogin.Margin = new Thickness(0, verCenter+30, 0, 0);
+            
+        }
 
-            ProgressText.Text = string.Format("Loading Budgets...");
-            await App.Instance.TransDataSource.LoadBudgets();
+        void flyLogin_LoginSuccess()
+        {
+            ContinueLoading();
+            flyLogin.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
 
-            ProgressText.Text = string.Format("Loading Settings...");
-            await App.Instance.StaticDataSource.LoadStaticData();
+        async void ContinueLoading()
+        {
+            //await App.Instance.TransDataSource.LoadAllGroups();
+
+
+            if (App.Instance.IsOnline && App.Instance.PendingSync)
+            {
+                ProgressText.Text = string.Format("Synchronizing Transactions...");
+                await App.Instance.TransDataSource.SyncTransactions();
+
+                ProgressText.Text = string.Format("Synchronizing Budgets...");
+                await App.Instance.TransDataSource.SyncBudgets();
+
+                //## YS Create Synchronization methods and replace load for Budget and static data.
+                ProgressText.Text = string.Format("Synchronizing Settings...");
+                await App.Instance.StaticDataSource.LoadStaticData();
+            }
+            else
+            {
+                ProgressText.Text = string.Format("Loading Transactions...");
+                await App.Instance.TransDataSource.LoadTransactions();
+
+                ProgressText.Text = string.Format("Loading Budgets...");
+                await App.Instance.TransDataSource.LoadBudgets();
+
+                ProgressText.Text = string.Format("Loading Settings...");
+                await App.Instance.StaticDataSource.LoadStaticData();
+            }
 
             ApplicationData.Current.LocalSettings.Values["Initialized"] = true;
 
@@ -153,10 +193,10 @@ namespace BMA
             // load most recent 5 items then order from oldest to newest
 
             var query = from i in list
-                            //(from g in list
-                            // from i in g.Items
-                            // orderby i.PostDate descending
-                            // select i).Take(5)
+                        //(from g in list
+                        // from i in g.Items
+                        // orderby i.PostDate descending
+                        // select i).Take(5)
                         orderby i.Name
                         select i;
 
@@ -201,12 +241,12 @@ namespace BMA
                 if (_activationArgs.Arguments.StartsWith("Group"))
                 {
                     var group = _activationArgs.Arguments.Split('=');
-                    rootFrame.Navigate(typeof(GroupDetailPage), group[1]);
+                    //rootFrame.Navigate(typeof(GroupDetailPage), group[1]);
                 }
                 else if (_activationArgs.Arguments.StartsWith("Item"))
                 {
                     var item = _activationArgs.Arguments.Split('=');
-                    rootFrame.Navigate(typeof(ItemDetailPage), item[1]);
+                    //rootFrame.Navigate(typeof(ItemDetailPage), item[1]);
                 }
                 else if (_activationArgs.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -238,17 +278,6 @@ namespace BMA
 
             if (query.Length < 3) return;
 
-            var suggestions = (from g in App.Instance.TransDataSource.GroupList
-                               //from i in g.Items
-                               //from keywords in i.Title.Split(' ')
-                               //let keyword = Regex.Replace(
-                               //    keywords.ToLower(), @"[^\w\.@-]", "")
-                               where g.Name.ToLower().Contains(query)
-                               //&& keyword.StartsWith(query)
-                               //orderby keyword
-                               select g).Distinct();
-
-           // args.Request.SearchSuggestionCollection.AppendQuerySuggestions(suggestions);
         }
     }
 }

@@ -52,104 +52,189 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="1" Margin="10">
-                    <TextBlock></TextBlock>
-                </StackPanel>
+                <TextBlock x:Name="txtMessage" Text="dkfhsdkf ksdj" FontSize="20" Margin="10 0" HorizontalAlignment="Right"></TextBlock>
+            </StackPanel>
             <WinRTX:WrapPanel x:Name="mainMenu" Grid.Column="1" Grid.Row="1">
-                    <Grid Width="400">
+                <Grid Width="400">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Border Tapped="brdTransactions_Tapped" Padding="5" Background="BlueViolet" Margin="5">
+                        <Button Tapped="brdTransactions_Tapped" Style="{StaticResource MainPartHome}" 
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Stretch">
                             <StackPanel x:Name="spTransactions" >
                                 <TextBlock Text="Transactions" Style="{StaticResource BMA_Text_Large}"/>
                                 <StackPanel Orientation="Horizontal" >
                                     <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
-                                    <TextBlock Text="{Binding LoadCounts.TransactionCount}" Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                                <TextBlock Text="{Binding CountTransactions}" Style="{StaticResource BMA_Text_Title}"></TextBlock>
                                 </StackPanel>
                                 <Border Padding="10 5">
                                     <StackPanel >
                                         <TextBlock Text="Details: " Style="{StaticResource BMA_Text_Item}" />
                                         <StackPanel Orientation="Horizontal" >
                                             <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Item}"></TextBlock>
-                                            <TextBlock Text="{Binding LoadCounts.TransactionCount}" Style="{StaticResource BMA_Text_Item}"></TextBlock>
+                                        <TextBlock Text="{Binding CountTransactions}" Style="{StaticResource BMA_Text_Item}"></TextBlock>
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
-                        </Border>
-                        <Border Padding="5" Grid.Row="1" Background="BlueViolet" Margin="5" Tapped="brdBudgets_Tapped">
-                            <StackPanel x:Name="spBudgets">
-                                <TextBlock Text="Budgets" Style="{StaticResource BMA_Text_Large}"></TextBlock>
-                                <StackPanel Orientation="Horizontal" >
-                                    <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
-                                    <TextBlock Text="{Binding LoadCounts.BudgetCount}" Style="{StaticResource BMA_Text_Title}"></TextBlock>
-                                </StackPanel>
+                        </Button>
+                    <Button Grid.Row="1" Style="{StaticResource MainPartHome}" Tapped="brdBudgets_Tapped"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Stretch">
+                        <StackPanel x:Name="spBudgets">
+                            <TextBlock Text="Budgets" Style="{StaticResource BMA_Text_Large}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                                <TextBlock Text="{Binding CountBudgets}" Style="{StaticResource BMA_Text_Title}"></TextBlock>
                             </StackPanel>
-                        </Border>
-                    </Grid>
-                    <Border Padding="5" Width="400" Background="CadetBlue" Margin="5" Tapped="brdTargets_Tapped">
-                        <StackPanel x:Name="spSavingsAssistant">
-                            <TextBlock Text="Savings Assistant" Style="{StaticResource BMA_Text_Large}"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Width="400">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>                    
+                    <Button Width="400" Style="{StaticResource SAPartHome}" Tapped="brdTargets_Tapped"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Stretch">
+                        <StackPanel Visibility="Collapsed" x:Name="spTargets">
+                            <TextBlock Text="Targets" Style="{StaticResource BMA_Text_Large}"></TextBlock>
+                            <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="{Binding LoadCounts.TargetCount}"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="400" Grid.Row="1" Style="{StaticResource SAPartHome}" Tapped="brdReports_Tapped"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Stretch">
+                        <StackPanel x:Name="spReports">
+                            <TextBlock Text="Reports" Style="{StaticResource BMA_Text_Large}"></TextBlock>
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
                                 <TextBlock Style="{StaticResource TitleTextStyle}" Text="{Binding LoadCounts.TargetCount}"></TextBlock>
                             </StackPanel>
                         </StackPanel>
-                    </Border>
-                <WinRTX:WrapPanel MaxWidth="400" ItemHeight="150" ItemWidth="133">
-                    <Border Tapped="brdPeriodicInOut_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe167;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Periodic    In/Out" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Grid.Row="2" Width="400" Style="{StaticResource SAPartHome}" Tapped="brdTargets_Tapped"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Stretch">
+                        <StackPanel Visibility="Collapsed" x:Name="spSavingsAssistant">
+                            <TextBlock Text="Savings Assistant" Style="{StaticResource BMA_Text_Large}"></TextBlock>
+                            <TextBlock Text="Total items: " Style="{StaticResource BMA_Text_Title}"></TextBlock>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="{Binding LoadCounts.TargetCount}"></TextBlock>
                         </StackPanel>
-                    </Border>
-                    <Border Tapped="brdNotifications_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe17c;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Notifications" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                </Grid>
+                <WinRTX:WrapPanel MaxWidth="400" ItemHeight="120" ItemWidth="133" x:Name="adminWrap">
+                    <Button Tapped="brdBudgetThreshold_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe18d;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Budget Threshold" Style="{StaticResource BMA_AdminMenuText}"/>
                         </StackPanel>
-                    </Border>
-                    <Border Tapped="brdSecurity_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe1a7;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Security" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border Tapped="brdExpenseReason_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe156;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Expense Reason" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border Tapped="brdCategories_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe184;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Categories" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border Tapped="brdTransactionTypes_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe15e;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Transaction Types" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border Tapped="brdFrequencies_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe1ca;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Frequency" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border Tapped="brdBudgetThreshold_Tapped" Padding="5" Background="DarkKhaki" Margin="5">
-                        <StackPanel HorizontalAlignment="Center" Margin="0 10">
-                            <TextBlock Text="&#xe18d;" Style="{StaticResource BMA_AdminMeniIcon}"/>
-                            <TextBlock Text="Budget Threshold" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <Border Padding="5" Background="DarkKhaki" Margin="5">
-                    </Border>
-                </WinRTX:WrapPanel>
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}" x:Name="empty1"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"  x:Name="empty2"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                    </Button>
+                    <Button Tapped="brdTransactionTypes_Tapped" Style="{StaticResource AdminPartHome}"  x:Name="empty3"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel Visibility="Collapsed" HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe15e;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Transaction Types" Style="{StaticResource BMA_AdminMenuText}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdCategories_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe184;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Categories" Style="{StaticResource BMA_AdminMenuText}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdFrequencies_Tapped" Style="{StaticResource AdminPartHome}"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe1ca;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Frequencies" Style="{StaticResource BMA_AdminMenuText}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdNotifications_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe17c;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Notifications" Style="{StaticResource BMA_AdminMenuText}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdIntervals_Tapped" Style="{StaticResource AdminPartHome}"  x:Name="empty4"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel Visibility="Collapsed" HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe167;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Interval" Style="{StaticResource BMA_AdminMenuText}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe156;" Style="{StaticResource BMA_AdminMenuIcon}"/>
+                            <TextBlock Text="Transaction Reason" Style="{StaticResource BMA_AdminMenuText}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"  x:Name="empty5"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"  x:Name="empty6"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"  x:Name="empty7"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                    </Button>
+                </WinRTX:WrapPanel>
+                <WinRTX:WrapPanel MaxWidth="400" ItemHeight="97" ItemWidth="100" x:Name="adminWrap_Snapped" Visibility="Collapsed">
+                    <Button Tapped="brdBudgetThreshold_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe18d;" Style="{StaticResource BMA_AdminMenuIcon_Shrink}"/>
+                            <TextBlock Text="Budget Threshold" Style="{StaticResource BMA_AdminMenuText_Shrink}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdCategories_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe184;" Style="{StaticResource BMA_AdminMenuIcon_Shrink}"/>
+                            <TextBlock Text="Categories" Style="{StaticResource BMA_AdminMenuText_Shrink}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdFrequencies_Tapped" Style="{StaticResource AdminPartHome}"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe1ca;" Style="{StaticResource BMA_AdminMenuIcon_Shrink}"/>
+                            <TextBlock Text="Frequencies" Style="{StaticResource BMA_AdminMenuText_Shrink}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdNotifications_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe17c;" Style="{StaticResource BMA_AdminMenuIcon_Shrink}"/>
+                            <TextBlock Text="Notifications" Style="{StaticResource BMA_AdminMenuText_Shrink}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" Margin="0 5">
+                            <TextBlock Text="&#xe156;" Style="{StaticResource BMA_AdminMenuIcon_Shrink}"/>
+                            <TextBlock Text="Transaction Reason" Style="{StaticResource BMA_AdminMenuText_Shrink}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Tapped="brdExpenseReason_Tapped" Style="{StaticResource AdminPartHome}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                    </Button>
+                </WinRTX:WrapPanel>
             </WinRTX:WrapPanel>
         </Grid>
         <VisualStateManager.VisualStateGroups>
@@ -182,8 +267,15 @@
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="mainMenu" Storyboard.TargetProperty="Width">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="300"/>
-                        </ObjectAnimationUsingKeyFrames>                        
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="adminWrap" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="adminWrap_Snapped" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
+                    
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>

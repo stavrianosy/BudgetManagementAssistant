@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>BMA_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -112,10 +113,15 @@
     <Compile Include="Common\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\LayoutAwarePage.cs" />
     <Compile Include="Common\RichTextColumns.cs" />
+    <Compile Include="Controls\Flyouts\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\StaticDataSource.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="DataModel\StatusConverter.cs" />
-    <Compile Include="DataModel\TransactionType.cs" />
     <Compile Include="DataModel\TransDataSource.cs" />
     <Compile Include="DataModel\Config.cs" />
     <Compile Include="DataModel\StorageUtility.cs" />
@@ -131,17 +137,23 @@
     <Compile Include="Pages\AdminPage\CategoryItemsPage.xaml.cs">
       <DependentUpon>CategoryItemsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AdminPage\TypeFrequencyDetailFrame.xaml.cs">
+      <DependentUpon>TypeFrequencyDetailFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminPage\TypeFrequencyItemsPage.xaml.cs">
+      <DependentUpon>TypeFrequencyItemsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AdminPage\ReasonDetailFrame.xaml.cs">
       <DependentUpon>ReasonDetailFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AdminPage\ReasonItemsPage.xaml.cs">
       <DependentUpon>ReasonItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\PeriodicInOutDetailFrame.xaml.cs">
-      <DependentUpon>PeriodicInOutDetailFrame.xaml</DependentUpon>
+    <Compile Include="Pages\AdminPage\IntervalDetailFrame.xaml.cs">
+      <DependentUpon>IntervalDetailFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\PeriodicInOutItemsPage.xaml.cs">
-      <DependentUpon>PeriodicInOutItemsPage.xaml</DependentUpon>
+    <Compile Include="Pages\AdminPage\IntervalItemsPage.xaml.cs">
+      <DependentUpon>IntervalItemsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AdminPage\NotificationDetailFrame.xaml.cs">
       <DependentUpon>NotificationDetailFrame.xaml</DependentUpon>
@@ -155,11 +167,17 @@
     <Compile Include="Pages\AdminPage\SecurityItemsPage.xaml.cs">
       <DependentUpon>SecurityItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\TypePeriodicInOutDetailFrame.xaml.cs">
-      <DependentUpon>TypePeriodicInOutDetailFrame.xaml</DependentUpon>
+    <Compile Include="Pages\AdminPage\TypeIntervalDetailFrame.xaml.cs">
+      <DependentUpon>TypeIntervalDetailFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AdminPage\TypePeriodicInOutItemsPage.xaml.cs">
-      <DependentUpon>TypePeriodicInOutItemsPage.xaml</DependentUpon>
+    <Compile Include="Pages\AdminPage\TypeIntervalItemsPage.xaml.cs">
+      <DependentUpon>TypeIntervalItemsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminPage\TypeTransactionDetailFrame.xaml.cs">
+      <DependentUpon>TypeTransactionDetailFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminPage\TypeTransactionItemsPage.xaml.cs">
+      <DependentUpon>TypeTransactionItemsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\BlankPage1.xaml.cs">
       <DependentUpon>BlankPage1.xaml</DependentUpon>
@@ -170,20 +188,59 @@
     <Compile Include="Pages\BudgetPage\ItemsPage.xaml.cs">
       <DependentUpon>ItemsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Reports\TransactioPlace\Criteria.xaml.cs">
+      <DependentUpon>Criteria.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactioPlace\Graph.xaml.cs">
+      <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactioPlace\Pie.xaml.cs">
+      <DependentUpon>Pie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionAmount\Criteria.xaml.cs">
+      <DependentUpon>Criteria.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionAmount\Graph.xaml.cs">
+      <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionAmount\Pie.xaml.cs">
+      <DependentUpon>Pie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionBudget\Criteria.xaml.cs">
+      <DependentUpon>Criteria.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionBudget\Graph.xaml.cs">
+      <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionBudget\Pie.xaml.cs">
+      <DependentUpon>Pie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionCategory\Criteria.xaml.cs">
+      <DependentUpon>Criteria.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionCategory\Graph.xaml.cs">
+      <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionCategory\Pie.xaml.cs">
+      <DependentUpon>Pie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionPeriod\Graph.xaml.cs">
+      <DependentUpon>Graph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionPeriod\Criteria.xaml.cs">
+      <DependentUpon>Criteria.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\ReportList.xaml.cs">
+      <DependentUpon>ReportList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\TransactionPeriod\Pie.xaml.cs">
+      <DependentUpon>Pie.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SavingAssistantPage\TargetDetailFrame.xaml.cs">
       <DependentUpon>TargetDetailFrame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SavingAssistantPage\TargetItemsPage.xaml.cs">
       <DependentUpon>TargetItemsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TransactionPage\GroupDetailPage.xaml.cs">
-      <DependentUpon>GroupDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TransactionPage\GroupedItemsPage.xaml.cs">
-      <DependentUpon>GroupedItemsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TransactionPage\ItemDetailPage.xaml.cs">
-      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -197,12 +254,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\BMAStaticDataService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\Security.xaml.cs">
+      <DependentUpon>Security.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SplashPage.xaml.cs">
       <DependentUpon>SplashPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TransactionPage\TransDetailFrame.xaml.cs">
       <DependentUpon>TransDetailFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TileUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -210,12 +276,19 @@
     </AppxManifest>
     <None Include="BMA_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.BaseItem.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Budget.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.Notification.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Transaction.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.User.datasource" />
     <None Include="Properties\ServiceReferences.Designer.ClientConfig" />
     <None Include="Service References\BMAService\BMAService.xsd">
       <SubType>Designer</SubType>
@@ -227,29 +300,64 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAService\Main.wsdl" />
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAStaticDataService\Static.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\budget.jpg" />
+    <Content Include="Assets\budget_180.png" />
+    <Content Include="Assets\category_80.png" />
     <Content Include="Assets\income.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\interval.png" />
+    <Content Include="Assets\login.png" />
+    <Content Include="Assets\login_white.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-180.png" />
     <Content Include="Assets\Logo.scale-80.png" />
+    <Content Include="Assets\Notification.png" />
     <Content Include="Assets\outcome.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\SmallLogo.scale-100.png" />
+    <Content Include="Assets\SmallLogo.scale-140.png" />
+    <Content Include="Assets\SmallLogo.scale-180.png" />
+    <Content Include="Assets\SmallLogo.scale-80.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-140.png" />
+    <Content Include="Assets\SplashScreen.scale-180.png" />
+    <Content Include="Assets\SplashScreen_large.png" />
+    <Content Include="Assets\StoreLogo.scale-100.jpg" />
+    <Content Include="Assets\StoreLogo.scale-140.jpg" />
+    <Content Include="Assets\StoreLogo.scale-180.jpg" />
     <Content Include="Assets\target2.jpg" />
     <Content Include="Assets\transaction.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\transaction.png" />
     <Content Include="Assets\Transactions.js" />
+    <Content Include="Assets\TransReason.png" />
+    <Content Include="Assets\TypeTrans.png" />
     <Content Include="Assets\WideLogo.scale-100.png" />
+    <Content Include="Assets\WideLogo.scale-140.png" />
+    <Content Include="Assets\WideLogo.scale-180.png" />
+    <Content Include="Assets\WideLogo.scale-80.png" />
     <Content Include="Common\ReadMe.txt" />
+    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
     <None Include="Service References\BMAService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -272,6 +380,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Flyouts\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AdminPage\BudgetThresholdDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -288,6 +404,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\AdminPage\TypeFrequencyDetailFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AdminPage\TypeFrequencyItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AdminPage\ReasonDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -296,11 +420,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPage\PeriodicInOutDetailFrame.xaml">
+    <Page Include="Pages\AdminPage\IntervalDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPage\PeriodicInOutItemsPage.xaml">
+    <Page Include="Pages\AdminPage\IntervalItemsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -320,11 +444,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPage\TypePeriodicInOutDetailFrame.xaml">
+    <Page Include="Pages\AdminPage\TypeIntervalDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AdminPage\TypePeriodicInOutItemsPage.xaml">
+    <Page Include="Pages\AdminPage\TypeIntervalItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AdminPage\TypeTransactionDetailFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AdminPage\TypeTransactionItemsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,6 +472,70 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Reports\TransactioPlace\Criteria.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactioPlace\Graph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactioPlace\Pie.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionAmount\Criteria.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionAmount\Graph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionAmount\Pie.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionBudget\Criteria.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionBudget\Graph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionBudget\Pie.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionCategory\Criteria.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionCategory\Graph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionCategory\Pie.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Reports\TransactionPeriod\Graph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Reports\TransactionPeriod\Criteria.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Reports\ReportList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Reports\TransactionPeriod\Pie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\SavingAssistantPage\TargetDetailFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -348,23 +544,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TransactionPage\GroupDetailPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\TransactionPage\GroupedItemsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\TransactionPage\ItemDetailPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TransactionPage\TransactionItemsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\Security.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -378,23 +566,39 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\App1\DataVirtualization.Toolkit\DataVirtualization.Toolkit.csproj">
+      <Project>{46fd6f10-6f1d-4bce-b67e-38753d89f536}</Project>
+      <Name>DataVirtualization.Toolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BackTask\BackTask.csproj">
+      <Project>{3d0cd1b2-b358-4664-aa9d-938ade602ab7}</Project>
+      <Name>BackTask</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
       <Project>{36525b21-e773-403b-8882-18c4dbf996b4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WrapPanel\WrapPanel.csproj">
-      <Project>{b8925ea7-2e0e-4e3a-bcdc-48ead86cc7c7}</Project>
-      <Name>WrapPanel</Name>
+    <ProjectReference Include="..\ModernUI.Controls\Charting\ModernUI.Toolkit.Data.Charting.csproj">
+      <Project>{c6c4fc26-8000-49c2-a525-79ca241472a7}</Project>
+      <Name>ModernUI.Toolkit.Data.Charting</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\BMAService\" />
+    <WCFMetadataStorage Include="Service References\BMAStaticDataService\" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Callisto">
+      <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
+    </Reference>
+    <Reference Include="NotificationsExtensions">
+      <HintPath>..\..\..\Toast notifications sample\C#\NotificationsExtensions\bin\Debug\NotificationsExtensions.winmd</HintPath>
+    </Reference>
     <Reference Include="WinRTXamlToolkit">
       <HintPath>..\packages\winrtxamltoolkit.1.3.5.3\lib\netcore45\WinRTXamlToolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>
