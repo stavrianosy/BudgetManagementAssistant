@@ -35,16 +35,12 @@ namespace BMA.BusinessLogic
         [DataMember]
         public DateTime ToDate { get { return toDate; } set { toDate = value; NotifyPropertyChanged("ToDate"); } }
 
-
-        [IgnoreDataMember]
-        public bool HasChanged { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
             {
-                HasChanged = true;
+                HasChanges = true;
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }

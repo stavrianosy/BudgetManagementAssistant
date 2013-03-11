@@ -40,17 +40,21 @@
   <ItemGroup>
     <Compile Include="BaseItem.cs" />
     <Compile Include="BaseItemComparer.cs" />
+    <Compile Include="BaseList.cs" />
     <Compile Include="BindableBase.cs" />
     <Compile Include="Budget.cs" />
     <Compile Include="BudgetThreshold.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="CollectionExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionComparer.cs" />
     <Compile Include="TypeFrequency.cs" />
-    <Compile Include="PeriodicInOut.cs" />
     <Compile Include="StartupInfo.cs" />
     <Compile Include="StaticTypeList.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="TypeExpense.cs" />
-    <Compile Include="TypePeriodicInOut.cs" />
+    <Compile Include="TypeInterval.cs" />
     <Compile Include="TypeTransactionReason.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

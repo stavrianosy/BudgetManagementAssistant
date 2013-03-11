@@ -12,5 +12,10 @@ namespace BMA.BusinessLogic
         public List<TypeSavingsDencity> TypeSavingsDencities { get; set; }
         public List<TypeTransaction> TypeTransactions { get; set; }
         public List<TypeTransactionReason> TypeTransactionReasons { get; set; }
+        public List<Notification> Notifications { get; set; }
+        public List<TypeInterval> TypeIntervals { get; set; }
+        public List<TypeFrequency> TypeFrequencies { get; set; }
+        public List<BudgetThreshold> BudgetThresholds { get; set; }
+        
     }
 }
