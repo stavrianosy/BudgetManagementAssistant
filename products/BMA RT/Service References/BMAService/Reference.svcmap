@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="e77dd68f-cecb-49ff-9f1f-eced70691445" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost/BMAService/BMAService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BMAService.disco" MetadataType="Disco" ID="969dab80-2ff3-4204-af52-aa75e60bb3ba" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?disco" />
+    <MetadataFile FileName="Main.wsdl" MetadataType="Wsdl" ID="a718dec7-dd0c-4ee5-82ce-ef11cac3f788" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?wsdl" />
+    <MetadataFile FileName="BMAService.xsd" MetadataType="Schema" ID="fd08a810-4062-49de-982f-464caaf98076" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BMAService1.xsd" MetadataType="Schema" ID="6f482b90-1d3d-4345-9c7b-e39439741f07" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BMAService2.xsd" MetadataType="Schema" ID="8a8ff42e-1cc1-4e13-b704-6711925d1fc8" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

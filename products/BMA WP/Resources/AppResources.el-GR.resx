@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ResourceFlowDirection" xml:space="preserve">
+    <value>LeftToRight</value>
+    <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
+  </data>
+  <data name="ResourceLanguage" xml:space="preserve">
+    <value>el-GR</value>
+    <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>BUDGET MANAGEMENT &amp; ASSISTANT</value>
+  </data>
+  <data name="AppBarButtonSave" xml:space="preserve">
+    <value>αποθηκευση</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Ποσο</value>
+  </data>
+  <data name="AdminMenuBudgetThreshold" xml:space="preserve">
+    <value>Σημειο Αναφορας Προϋπολογισμου</value>
+  </data>
+  <data name="AdminMenuCategories" xml:space="preserve">
+    <value>Κατηγοριες</value>
+  </data>
+  <data name="AdminMenuFrequencies" xml:space="preserve">
+    <value>Συχνοτητες</value>
+  </data>
+  <data name="AdminMenuNotifications" xml:space="preserve">
+    <value>Ειδοποιεισεις</value>
+  </data>
+  <data name="AdminMenuTransactionReasons" xml:space="preserve">
+    <value>Αιτια Συναλλαγης</value>
+  </data>
+  <data name="AppBarButtonAdd" xml:space="preserve">
+    <value>προσθικη</value>
+  </data>
+  <data name="AppBarButtonBudget" xml:space="preserve">
+    <value>προϋπολογισμος</value>
+  </data>
+  <data name="AppBarButtonCancel" xml:space="preserve">
+    <value>ακυρωση</value>
+  </data>
+  <data name="AppBarButtonContinue" xml:space="preserve">
+    <value>συνεχεια</value>
+  </data>
+  <data name="AppBarButtonDelete" xml:space="preserve">
+    <value>διαχραφη</value>
+  </data>
+  <data name="AppBarButtonMainMenu" xml:space="preserve">
+    <value>κυριος μενου</value>
+  </data>
+  <data name="AppBarButtonRegister" xml:space="preserve">
+    <value>εγγραφη</value>
+  </data>
+  <data name="AppBarButtonSend" xml:space="preserve">
+    <value>αποστολη</value>
+  </data>
+  <data name="AppBarButtonSignIn" xml:space="preserve">
+    <value>εισοδος</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Κατηγορια</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Σχολια</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Ημερομηνια</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Ηλ. Ταχυδρομειο</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Υπενθυμιση Κωδικου</value>
+  </data>
+  <data name="LastLoginFail" xml:space="preserve">
+    <value>Η τελευτεα προσπαθεια για προσβαση ηταν αποτυχημενη. Παρακαλω δοκιμαστε ξανα.</value>
+  </data>
+  <data name="LoggingIn" xml:space="preserve">
+    <value>Προσβαση...</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Εισοδος</value>
+  </data>
+  <data name="LoginFail" xml:space="preserve">
+    <value>Αποτυχημενη προσβαση</value>
+  </data>
+  <data name="LoginFailMessage" xml:space="preserve">
+    <value>Παρακαλω ελεγξτε και διορθωστε το παρακατο προβλημα</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>Επιτυχημενη προσβαση</value>
+  </data>
+  <data name="MainMenuBudgets" xml:space="preserve">
+    <value>Προϋπολογισμος</value>
+  </data>
+  <data name="MainMenuTransactions" xml:space="preserve">
+    <value>Συναλλαγες</value>
+  </data>
+  <data name="NameOfPlace" xml:space="preserve">
+    <value>Ονομα Τοποθεσιας</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Κωδικος</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Αιτια</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Εγγραφη</value>
+  </data>
+  <data name="RegisterMessage" xml:space="preserve">
+    <value>* Συμπλιρωστε ολα τα πεδια για να εγγραφητε</value>
+  </data>
+  <data name="ReportsMenuTransactionAmount" xml:space="preserve">
+    <value>Συναλλαγες Ποσων </value>
+  </data>
+  <data name="ReportsMenuTransactionBudget" xml:space="preserve">
+    <value>Συναλλαγες Προϋπολογισμων</value>
+  </data>
+  <data name="ReportsMenuTransactionCategory" xml:space="preserve">
+    <value>Συναλλαγες Κατηγοριων</value>
+  </data>
+  <data name="ReportsMenuTransactionPeriod" xml:space="preserve">
+    <value>Συναλλαγες Περιόδου</value>
+  </data>
+  <data name="ReportsMenuTransactionPlace" xml:space="preserve">
+    <value>Συναλλαγες Τοποθεσιας</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>Φιλοδοριμα</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>Συναλλαγη</value>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Συναλλαγες</value>
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value>Ειδος Συναλλαγης</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Ονομα χρηστη</value>
+  </data>
+  <data name="AdminMenuSecurity" xml:space="preserve">
+    <value>Ασφαλεια</value>
+  </data>
+  <data name="FromTime" xml:space="preserve">
+    <value>Ωρα Απο</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ονομα</value>
+  </data>
+  <data name="ToTime" xml:space="preserve">
+    <value>Ωρα Μεχρι</value>
+  </data>
+  <data name="ConfirmPass" xml:space="preserve">
+    <value>Επιβεβεωση  Κωδικου</value>
+  </data>
+  <data name="NewPass" xml:space="preserve">
+    <value>Νεος  Κωδικος</value>
+  </data>
+  <data name="OldPass" xml:space="preserve">
+    <value>Προηγουμενος Κωδικος</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Ωρα</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Κατηγοριες</value>
+  </data>
+  <data name="CategoryNote" xml:space="preserve">
+    <value>* Η επιλογη αυτη θα ειναι προεπιλεγμενη συμφωνα με την ωρα της ημερας</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Ειδοποιειση</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Ειδοποιεισεις</value>
+  </data>
+  <data name="Reasons" xml:space="preserve">
+    <value>Αιτιες</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Ασφαλεια</value>
+  </data>
+  <data name="SuggestedTime" xml:space="preserve">
+    <value>Προτεινομενη Ωρα</value>
+  </data>
+  <data name="TypeFrequencies" xml:space="preserve">
+    <value>Ειδος Συχνοτητας</value>
+  </data>
+  <data name="TypeFrequency" xml:space="preserve">
+    <value>Ειδη Συχνοτητας</value>
+  </data>
+  <data name="AdminMenuInterval" xml:space="preserve">
+    <value>Διαστημα</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Συνολο</value>
+  </data>
+  <data name="AppBarButtonTransaction" xml:space="preserve">
+    <value>συναλλαγη</value>
+  </data>
+</root>
