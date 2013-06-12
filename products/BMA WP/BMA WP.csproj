@@ -405,9 +405,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="ServiceReferences.ClientConfig">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Service References\BMAService\BMAService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -428,6 +425,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAStaticDataService\Static.wsdl" />
+    <Content Include="ServiceReferences.ClientConfig" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -488,14 +486,14 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BudgetManagementAssistant\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
+    <WCFMetadataStorage Include="Service References\BMAService\" />
+    <WCFMetadataStorage Include="Service References\BMAStaticDataService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libraries\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
       <Project>{36525B21-E773-403B-8882-18C4DBF996B4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\BMAService\" />
-    <WCFMetadataStorage Include="Service References\BMAStaticDataService\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
@@ -507,5 +505,5 @@
   </Target>
   -->
   <ProjectExtensions />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.5\tools\Microsoft.Bcl.Build.targets" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.5\tools\Microsoft.Bcl.Build.targets" />
 </Project>

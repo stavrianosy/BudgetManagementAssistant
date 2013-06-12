@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMA WP", "BMA WP\BMA WP.csproj", "{06ABD409-2E45-4C77-B258-8026A45BFC6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMA.BusinessLogic", "..\BMA Common\BMA.BusinessLogic.csproj", "{36525B21-E773-403B-8882-18C4DBF996B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMA.BusinessLogic", "..\libraries\BMA.BusinessLogic\BMA.BusinessLogic.csproj", "{36525B21-E773-403B-8882-18C4DBF996B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

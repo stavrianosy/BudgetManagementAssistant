@@ -566,32 +566,32 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BackTask\BackTask.csproj">
+    <ProjectReference Include="..\..\libraries\BackTask\BackTask.csproj">
       <Project>{3d0cd1b2-b358-4664-aa9d-938ade602ab7}</Project>
       <Name>BackTask</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
+    <ProjectReference Include="..\..\libraries\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
       <Project>{36525b21-e773-403b-8882-18c4dbf996b4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ModernUI.Controls\App1\DataVirtualization.Toolkit\DataVirtualization.Toolkit.csproj">
+    <ProjectReference Include="..\..\controls\ModernUI.Controls\App1\DataVirtualization.Toolkit\DataVirtualization.Toolkit.csproj">
       <Project>{46fd6f10-6f1d-4bce-b67e-38753d89f536}</Project>
       <Name>DataVirtualization.Toolkit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ModernUI.Controls\Charting\ModernUI.Toolkit.Data.Charting.csproj">
+    <ProjectReference Include="..\..\controls\ModernUI.Controls\Charting\ModernUI.Toolkit.Data.Charting.csproj">
       <Project>{c6c4fc26-8000-49c2-a525-79ca241472a7}</Project>
       <Name>ModernUI.Toolkit.Data.Charting</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Callisto">
-      <HintPath>..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
+      <HintPath>..\..\packages\Callisto.1.2.6\lib\winrt45\Callisto.dll</HintPath>
     </Reference>
     <Reference Include="NotificationsExtensions">
       <HintPath>..\BackTask\bin\Debug\NotificationsExtensions.winmd</HintPath>
     </Reference>
     <Reference Include="WinRTXamlToolkit">
-      <HintPath>..\packages\winrtxamltoolkit.1.3.5.3\lib\netcore45\WinRTXamlToolkit.dll</HintPath>
+      <HintPath>..\..\packages\winrtxamltoolkit.1.3.5.3\lib\netcore45\WinRTXamlToolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

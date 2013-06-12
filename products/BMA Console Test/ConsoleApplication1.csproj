@@ -93,11 +93,11 @@
     <None Include="Service References\ServiceReference2\Static.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
+    <ProjectReference Include="..\..\libraries\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
       <Project>{36525b21-e773-403b-8882-18c4dbf996b4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BMA.DataAccess\BMA.DataAccess.csproj">
+    <ProjectReference Include="..\..\libraries\BMA.DataAccess\BMA.DataAccess.csproj">
       <Project>{e0a494f6-9bed-4638-9d8d-02ddd2e744e3}</Project>
       <Name>BMA.DataAccess</Name>
     </ProjectReference>

@@ -2,37 +2,23 @@
     <system.serviceModel>
         <bindings>
             <basicHttpBinding>
-                <binding name="BasicHttpBinding_IStatic" maxBufferSize="2147483647"
-                    maxReceivedMessageSize="2147483647">
-                    <security mode="None" />
-                </binding>
                 <binding name="BasicHttpBinding_IMain" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
                     <security mode="None" />
                 </binding>
-                <binding name="BasicHttpBinding_IMain1" maxBufferSize="2147483647"
-                    maxReceivedMessageSize="2147483647">
-                    <security mode="None" />
-                </binding>
-                <binding name="BasicHttpBinding_IStatic1" maxBufferSize="2147483647"
+                <binding name="BasicHttpBinding_IStatic" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
                     <security mode="None" />
                 </binding>
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc"
-                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
-                contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
             <endpoint address="http://win-vvthsubpmki/BMAService/BMAService.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
                 contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
-            <endpoint address="http://win-vvthsubpmki/BMAService/BMAService.svc"
-                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain1"
-                contract="BMAService.IMain" name="BasicHttpBinding_IMain1" />
             <endpoint address="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc"
-                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic1"
-                contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic1" />
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
+                contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
         </client>
     </system.serviceModel>
 </configuration>
