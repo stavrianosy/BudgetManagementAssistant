@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6C4FC26-8000-49C2-A525-79CA241472A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModernUI.Toolkit.Data.Charting</RootNamespace>
+    <AssemblyName>ModernUI.Toolkit.Data.Charting</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AggregatedObservableCollection.cs" />
+    <Compile Include="Charts\AnimationSequence.cs" />
+    <Compile Include="Charts\Axis\Axis.cs" />
+    <Compile Include="Charts\Axis\AxisLabel.cs" />
+    <Compile Include="Charts\Axis\AxisLocation.cs" />
+    <Compile Include="Charts\Axis\AxisOrientation.cs" />
+    <Compile Include="Charts\Axis\CategoryAxis.cs" />
+    <Compile Include="Charts\Axis\CategorySortOrder.cs" />
+    <Compile Include="Charts\Axis\DateTimeAxis.cs" />
+    <Compile Include="Charts\Axis\DateTimeAxisLabel.cs" />
+    <Compile Include="Charts\Axis\DateTimeIntervalType.cs" />
+    <Compile Include="Charts\Axis\DisplayAxis.cs" />
+    <Compile Include="Charts\Axis\DisplayAxisGridLines.cs" />
+    <Compile Include="Charts\Axis\IAnchoredToOrigin.cs" />
+    <Compile Include="Charts\Axis\IAxis.cs" />
+    <Compile Include="Charts\Axis\IAxisListener.cs" />
+    <Compile Include="Charts\Axis\ICategoryAxis.cs" />
+    <Compile Include="Charts\Axis\IDataConsumer.cs" />
+    <Compile Include="Charts\Axis\IDataProvider.cs" />
+    <Compile Include="Charts\Axis\IRangeAxis.cs" />
+    <Compile Include="Charts\Axis\IRangeConsumer.cs" />
+    <Compile Include="Charts\Axis\IRangeProvider.cs" />
+    <Compile Include="Charts\Axis\IValueMarginConsumer.cs" />
+    <Compile Include="Charts\Axis\IValueMarginProvider.cs" />
+    <Compile Include="Charts\Axis\LinearAxis.cs" />
+    <Compile Include="Charts\Axis\NumericAxis.cs" />
+    <Compile Include="Charts\Axis\NumericAxisLabel.cs" />
+    <Compile Include="Charts\Axis\OrientedAxisGridLines.cs" />
+    <Compile Include="Charts\Axis\RangeAxis.cs" />
+    <Compile Include="Charts\Axis\ValueMargin.cs" />
+    <Compile Include="Charts\Chart\Chart.cs" />
+    <Compile Include="Charts\Chart\SeriesHostAxesCollection.cs" />
+    <Compile Include="Charts\DataPoint\AreaDataPoint.cs" />
+    <Compile Include="Charts\DataPoint\BarDataPoint.cs" />
+    <Compile Include="Charts\DataPoint\BubbleDataPoint.cs" />
+    <Compile Include="Charts\DataPoint\ColumnDataPoint.cs" />
+    <Compile Include="Charts\DataPoint\DataPoint.cs" />
+    <Compile Include="Charts\DataPoint\DataPointState.cs" />
+    <Compile Include="Charts\DataPoint\LineDataPoint.cs" />
+    <Compile Include="Charts\DataPoint\ScatterDataPoint.cs" />
+    <Compile Include="Charts\FrameworkElementExtensions.cs" />
+    <Compile Include="Charts\Primitives\DelegatingListBox.cs" />
+    <Compile Include="Charts\Primitives\Edge.cs" />
+    <Compile Include="Charts\Primitives\EdgePanel.cs" />
+    <Compile Include="Charts\ResourceDictionaryDispensedEventArgs.cs" />
+    <Compile Include="Charts\ResourceDictionaryEnumerator.cs" />
+    <Compile Include="Charts\Series\AreaSeries.cs" />
+    <Compile Include="Charts\Series\BarSeries.cs" />
+    <Compile Include="Charts\Series\BubbleSeries.cs" />
+    <Compile Include="Charts\Series\ColumnBarBaseSeries.cs" />
+    <Compile Include="Charts\Series\ColumnSeries.cs" />
+    <Compile Include="Charts\Series\DataPointSeries.cs" />
+    <Compile Include="Charts\Series\DataPointSeriesWithAxes.cs" />
+    <Compile Include="Charts\Series\DataPointSingleSeriesWithAxes.cs" />
+    <Compile Include="Charts\Series\DefinitionSeries.cs" />
+    <Compile Include="Charts\Series\IRequireGlobalSeriesIndex.cs" />
+    <Compile Include="Charts\Series\ISeries.cs" />
+    <Compile Include="Charts\Series\LegendItem.cs" />
+    <Compile Include="Charts\Series\LineAreaBaseSeries.cs" />
+    <Compile Include="Charts\Series\LineSeries.cs" />
+    <Compile Include="Charts\Series\ScatterSeries.cs" />
+    <Compile Include="Charts\Series\Series.cs" />
+    <Compile Include="Charts\Series\SeriesDefinition.cs" />
+    <Compile Include="Charts\Series\SeriesSelectionMode.cs" />
+    <Compile Include="Charts\Series\Stacked100AreaSeries.cs" />
+    <Compile Include="Charts\Series\Stacked100BarSeries.cs" />
+    <Compile Include="Charts\Series\Stacked100ColumnSeries.cs" />
+    <Compile Include="Charts\Series\Stacked100LineSeries.cs" />
+    <Compile Include="Charts\Series\StackedAreaLineSeries.cs" />
+    <Compile Include="Charts\Series\StackedAreaSeries.cs" />
+    <Compile Include="Charts\Series\StackedBarColumnSeries.cs" />
+    <Compile Include="Charts\Series\StackedBarSeries.cs" />
+    <Compile Include="Charts\Series\StackedColumnSeries.cs" />
+    <Compile Include="Charts\Series\StackedLineSeries.cs" />
+    <Compile Include="Charts\ValueMarginCoordinateAndOverlap.cs" />
+    <Compile Include="Collections\LeftLeaningRedBlackTree.cs" />
+    <Compile Include="Collections\MultipleDictionary.cs" />
+    <Compile Include="Collections\OrderedMultipleDictionary.cs" />
+    <Compile Include="CustomControl1.cs" />
+    <Compile Include="DependencyPropertyAnimationHelper.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="EnumerableFunctions.cs" />
+    <Compile Include="GenericEqualityComparer.cs" />
+    <Compile Include="IRequireSeriesHost.cs" />
+    <Compile Include="IResourceDictionaryDispenser.cs" />
+    <Compile Include="Charts\ISeriesHost.cs" />
+    <Compile Include="Charts\ISeriesHostExtensions.cs" />
+    <Compile Include="LayoutTransformControl.cs" />
+    <Compile Include="Legends\Legend.cs" />
+    <Compile Include="NoResetObservableCollection.cs" />
+    <Compile Include="ObjectPool.cs" />
+    <Compile Include="ObservableCollectionListAdapter.cs" />
+    <Compile Include="OrientedPanel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyChangedEventHandler.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="RangeEnumerableFunctions.cs" />
+    <Compile Include="ResourceDictionaryCollection.cs" />
+    <Compile Include="ResourceDictionaryDispenser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ResourceDictionaryExtensions.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RoutedPropertyChangedEventArgs.cs" />
+    <Compile Include="StoryboardQueue.cs" />
+    <Compile Include="StringFormatConverter.cs" />
+    <Compile Include="Title\Title.cs" />
+    <Compile Include="UniqueObservableCollection.cs" />
+    <Compile Include="Unit.cs" />
+    <Compile Include="UnitValue.cs" />
+    <Compile Include="ValueHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Charts\Axis\DateTimeAxisLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Axis\DisplayAxis.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Axis\NumericAxisLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Axis\RangeAxis.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Chart\Chart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\DataPoint\AreaDataPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\DataPoint\BarDataPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\DataPoint\BubbleDataPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\DataPoint\ColumnDataPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\DataPoint\LineDataPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\DataPoint\ScatterDataPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Primitives\DelegatingListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Series\AreaSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Series\DataPointSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Series\DefinitionSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Series\LegendItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Charts\Series\LineSeries.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Title\Title.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
+    <VisualStudioVersion>11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
