@@ -216,6 +216,20 @@ namespace BMA.BusinessLogic
         }
         #endregion
 
+        #region Public Methods
+        public override bool Equals(Object obj)
+        {
+            Transaction transaction = obj as Transaction;
+            if (transaction == null)
+                return false;
+            else
+                return TransactionId.Equals(transaction.TransactionId);
+        }
 
+        public override int GetHashCode()
+        {
+            return this.TransactionId.GetHashCode();
+        }
+        #endregion
     }
 }

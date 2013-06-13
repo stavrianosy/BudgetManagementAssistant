@@ -9,6 +9,7 @@ namespace BMA.BusinessLogic
 {
     public class Category : BaseItem
     {
+        #region Public Methods
         public override bool Equals(Object obj)
         {
             Category category = obj as Category;
@@ -22,6 +23,7 @@ namespace BMA.BusinessLogic
         {
             return this.CategoryId.GetHashCode();
         }
+        #endregion
 
         #region Private Members
         string name;

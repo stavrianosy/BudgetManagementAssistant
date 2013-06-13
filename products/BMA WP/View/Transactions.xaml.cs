@@ -18,6 +18,7 @@ using System.Windows.Markup;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Data;
 
 namespace BMA_WP.View
 {
@@ -44,6 +45,21 @@ namespace BMA_WP.View
         public Transactions()
         {
             InitializeComponent();
+
+                //Binding bindTransactionType = new Binding("TransactionType");
+                //bindTransactionType.Mode = BindingMode.TwoWay;
+                //bindTransactionType.Source = vm.CurrTransaction;
+                //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindTransactionType);
+
+                //Binding bindTransactionReasonType = new Binding("TransactionReasonType");
+                //bindTransactionReasonType.Source = vm.CurrTransaction;
+                //bindTransactionReasonType.Mode = BindingMode.TwoWay;
+                //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindTransactionReasonType);
+
+                //Binding bindCategory = new Binding("Category");
+                //bindCategory.Source = vm.CurrTransaction;
+                //bindCategory.Mode = BindingMode.TwoWay;
+                //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
 
         }
         #endregion
@@ -218,6 +234,9 @@ namespace BMA_WP.View
             BitmapImage imgSource = new BitmapImage(new Uri(e.OriginalFileName, UriKind.Absolute));
             imgReceipt.Source = imgSource;
         }
+
+      
+        
 
     }
 }
