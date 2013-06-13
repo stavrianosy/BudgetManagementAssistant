@@ -31,23 +31,8 @@ namespace BMA_WP.Model
 
             #endregion
 
-            #region Events            
-            void client_SyncTransactionsCompleted(object sender, BMAService.SyncTransactionsCompletedEventArgs e)
-            {
-                try
-                {
-                    var result = e.Result;
-                    ApplicationData.Current.LocalSettings.Values["IsSync"] = true;
-
-                    UpdateCacheTransactions(result);
-                    SetupTransactionList(result);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-
+            #region Events
+            
             void client_SyncBudgetsCompleted(object sender, BMAService.SyncBudgetsCompletedEventArgs e)
             {
                 try

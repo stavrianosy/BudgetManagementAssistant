@@ -12,7 +12,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     toolkit:TiltEffect.IsTiltEnabled="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -66,7 +66,7 @@
             <!--Panorama item one-->
             <phone:PivotItem x:Name="piTransaction"
                              Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
-                <ScrollViewer>
+                <ScrollViewer x:Name="scrollItem">
                     <StackPanel>
                         <toolkit:ListPicker x:Name="cmdType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
@@ -92,19 +92,19 @@
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                     Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}" />
-                                <TextBox x:Name="txtAmount"
+                                <toolkit:AutoCompleteBox x:Name="txtAmount"
                                          Text="{Binding CurrTransaction.Amount,
                                             Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}">
-                                </TextBox>
+                                </toolkit:AutoCompleteBox>
                             </StackPanel>
                             <StackPanel Grid.Column="2">
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Tip, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                     Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                                <TextBox x:Name="txtTip" 
+                                <toolkit:AutoCompleteBox x:Name="txtTip" 
                                          Text="{Binding CurrTransaction.TipAmount, Mode=TwoWay}" 
                                             InputScope="Number"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
@@ -153,10 +153,10 @@
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtComments" AcceptsReturn="True"
+                        <toolkit:AutoCompleteBox x:Name="txtComments"
                                  Text="{Binding CurrTransaction.Comments, Mode=TwoWay}"
                                             VerticalAlignment="Top" 
-                                            Margin="0,12" Height="140" TextWrapping="Wrap"
+                                            Margin="0,12" Height="140" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <Button x:Name="btnTest" Tap="btnTest_Tap" Content="receipt"></Button>
                         <Image x:Name="imgReceipt" Height="600" Width="400"></Image>

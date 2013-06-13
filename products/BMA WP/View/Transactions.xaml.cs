@@ -46,6 +46,8 @@ namespace BMA_WP.View
         {
             InitializeComponent();
 
+            
+
                 //Binding bindTransactionType = new Binding("TransactionType");
                 //bindTransactionType.Mode = BindingMode.TwoWay;
                 //bindTransactionType.Source = vm.CurrTransaction;
@@ -73,6 +75,8 @@ namespace BMA_WP.View
 
         private void Transactions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            scrollItem.ScrollToVerticalOffset(0d);
+
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
             vm.CurrTransaction = (Transaction)TransactionMultiSelect.SelectedItem;

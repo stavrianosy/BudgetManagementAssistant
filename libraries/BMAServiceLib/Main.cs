@@ -54,7 +54,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions()
         {
-            return GetLatestTransactionsLimit(30);
+            return GetLatestTransactionsLimit(10);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs)
@@ -64,15 +64,15 @@ namespace BMAServiceLib
                 TransactionList transList = new TransactionList();
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.Transaction.Take(latestRecs == 0 ? int.MaxValue : latestRecs)
+                    var query = (from i in context.Transaction
                                 .Include(i => i.TransactionType).Where(k => !k.IsDeleted)
                                 .Include(i => i.TransactionReasonType).Where(k => !k.IsDeleted)
                                 .Include(i => i.Category).Where(k => !k.IsDeleted)
                                 .Include(i => i.CreatedUser)
                                 //.Include(i => i.ModifiedUser)
                                 where !i.IsDeleted
-                                orderby i.CreatedDate descending
-                                select i;
+                                orderby i.TransactionDate descending
+                                select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs);
 
                     //investigate if there is a better way to convert the generic list to ObservableCollection
                     foreach (var item in query.ToList())

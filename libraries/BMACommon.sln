@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMAServiceHost", "BMAServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMAServiceLib", "BMAServiceLib\BMAServiceLib.csproj", "{C31072DE-DF1E-4E46-99C7-E8890121F05B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "..\products\BMA Console Test\ConsoleApplication.csproj", "{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

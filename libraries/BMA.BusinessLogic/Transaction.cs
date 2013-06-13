@@ -22,7 +22,7 @@ namespace BMA.BusinessLogic
 
             for (int idx = 0; idx < Count; idx++)
             {
-                if (item.CreatedDate > Items[idx].CreatedDate)
+                if (item.TransactionDate > Items[idx].TransactionDate)
                 {
                     base.InsertItem(idx, item);
                     added = true;

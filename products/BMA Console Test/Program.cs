@@ -40,7 +40,7 @@ namespace ConsoleApplication1
             var st = b.GetAllStaticData();
 
 
-            //var trans1 = a.GetLatestTransactions();
+            var trans1 = a.GetLatestTransactions();
             var trans = a.GetAllTransactions();
             var list = new TransactionList();
 
