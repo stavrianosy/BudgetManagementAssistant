@@ -51,7 +51,9 @@
     <Content Include="BMAStaticDataService.svc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="web.config" />
+    <None Include="web.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BMA.BusinessLogic\BMA.BusinessLogic.csproj">

@@ -224,7 +224,7 @@ namespace BMA.BusinessLogic
             else
                 TransactionReasonType = typeTransactionReasonList.Single(t => t.Name == "Other");
 
-            //TransactionImages = new List<TransactionImage>();
+            TransactionImages = new List<TransactionImage>();
         }
         #endregion
 
