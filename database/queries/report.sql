@@ -25,10 +25,6 @@ TransactionType_TypeTransactionId = 1 and
 TransactionDate > '05/20/2013'
 
 
-select 'installments', @installemnt
-select 'bills', @bills
-select 'expences', @exp
-select 'income', @inc
-select 'balance', @inc - @exp
+select @installemnt as 'installments', @bills as 'bills', @exp as 'expences', @inc as 'income', @inc - @exp as 'balance'
 select 'days left', datediff(day,GETDATE(), '06/30/2013')
 

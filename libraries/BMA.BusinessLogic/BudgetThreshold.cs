@@ -32,10 +32,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructor
-        public BudgetThreshold():this(null)
-        {
-            
-        }
+        //parameterless ctor in order to be used in generic as T
+        public BudgetThreshold()
+            : base(null)
+        {}
         public BudgetThreshold(User user)
             : base(user)
         {

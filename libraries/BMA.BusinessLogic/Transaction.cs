@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.ServiceModel;
 
 namespace BMA.BusinessLogic
 {
@@ -103,6 +104,7 @@ namespace BMA.BusinessLogic
     //[DataContract]
     public class Transaction : BaseItem
     {
+        #region Private Members
         double amount;
         string nameOfPlace;
         double tipAmount;
@@ -111,6 +113,8 @@ namespace BMA.BusinessLogic
         TypeTransactionReason typeTransactionReason;
         TypeTransaction typeTransaction;
         DateTime transactionDate;
+        List<TransactionImage> transactionImages;
+        #endregion
 
         public class PlaceComparer : IEqualityComparer<Transaction>
         {
@@ -130,6 +134,7 @@ namespace BMA.BusinessLogic
             #endregion
         }
 
+        #region Public Properties
         //[DataMember]
         public int TransactionId { get; set; }
 
@@ -161,11 +166,16 @@ namespace BMA.BusinessLogic
         //[DataMember]
         public DateTime TransactionDate { get { return transactionDate; } set { transactionDate = value; OnPropertyChanged("TransactionDate"); } }
 
-        #region Contructors
-        public Transaction():this(null)
-        {
-        }
+        //[DataMember]
+        //[IgnoreDataMember]
+        public List<TransactionImage> TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); } }
+        #endregion
 
+        #region Contructors
+        //parameterless ctor in order to be used in generic as T
+        public Transaction()
+            : base(null)
+        {}
         public Transaction(User user):base(user)
         { }
 
@@ -213,6 +223,8 @@ namespace BMA.BusinessLogic
                 TransactionReasonType = new TypeTransactionReason(user);
             else
                 TransactionReasonType = typeTransactionReasonList.Single(t => t.Name == "Other");
+
+            //TransactionImages = new List<TransactionImage>();
         }
         #endregion
 

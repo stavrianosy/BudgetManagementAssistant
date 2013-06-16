@@ -1,5 +1,6 @@
 ﻿using BMA.BusinessLogic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -19,7 +20,8 @@ namespace BMA_WP.Model
                 string param = parameter.ToString().ToLower();
 
                 double barSize = 1;
-                double.TryParse(value.ToString(), out barSize);
+                if(value!=null)
+                    double.TryParse(value.ToString(), out barSize);
                 string width = "1*";
 
                 switch (param)
@@ -105,6 +107,18 @@ namespace BMA_WP.Model
                     case "bitconverter":
                         var bit = (bool)value;
                         return bit ? "true" : "false";
+                    case "nulltranimages":
+                        var tranImgs = (List<TransactionImage>)value;
+                        if (tranImgs == null || tranImgs.Count == 0)
+                            return null;
+                        else
+                            return value;
+                    case "nulllist":
+                        var anyList = value;
+                        if (anyList == null)
+                            return null;
+                        else
+                            return value;
                 }
             }
 
@@ -140,8 +154,16 @@ namespace BMA_WP.Model
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //return null;
-            throw new NotImplementedException();
+            if (parameter != null)
+            {
+                string param = parameter.ToString().ToLower();
+                switch (param)
+                {
+                    default:
+                        break;
+                }
+            }
+            return null;
         }
     }
 }

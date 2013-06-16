@@ -32,9 +32,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructors
-        public TypeSavingsDencity():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public TypeSavingsDencity()
+            : base(null)
+        {}
         public TypeSavingsDencity(User user)
             : base(user)
         {

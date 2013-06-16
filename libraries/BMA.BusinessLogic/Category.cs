@@ -46,13 +46,16 @@ namespace BMA.BusinessLogic
         /// Although this property should be TimeSpan, it is set as DateTime due to WCF serialization issues.
         /// </summary>
         public DateTime ToDate { get { return toDate; } set { toDate = value; OnPropertyChanged("ToDate"); } }
+
+
+        public List<TypeTransactionReason> TypeTransactionReasons { get; set; }
         #endregion
 
         #region Constructions
-        public Category():this(null)
-        {
-            
-        }
+        //parameterless ctor in order to be used in generic as T
+        public Category()
+            : base(null)
+        {}
         public Category(User user)
             : base(user)
         {
