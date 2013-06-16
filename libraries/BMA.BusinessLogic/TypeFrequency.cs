@@ -24,9 +24,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructors
-        public TypeFrequency():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public TypeFrequency()
+            : base(null)
+        {}
         public TypeFrequency(User user)
             : base(user)
         {

@@ -11,9 +11,9 @@ namespace BMA.BusinessLogic
     public class TypeExpense:BaseItem
     {
         #region Private Members
-        string name;
-        DateTime fromDate;
-        DateTime toDate;
+        //string name;
+        //DateTime fromDate;
+        //DateTime toDate;
         #endregion
 
         #region Public Properties
@@ -28,9 +28,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructors
-        public TypeExpense():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public TypeExpense()
+            : base(null)
+        {}
         public TypeExpense(User user)
             : base(user)
         {

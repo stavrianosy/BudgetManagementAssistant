@@ -40,24 +40,30 @@ namespace ConsoleApplication1
             var st = b.GetAllStaticData();
 
 
-            //var trans1 = a.GetLatestTransactions();
-            var trans = a.GetAllTransactions();
+            var trans1 = a.GetLatestTransactions();
+            var trans = a.GetLatestTransactions();
             var list = new TransactionList();
 
             Transaction aaaa = trans[0];
             aaaa.TransactionId = -1;
             aaaa.CreatedUser = usr;
             aaaa.ModifiedUser = usr;
+            //var transImg = new TransactionImage(usr) { Path = "111asas" };
+            var ss = "22 111asas";
+            aaaa.TransactionImages[0].Path = ss;
+            aaaa.TransactionImages[0].Name = "ss";
+            aaaa.TransactionImages[0].ModifiedUser = usr;
+            aaaa.TransactionImages.Add(new TransactionImage(usr) { Path = "111asas" });
             list.Add(aaaa);
 
-            trans[0].Amount = 16d;
-            trans[0].ModifiedDate = DateTime.Now;
+            aaaa.Amount = 516d;
+            aaaa.ModifiedDate = DateTime.Now;
             //var arr = trans.ToArray();
 
             var newbudList = new List<Budget>();
-            var newbud = new Budget(user);
-            newbud.Amount = 12;
-            newbud.Name = "dfghh";
+            var newbud = new Budget(usr);
+            newbud.Amount = 512;
+            newbud.Name = "qqaaww";
             newbud.ModifiedDate = DateTime.Now;
 
             newbudList.Add(newbud);
@@ -68,7 +74,7 @@ namespace ConsoleApplication1
 
             //var aa = a.SyncTransactions(list.ToList());
 
-            var b1 = a.SaveTransactions(list.ToList());
+            var b1 = a.SaveTransactions(trans);
             var b2 = a.SaveBudgets(newbudList);
 
             st.Categories[7].Name = "asd";

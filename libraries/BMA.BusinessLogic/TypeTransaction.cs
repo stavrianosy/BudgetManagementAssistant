@@ -31,9 +31,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructors
-        public TypeTransaction():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public TypeTransaction()
+            : base(null)
+        {}
         public TypeTransaction(User user)
             : base(user)
         {

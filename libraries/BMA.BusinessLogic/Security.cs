@@ -10,9 +10,10 @@ namespace BMA.BusinessLogic
         public int SecurityId { get; set; }
 
         #region Constructors
-        public Security():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public Security()
+            : base(null)
+        {}
         public Security(User user)
             : base(user)
         {

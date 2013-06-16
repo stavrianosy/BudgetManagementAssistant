@@ -42,20 +42,21 @@
 
         <DataTemplate x:Name="PickerItemTemplate">
             <StackPanel Orientation="Horizontal">
-                <Border Background="LightGreen" Width="34" Height="34">
-                    <TextBlock Text="{Binding Name}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
                 <TextBlock Text="{Binding Name}" Margin="12 0 0 0"/>
             </StackPanel>
         </DataTemplate>
-    
-        <DataTemplate x:Name="PickerFullModeItemTemplate">
-            <StackPanel Orientation="Horizontal" Margin="16 21 0 20">
-                <TextBlock Text="{Binding Name}" Margin="16 0 0 0" FontSize="43" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
-                <TextBlock Text="language: "/>
-                <TextBlock Text="{Binding Name}" Foreground="Green"/>
-            </StackPanel>
-        </DataTemplate>
+
+    <DataTemplate x:Name="PickerFullModeItemTemplate">
+        <StackPanel Orientation="Horizontal" Margin="16 21 0 20">
+            <TextBlock Text="{Binding Name}" Margin="16 0 0 0" FontSize="43" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Name="PickerFullModeReasonTemplate">
+        <StackPanel Orientation="Horizontal" Margin="16 21 0 20">
+            <TextBlock Text="{Binding Name}" Margin="16 0 0 0" FontSize="43" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
+        </StackPanel>
+    </DataTemplate>
 
     <DataTemplate x:Key="BMA_Transaction_ItemTemplate">
         <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">

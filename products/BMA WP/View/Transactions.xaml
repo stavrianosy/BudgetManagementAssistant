@@ -12,7 +12,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     toolkit:TiltEffect.IsTiltEnabled="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -66,12 +66,11 @@
             <!--Panorama item one-->
             <phone:PivotItem x:Name="piTransaction"
                              Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
-                <ScrollViewer>
+                <ScrollViewer x:Name="scrollItem">
                     <StackPanel>
-                        <toolkit:ListPicker x:Name="cmdType" 
+                        <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                             ItemsSource="{Binding TransactionTypeList}"
-                                            SelectedItem="{Binding CurrTransaction.TransactionType, Mode=TwoWay}" 
                                             FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
                                             ItemTemplate="{StaticResource PickerItemTemplate}"
                                             ExpansionMode="ExpansionAllowed"
@@ -92,19 +91,17 @@
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                     Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}" />
-                                <TextBox x:Name="txtAmount"
-                                         Text="{Binding CurrTransaction.Amount,
-                                            Mode=TwoWay}" 
+                                <TextBox x:Name="txtAmount" Margin="0 -6 0 0"
+                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
-                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}">
-                                </TextBox>
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                             </StackPanel>
                             <StackPanel Grid.Column="2">
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Tip, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                     Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                                <TextBox x:Name="txtTip" 
+                                <TextBox x:Name="txtTip" Margin="0 -6 0 0"
                                          Text="{Binding CurrTransaction.TipAmount, Mode=TwoWay}" 
                                             InputScope="Number"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
@@ -113,7 +110,7 @@
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Total, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                     Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                                <TextBox x:Name="txtTotal" 
+                                <TextBox x:Name="txtTotal" Margin="0 -6 0 0"
                                          Text="{Binding CurrTransaction.TotalAmount, Mode=TwoWay}" 
                                          IsEnabled="False"/>
                             </StackPanel>
@@ -121,7 +118,6 @@
                         <toolkit:ListPicker x:Name="cmbCategory" 
                                             Header="{Binding Path=LocalizedResources.Category, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                           ItemsSource="{Binding CategoryList}"
-                                          SelectedItem="{Binding CurrTransaction.Category, Mode=TwoWay}" 
                                           FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
                                           ItemTemplate="{StaticResource PickerItemTemplate}"
                                           ExpansionMode="FullScreenOnly"
@@ -129,8 +125,7 @@
                         <toolkit:ListPicker x:Name="cmbReason" 
                                             Header="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                           ItemsSource="{Binding TransactionReasonTypeList}"
-                                          SelectedItem="{Binding CurrTransaction.TransactionReasonType, Mode=TwoWay}" 
-                                          FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
+                                          FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}"
                                           ItemTemplate="{StaticResource PickerItemTemplate}"
                                           ExpansionMode="FullScreenOnly"
                                           IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
@@ -145,21 +140,35 @@
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.NameOfPlace, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtNameOfPlace"
+                        <toolkit:AutoCompleteBox x:Name="txtNameOfPlace" Margin="0 -6 0 0"
                                                  Text="{Binding CurrTransaction.NameOfPlace, Mode=TwoWay}"
-                                                    VerticalAlignment="Top" 
-                                                    Margin="0 12" 
+                                                    VerticalAlignment="Top"  
                                                     IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtComments" AcceptsReturn="True"
+                        <toolkit:AutoCompleteBox x:Name="txtComments" Margin="0 -6 0 0"
                                  Text="{Binding CurrTransaction.Comments, Mode=TwoWay}"
                                             VerticalAlignment="Top" 
-                                            Margin="0,12" Height="140" TextWrapping="Wrap"
+                                            Height="140" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <Button x:Name="btnTest" Tap="btnTest_Tap" Content="receipt"></Button>
-                        <Image x:Name="imgReceipt" Height="600" Width="400"></Image>
+                        <phone:LongListSelector LayoutMode="Grid" GridCellSize="100,100" x:Name="listSelectTransImages"
+                                       ItemsSource="{Binding CurrTransaction.TransactionImages, Converter={StaticResource converters}, ConverterParameter=nullTranImages}">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel >
+                                        <toolkit:ContextMenuService.ContextMenu>
+                                            <toolkit:ContextMenu>
+                                                <toolkit:MenuItem Header="delete" x:Name="deletePhoto" Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
+                                            </toolkit:ContextMenu>
+                                        </toolkit:ContextMenuService.ContextMenu>
+                                        <Image Source="/Assets/login_white.png" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                        <Image x:Name="imgReceipt" Source="/Assets/login_white.png" Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
                     </StackPanel>
                     
                 </ScrollViewer>

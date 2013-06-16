@@ -19,6 +19,7 @@ using Microsoft.Phone.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Data;
+using BMA_WP.Model;
 
 namespace BMA_WP.View
 {
@@ -46,21 +47,51 @@ namespace BMA_WP.View
         {
             InitializeComponent();
 
-                //Binding bindTransactionType = new Binding("TransactionType");
-                //bindTransactionType.Mode = BindingMode.TwoWay;
-                //bindTransactionType.Source = vm.CurrTransaction;
-                //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindTransactionType);
+            
 
-                //Binding bindTransactionReasonType = new Binding("TransactionReasonType");
-                //bindTransactionReasonType.Source = vm.CurrTransaction;
+                
+
+
+                //Binding bindTransactionReasonType = new Binding("TransactionReasonTypeList");
                 //bindTransactionReasonType.Mode = BindingMode.TwoWay;
-                //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindTransactionReasonType);
-
+                //bindTransactionReasonType.Converter = new StatusConverter();
+                //bindTransactionReasonType.ConverterParameter = (cmbCategory.SelectedItem as Category).CategoryId;
+                //cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransactionReasonType);
+            
                 //Binding bindCategory = new Binding("Category");
                 //bindCategory.Source = vm.CurrTransaction;
                 //bindCategory.Mode = BindingMode.TwoWay;
                 //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
 
+        }
+        #endregion
+
+        #region Binding
+        //workaround for the ListPicker issue when binding object becomes null
+        private void SetBindings(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                Binding bindTransType = new Binding("TransactionType");
+                bindTransType.Mode = BindingMode.TwoWay;
+                bindTransType.Source = vm.CurrTransaction;
+                cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
+
+                Binding bindCategory = new Binding("Category");
+                bindCategory.Mode = BindingMode.TwoWay;
+                bindCategory.Source = vm.CurrTransaction;
+                cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
+
+                Binding bindTransReasonType = new Binding("TransactionReasonType");
+                bindTransReasonType.Mode = BindingMode.TwoWay;
+                bindTransReasonType.Source = vm.CurrTransaction;
+                cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
+            }
+            else
+            {
+                if(cmbType.GetBindingExpression(ListPicker.SelectedIndexProperty) != null)
+                    cmbType.ClearValue(ListPicker.SelectedItemProperty);
+            }
         }
         #endregion
 
@@ -73,9 +104,18 @@ namespace BMA_WP.View
 
         private void Transactions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            scrollItem.ScrollToVerticalOffset(0d);
+
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
-            vm.CurrTransaction = (Transaction)TransactionMultiSelect.SelectedItem;
+            var trans = (Transaction)TransactionMultiSelect.SelectedItem;
+            SetBindings(false);
+
+            vm.CurrTransaction = trans;
+            
+            if (trans != null)
+                SetBindings(true);
+            
 
             if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
                 vm.IsEnabled = false;
@@ -196,6 +236,17 @@ namespace BMA_WP.View
 
         private async void SaveTransaction()
         {
+            //manually update model. textbox dont work well with numeric bindings
+            var amount =0d;
+            var tipAmount =0d;
+
+            double.TryParse(txtAmount.Text, out amount);
+            double.TryParse(txtTip.Text, out tipAmount);
+
+            vm.CurrTransaction.Amount = amount;
+            vm.CurrTransaction.TipAmount = tipAmount;
+            //end of - manually update model
+
             var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
 
             await App.Instance.ServiceData.SaveTransaction(saveOC);
@@ -231,12 +282,26 @@ namespace BMA_WP.View
 
         private void cameraTask_Completed(object sender, PhotoResult e)
         {
-            BitmapImage imgSource = new BitmapImage(new Uri(e.OriginalFileName, UriKind.Absolute));
-            imgReceipt.Source = imgSource;
+            if (e.TaskResult == TaskResult.OK)
+            {
+                var bitmap = new BitmapImage();
+                bitmap.SetSource(e.ChosenPhoto);
+                //imgReceipt.Source = new BitmapImage(new Uri(e.OriginalFileName));
+                //vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User) { Path = e.OriginalFileName });
+                vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User){Path= "/Assets/login_white.png",Name="ys1"}) ;
+                imgReceipt.Source = bitmap;
+            }
         }
 
-      
-        
+        private void deletePhoto_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var transImage = (TransactionImage)((Microsoft.Phone.Controls.MenuItem)sender).DataContext;
+            transImage.IsDeleted = true;
+            vm.CurrTransaction.HasChanges = true;
 
+            save.IsEnabled = true;
+
+            var a = vm.CurrTransaction;
+        }
     }
 }

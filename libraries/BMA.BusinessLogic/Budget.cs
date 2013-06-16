@@ -160,11 +160,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructor
-        public Budget():this(null)
-        {
-            
-        }
-
+        //parameterless ctor in order to be used in generic as T
+        public Budget()
+            : base(null)
+        {}
         public Budget(User user):base(user)
         {
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **//

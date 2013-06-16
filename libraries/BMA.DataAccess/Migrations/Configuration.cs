@@ -59,212 +59,132 @@ namespace BMA.DataAccess.Migrations
 
                 #region Category
                 context.Category.AddOrUpdate(c => c.Name,
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Work",
                                                 FromDate = new DateTime(2000, 1, 1, 8, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 17, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             },
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Restaurant",
                                                 FromDate = new DateTime(2000, 1, 1, 20, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 22, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             },
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Coffee shop",
                                                 FromDate = new DateTime(2000, 1, 1, 19, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 23, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             },
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Supermarket",
                                                 FromDate = new DateTime(2000, 1, 1, 17, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 19, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             },
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Entertainment",
                                                 FromDate = new DateTime(2000, 1, 1, 19, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 22, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             },
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Club",
                                                 FromDate = new DateTime(2000, 1, 1, 1, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 4, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             },
-                                            new Category
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
                                                 Name = "Other",
                                                 FromDate = new DateTime(2000, 1, 1, 0, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 0, 0, 0),
-                                                CreatedDate = DateTime.Now,
-                                                CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                                                ModifiedDate = DateTime.Now,
-                                                ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                                             });
 
                 #endregion
 
                 #region TypeSavingsDencity
                 context.TypeSavingsDencity.AddOrUpdate(t => t.Name,
-                    new TypeSavingsDencity
+                    new TypeSavingsDencity(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TypeSavingsDencityId = 1,
                         Name = "Daily",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Single(u => u.UserName == userName)
                     });
 
                 context.TypeSavingsDencity.AddOrUpdate(t => t.Name,
-                    new TypeSavingsDencity
+                    new TypeSavingsDencity(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TypeSavingsDencityId = 2,
                         Name = "Weekly",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Single(u => u.UserName == userName)
                     });
 
                 context.TypeSavingsDencity.AddOrUpdate(t => t.Name,
-                    new TypeSavingsDencity
+                    new TypeSavingsDencity(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TypeSavingsDencityId = 3,
                         Name = "Monthly",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Single(u => u.UserName == userName)
                     });
 
                 context.TypeSavingsDencity.AddOrUpdate(t => t.Name,
-                    new TypeSavingsDencity
+                    new TypeSavingsDencity(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TypeSavingsDencityId = 4,
                         Name = "Yearly",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Single(u => u.UserName == userName)
                     });
                 #endregion
 
                 #region TransactionReason
                 context.TransactionReason.AddOrUpdate(e => e.Name,
-                    new TypeTransactionReason
+                    new TypeTransactionReason(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Lunch",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     },
-                    new TypeTransactionReason
+                    new TypeTransactionReason(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Salary",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     },
-                    new TypeTransactionReason
+                    new TypeTransactionReason(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Dinner",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        // ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     },
-                    new TypeTransactionReason
+                    new TypeTransactionReason(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Futsal",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
-                    }, new TypeTransactionReason
+                    }, new TypeTransactionReason(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Other",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     });
                 #endregion
 
                 #region TypeTransaction
                 context.TypeTransaction.AddOrUpdate(t => t.Name,
-                    new TypeTransaction
+                    new TypeTransaction(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Income",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     },
-                    new TypeTransaction
+                    new TypeTransaction(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Name = "Expense",
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     }
                 );
                 #endregion
 
                 #region Budget
                 context.Budget.AddOrUpdate(b => b.Name,
-                    new Budget
+                    new Budget(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Amount = 100,
                         BudgetId = 1,
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                         FromDate = new DateTime(2013, 1, 1),
                         ToDate = new DateTime(2013, 1, 28),
                         IncludeInstallments = false,
                         Name = "Budget 1"
                     },
-                    new Budget
+                    new Budget(context.User.Local.Single(u => u.UserName == userName))
                     {
                         Amount = 250,
                         BudgetId = 2,
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                         FromDate = new DateTime(2013, 2, 7),
                         ToDate = new DateTime(2013, 2, 20),
                         IncludeInstallments = false,
@@ -275,111 +195,77 @@ namespace BMA.DataAccess.Migrations
 
                 #region Budget Thrushold
                 context.BudgetThreshold.AddOrUpdate(bt => bt.BudgetThresholdId,
-                    new BudgetThreshold
+                    new BudgetThreshold(context.User.Local.Single(u => u.UserName == userName))
                     {
                         BudgetThresholdId = 1,
                         Amount = 10d,
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
                     }
                     );
                 #endregion
 
                 #region Frequency
-                context.TypeFrequency.AddOrUpdate(f => f.TypeFrequencyId, new TypeFrequency
+                context.TypeFrequency.AddOrUpdate(f => f.Name,
+                    new TypeFrequency(context.User.Local.Single(u => u.UserName == userName))
                 {
                     Name = "Hourly",
                     Count = 1,
-                    CreatedDate = DateTime.Now,
-                    CreatedUser = context.User.Single(u => u.UserName == userName),
-                    ModifiedDate = DateTime.Now,
-                    ModifiedUser = context.User.Single(u => u.UserName == userName)
                 });
-                context.TypeFrequency.AddOrUpdate(f => f.TypeFrequencyId, new TypeFrequency
+                context.TypeFrequency.AddOrUpdate(f => f.Name,
+                    new TypeFrequency(context.User.Local.Single(u => u.UserName == userName))
                 {
                     Name = "Daily",
                     Count = 24,
-                    CreatedDate = DateTime.Now,
-                    CreatedUser = context.User.Single(u => u.UserName == userName),
-                    ModifiedDate = DateTime.Now,
-                    ModifiedUser = context.User.Single(u => u.UserName == userName)
                 });
-                context.TypeFrequency.AddOrUpdate(f => f.TypeFrequencyId, new TypeFrequency
+                context.TypeFrequency.AddOrUpdate(f => f.Name,
+                    new TypeFrequency(context.User.Local.Single(u => u.UserName == userName))
                 {
                     Name = "Weekly",
                     Count = 168,
-                    CreatedDate = DateTime.Now,
-                    CreatedUser = context.User.Single(u => u.UserName == userName),
-                    ModifiedDate = DateTime.Now,
-                    ModifiedUser = context.User.Single(u => u.UserName == userName)
                 });
-                context.TypeFrequency.AddOrUpdate(f => f.TypeFrequencyId, new TypeFrequency
+                context.TypeFrequency.AddOrUpdate(f => f.Name,
+                    new TypeFrequency(context.User.Local.Single(u => u.UserName == userName))
                 {
                     Name = "Monthly",
                     Count = 672,
-                    CreatedDate = DateTime.Now,
-                    CreatedUser = context.User.Single(u => u.UserName == userName),
-                    ModifiedDate = DateTime.Now,
-                    ModifiedUser = context.User.Single(u => u.UserName == userName)
                 });
-                context.TypeFrequency.AddOrUpdate(f => f.TypeFrequencyId, new TypeFrequency
+                context.TypeFrequency.AddOrUpdate(f => f.Name,
+                    new TypeFrequency(context.User.Local.Single(u => u.UserName == userName))
                 {
                     Name = "Yearly",
                     Count = 8736,
-                    CreatedDate = DateTime.Now,
-                    CreatedUser = context.User.Single(u => u.UserName == userName),
-                    ModifiedDate = DateTime.Now,
-                    ModifiedUser = context.User.Single(u => u.UserName == userName)
                 });
                 #endregion
 
                 #region Transaction
                 context.Transaction.AddOrUpdate(t => t.NameOfPlace,
-                    new Transaction()
+                    new Transaction(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TransactionId = 1,
                         Amount = 6.5d,
                         NameOfPlace = "Four Seassons",
                         TipAmount = 0d,
-                        TransactionDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
                         Category = context.Category.Local.Single(c => c.Name == "Restaurant"),
                         TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Lunch"),
                         TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Expense"),
                         Comments = "Juice and Perrier"
                     },
-                    new Transaction
+                    new Transaction(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TransactionId = 2,
                         Amount = 475d,
                         NameOfPlace = "BBD",
                         TipAmount = 0d,
-                        TransactionDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
                         Category = context.Category.Local.Single(c => c.Name == "Work"),
                         TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Salary"),
                         TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Income"),
                         Comments = "Allowances"
                     },
-                    new Transaction
+                    new Transaction(context.User.Local.Single(u => u.UserName == userName))
                     {
                         TransactionId = 3,
                         Amount = 5d,
                         NameOfPlace = "Strovolos Municipality",
                         TipAmount = 0d,
-                        TransactionDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        ModifiedUser = context.User.Local.Single(u => u.UserName == userName),
-                        CreatedDate = DateTime.Now,
-                        CreatedUser = context.User.Local.Single(u => u.UserName == userName),
                         Category = context.Category.Local.Single(c => c.Name == "Entertainment"),
                         TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Futsal"),
                         TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Expense"),

@@ -28,9 +28,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructors
-        public Notification():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public Notification()
+            : base(null)
+        {}
         public Notification(User user)
             : base(user)
         {

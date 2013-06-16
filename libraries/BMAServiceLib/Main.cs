@@ -54,7 +54,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions()
         {
-            return GetLatestTransactionsLimit(30);
+            return GetLatestTransactionsLimit(10);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs)
@@ -64,19 +64,25 @@ namespace BMAServiceLib
                 TransactionList transList = new TransactionList();
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.Transaction.Take(latestRecs == 0 ? int.MaxValue : latestRecs)
-                                .Include(i => i.TransactionType).Where(k => !k.IsDeleted)
-                                .Include(i => i.TransactionReasonType).Where(k => !k.IsDeleted)
-                                .Include(i => i.Category).Where(k => !k.IsDeleted)
+                    var query = (from i in context.Transaction
+                                .Include(i => i.TransactionType)
+                                .Include(i => i.TransactionReasonType)
+                                .Include(i => i.Category)
                                 .Include(i => i.CreatedUser)
-                                //.Include(i => i.ModifiedUser)
-                                where !i.IsDeleted
-                                orderby i.CreatedDate descending
-                                select i;
+                                 where !i.IsDeleted
+                                 orderby i.TransactionDate descending
+                                 select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs);
 
                     //investigate if there is a better way to convert the generic list to ObservableCollection
-                    foreach (var item in query.ToList())
+                    foreach (var item in query)
+                    {
+                        var transImg = (from k in context.TransactionImage
+                                        .Include(x=>x.CreatedUser)
+                                 where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
+                                select k).ToList();
+                        item.TransactionImages = transImg;
                         transList.Add(item);
+                    }
 
                     transList.AcceptChanges();
 
@@ -250,26 +256,54 @@ namespace BMAServiceLib
                         if (item.TransactionId > 0) //Update
                         {
                             //update database only if the transaction in DB is older
-                            var original = context.Transaction.Where(t => t.TransactionId == item.TransactionId && 
-                                                                    t.ModifiedDate < item.ModifiedDate &&
-                                                                    !t.IsDeleted).FirstOrDefault();
+                            var original = context.Transaction
+                                                            .Include(x => x.Category)
+                                                            .Include(x => x.TransactionType)
+                                                            .Include(x => x.TransactionReasonType)
+                                                            .Where(t => t.TransactionId == item.TransactionId && 
+                                                            t.ModifiedDate < item.ModifiedDate &&
+                                                            !t.IsDeleted).FirstOrDefault();
 
                             if (original !=null)
                             {
                                 item.HasChanges = false;
 
                                 original.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
-                                original.Category.CreatedUser = null;
-                                original.Category.ModifiedUser = null;
+                                //original.Category.CreatedUser = null;
+                                //original.Category.ModifiedUser = null;
 
+                                context.Entry(original).Collection(x => x.TransactionImages).Load();
+                                
                                 original.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
                                 original.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
 
                                 original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                                 original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
 
+                                if (item.TransactionImages != null)
+                                {
+                                    item.TransactionImages.ForEach(x =>
+                                        {
+                                            if (x.TransactionImageId > 0)
+                                                original.TransactionImages.Where(k => k.TransactionImageId == x.TransactionImageId).Select(k =>
+                                                {
+                                                    k.Name = x.Name; k.Path = x.Path; k.ModifiedDate = x.ModifiedDate; k.IsDeleted = x.IsDeleted;
+                                                    k.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                                    return k;
+                                                }).ToList();
+                                            else
+                                            {
+                                                x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                                x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+
+                                                original.TransactionImages.Add(x);
+                                            }
+                                        });
+                                }
+
                                 context.Entry(original).CurrentValues.SetValues(item);
                                 updateFound = true;
+                                           
                             }
                         }
                         else //Insert
@@ -280,6 +314,17 @@ namespace BMAServiceLib
 
                             item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                             item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            if (item.TransactionImages != null)
+                            {
+                                item.TransactionImages.ForEach(x =>
+                                    {
+                                        x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                        x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+
+                                        //item.TransactionImages.Add(x);
+                                    });
+                            }
 
                             context.Transaction.Add(item);
                             updateFound = true;
@@ -308,9 +353,8 @@ namespace BMAServiceLib
 
                 throw new DbEntityValidationException(s.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
                 throw;
             }
         }

@@ -30,7 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -45,9 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityContext.cs" />
-    <Compile Include="Migrations\201306090234519_AddAllTables.cs" />
-    <Compile Include="Migrations\201306090234519_AddAllTables.Designer.cs">
-      <DependentUpon>201306090234519_AddAllTables.cs</DependentUpon>
+    <Compile Include="Migrations\201306151134307_what.cs" />
+    <Compile Include="Migrations\201306151134307_what.Designer.cs">
+      <DependentUpon>201306151134307_what.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306151450023_what1.cs" />
+    <Compile Include="Migrations\201306151450023_what1.Designer.cs">
+      <DependentUpon>201306151450023_what1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,14 +71,21 @@
     <Content Include="Migrations\UsefulNuget Commands.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201306090234519_AddAllTables.resx">
-      <DependentUpon>201306090234519_AddAllTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201306151134307_what.resx">
+      <DependentUpon>201306151134307_what.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306151450023_what1.resx">
+      <DependentUpon>201306151450023_what1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

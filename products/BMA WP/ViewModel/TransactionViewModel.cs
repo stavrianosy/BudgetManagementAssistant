@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace BMA_WP.ViewModel
 {
@@ -33,6 +34,17 @@ namespace BMA_WP.ViewModel
         public ObservableCollection<TypeTransactionReason> TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
         public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
+        public List<TransactionImage> TransactionImageList
+        {
+            get
+            {
+                if (CurrTransaction != null)
+                    return CurrTransaction.TransactionImages;
+                else
+                    return null;
+            }
+        }
+        
         #endregion
 
         #region Event To Commands

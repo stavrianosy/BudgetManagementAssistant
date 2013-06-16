@@ -24,9 +24,10 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Constructors
-        public TypeInterval():this(null)
-        { 
-        }
+        //parameterless ctor in order to be used in generic as T
+        public TypeInterval()
+            : base(null)
+        {}
         public TypeInterval(User user)
             : base(user)
         {

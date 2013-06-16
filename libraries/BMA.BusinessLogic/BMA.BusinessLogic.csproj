@@ -49,6 +49,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TransactionComparer.cs" />
+    <Compile Include="TransactionImage.cs" />
     <Compile Include="TypeFrequency.cs" />
     <Compile Include="StartupInfo.cs" />
     <Compile Include="StaticTypeList.cs" />
