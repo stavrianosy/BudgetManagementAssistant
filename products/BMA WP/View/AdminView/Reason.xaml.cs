@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using BMA_WP.ViewModel.Admin;
 using BMA_WP.Resources;
 using BMA.BusinessLogic;
+using System.Collections.ObjectModel;
 
 namespace BMA_WP.View.AdminView
 {
@@ -32,18 +33,39 @@ namespace BMA_WP.View.AdminView
         public Reason()
         {
             InitializeComponent();
+
         }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //save when switching screens
+            save sksdfj save
+
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
+            //categoryList.SelectedItems.Clear();
             vm.CurrTransactionReason = (BMA.BusinessLogic.TypeTransactionReason)ReasonsMultiSelect.SelectedItem;
 
             if (vm.CurrTransactionReason == null || vm.CurrTransactionReason.IsDeleted)
                 vm.IsEnabled = false;
             else
+            {
                 vm.IsEnabled = true;
+                var items = (ObservableCollection<BMA.BusinessLogic.Category>)categoryList.ItemsSource;
+                foreach (var item in items)
+                {
+                    var container = categoryList.ContainerFromItem(item) as LongListMultiSelectorItem;
+                    if (vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId).Count() == 0)
+                    {
+                        container.IsSelected = false;
+                        continue;
+                    }
+
+                    if (container != null)
+                        container.IsSelected = true;
+
+                }
+            }
 
             switch (piName)
             {
@@ -182,5 +204,25 @@ namespace BMA_WP.View.AdminView
             save.IsEnabled = true;
             vm.IsEnabled = true;
         }
+
+        private void categoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var isAdded = e.AddedItems.Count > 0;
+            var item = isAdded ? (BMA.BusinessLogic.Category)e.AddedItems[0] : (BMA.BusinessLogic.Category)e.RemovedItems[0];
+
+            if (vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId).Count() == 0 && isAdded)
+            {
+                vm.CurrTransactionReason.Categories.Add(item);
+                vm.CurrTransactionReason.HasChanges = true;
+            }
+            else if (vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId).Count() > 0 && !isAdded)
+            {
+                vm.CurrTransactionReason.Categories.Remove(item);
+                vm.CurrTransactionReason.HasChanges = true;
+            }
+
+            
+        }
+
     }
 }

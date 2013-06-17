@@ -12,6 +12,7 @@ namespace BMA.BusinessLogic
     {
         #region Private Members
         string path;
+        byte[] image;
         string name;
         Transaction transaction;
         #endregion
@@ -38,6 +39,8 @@ namespace BMA.BusinessLogic
         public string Name { get { return name; } set { name = value; OnPropertyChanged("Name"); } }
 
         public string Path { get { return path; } set { path = value; OnPropertyChanged("Path"); } }
+
+        public byte[] Image { get { return image; } set { image = value; OnPropertyChanged("Image"); } }
 
     [IgnoreDataMember]
         public Transaction Transaction { get; set; }

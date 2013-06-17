@@ -24,7 +24,10 @@ namespace BMA_WP.ViewModel.Admin
         public bool IsEnabled { get { return isEnabled; } set { isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
         public TypeTransactionReason CurrTransactionReason { get { return currTransactionReason; } set { currTransactionReason = value; RaisePropertyChanged("CurrTransactionReason"); } }
         public ObservableCollection<TypeTransactionReason> TransactionReasonList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
+        public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
+        
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
+
         #endregion
 
 

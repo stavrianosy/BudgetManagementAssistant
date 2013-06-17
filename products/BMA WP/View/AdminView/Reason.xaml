@@ -10,7 +10,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -69,12 +69,13 @@
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock 
-                            Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                            Text="{Binding Path=LocalizedResources.Categories, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtComments"
-                                 Text="{Binding ElementName=ReasonsMultiSelect, Path=SelectedItem.Comments, Mode=TwoWay}"
-                                 VerticalAlignment="Top" Height="140" TextWrapping="Wrap"
-                                 IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                        <toolkit:LongListMultiSelector x:Name="categoryList" Margin="0 12 0 0"
+                                                       LayoutMode="List" 
+                                                       ItemsSource="{Binding CategoryList, Mode=TwoWay}"
+                                                       SelectionChanged="categoryList_SelectionChanged"
+                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"/>
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
@@ -86,7 +87,7 @@
                                         Margin="0,12,0,0"                                        
                                         LayoutMode="List"
                                         ItemsSource ="{Binding TransactionReasonList}"
-                                        ItemTemplate="{StaticResource BMA_Main_ItemTemplate}">
+                                        ItemTemplate="{StaticResource BMA_Reason_ItemTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <command:EventToCommand 

@@ -43,6 +43,9 @@ namespace BMAServiceLib
                                   .Include(i => i.CreatedUser)
                                   where !i.IsDeleted
                                   select i).ToList();
+                    //many - to - many
+                    typeTR.ForEach(x => context.Entry(x).Collection(k => k.Categories).Load());
+
 
                     var notice = (from i in context.Notification
                                   .Include(i => i.CreatedUser)
@@ -109,6 +112,7 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = from i in context.TransactionReason
+                                .Include(x=>x.Categories)
                                 where !i.IsDeleted
                                 select i;
 

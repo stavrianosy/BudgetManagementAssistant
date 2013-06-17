@@ -117,6 +117,28 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="BMA_Reason_ItemTemplate">
+        <Grid Margin="0,-12,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="80" Height="80">
+                <Image Source="{Binding IconPath}" Stretch="None" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                <StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                        <TextBlock Text="{Binding Categories, Converter={StaticResource converters}, ConverterParameter=ReasonCatList}" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Height="50"
+                                   FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="BMA_Main_ItemTemplate">
         <Grid Margin="0,-12,0,24">
             <Grid.ColumnDefinitions>
@@ -157,6 +179,17 @@
                         <TextBlock Text="{Binding ToDate, StringFormat=\{0:t\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                     </StackPanel>
                 </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BMA_ReasonCategories_ItemTemplate">
+        <Grid Margin="0 -6 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="6 0 0 0">
+                <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
             </StackPanel>
         </Grid>
     </DataTemplate>

@@ -8,6 +8,11 @@ namespace BMA.BusinessLogic
 {
     public class TypeTransactionReason : BaseItem
     {
+        #region Private Members
+        string name;
+        List<Category> categories;
+        #endregion
+
         #region Public Methods
         public override bool Equals(Object obj)
         {
@@ -27,9 +32,9 @@ namespace BMA.BusinessLogic
         #region Public Properties
         public int TypeTransactionReasonId { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get { return name; } set { name = value; OnPropertyChanged("Name"); } }
 
-        public List<Category> Categories { get; set; } 
+        public List<Category> Categories { get { return categories; } set { categories = value; OnPropertyChanged("Categories"); } }
         #endregion
 
         #region Constructors

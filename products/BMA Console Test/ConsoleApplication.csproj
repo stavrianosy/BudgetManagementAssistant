@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Budget.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />

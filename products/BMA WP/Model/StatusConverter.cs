@@ -119,6 +119,20 @@ namespace BMA_WP.Model
                             return null;
                         else
                             return value;
+                    case "reasoncatlist":
+                        var delim = "";
+                        var reasonCatList = new StringBuilder();
+                        if (value is ICollection<Category>)
+                        {
+                            foreach (var i in (ICollection<Category>)value)
+                            {
+                                reasonCatList.Append(delim);
+                                reasonCatList.Append(i.Name);
+                                delim = ", ";
+                            }
+                        }
+                        return reasonCatList.ToString();
+
                 }
             }
 

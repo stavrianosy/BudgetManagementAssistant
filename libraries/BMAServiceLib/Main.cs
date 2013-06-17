@@ -77,9 +77,9 @@ namespace BMAServiceLib
                     foreach (var item in query)
                     {
                         var transImg = (from k in context.TransactionImage
-                                        .Include(x=>x.CreatedUser)
-                                 where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
-                                select k).ToList();
+                                        .Include(x => x.CreatedUser)
+                                        where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
+                                        select k).ToList();
                         item.TransactionImages = transImg;
                         transList.Add(item);
                     }
