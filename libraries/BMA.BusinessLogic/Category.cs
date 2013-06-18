@@ -47,8 +47,8 @@ namespace BMA.BusinessLogic
         /// </summary>
         public DateTime ToDate { get { return toDate; } set { toDate = value; OnPropertyChanged("ToDate"); } }
 
-        [IgnoreDataMember]
-        public List<TypeTransactionReason> TypeTransactionReasons { get; set; }
+        //[IgnoreDataMember]
+        public virtual List<TypeTransactionReason> TypeTransactionReasons { get; set; }
         #endregion
 
         #region Constructions

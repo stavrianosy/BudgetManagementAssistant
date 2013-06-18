@@ -29,18 +29,18 @@ namespace ConsoleApplication1
 
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
-            //BMAServiceLib.Main a = new BMAServiceLib.Main();
+
+            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
+            
+            SaveTypeTransaction(b, usr);
 
             //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
-            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
             var auth = b.AuthenticateUser(usr);
             var usr11 = b.GetUpcomingNotifications(DateTime.Now);
             var bud = a.GetAllBudgets();
 
-            var st = b.GetAllStaticData();
+            b.GetAllStaticData();
 
-
-            var trans1 = a.GetLatestTransactions();
             var trans = a.GetLatestTransactions();
             var list = new TransactionList();
 
@@ -77,13 +77,35 @@ namespace ConsoleApplication1
             var b1 = a.SaveTransactions(trans);
             var b2 = a.SaveBudgets(newbudList);
 
-            st.Categories[7].Name = "asd";
-            st.Categories[7].ModifiedDate = DateTime.Now;
+            //st.Categories[7].Name = "asd";
+            //st.Categories[7].ModifiedDate = DateTime.Now;
 
-            b.SaveCategories(st.Categories);
+            //b.SaveCategories(st.Categories);
             //var arrC = st.Categories.ToList();
 
            // var c = a.SaveCategories(st.Categories);
         }
+
+        private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User user)
+        {
+            //var stData = client.GetAllStaticData();
+            var stDataCat = client.GetAllCategories();
+            var stDataTR = client.GetAllTypeTransactionReasons();
+
+            var reasons = new List<TypeTransactionReason>();
+            stDataTR[11].Name = "abc";
+            //stDataTR[11].Categories.Add(stData.TypeTransactionReasons[0].Categories[0]);
+            //stDataTR[11].Categories.RemoveAt(0);
+            //stDataTR[11].Categories[0].IsDeleted = true;
+
+            stDataTR[1].TypeTransactionReasonId = -1;
+            stDataTR[1].Categories = null;
+            reasons.Add(stDataTR[1]);
+            //reasons.Add(stDataTR[11]);
+
+            reasons[0].ModifiedDate = DateTime.Now;
+            client.SaveTypeTransactionReasons(reasons);
+        }
+
     }
 }

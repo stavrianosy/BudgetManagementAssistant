@@ -54,7 +54,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions()
         {
-            return GetLatestTransactionsLimit(10);
+            return GetLatestTransactionsLimit(20);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs)
@@ -64,10 +64,13 @@ namespace BMAServiceLib
                 TransactionList transList = new TransactionList();
                 using (EntityContext context = new EntityContext())
                 {
+                    context.Configuration.LazyLoadingEnabled = true;
+
                     var query = (from i in context.Transaction
                                 .Include(i => i.TransactionType)
                                 .Include(i => i.TransactionReasonType)
                                 .Include(i => i.Category)
+                                .Include(i => i.Category.TypeTransactionReasons)
                                 .Include(i => i.CreatedUser)
                                  where !i.IsDeleted
                                  orderby i.TransactionDate descending
@@ -76,6 +79,8 @@ namespace BMAServiceLib
                     //investigate if there is a better way to convert the generic list to ObservableCollection
                     foreach (var item in query)
                     {
+                        //one way to handle circular referenceis to explicitly set the child to null
+                        item.Category.TypeTransactionReasons.ForEach(x => x.Categories = null);
                         var transImg = (from k in context.TransactionImage
                                         .Include(x => x.CreatedUser)
                                         where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted

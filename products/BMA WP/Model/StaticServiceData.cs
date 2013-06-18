@@ -83,8 +83,11 @@ namespace BMA_WP.Model
             else
             {
                 var client = new BMAStaticDataService.StaticClient();
-                client.GetAllStaticDataAsync();                
-                client.GetAllStaticDataCompleted += async (o, e) => {
+                client.GetAllStaticDataAsync();
+                client.GetAllCategoriesAsync();
+                client.GetAllTypeTransactionReasonsAsync();
+                client.GetAllStaticDataCompleted += async (o, e) =>
+                {
                     try
                     {
                         var result = e.Result;
@@ -94,13 +97,43 @@ namespace BMA_WP.Model
                         await UpdateCacheStaticData(result);
 
                         SetupTypeTransactionData(result.TypeTransactions);
-                        SetupTypeCategoryData(result.Categories);
                         SetupTypeSavingsDencityData(result.TypeSavingsDencities);
-                        SetupTypeTransactionReasonData(result.TypeTransactionReasons);
                         SetupNotificationData(result.Notifications);
                         SetupTypeFrequencyData(result.TypeFrequencies);
                         SetupIntervalData(result.TypeIntervals);
                         SetupBudgetThresholdData(result.BudgetThresholds);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                };
+                client.GetAllCategoriesCompleted += async (o, e) =>
+                {
+                    try
+                    {
+                        var result = e.Result;
+
+                        App.Instance.IsSync = true;
+
+                        await UpdateCacheCategory(result);
+                        SetupTypeCategoryData(result);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                };
+                client.GetAllTypeTransactionReasonsCompleted += async (o, e) =>
+                {
+                    try
+                    {
+                        var result = e.Result;
+
+                        App.Instance.IsSync = true;
+
+                        await UpdateCacheTypeTransactionReason(result);
+                        SetupTypeTransactionReasonData(result);
                     }
                     catch (Exception)
                     {
@@ -495,19 +528,19 @@ namespace BMA_WP.Model
 
         private async Task UpdateCacheStaticData(StaticTypeList staticDataList)
         {
-            await StorageUtility.Clear(STATIC_CATEGORY_FOLDER);
+            //await StorageUtility.Clear(STATIC_CATEGORY_FOLDER);
             await StorageUtility.Clear(STATIC_TYPESAVINGFREQUENCY_FOLDER);
             await StorageUtility.Clear(STATIC_TYPETRANSACTION_FOLDER);
-            await StorageUtility.Clear(STATIC_TYPETRANSACTIONREASON_FOLDER);
+            //await StorageUtility.Clear(STATIC_TYPETRANSACTIONREASON_FOLDER);
 
-            foreach (var item in staticDataList.Categories)
-                await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
+            //foreach (var item in staticDataList.Categories)
+            //    await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
 
             foreach (var item in staticDataList.TypeTransactions)
                 await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
 
-            foreach (var item in staticDataList.TypeTransactionReasons)
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
+            //foreach (var item in staticDataList.TypeTransactionReasons)
+            //    await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
 
             foreach (var item in staticDataList.TypeSavingsDencities)
                 await StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);

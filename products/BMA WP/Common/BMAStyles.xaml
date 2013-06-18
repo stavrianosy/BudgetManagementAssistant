@@ -131,7 +131,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
                         <TextBlock Text="{Binding Categories, Converter={StaticResource converters}, ConverterParameter=ReasonCatList}" 
-                                   Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Height="50"
+                                   Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Height="55"
                                    FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
                     </StackPanel>
                 </StackPanel>

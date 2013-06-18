@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using BMA_WP.ViewModel.Admin;
 using BMA_WP.Resources;
 using BMA.BusinessLogic;
+using System.Collections.ObjectModel;
 
 namespace BMA_WP.View.AdminView
 {
@@ -43,7 +44,23 @@ namespace BMA_WP.View.AdminView
             if (vm.CurrCategory == null || vm.CurrCategory.IsDeleted)
                 vm.IsEnabled = false;
             else
+            {
                 vm.IsEnabled = true;
+                var items = (ObservableCollection<TypeTransactionReason>)transactionReasonList.ItemsSource;
+                foreach (var item in items)
+                {
+                    var container = transactionReasonList.ContainerFromItem(item) as LongListMultiSelectorItem;
+                    if (vm.CurrCategory.TypeTransactionReasons != null &&
+                        vm.CurrCategory.TypeTransactionReasons.Where(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId && !x.IsDeleted).Count() == 0)
+                    {
+                        container.IsSelected = false;
+                        continue;
+                    }
+
+                    if (container != null)
+                        container.IsSelected = true;
+                }
+            }
 
             switch (piName)
             {
@@ -181,6 +198,29 @@ namespace BMA_WP.View.AdminView
 
             save.IsEnabled = true;
             vm.IsEnabled = true;
+        }
+
+        private void transactionReasonList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var isAdded = e.AddedItems.Count > 0;
+            var item = isAdded ? (TypeTransactionReason)e.AddedItems[0] : (TypeTransactionReason)e.RemovedItems[0];
+
+            if (vm.CurrCategory.TypeTransactionReasons == null && isAdded)
+                vm.CurrCategory.TypeTransactionReasons = new List<TypeTransactionReason>();
+
+            if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) == null && isAdded)
+            {
+                vm.CurrCategory.TypeTransactionReasons.Add(item);
+                vm.CurrCategory.ModifiedDate = DateTime.Now;
+                vm.CurrCategory.HasChanges = true;
+            }
+            else if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) != null && !isAdded)
+            {
+                //vm.CurrCategory.TypeTransactionReasons.Categories.Remove(item);
+                vm.CurrCategory.TypeTransactionReasons.Find(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId).IsDeleted = true;
+                vm.CurrCategory.ModifiedDate = DateTime.Now;
+                vm.CurrCategory.HasChanges = true;
+            }
         }
     }
 }

@@ -24,29 +24,18 @@ namespace BMAServiceLib
                 StaticTypeList typeData = new StaticTypeList();
                 using (EntityContext context = new EntityContext())
                 {
+                    context.Configuration.LazyLoadingEnabled = true;
                     var typeTrans = (from i in context.TypeTransaction
                                      .Include(i => i.CreatedUser)
                                      where !i.IsDeleted
                                      select i).ToList();
-
-                    var cat = (from i in context.Category
-                               .Include(i => i.CreatedUser)
-                               where !i.IsDeleted
-                               select i).ToList();
 
                     var typeSD = (from i in context.TypeSavingsDencity
                                   .Include(i => i.CreatedUser)
                                   where !i.IsDeleted
                                   select i).ToList();
 
-                    var typeTR = (from i in context.TransactionReason
-                                  .Include(i => i.CreatedUser)
-                                  where !i.IsDeleted
-                                  select i).ToList();
-                    //many - to - many
-                    typeTR.ForEach(x => context.Entry(x).Collection(k => k.Categories).Load());
-
-
+                    
                     var notice = (from i in context.Notification
                                   .Include(i => i.CreatedUser)
                                   where !i.IsDeleted
@@ -68,9 +57,7 @@ namespace BMAServiceLib
                                     select i).ToList();
 
                     typeData.TypeTransactions = typeTrans;
-                    typeData.Categories = cat;
                     typeData.TypeSavingsDencities = typeSD;
-                    typeData.TypeTransactionReasons = typeTR;
                     typeData.Notifications = notice;
                     typeData.TypeFrequencies = typeF;
                     typeData.TypeIntervals = inter;
@@ -91,12 +78,15 @@ namespace BMAServiceLib
             {
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.Category
+                    var query = (from i in context.Category
+                                .Include(x=>x.TypeTransactionReasons)
                                 .Include(x=>x.CreatedUser)
                                 where !i.IsDeleted
-                                select i;
+                                select i).ToList();
 
-                    return query.ToList();
+                    query.ForEach(x => x.TypeTransactionReasons.ForEach(z => z.Categories = null));
+
+                    return query;
                 }
             }
             catch (Exception)
@@ -111,12 +101,14 @@ namespace BMAServiceLib
             {
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.TransactionReason
-                                .Include(x=>x.Categories)
+                    var query = (from i in context.TransactionReason
+                                .Include(x => x.Categories)
                                 where !i.IsDeleted
-                                select i;
+                                select i).ToList();
 
-                    return query.ToList();
+                    query.ForEach(x=>x.Categories.ForEach(z=>z.TypeTransactionReasons=null));
+
+                    return query;
                 }
             }
             catch (Exception)
@@ -598,12 +590,47 @@ namespace BMAServiceLib
 
                             if (original.ModifiedDate < item.ModifiedDate)
                             {
+                                context.Entry(original).Collection(x => x.Categories).Load();
+
+                                if (item.Categories != null)
+                                {
+                                    item.Categories.ForEach(x =>
+                                    {
+                                        var query = context.Category.FirstOrDefault(k => k.CategoryId == x.CategoryId);
+                                        if (x.IsDeleted)
+                                            original.Categories.Remove(query);
+                                        else
+                                            original.Categories.Add(query);
+                                    });
+
+                                    ////remove
+                                    //original.Categories.ForEach(x =>
+                                    //{
+                                    //    var query = item.Categories.Where(k => k.CategoryId != x.CategoryId).ToList();
+                                    //    query.ForEach(k => original.Categories.RemoveAll(z=>z.CategoryId==k.CategoryId));
+                                    //});
+                                }
+
                                 context.Entry(original).CurrentValues.SetValues(item);
                                 updateFound = true;
                             }
                         }
                         else //Insert
                         {
+                            item.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                            item.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            if (item.Categories != null)
+                            {
+                                item.Categories.ForEach(x =>
+                                        {
+                                            x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                            x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+
+                                            context.Entry(x).State = System.Data.EntityState.Unchanged;
+                                        });
+                            }
+
                             context.TransactionReason.Add(item);
                             updateFound = true;
                         }

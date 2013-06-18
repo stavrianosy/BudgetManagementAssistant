@@ -34,7 +34,7 @@ namespace BMA.BusinessLogic
 
         public string Name { get { return name; } set { name = value; OnPropertyChanged("Name"); } }
 
-        public List<Category> Categories { get { return categories; } set { categories = value; OnPropertyChanged("Categories"); } }
+        public virtual List<Category> Categories { get { return categories; } set { categories = value; OnPropertyChanged("Categories"); } }
         #endregion
 
         #region Constructors

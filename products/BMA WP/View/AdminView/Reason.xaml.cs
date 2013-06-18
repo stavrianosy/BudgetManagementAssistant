@@ -38,8 +38,7 @@ namespace BMA_WP.View.AdminView
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //save when switching screens
-            save sksdfj save
+            // **** save when switching screens ****
 
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
@@ -55,7 +54,8 @@ namespace BMA_WP.View.AdminView
                 foreach (var item in items)
                 {
                     var container = categoryList.ContainerFromItem(item) as LongListMultiSelectorItem;
-                    if (vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId).Count() == 0)
+                    if (vm.CurrTransactionReason.Categories != null && 
+                        vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId && !x.IsDeleted).Count() == 0)
                     {
                         container.IsSelected = false;
                         continue;
@@ -63,7 +63,6 @@ namespace BMA_WP.View.AdminView
 
                     if (container != null)
                         container.IsSelected = true;
-
                 }
             }
 
@@ -210,14 +209,20 @@ namespace BMA_WP.View.AdminView
             var isAdded = e.AddedItems.Count > 0;
             var item = isAdded ? (BMA.BusinessLogic.Category)e.AddedItems[0] : (BMA.BusinessLogic.Category)e.RemovedItems[0];
 
-            if (vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId).Count() == 0 && isAdded)
+            if (vm.CurrTransactionReason.Categories == null && isAdded)
+                vm.CurrTransactionReason.Categories = new List<BMA.BusinessLogic.Category>();
+
+            if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) == null && isAdded)
             {
                 vm.CurrTransactionReason.Categories.Add(item);
+                vm.CurrTransactionReason.ModifiedDate = DateTime.Now;
                 vm.CurrTransactionReason.HasChanges = true;
             }
-            else if (vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId).Count() > 0 && !isAdded)
+            else if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) != null && !isAdded)
             {
-                vm.CurrTransactionReason.Categories.Remove(item);
+                //vm.CurrTransactionReason.Categories.Remove(item);
+                vm.CurrTransactionReason.Categories.Find(x => x.CategoryId == item.CategoryId).IsDeleted = true;
+                vm.CurrTransactionReason.ModifiedDate = DateTime.Now;
                 vm.CurrTransactionReason.HasChanges = true;
             }
 
