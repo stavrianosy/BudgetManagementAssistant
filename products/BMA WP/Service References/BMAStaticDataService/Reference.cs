@@ -64,12 +64,12 @@ namespace BMA_WP.BMAStaticDataService {
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndGetUpcomingNotifications(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncStaticData", ReplyAction="http://tempuri.org/IStatic/SyncStaticDataResponse")]
-        System.IAsyncResult BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
         
         BMA.BusinessLogic.StaticTypeList EndSyncStaticData(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncCategories", ReplyAction="http://tempuri.org/IStatic/SyncCategoriesResponse")]
-        System.IAsyncResult BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> EndSyncCategories(System.IAsyncResult result);
         
@@ -104,7 +104,7 @@ namespace BMA_WP.BMAStaticDataService {
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> EndSyncBudgetThresholds(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
-        System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> EndSaveCategories(System.IAsyncResult result);
         
@@ -1259,8 +1259,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncStaticData(staticData, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSyncStaticData(staticData, user, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1270,7 +1270,8 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.IAsyncResult OnBeginSyncStaticData(object[] inValues, System.AsyncCallback callback, object asyncState) {
             BMA.BusinessLogic.StaticTypeList staticData = ((BMA.BusinessLogic.StaticTypeList)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncStaticData(staticData, callback, asyncState);
+            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[1]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncStaticData(staticData, user, callback, asyncState);
         }
         
         private object[] OnEndSyncStaticData(System.IAsyncResult result) {
@@ -1286,11 +1287,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData) {
-            this.SyncStaticDataAsync(staticData, null);
+        public void SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user) {
+            this.SyncStaticDataAsync(staticData, user, null);
         }
         
-        public void SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, object userState) {
+        public void SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, object userState) {
             if ((this.onBeginSyncStaticDataDelegate == null)) {
                 this.onBeginSyncStaticDataDelegate = new BeginOperationDelegate(this.OnBeginSyncStaticData);
             }
@@ -1301,12 +1302,13 @@ namespace BMA_WP.BMAStaticDataService {
                 this.onSyncStaticDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncStaticDataCompleted);
             }
             base.InvokeAsync(this.onBeginSyncStaticDataDelegate, new object[] {
-                        staticData}, this.onEndSyncStaticDataDelegate, this.onSyncStaticDataCompletedDelegate, userState);
+                        staticData,
+                        user}, this.onEndSyncStaticDataDelegate, this.onSyncStaticDataCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncCategories(categories, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSyncCategories(categories, user, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1316,7 +1318,8 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.IAsyncResult OnBeginSyncCategories(object[] inValues, System.AsyncCallback callback, object asyncState) {
             System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncCategories(categories, callback, asyncState);
+            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[1]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncCategories(categories, user, callback, asyncState);
         }
         
         private object[] OnEndSyncCategories(System.IAsyncResult result) {
@@ -1332,11 +1335,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void SyncCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories) {
-            this.SyncCategoriesAsync(categories, null);
+        public void SyncCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
+            this.SyncCategoriesAsync(categories, user, null);
         }
         
-        public void SyncCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, object userState) {
+        public void SyncCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, object userState) {
             if ((this.onBeginSyncCategoriesDelegate == null)) {
                 this.onBeginSyncCategoriesDelegate = new BeginOperationDelegate(this.OnBeginSyncCategories);
             }
@@ -1347,7 +1350,8 @@ namespace BMA_WP.BMAStaticDataService {
                 this.onSyncCategoriesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncCategoriesCompleted);
             }
             base.InvokeAsync(this.onBeginSyncCategoriesDelegate, new object[] {
-                        categories}, this.onEndSyncCategoriesDelegate, this.onSyncCategoriesCompletedDelegate, userState);
+                        categories,
+                        user}, this.onEndSyncCategoriesDelegate, this.onSyncCategoriesCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1627,8 +1631,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSaveCategories(categories, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSaveCategories(categories, user, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1638,7 +1642,8 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.IAsyncResult OnBeginSaveCategories(object[] inValues, System.AsyncCallback callback, object asyncState) {
             System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSaveCategories(categories, callback, asyncState);
+            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[1]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSaveCategories(categories, user, callback, asyncState);
         }
         
         private object[] OnEndSaveCategories(System.IAsyncResult result) {
@@ -1654,11 +1659,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories) {
-            this.SaveCategoriesAsync(categories, null);
+        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
+            this.SaveCategoriesAsync(categories, user, null);
         }
         
-        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, object userState) {
+        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, object userState) {
             if ((this.onBeginSaveCategoriesDelegate == null)) {
                 this.onBeginSaveCategoriesDelegate = new BeginOperationDelegate(this.OnBeginSaveCategories);
             }
@@ -1669,7 +1674,8 @@ namespace BMA_WP.BMAStaticDataService {
                 this.onSaveCategoriesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSaveCategoriesCompleted);
             }
             base.InvokeAsync(this.onBeginSaveCategoriesDelegate, new object[] {
-                        categories}, this.onEndSaveCategoriesDelegate, this.onSaveCategoriesCompletedDelegate, userState);
+                        categories,
+                        user}, this.onEndSaveCategoriesDelegate, this.onSaveCategoriesCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2137,9 +2143,10 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
+            public System.IAsyncResult BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[2];
                 _args[0] = staticData;
+                _args[1] = user;
                 System.IAsyncResult _result = base.BeginInvoke("SyncStaticData", _args, callback, asyncState);
                 return _result;
             }
@@ -2150,9 +2157,10 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
+            public System.IAsyncResult BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[2];
                 _args[0] = categories;
+                _args[1] = user;
                 System.IAsyncResult _result = base.BeginInvoke("SyncCategories", _args, callback, asyncState);
                 return _result;
             }
@@ -2241,9 +2249,10 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
+            public System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[2];
                 _args[0] = categories;
+                _args[1] = user;
                 System.IAsyncResult _result = base.BeginInvoke("SaveCategories", _args, callback, asyncState);
                 return _result;
             }

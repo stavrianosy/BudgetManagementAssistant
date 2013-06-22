@@ -468,7 +468,7 @@ namespace BMA_WP.Model
                 else
                 {
                     var client = new BMAStaticDataService.StaticClient();
-                    client.SaveCategoriesAsync(categories);
+                    client.SaveCategoriesAsync(categories, App.Instance.User);
                     client.SaveCategoriesCompleted += async (sender, completedEventArgs) =>
                     {
                         if (completedEventArgs.Error == null)
@@ -511,6 +511,105 @@ namespace BMA_WP.Model
 
                     };
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task RegisterUser(User user, Action<User, Exception> callback)
+        {
+            try
+            {
+                var client = new BMAStaticDataService.StaticClient();
+                client.RegisterUserAsync(user, callback);
+                client.RegisterUserCompleted += (sender, eventArgs) =>
+                {
+                    try
+                    {
+                        var userCallback = eventArgs.UserState as Action<User, Exception>;
+                        if (userCallback == null)
+                            return;
+
+                        if (eventArgs.Error != null)
+                        {
+                            userCallback(null, eventArgs.Error);
+                            return;
+                        }
+
+                        user.HasChanges = false;
+                        user.UserId = eventArgs.Result.UserId;
+
+                        userCallback(eventArgs.Result, null);
+                    }
+                    catch (Exception) { throw; }
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task ForgotPassword(User user, Action<User, Exception> callback)
+        {
+            try
+            {
+                var client = new BMAStaticDataService.StaticClient();
+                client.ForgotPasswordAsync(user, callback);
+                client.ForgotPasswordCompleted += (sender, eventArgs) =>
+                {
+                    try
+                    {
+                        var userCallback = eventArgs.UserState as Action<User, Exception>;
+                        if (userCallback == null)
+                            return;
+
+                        if (eventArgs.Error != null)
+                        {
+                            userCallback(null, eventArgs.Error);
+                            return;
+                        }
+
+                        userCallback(eventArgs.Result, null);
+                    }
+                    catch (Exception) { throw; }
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task ChangePassword(User user, Action<User, Exception> callback)
+        {
+            try
+            {
+                var client = new BMAStaticDataService.StaticClient();
+                client.ChangePasswordAsync(user, callback);
+                client.ChangePasswordCompleted += (sender, eventArgs) =>
+                {
+                    try
+                    {
+                        var userCallback = eventArgs.UserState as Action<User, Exception>;
+                        if (userCallback == null)
+                            return;
+
+                        if (eventArgs.Error != null)
+                        {
+                            userCallback(null, eventArgs.Error);
+                            return;
+                        }
+
+                        user.HasChanges = false;
+                        user.Password = eventArgs.Result.Password;
+
+                        userCallback(eventArgs.Result, null);
+                    }
+                    catch (Exception) { throw; }
+                };
             }
             catch (Exception)
             {

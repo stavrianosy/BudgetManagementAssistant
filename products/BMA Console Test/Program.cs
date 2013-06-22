@@ -31,13 +31,15 @@ namespace ConsoleApplication1
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
-            
-            SaveTypeTransaction(b, usr);
+
+            GetAllBudgets(a);
+            //ForgotPass(b);
+            //SaveTypeTransaction(b, usr);
 
             //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
             var auth = b.AuthenticateUser(usr);
             var usr11 = b.GetUpcomingNotifications(DateTime.Now);
-            var bud = a.GetAllBudgets();
+            //var bud = a.GetAllBudgets();
 
             b.GetAllStaticData();
 
@@ -68,10 +70,6 @@ namespace ConsoleApplication1
 
             newbudList.Add(newbud);
 
-            bud[0].Amount = 102;
-            bud[0].Name = "bbbbb";
-            bud[0].ModifiedDate = DateTime.Now;
-
             //var aa = a.SyncTransactions(list.ToList());
 
             var b1 = a.SaveTransactions(trans);
@@ -85,11 +83,18 @@ namespace ConsoleApplication1
 
            // var c = a.SaveCategories(st.Categories);
         }
+        private static void GetAllBudgets(ServiceReference1.MainClient client)
+        {
+            var bud = client.GetAllBudgets();
 
+            bud[0].Amount = 102;
+            bud[0].Name = "bbbbb";
+            bud[0].ModifiedDate = DateTime.Now;
+        }
         private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User user)
         {
             //var stData = client.GetAllStaticData();
-            var stDataCat = client.GetAllCategories();
+            //var stDataCat = client.GetAllCategories();
             var stDataTR = client.GetAllTypeTransactionReasons();
 
             var reasons = new List<TypeTransactionReason>();
@@ -99,7 +104,7 @@ namespace ConsoleApplication1
             //stDataTR[11].Categories[0].IsDeleted = true;
 
             stDataTR[1].TypeTransactionReasonId = -1;
-            stDataTR[1].Categories = null;
+            //stDataTR[1].Categories = null;
             reasons.Add(stDataTR[1]);
             //reasons.Add(stDataTR[11]);
 
@@ -107,5 +112,13 @@ namespace ConsoleApplication1
             client.SaveTypeTransactionReasons(reasons);
         }
 
+        private static void ForgotPass(ServiceReference2.StaticClient client)
+        {
+
+            var user = new User();
+            user.UserName = "qqqq";
+
+            var forgot = client.ForgotPassword(user);
+        }
     }
 }

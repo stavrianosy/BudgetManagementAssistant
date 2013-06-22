@@ -48,6 +48,9 @@
     <Compile Include="CollectionExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FieldType.cs" />
+    <Compile Include="RecurrenceRangeRule.cs" />
+    <Compile Include="RuleParts.cs" />
     <Compile Include="TransactionComparer.cs" />
     <Compile Include="TransactionImage.cs" />
     <Compile Include="TypeFrequency.cs" />

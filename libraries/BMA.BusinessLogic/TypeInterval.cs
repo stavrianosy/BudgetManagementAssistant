@@ -12,7 +12,12 @@ namespace BMA.BusinessLogic
     {
         #region Private Members
         string name;
+        string purpose;
         bool isIncome;
+        Category category;
+        Double amount;
+        string comments;
+        RecurrenceRangeRule recRangeRule;
         #endregion
 
         #region Public Properties
@@ -21,6 +26,16 @@ namespace BMA.BusinessLogic
         public bool IsIncome { get { return isIncome; } set { isIncome = value; OnPropertyChanged("IsIncome"); } }
 
         public string Name { get { return name; } set { name = value; OnPropertyChanged("Name"); } }
+
+        public string Purpose { get { return purpose; } set { purpose = value; OnPropertyChanged("Purpose"); } }
+
+        public Category Category { get { return category; } set { category = value; OnPropertyChanged("Category"); } }
+
+        public double Amount { get { return amount; } set { amount = value; OnPropertyChanged("Amount"); } }
+
+        public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); } }
+
+        public RecurrenceRangeRule RecurrenceRangeRule { get { return recRangeRule; } set { recRangeRule = value; OnPropertyChanged("RecurrenceRangeRule"); } }
         #endregion
 
         #region Constructors

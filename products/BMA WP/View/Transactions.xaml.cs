@@ -46,23 +46,6 @@ namespace BMA_WP.View
         public Transactions()
         {
             InitializeComponent();
-
-            
-
-                
-
-
-                //Binding bindTransactionReasonType = new Binding("TransactionReasonTypeList");
-                //bindTransactionReasonType.Mode = BindingMode.TwoWay;
-                //bindTransactionReasonType.Converter = new StatusConverter();
-                //bindTransactionReasonType.ConverterParameter = (cmbCategory.SelectedItem as Category).CategoryId;
-                //cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransactionReasonType);
-            
-                //Binding bindCategory = new Binding("Category");
-                //bindCategory.Source = vm.CurrTransaction;
-                //bindCategory.Mode = BindingMode.TwoWay;
-                //cmdType.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
-
         }
         #endregion
 
@@ -108,26 +91,15 @@ namespace BMA_WP.View
 
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
-            var trans = (Transaction)TransactionMultiSelect.SelectedItem;
-            SetBindings(false);
-
-            vm.CurrTransaction = trans;
-            
-            if (trans != null)
-                SetBindings(true);
-            
-
-            if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
-                vm.IsEnabled = false;
-            else
-                vm.IsEnabled = true;
-
             switch (piName)
             {
                 case "piTransaction":
+                    ItemSelected();
                     SetupAppBar_Transaction();
                     break;
                 case "piTransactionList":
+                    TransactionMultiSelect.SelectedItem = null;
+                    vm.CurrTransaction = null;
                     SetupAppBar_TransactionList();
                     break;
             }
@@ -145,6 +117,23 @@ namespace BMA_WP.View
                 };
                 delete.IsEnabled = true;
             }
+
+        }
+
+        private void ItemSelected()
+        {
+            var trans = (Transaction)TransactionMultiSelect.SelectedItem;
+            SetBindings(false);
+
+            vm.CurrTransaction = trans;
+
+            if (trans != null)
+                SetBindings(true);
+
+            if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
+                vm.IsEnabled = false;
+            else
+                vm.IsEnabled = true;
 
         }
 
@@ -219,9 +208,13 @@ namespace BMA_WP.View
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            vm.CurrTransaction.IsDeleted = true;
+            var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
 
-            SaveTransaction();
+            if (result == MessageBoxResult.OK)
+            {
+                vm.CurrTransaction.IsDeleted = true;
+                SaveTransaction();
+            }
         }
 
         private void Budget_Click(object sender, EventArgs e)
@@ -266,6 +259,7 @@ namespace BMA_WP.View
             vm.Transactions.Add(item);
             TransactionMultiSelect.SelectedItem = item;
             vm.CurrTransaction = item;
+            SetBindings(true);
 
             save.IsEnabled = true;
             vm.IsEnabled = true;

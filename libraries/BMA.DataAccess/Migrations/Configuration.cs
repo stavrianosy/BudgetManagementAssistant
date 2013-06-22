@@ -273,6 +273,35 @@ namespace BMA.DataAccess.Migrations
                     });
                 #endregion
 
+                #region FieldType
+                context.FieldType.AddOrUpdate(x => x.Name,
+                    new FieldType{Name = "label",Type = "label"},
+                    new FieldType{Name = "int",Type = "int"},
+                    new FieldType{Name = "datetime",Type = "datetime"}
+                );
+                #endregion
+
+                #region RulePart
+                context.RulePart.AddOrUpdate(x => x.FieldName,
+                    new RulePart {FieldName="RangeNoEndDate", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
+                    new RulePart {FieldName="RangeTotalRecurrences", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
+                    new RulePart {FieldName="RangeEndBy", FieldType=context.FieldType.Local.Single(x=>x.Type == "datetime") }
+                );
+                #endregion
+
+                #region RecurrenceRangeRule
+                context.RecurrenceRangeRule.AddOrUpdate(t => t.Name,
+                    new RecurrenceRangeRule{Name = "NoEndDate", 
+                        RuleParts = {
+                            context.RulePart.Local.Single(x=>x.FieldName=="RangeNoEndDate")}},
+                    new RecurrenceRangeRule{Name = "TotalRecurrences", 
+                        RuleParts = {
+                            context.RulePart.Local.Single(x=>x.FieldName=="RangeTotalRecurrences")}},
+                    new RecurrenceRangeRule{Name = "EndBy", 
+                        RuleParts = {context.RulePart.Local.Single(x=>x.FieldName=="RangeTotalRecurrences")}}                    
+                );
+                #endregion
+                
                 //#region Target
                 ////context.Target.AddOrUpdate(t => t.EndDate, new Target { });
                 //#endregion

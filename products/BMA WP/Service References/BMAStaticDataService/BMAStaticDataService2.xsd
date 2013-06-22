@@ -68,11 +68,30 @@
           <xs:element minOccurs="0" name="FromDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="ToDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="TypeTransactionReasons" nillable="true" type="tns:ArrayOfTypeTransactionReason" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Category" nillable="true" type="tns:Category" />
+  <xs:complexType name="ArrayOfTypeTransactionReason">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeTransactionReason" nillable="true" type="tns:TypeTransactionReason" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTypeTransactionReason" nillable="true" type="tns:ArrayOfTypeTransactionReason" />
+  <xs:complexType name="TypeTransactionReason">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Categories" nillable="true" type="tns:ArrayOfCategory" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TypeTransactionReasonId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TypeTransactionReason" nillable="true" type="tns:TypeTransactionReason" />
   <xs:complexType name="ArrayOfNotification">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Notification" nillable="true" type="tns:Notification" />
@@ -142,24 +161,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="TypeSavingsDencity" nillable="true" type="tns:TypeSavingsDencity" />
-  <xs:complexType name="ArrayOfTypeTransactionReason">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeTransactionReason" nillable="true" type="tns:TypeTransactionReason" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeTransactionReason" nillable="true" type="tns:ArrayOfTypeTransactionReason" />
-  <xs:complexType name="TypeTransactionReason">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Categories" nillable="true" type="tns:ArrayOfCategory" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="TypeTransactionReasonId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeTransactionReason" nillable="true" type="tns:TypeTransactionReason" />
   <xs:complexType name="ArrayOfTypeTransaction">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />

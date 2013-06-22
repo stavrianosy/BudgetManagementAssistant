@@ -29,6 +29,29 @@ namespace BMA_WP.View
         {
             InitializeComponent();
             MainPageObject = this;
+
+            SetupAppBar();
+        }
+
+        private void SetupAppBar()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            SetupAppBar_Common();
+        }
+
+        void SetupAppBar_Common()
+        {
+            ApplicationBarMenuItem help = new ApplicationBarMenuItem();
+            ApplicationBarMenuItem about = new ApplicationBarMenuItem();
+
+            help.Text = AppResources.AppBarButtonHelp;
+            ApplicationBar.MenuItems.Add(help);
+            help.Click += new EventHandler(Help_Click);
+
+            about.Text = AppResources.AppBarButtonAbout;
+            ApplicationBar.MenuItems.Add(about);
+            about.Click += new EventHandler(About_Click);
         }
 
         public static bool NavigateTo(string uriString, System.UriKind uriKind)
@@ -53,6 +76,16 @@ namespace BMA_WP.View
         private void AdminSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/About.xaml", UriKind.Relative));
+        }
+
+        private void Help_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Help.xaml", UriKind.Relative));
         }
     }
 }

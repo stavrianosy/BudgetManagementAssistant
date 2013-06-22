@@ -19,6 +19,7 @@ namespace BMA_WP.Model
             {
                 string param = parameter.ToString().ToLower();
 
+                var pivotIndex = 0;
                 double barSize = 1;
                 if(value!=null)
                     double.TryParse(value.ToString(), out barSize);
@@ -28,111 +29,45 @@ namespace BMA_WP.Model
                 {
                     case "daysleft":
                     case "balance":
-                        double result = 0d;
-                        double.TryParse(value.ToString(), out result);
-                        //no need of a break;
-                        return string.Format("{0:N0}", result);
+                        return GetDouble(value);
+
                     case "daysleftpercent":
                     case "daysleftpercent_negative":
-                        width = string.Format("{0}*", param.Contains("negative") ? barSize : 1 - barSize);
+                        return GetDaysLeftWidth(width, param, barSize);
 
-                        return width;
                     case "balancepercent":
                     case "balancepercent_negative":
-                        if (barSize > 0d)
-                            width = string.Format("{0}*", param.Contains("negative") ? barSize + 1 : Math.Abs(1 - barSize));
-                        else if (barSize < 0d)
-                            width = string.Format("{0}*", param.Contains("negative") ? 1 : 2 * Math.Abs(barSize) + 1);
-
-                        return width;
+                        return GetBalancePercentWidth(width, param, barSize);
 
                     case "balancecolor":
-                        var positive = Math.Abs(1 - barSize);
-                        var negative = Math.Abs(1 - 1 / barSize);
+                        return GetBalanceColor(width, param, barSize);
 
-                        string color = "#FFFFFFFF";
-                        int alpha = 255;
-                        int red = 255;
-                        int green = 255;
-                        int blue = 0;
-
-                        if (barSize > 0d)
-                        {
-                            if (barSize < 1)
-                            {
-                                red = int.Parse(Math.Round(Math.Abs(1 - barSize) * 255, 0).ToString());
-                            }
-                            else
-                            {
-                                red = int.Parse(Math.Round(1 / Math.Abs(barSize + 1) * 255, 0).ToString());
-                                red = Math.Abs(255 - red);
-                            }
-                        }
-                        else if (barSize < 0d)
-                            green = int.Parse(Math.Round(255 / (Math.Abs(barSize) + 1), 0).ToString());
-
-                        color = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", alpha, red, green, blue);
-
-                        return color;
                     case "timeformat":
-                        DateTime time = DateTime.Now;
-                        DateTime.TryParse(value.ToString(), out time);
-
-                        return time.ToString("HH:mm");
+                        return GetTimeFormat(value);
 
                     case "dateformat":
-                        DateTime date = DateTime.Now;
+                        return GetDateFormat(value);
 
-                        DateTime.TryParse(value.ToString(), out date);
-
-                        return date.ToString("dd/MM/yyyy");
-                    case "listviewfilter":
-                        var item = value as BaseItem;
-                        if (item == null || item.IsDeleted)
-                            item = null;
-
-                        return item;
                     case "itemisdeleted":
-                        var isDeleted = (bool)value;
-                        return isDeleted ? "Collapsed" : "Visible";
-                    
+                        return TrueCollapse(value);
+
                     case "visibilityontipamount":
-                        var hasTipAmount = (double)value > 0;
-                        return hasTipAmount ? "Visible" : "Collapsed";
+                        return TrueVisible(value);
 
                     case "intervalbool":
-                        var isIncome = (bool)value;
-                        return isIncome ? "Income" : "Expense";
-
+                        return TransTypeConverter(value);
+                        
                     case "bitconverter":
-                        var bit = (bool)value;
-                        return bit ? "true" : "false";
+                        return BitConverter(value);
+                        
                     case "nulltranimages":
-                        var tranImgs = (List<TransactionImage>)value;
-                        if (tranImgs == null || tranImgs.Count == 0)
-                            return null;
-                        else
-                            return value;
-                    case "nulllist":
-                        var anyList = value;
-                        if (anyList == null)
-                            return null;
-                        else
-                            return value;
-                    case "reasoncatlist":
-                        var delim = "";
-                        var reasonCatList = new StringBuilder();
-                        if (value is ICollection<Category>)
-                        {
-                            foreach (var i in (ICollection<Category>)value)
-                            {
-                                reasonCatList.Append(delim);
-                                reasonCatList.Append(i.Name);
-                                delim = ", ";
-                            }
-                        }
-                        return reasonCatList.ToString();
+                        return GetNullTransImages(value);
 
+                    case "nulllist":
+                        return GetNullList(value);
+
+                    case "reasoncatlist":
+                        return GetReasonCategoryList(value);
                 }
             }
 
@@ -166,6 +101,64 @@ namespace BMA_WP.Model
             return null;
         }
 
+        private string GetReasonCategoryList(object value)
+        {
+            var delim = "";
+            var reasonCatList = new StringBuilder();
+            if (value is ICollection<Category>)
+            {
+                foreach (var i in (ICollection<Category>)value)
+                {
+                    reasonCatList.Append(delim);
+                    reasonCatList.Append(i.Name);
+                    delim = ", ";
+                }
+            }
+            return reasonCatList.ToString();
+        }
+
+        private object GetNullList(object value)
+        {
+            var anyList = value;
+            if (anyList == null)
+                return null;
+            else
+                return value;
+        }
+
+        private object GetNullTransImages(object value)
+        {
+            var tranImgs = (List<TransactionImage>)value;
+            if (tranImgs == null || tranImgs.Count == 0)
+                return null;
+            else
+                return value;
+        }
+
+        private string BitConverter(object value)
+        {
+            var bit = (bool)value;
+            return bit ? "true" : "false";
+        }
+
+        private string TransTypeConverter(object value)
+        {
+            var isIncome = (bool)value;
+            return isIncome ? "Income" : "Expense";
+        }
+
+        private string TrueVisible(object value)
+        {
+            var hasTipAmount = (double)value > 0;
+            return hasTipAmount ? "Visible" : "Collapsed";
+        }
+
+        private string TrueCollapse(object value)
+        {
+            var isDeleted = (bool)value;
+            return isDeleted ? "Collapsed" : "Visible";
+        }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (parameter != null)
@@ -178,6 +171,84 @@ namespace BMA_WP.Model
                 }
             }
             return null;
+        }
+
+        private string VisibilityConverter(object value)
+        {
+            var isDeleted = (bool)value;
+            return !isDeleted ? "Collapsed" : "Visible";
+        }
+
+        private string GetDateFormat(object value)
+        {
+            DateTime date = DateTime.Now;
+
+            DateTime.TryParse(value.ToString(), out date);
+
+            return date.ToString("dd/MM/yyyy");
+        }
+
+        private string GetTimeFormat(object value)
+        {
+            DateTime time = DateTime.Now;
+            DateTime.TryParse(value.ToString(), out time);
+
+            return time.ToString("HH:mm");
+        }
+
+        private string GetBalanceColor(string width, string param, double barSize)
+        {
+            var positive = Math.Abs(1 - barSize);
+            var negative = Math.Abs(1 - 1 / barSize);
+
+            string color = "#FFFFFFFF";
+            int alpha = 255;
+            int red = 255;
+            int green = 255;
+            int blue = 0;
+
+            if (barSize > 0d)
+            {
+                if (barSize < 1)
+                {
+                    red = int.Parse(Math.Round(Math.Abs(1 - barSize) * 255, 0).ToString());
+                }
+                else
+                {
+                    red = int.Parse(Math.Round(1 / Math.Abs(barSize + 1) * 255, 0).ToString());
+                    red = Math.Abs(255 - red);
+                }
+            }
+            else if (barSize < 0d)
+                green = int.Parse(Math.Round(255 / (Math.Abs(barSize) + 1), 0).ToString());
+
+            color = string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", alpha, red, green, blue);
+
+            return color;
+        }
+
+        private string GetBalancePercentWidth(string width, string param, double barSize)
+        {
+            if (barSize > 0d)
+                width = string.Format("{0}*", param.Contains("negative") ? barSize + 1 : Math.Abs(1 - barSize));
+            else if (barSize < 0d)
+                width = string.Format("{0}*", param.Contains("negative") ? 1 : 2 * Math.Abs(barSize) + 1);
+
+            return width;
+        }
+
+        private string GetDaysLeftWidth(string width, string param, double barSize)
+        {
+            width = string.Format("{0}*", param.Contains("negative") ? barSize : 1 - barSize);
+            return width;
+        }
+
+        private string GetDouble(object value)
+        {
+            double result = 0d;
+            double.TryParse(value.ToString(), out result);
+            //no need of a break;
+            return string.Format("{0:N0}", result);
         }
     }
 }

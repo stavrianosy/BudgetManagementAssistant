@@ -39,10 +39,10 @@ namespace BMAServiceLib
         List<Notification> GetUpcomingNotifications(DateTime clientTime);
 
         [OperationContract]
-        StaticTypeList SyncStaticData(StaticTypeList staticData);
+        StaticTypeList SyncStaticData(StaticTypeList staticData, User user);
 
         [OperationContract]
-        List<Category> SyncCategories(List<Category> categories);
+        List<Category> SyncCategories(List<Category> categories, User user);
 
         [OperationContract]
         List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
@@ -63,7 +63,7 @@ namespace BMAServiceLib
         List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThreshold);
 
         [OperationContract]
-        List<Category> SaveCategories(List<Category> categories);
+        List<Category> SaveCategories(List<Category> categories, User user);
 
         [OperationContract]
         List<TypeTransactionReason> SaveTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);

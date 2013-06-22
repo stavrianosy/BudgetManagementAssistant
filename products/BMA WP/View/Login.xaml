@@ -35,14 +35,13 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
-    
+
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0" />
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -51,49 +50,43 @@
                        Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
-
-        <phone:Panorama Grid.Row="1" SelectionChanged="Login_SelectionChanged">
+            <Grid Grid.Row="1" Background="DarkCyan">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".2*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+        <phone:Pivot x:Name="piLoginPage" Grid.Row="1" HeaderTemplate="{StaticResource MainPivot}"
+                     SelectionChanged="Login_SelectionChanged">
             <!--Panorama item one-->
-            <phone:PanoramaItem  x:Name="piLogin">
+                <phone:PivotItem  x:Name="piLogin" Header="{Binding Path=LocalizedResources.Login, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                  Margin="0 0">
                 <Grid x:Name="SignIn">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="350"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Rectangle Grid.ColumnSpan="3" Fill="#FF555555" ></Rectangle>
-                    <Border Grid.Column="1" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <Border Background="#FF999999" Padding="5 0" Margin="0 2 5 2">
-                                <Image Source="/Assets/login_white.png" Height="55"></Image>
-                            </Border>
-                            <TextBlock 
-                                Text="{Binding Path=LocalizedResources.Login, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                                FontSize="38" Foreground="White" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Rectangle Grid.ColumnSpan="3" Grid.Row="1" Fill="DarkCyan" ></Rectangle>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="10" Grid.Column="1">
+                    <StackPanel VerticalAlignment="Top" Margin="10" Grid.Column="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel>
                                 <TextBlock 
                             Text="{Binding Path=LocalizedResources.Username, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
                                 <TextBox x:Name="txtUsername" Margin="0 -10 0 0"/>
-                            <StackPanel x:Name="spPassword" Visibility="Visible">
-                                        <TextBlock 
+                                <StackPanel x:Name="spPassword">
+                                    <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Password, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
-                                        <PasswordBox  x:Name="txtPassword" Margin="0 -10 0 0"/>
+                                    <PasswordBox  x:Name="txtPassword" Margin="0 -10 0 0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="btnForgotPass" Text="Forgot Password ?" Tap="btnForgotPass_Tap"  Margin="0 12 0 0" />
+                                    <TextBlock x:Name="btnRegister" Text="Register new user account" Tap="btnRegister_Tap"  Margin="0 12 0 0"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                            <Grid Grid.Row="1" x:Name="grdProgress" Visibility="Visible">
+                            <Grid Grid.Row="1" x:Name="grdProgress" Margin="0 24 0 0" Visibility="Visible">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
@@ -104,37 +97,22 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PivotItem>
 
             <!--Panorama item two-->
-            <phone:PanoramaItem x:Name="piRegister">
+                <phone:PivotItem x:Name="piRegister" Margin="0 0"
+                                 Header="{Binding Path=LocalizedResources.Register, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
                 <Grid x:Name="Register">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="350"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Rectangle Grid.ColumnSpan="3" Fill="#FF555555" ></Rectangle>
-                    <Border Grid.Column="1"  HorizontalAlignment="Center">
-                        <StackPanel  Orientation="Horizontal">
-                            <Border Background="#FF999999" Padding="5 0" Margin="0 2 5 2">
-                                <Image Source="/Assets/login_white.png" Height="55"></Image>
-                            </Border>
-                            <TextBlock 
-                                Text="{Binding Path=LocalizedResources.Register, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                                FontSize="38" Foreground="White" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Rectangle Grid.ColumnSpan="3" Grid.Row="1" Fill="DarkCyan" ></Rectangle>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="10" Grid.Column="1">
+                    <StackPanel  VerticalAlignment="Top" Margin="10" Grid.Column="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel>
                                 <TextBlock 
@@ -156,61 +134,47 @@
                                         </TextBox.InputScope>
                                     </TextBox>
                                 </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="By Registering you are agreeing to our Terms of Service and Privacy Statement" TextWrapping="Wrap" />
+                                </StackPanel>
                             </StackPanel>
-                            <Grid Grid.Row="1" x:Name="grdRegister" Visibility="Visible">
+                                <Grid Grid.Row="1" x:Name="grdRegister" Visibility="Visible" Margin="0 24 0 0" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Name="txtMessageRegister" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtMessageRegister" Foreground="White" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="ProgressRegister" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                         </Grid>
                     </StackPanel>
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PivotItem>
 
             <!--Panorama item three-->
-            <phone:PanoramaItem x:Name="piForgotPass">
+                <phone:PivotItem x:Name="piForgotPass"  Margin="0 0"
+                                 Header="{Binding Path=LocalizedResources.ForgotPassword, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
                 <Grid x:Name="Forgot">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="350"></ColumnDefinition>
+                        <ColumnDefinition Width="420"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Rectangle Grid.ColumnSpan="3" Fill="#FF555555" ></Rectangle>
-                    <Border Grid.Column="1"  HorizontalAlignment="Center">
-                        <StackPanel  Orientation="Horizontal">
-                            <Border Background="#FF999999" Padding="5 0" Margin="0 2 5 2">
-                                <Image Source="/Assets/login_white.png" Height="55"></Image>
-                            </Border>
-                            <TextBlock 
-                                Text="{Binding Path=LocalizedResources.ForgotPassword, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                                FontSize="38" Foreground="White" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Rectangle Grid.ColumnSpan="3" Grid.Row="1" Fill="DarkCyan" ></Rectangle>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="10" Grid.Column="1">
+                    <StackPanel VerticalAlignment="Top" Margin="10" Grid.Column="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
-                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition ></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel>
                                 <TextBlock 
-                            Text="{Binding Path=LocalizedResources.Username, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
-                                <TextBox Margin="0 -10 0 0" x:Name="txtForgotUsername" />
-                                <StackPanel x:Name="spForgotEmail" Visibility="Visible">
-                                    <TextBlock 
-                                Text="{Binding Path=LocalizedResources.Email, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
-                                    <TextBox  x:Name="txtForgotEmail" />
+                            Text="{Binding Path=LocalizedResources.UsernameOrEmail, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
+                                <TextBox Margin="0 -12 0 6" x:Name="txtForgotInfo" />
+                                <StackPanel>
+                                    <TextBlock Text="Please provide your Username or email address and we will send you an email to reset your password" TextWrapping="Wrap" />
                                 </StackPanel>
                             </StackPanel>
-                            <Grid Grid.Row="1" x:Name="grdProgressForgot" Visibility="Visible">
+                                <Grid Grid.Row="1" x:Name="grdProgressForgot" Margin="0 24 0 0" Visibility="Visible">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
@@ -221,7 +185,8 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
-            </phone:PanoramaItem>
-        </phone:Panorama>
+            </phone:PivotItem>
+        </phone:Pivot>
+        </Grid>
     </Grid>
 </phone:PhoneApplicationPage>

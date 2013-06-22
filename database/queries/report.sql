@@ -1,9 +1,11 @@
+USE BMA
+
 DECLARE @installemnt decimal(18,2)
 DECLARE @exp decimal(18,2)
 DECLARE @bills decimal(18,2)
 DECLARE @inc decimal(18,2)
-DECLARE @expStartDate datetime = '06/14/2013'--'05/25/2013'
-DECLARE @incStartDate datetime = '05/20/2013'
+DECLARE @expStartDate datetime = '05/25/2013'--'05/25/2013'
+DECLARE @incStartDate datetime = '05/24/2013'
 
 
 select @installemnt = sum(amount+tipamount) from [Transaction]
@@ -34,5 +36,5 @@ TransactionDate > @expStartDate and IsDeleted = 0
 
 
 select @expStartDate as 'First exp', @installemnt as 'installments', @bills as 'bills', @exp as 'expences', @inc as 'income', @inc - @exp as 'balance'
-select 'days left', datediff(day,GETDATE(), '06/30/2013')
+select 'days left', datediff(day,GETDATE(), DATEADD(month, 1, @incStartDate))
 

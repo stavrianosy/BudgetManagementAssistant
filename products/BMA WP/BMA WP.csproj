@@ -99,7 +99,6 @@
     </Compile>
     <Compile Include="Common\NumberInputBox.cs" />
     <Compile Include="Common\StorageUtility.cs" />
-    <Compile Include="Data\StorageUtility.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Service References\BMAService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -494,6 +493,9 @@
       <Project>{36525B21-E773-403B-8882-18C4DBF996B4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

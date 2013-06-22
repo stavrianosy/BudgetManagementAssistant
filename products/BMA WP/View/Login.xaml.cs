@@ -24,11 +24,10 @@ namespace BMA_WP.View
         public Login()
         {
             //Explicitely set the language and use localized resources
-            SetUILanguage("el-GR");
+            //SetUILanguage("el-GR");
 
             InitializeComponent();
             SetupAppBar_Signin();
-
 
 
             //var screenWidth = System.Windows.Application.Current.Host.Content.ActualWidth;
@@ -57,7 +56,7 @@ namespace BMA_WP.View
 
         private void Login_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            string piName = (e.AddedItems[0] as PanoramaItem).Name;
+            string piName = (e.AddedItems[0] as PivotItem).Name;
 
             switch (piName)
             {
@@ -84,6 +83,7 @@ namespace BMA_WP.View
             signIn.Click += new EventHandler(SignIn_Click);
 
             SetupAppBar_Cancel();
+            SetupAppBar_Common();
         }
 
         void SetupAppBar_Register()
@@ -97,6 +97,7 @@ namespace BMA_WP.View
             register.Click += new EventHandler(Register_Click);
 
             SetupAppBar_Cancel();
+            SetupAppBar_Common();
         }
 
         void SetupAppBar_ForgotPass()
@@ -110,6 +111,7 @@ namespace BMA_WP.View
             forgotPass.Click += new EventHandler(ForgotPass_Click);
 
             SetupAppBar_Cancel();
+            SetupAppBar_Common();
         }
 
         void SetupAppBar_Cancel()
@@ -121,8 +123,35 @@ namespace BMA_WP.View
             cancel.Click += new EventHandler(Cancel_Click);
         }
 
+        void SetupAppBar_Common()
+        {
+            ApplicationBarMenuItem help = new ApplicationBarMenuItem();
+            ApplicationBarMenuItem about = new ApplicationBarMenuItem();
+
+            help.Text = AppResources.AppBarButtonHelp;
+            ApplicationBar.MenuItems.Add(help);
+            help.Click += new EventHandler(Help_Click);
+
+            about.Text = AppResources.AppBarButtonAbout;
+            ApplicationBar.MenuItems.Add(about);
+            about.Click += new EventHandler(About_Click);
+        }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/About.xaml", UriKind.Relative));
+        }
+
+        private void Help_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Help.xaml", UriKind.Relative));
+        }
+
         private async void SignIn_Click(object sender, EventArgs e)
         {
+            //close keyboard
+            piLoginPage.Focus();
+
             App.Instance.User.UserName = txtUsername.Text.Trim();
             App.Instance.User.Password = txtPassword.Password.Trim();
 
@@ -173,7 +202,7 @@ namespace BMA_WP.View
                             txtMessage.Text = string.Format("{0}\n{1}", AppResources.LoginFail, error.Message);
 
                             //## ** ONLY FOR DEMO ** ##//
-                            LoginSuccess();
+                            ////LoginSuccess();
                             //## ################## ##//
                         }
                         ProgressShow(false);
@@ -191,6 +220,9 @@ namespace BMA_WP.View
 
         private async void Register_Click(object sender, EventArgs e)
         {
+            //close keyboard
+            piLoginPage.Focus();
+
             App.Instance.User.UserName = txtRegUsername.Text.Trim();
             App.Instance.User.Email = txtRegEmail.Text.Trim();
             App.Instance.User.Password = txtRegPassword.Password.Trim();
@@ -219,46 +251,67 @@ namespace BMA_WP.View
             try
             {
                 ProgressShow(true);
-                txtMessage.Text = "Registering ...";
+                txtMessageRegister.Text = AppResources.Registering;
 
-                //await App.Instance.StaticServiceData.RegisterUser(App.Instance.User);
-                LoginSuccess();
+                await App.Instance.StaticServiceData.RegisterUser(App.Instance.User, (result, error) =>
+                    {
+                        if (result != null && error == null)
+                        {
+                            LoginSuccess();
 
-                ProgressShow(false);
-                txtMessage.Text = "Registered successfully";
+                            txtMessageRegister.Text = AppResources.RegisterSuccess;
+                        }
+                        else
+                        {
+                            throw new Exception(error.Message);
+                        }
+                        ProgressShow(false);
+                    });
             }
             catch (Exception ex)
             {
                 ProgressShow(false);
 
-                MessageBox.Show(string.Format("{0}", ex.Message, "Login Failed"));
+                MessageBox.Show(string.Format("{0}", ex.Message, AppResources.RegistrationFailed));
 
-                txtMessage.Text = "Registration failed. Please try again.";
+                txtMessageRegister.Text = AppResources.RegisterFail;
             }
         }
 
         private async void ForgotPass_Click(object sender, EventArgs e)
         {
-            App.Instance.User.UserName = txtForgotUsername.Text.Trim();
-            App.Instance.User.Email = txtForgotEmail.Text.Trim();
+            //close keyboard
+            piLoginPage.Focus();
+
+            var userItem = txtForgotInfo.Text.Trim();
+            App.Instance.User.UserName = userItem.Contains("@") ? "" : userItem;
+            App.Instance.User.Email = userItem.Contains("@") ? userItem : "";
 
             try
             {
                 ProgressShow(true);
-                txtMessage.Text = "Sending password...";
+                txtMessageForgot.Text = AppResources.PasswordSending;
 
-                //await App.Instance.StaticServiceData.ForgotPassword(App.Instance.User);
-
-                ProgressShow(false);
-                txtMessage.Text = "Password sent to the given email";
+                await App.Instance.StaticServiceData.ForgotPassword(App.Instance.User, (result, error) =>
+                {
+                    if (result != null && error == null)
+                    {
+                        txtMessageForgot.Text = AppResources.PasswordSentSuccess;
+                    }
+                    else
+                    {
+                        throw new Exception(error.Message);
+                    }
+                    ProgressShow(false);
+                });
             }
             catch (Exception ex)
             {
                 ProgressShow(false);
 
-                MessageBox.Show(string.Format("{0}", ex.Message, "Password is not sent"));
+                MessageBox.Show(string.Format("{0}", ex.Message, AppResources.ForgotPassword));
 
-                txtMessage.Text = "Password sent failed. Please try again.";
+                txtMessageForgot.Text = AppResources.PasswordSentFailed;
             }
         }
 
@@ -274,7 +327,7 @@ namespace BMA_WP.View
             txtRegUsername.Text = "";
             txtRegPassword.Password = "";
             txtRegEmail.Text = "";
-            txtForgotUsername.Text = "";
+            txtForgotInfo.Text = "";
         }
 
         private void btnCancel_Tap(object sender, EventArgs e)
@@ -304,6 +357,21 @@ namespace BMA_WP.View
             ProgressRegister.Visibility = visibility;
             ProgressForgot.Visibility = visibility;
             
+        }
+
+        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void btnForgotPass_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            piLoginPage.SelectedIndex = 2;
+        }
+
+        private void btnRegister_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            piLoginPage.SelectedIndex = 1;
         }
     }
 }

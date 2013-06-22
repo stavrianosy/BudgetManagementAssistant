@@ -32,6 +32,7 @@ namespace BMA.BusinessLogic
         private DateTime toDate;
         private string comments;
         private bool includeInstallemnts;
+        private bool repeat;
         private TransactionList transactions;
         #endregion
 
@@ -87,7 +88,12 @@ namespace BMA.BusinessLogic
         public bool IncludeInstallments { get { return includeInstallemnts; } set { includeInstallemnts = value; OnPropertyChanged("IncludeInstallemnts"); } }
 
         /// <summary>
-        /// Display the duration of the budget in days.
+        /// Recreate on expiration
+        /// </summary>
+        public bool Repeat { get { return repeat; } set { repeat = value; OnPropertyChanged("Rrepeat"); } }
+
+        /// <summary>
+        /// Get - Display the duration of the budget in days.
         /// </summary>
         public double DurrationDays
         {
@@ -99,7 +105,7 @@ namespace BMA.BusinessLogic
         }
 
         /// <summary>
-        /// Days left to expire
+        /// Get - Days left to expire
         /// </summary>
         public double DaysLeft
         {
@@ -112,7 +118,7 @@ namespace BMA.BusinessLogic
         }
 
         /// <summary>
-        /// Percentage of the days left to expire
+        /// Get - Percentage of the days left to expire
         /// </summary>
         public double DaysLeftPercent
         {
@@ -120,7 +126,7 @@ namespace BMA.BusinessLogic
         }
 
         /// <summary>
-        /// Get a list of transactions based on the dates of budget
+        /// Get - List of transactions based on the dates of budget
         /// </summary>
         public TransactionList Transactions
         {
@@ -134,7 +140,7 @@ namespace BMA.BusinessLogic
         }
 
         /// <summary>
-        /// Using the list of transactions display balance
+        /// Get - Using the list of transactions display balance
         /// </summary>
         public double Balance
         {
@@ -148,7 +154,7 @@ namespace BMA.BusinessLogic
         }
 
         /// <summary>
-        /// Using the list of transactions display balance percentage
+        /// Get - Using the list of transactions display balance percentage
         /// </summary>
         public double BalancePercent
         {
@@ -156,6 +162,22 @@ namespace BMA.BusinessLogic
             {
                 return Balance/Amount; 
             }
+        }
+
+        public Budget Clone()
+        {
+            var bud = new Budget(this.ModifiedUser);
+            
+            bud.Amount = this.Amount;
+            bud.Comments = this.Comments;
+            bud.FromDate = this.FromDate;
+            bud.ToDate = this.ToDate;
+            bud.Transactions = this.Transactions;
+            bud.IncludeInstallments = this.IncludeInstallments;
+            bud.Repeat = this.Repeat;
+            bud.Name = this.Name;
+
+            return bud;
         }
         #endregion
 

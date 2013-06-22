@@ -573,6 +573,7 @@
                             <TextBlock Text=" - " Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BMA_ListItemText}"/>
                             <TextBlock Text="{Binding ToDate, Converter={StaticResource statusconverter}, ConverterParameter=dateFormat}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BMA_ListItemText}" />
                         </StackPanel>
+                        
                         <TextBlock Grid.Row="2" Text="End: " Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BMA_ListItemText}" />
                         <Grid Grid.Row="2" Grid.Column="1">
                             <Grid.ColumnDefinitions>
@@ -595,6 +596,7 @@
                             <Rectangle Grid.Column="1" Margin="0 10 0 0" Fill="#FF83F4FF"/>
                             <TextBlock Grid.Column="2" Margin="5 2 0 0" Text="{Binding Balance, Converter={StaticResource statusconverter}, ConverterParameter=Balance}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}"></TextBlock>
                         </Grid>
+                        
                     </Grid>
                 </Grid>
             </Grid>

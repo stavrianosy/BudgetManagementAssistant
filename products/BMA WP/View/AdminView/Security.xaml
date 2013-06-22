@@ -60,25 +60,25 @@
                     <StackPanel>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.OldPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtOldPass" 
-                                         InputScope="Number"
+                            Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="txtOldPass" 
                                          Background="{StaticResource PhoneTextBoxBrush}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.NewPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtNewPass" 
-                                         InputScope="Number"
+                            Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="txtNewPass" 
                                          Background="{StaticResource PhoneTextBoxBrush}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.ConfirmPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtConfirmPass" 
-                                         InputScope="Number"
+                            Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="txtConfirmPass" 
                                          Background="{StaticResource PhoneTextBoxBrush}"/>
                         </StackPanel>
                 </ScrollViewer>
-            </phone:PivotItem>            
+            </phone:PivotItem>
+            <phone:PivotItem x:Name="piDetails" 
+                             Header="{Binding Path=LocalizedResources.UserDetails, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
+            </phone:PivotItem>
         </phone:Pivot>
     </Grid>
 </phone:PhoneApplicationPage>

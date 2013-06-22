@@ -25,6 +25,9 @@ namespace BMA.DataAccess
         public DbSet<TypeInterval> TypeInterval { get; set; }
         public DbSet<TypeFrequency> TypeFrequency { get; set; }
         public DbSet<TransactionImage> TransactionImage { get; set; }
+        public DbSet<RecurrenceRangeRule> RecurrenceRangeRule { get; set; }
+        public DbSet<RulePart> RulePart { get; set; }
+        public DbSet<FieldType> FieldType { get; set; }
 
         public EntityContext()
             : base("name=primaryConn")
@@ -75,6 +78,7 @@ namespace BMA.DataAccess
             modelBuilder.Entity<TypeSavingsDencity>().Ignore(i => i.HasChanges);
 
             modelBuilder.Entity<TransactionImage>().Ignore(i => i.HasChanges);
+            
 
         }
 

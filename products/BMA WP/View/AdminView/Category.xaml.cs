@@ -39,8 +39,39 @@ namespace BMA_WP.View.AdminView
         {
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
-            vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;
+            switch (piName)
+            {
+                case "piCategory":
+                    vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;                    
+                    CategoryItem();
+                    SetupAppBar_Category();
+                    break;
+                case "piCategoryList":
+                    CategoriesMultiSelect.SelectedItem = null;
+                    vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;
 
+                    transactionReasonList.SelectedItems.Clear();
+                    SetupAppBar_CategoryList();
+                    break;
+            }
+
+            if (vm.CurrCategory != null)
+            {
+                vm.CurrCategory.PropertyChanged += (o, changedEventArgs) =>
+                {
+                    var items = vm.CategoryList.Where(t => t.HasChanges).ToList();
+                    if (items.Count > 0)
+                    {
+                        save.IsEnabled = true;
+                        delete.IsEnabled = true;
+                    }
+                };
+                delete.IsEnabled = true;
+            }
+        }
+
+        private void CategoryItem()
+        {
             if (vm.CurrCategory == null || vm.CurrCategory.IsDeleted)
                 vm.IsEnabled = false;
             else
@@ -60,30 +91,6 @@ namespace BMA_WP.View.AdminView
                     if (container != null)
                         container.IsSelected = true;
                 }
-            }
-
-            switch (piName)
-            {
-                case "piCategory":
-                    SetupAppBar_Category();
-                    break;
-                case "piCategoryList":
-                    SetupAppBar_CategoryList();
-                    break;
-            }
-
-            if (vm.CurrCategory != null)
-            {
-                vm.CurrCategory.PropertyChanged += (o, changedEventArgs) =>
-                {
-                    var items = vm.CategoryList.Where(t => t.HasChanges).ToList();
-                    if (items.Count > 0)
-                    {
-                        save.IsEnabled = true;
-                        delete.IsEnabled = true;
-                    }
-                };
-                delete.IsEnabled = true;
             }
         }
 
@@ -169,8 +176,13 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            vm.CurrCategory.IsDeleted = true;
-            SaveCategory();
+            var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                vm.CurrCategory.IsDeleted = true;
+                SaveCategory();
+            }
         }
 
         private void Save_Click(object sender, EventArgs e)
@@ -204,6 +216,9 @@ namespace BMA_WP.View.AdminView
         {
             var isAdded = e.AddedItems.Count > 0;
             var item = isAdded ? (TypeTransactionReason)e.AddedItems[0] : (TypeTransactionReason)e.RemovedItems[0];
+
+            if (vm.CurrCategory == null)
+                return;
 
             if (vm.CurrCategory.TypeTransactionReasons == null && isAdded)
                 vm.CurrCategory.TypeTransactionReasons = new List<TypeTransactionReason>();

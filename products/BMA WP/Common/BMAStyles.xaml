@@ -112,6 +112,40 @@
                         <TextBlock Text=" - " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                         <TextBlock Text="{Binding ToDate, StringFormat=\{0:d\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                     </StackPanel>
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                        <TextBlock Text="Days left: " Margin="0 0 6 0" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding DaysLeftPercent, Converter={StaticResource converters}, ConverterParameter=DaysLeftPercent}"></ColumnDefinition>
+                                <ColumnDefinition Width="{Binding DaysLeftPercent, Converter={StaticResource converters}, ConverterParameter=DaysLeftPercent_Negative}"></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Margin="0 12 0 0" Fill="#FF97FF00" />
+                            <Rectangle Grid.Column="1" Margin="0 12 0 0" Fill="Gray"/>
+                            <TextBlock Grid.Column="2" Margin="12 2 0 0" Text="{Binding DaysLeft, Converter={StaticResource converters}, ConverterParameter=DaysLeft}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"></TextBlock>
+                        </Grid>
+                            <TextBlock Grid.Row="1" Margin="0 0 6 0" Text="Balance €: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding BalancePercent, Converter={StaticResource converters}, ConverterParameter=BalancePercent}"></ColumnDefinition>
+                                <ColumnDefinition Width="{Binding BalancePercent, Converter={StaticResource converters}, ConverterParameter=BalancePercent_Negative}"></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Margin="0 12 0 0" Fill="{Binding BalancePercent, Converter={StaticResource converters}, ConverterParameter=BalanceColor}" />
+                            <Rectangle Grid.Column="1" Margin="0 12 0 0" Fill="Gray"/>
+                            <TextBlock Grid.Column="2" Margin="12 2 0 0" Text="{Binding Balance, Converter={StaticResource converters}, ConverterParameter=Balance}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"></TextBlock>
+                        </Grid>
+                        </Grid>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -123,7 +157,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Width="80" Height="80">
+            <StackPanel Width="50" Height="50">
                 <Image Source="{Binding IconPath}" Stretch="None" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
@@ -145,14 +179,13 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Width="80" Height="80">
-                <Image Source="{Binding IconPath}" Stretch="None" />
+            <StackPanel Width="40" Height="40">
+                <Image Source="{Binding IconPath}" Stretch="UniformToFill" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
                 <StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                        <TextBlock Text="{Binding SubName}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
                         <TextBlock Text="{Binding Description}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                     </StackPanel>
                 </StackPanel>
@@ -166,7 +199,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Width="80" Height="80">
+            <StackPanel Width="50" Height="50">
                 <Image Source="{Binding IconPath}" Stretch="None" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
@@ -212,4 +245,14 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Name="MainPivot">
+        <StackPanel Background="#FF555555" Orientation="Horizontal" Margin="-24 6 0 6" Width="360">
+            <Border Background="#FF999999" Margin="60 0 6 0" Padding="6 1">
+                <Image Source="/Assets/login_white.png"
+                       Height="60"></Image>
+            </Border>
+            <ContentControl x:Name="pivotTitle" Content="{Binding}" HorizontalAlignment="Left" Background="AliceBlue" 
+                            FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

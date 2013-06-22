@@ -60,7 +60,7 @@
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtName" 
+                        <toolkit:AutoCompleteBox x:Name="txtName" 
                                          Text="{Binding ElementName=BudgetThresholdMultiSelect, Path=SelectedItem.Name, Mode=TwoWay}"
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"/>
@@ -73,15 +73,15 @@
                             Header="{Binding Path=LocalizedResources.ToTime, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Value="{Binding ElementName=BudgetThresholdMultiSelect, Path=SelectedItem.TransactionDate, Mode=TwoWay}"
                             ValueChanged="TimePicker_ValueChanged"/>
-                        <TextBlock x:Name="txtNote" TextWrapping="Wrap" 
+                        <toolkit:AutoCompleteBox x:Name="txtNote" 
                                    Text="{Binding Path=LocalizedResources.CategoryNote, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtComments"
+                        <toolkit:AutoCompleteBox x:Name="txtComments"
                                 Text="{Binding ElementName=BudgetThresholdMultiSelect, Path=SelectedItem.Comments, Mode=TwoWay}"
                                             VerticalAlignment="Top" 
-                                            Height="140" TextWrapping="Wrap"/>
+                                            Height="140" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>

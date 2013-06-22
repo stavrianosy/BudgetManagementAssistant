@@ -180,6 +180,28 @@ namespace BMAServiceLib
                             tl.Add(inItem);
 
                         item.Transactions = tl;
+
+                        //Apply the rule to create a new budget if the expired one is set to Repeat
+                        if (item.Repeat && item.ToDate < DateTime.Now)
+                        {
+                            var dataSpanRange = item.ToDate - item.FromDate;
+                            var dataSpanToday = DateTime.Now - item.ToDate;
+                            var dateDif = dataSpanRange.Days;
+                            var diff = dataSpanToday.Days % dataSpanRange.Days;
+                            var newFromDate = DateTime.Now.AddDays(-diff + 1);
+                            var newToDate = newFromDate.AddDays(dataSpanRange.Days);
+
+                            var test = newToDate - newFromDate;
+
+                            var newBudget = item.Clone();
+                            newBudget.FromDate = newFromDate;
+                            newBudget.ToDate = newToDate;
+
+                            item.Repeat = false;
+                            context.Budget.Add(newBudget);
+
+                            context.SaveChanges();
+                        }
                     }
 
                     //investigate if there is a better way to convert the generic list to ObservableCollection

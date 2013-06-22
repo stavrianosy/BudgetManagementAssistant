@@ -33,7 +33,9 @@ namespace BMA_WP.ViewModel
         public ObservableCollection<TypeTransaction> TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public ObservableCollection<TypeTransactionReason> TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
         public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
+        
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
+        
         public List<TransactionImage> TransactionImageList
         {
             get
@@ -54,7 +56,9 @@ namespace BMA_WP.ViewModel
             {
                 return new RelayCommand<object>((param) =>
                 {
-                    PivotIndex = 0;
+                    var selectedItem = (SelectionChangedEventArgs)param;
+                    if (selectedItem.AddedItems[0] != null)
+                        PivotIndex = 0;
                 });
             }
         }

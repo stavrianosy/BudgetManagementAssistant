@@ -67,15 +67,14 @@
                 <ScrollViewer>
                     <StackPanel>
                         <TextBlock Text="Name" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtName" 
+                        <toolkit:AutoCompleteBox x:Name="txtName" 
                                          Text="{Binding CurrBudget.Name, Mode=TwoWay}" 
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock Text="Amount" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtAmount" 
+                        <toolkit:AutoCompleteBox x:Name="txtAmount" 
                                          Text="{Binding CurrBudget.Amount, Mode=TwoWay}" 
                                          InputScope="Number"
-                                         Background="{StaticResource PhoneTextBoxBrush}" 
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock Text="From" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:DatePicker 
@@ -86,14 +85,18 @@
                             Value="{Binding CurrBudget.ToDate, Mode=TwoWay}"
                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Duration" VerticalAlignment="Bottom" Margin="0 0 0 10" />
+                            <TextBlock Text="Duration" VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}"/>
                             <TextBox x:Name="txtDuration" Text="{Binding CurrBudget.DurrationDays, Mode=OneWay}" Width="130" IsEnabled="False"/>
-                            <TextBlock Text="days"  VerticalAlignment="Bottom" Margin="0 0 0 10"/>
+                            <TextBlock Text="days"  VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <toolkit:ToggleSwitch Content="Reapeat on expiration" FontSize="22" Foreground="{StaticResource PhoneSubtleBrush}" IsChecked="{Binding Repeat, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
+                            <toolkit:ToggleSwitch Content="Include Interval Payments" FontSize="22" Foreground="{StaticResource PhoneSubtleBrush}" IsChecked="{Binding IncludeInstallments, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                         </StackPanel>
                         <TextBlock Text="Comments" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtComments" 
+                        <toolkit:AutoCompleteBox x:Name="txtComments" 
                                  Text="{Binding CurrBudget.Comments, Mode=TwoWay}"
-                                 VerticalAlignment="Top" Height="140" TextWrapping="Wrap"
+                                 VerticalAlignment="Top" Height="140"
                                  IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                     </StackPanel>
                 </ScrollViewer>

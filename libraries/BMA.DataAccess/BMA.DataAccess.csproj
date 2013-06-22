@@ -50,6 +50,10 @@
     <Compile Include="Migrations\201306171337523_image.Designer.cs">
       <DependentUpon>201306171337523_image.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201306211952138_repeat.cs" />
+    <Compile Include="Migrations\201306211952138_repeat.Designer.cs">
+      <DependentUpon>201306211952138_repeat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +73,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201306171337523_image.resx">
       <DependentUpon>201306171337523_image.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306211952138_repeat.resx">
+      <DependentUpon>201306211952138_repeat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

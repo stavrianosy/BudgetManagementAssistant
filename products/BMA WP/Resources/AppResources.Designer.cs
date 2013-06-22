@@ -133,6 +133,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to about.
+        /// </summary>
+        public static string AppBarButtonAbout {
+            get {
+                return ResourceManager.GetString("AppBarButtonAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
         public static string AppBarButtonAdd {
@@ -174,6 +183,15 @@ namespace BMA_WP.Resources {
         public static string AppBarButtonDelete {
             get {
                 return ResourceManager.GetString("AppBarButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to help.
+        /// </summary>
+        public static string AppBarButtonHelp {
+            get {
+                return ResourceManager.GetString("AppBarButtonHelp", resourceCulture);
             }
         }
         
@@ -268,11 +286,29 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
             get {
                 return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm deletion.
+        /// </summary>
+        public static string ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ConfirmDeletion", resourceCulture);
             }
         }
         
@@ -295,11 +331,38 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete ?.
+        /// </summary>
+        public static string DeleteMessage {
+            get {
+                return ResourceManager.GetString("DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End.
+        /// </summary>
+        public static string End {
+            get {
+                return ResourceManager.GetString("End", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First.
+        /// </summary>
+        public static string First {
+            get {
+                return ResourceManager.GetString("First", resourceCulture);
             }
         }
         
@@ -313,11 +376,29 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forth.
+        /// </summary>
+        public static string Forth {
+            get {
+                return ResourceManager.GetString("Forth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time From.
         /// </summary>
         public static string FromTime {
             get {
                 return ResourceManager.GetString("FromTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last.
+        /// </summary>
+        public static string Last {
+            get {
+                return ResourceManager.GetString("Last", resourceCulture);
             }
         }
         
@@ -394,6 +475,69 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Budget will change its color to grab your attention when it reach the threshold.
+        /// </summary>
+        public static string MenuDescriptionBudgetThreshold {
+            get {
+                return ResourceManager.GetString("MenuDescriptionBudgetThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category of the transaction.
+        /// </summary>
+        public static string MenuDescriptionCategory {
+            get {
+                return ResourceManager.GetString("MenuDescriptionCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Predifined time periods.
+        /// </summary>
+        public static string MenuDescriptionFrequency {
+            get {
+                return ResourceManager.GetString("MenuDescriptionFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Periodic occurances for expences or income.
+        /// </summary>
+        public static string MenuDescriptionInterval {
+            get {
+                return ResourceManager.GetString("MenuDescriptionInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notifications for transaction capturing reminders.
+        /// </summary>
+        public static string MenuDescriptionNotification {
+            get {
+                return ResourceManager.GetString("MenuDescriptionNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage users for accessing this application.
+        /// </summary>
+        public static string MenuDescriptionSecurity {
+            get {
+                return ResourceManager.GetString("MenuDescriptionSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason of the transaction. Like a sub-category.
+        /// </summary>
+        public static string MenuDescriptionTransactionReason {
+            get {
+                return ResourceManager.GetString("MenuDescriptionTransactionReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -457,6 +601,51 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sending password....
+        /// </summary>
+        public static string PasswordSending {
+            get {
+                return ResourceManager.GetString("PasswordSending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password sent failed. Please try again.
+        /// </summary>
+        public static string PasswordSentFailed {
+            get {
+                return ResourceManager.GetString("PasswordSentFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Passwoed is sent to the email provided.
+        /// </summary>
+        public static string PasswordSentSuccess {
+            get {
+                return ResourceManager.GetString("PasswordSentSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purpose.
+        /// </summary>
+        public static string Purpose {
+            get {
+                return ResourceManager.GetString("Purpose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Range of Occurence.
+        /// </summary>
+        public static string RangeOfOccurence {
+            get {
+                return ResourceManager.GetString("RangeOfOccurence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reason.
         /// </summary>
         public static string Reason {
@@ -475,6 +664,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reccurence Pattern.
+        /// </summary>
+        public static string ReccurencePattern {
+            get {
+                return ResourceManager.GetString("ReccurencePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
         public static string Register {
@@ -484,11 +682,47 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration failed. Please try again.
+        /// </summary>
+        public static string RegisterFail {
+            get {
+                return ResourceManager.GetString("RegisterFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registering ....
+        /// </summary>
+        public static string Registering {
+            get {
+                return ResourceManager.GetString("Registering", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to * Capture all fields to register.
         /// </summary>
         public static string RegisterMessage {
             get {
                 return ResourceManager.GetString("RegisterMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered successfully.
+        /// </summary>
+        public static string RegisterSuccess {
+            get {
+                return ResourceManager.GetString("RegisterSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Failed.
+        /// </summary>
+        public static string RegistrationFailed {
+            get {
+                return ResourceManager.GetString("RegistrationFailed", resourceCulture);
             }
         }
         
@@ -556,6 +790,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Second.
+        /// </summary>
+        public static string Second {
+            get {
+                return ResourceManager.GetString("Second", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
         public static string Security {
@@ -565,11 +808,29 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suggested time:.
         /// </summary>
         public static string SuggestedTime {
             get {
                 return ResourceManager.GetString("SuggestedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Third.
+        /// </summary>
+        public static string Third {
+            get {
+                return ResourceManager.GetString("Third", resourceCulture);
             }
         }
         
@@ -655,11 +916,29 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Details.
+        /// </summary>
+        public static string UserDetails {
+            get {
+                return ResourceManager.GetString("UserDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username or Email.
+        /// </summary>
+        public static string UsernameOrEmail {
+            get {
+                return ResourceManager.GetString("UsernameOrEmail", resourceCulture);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight;
+﻿using BMA_WP.Resources;
+using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 
 namespace BMA_WP.ViewModel
 {
@@ -10,6 +12,14 @@ namespace BMA_WP.ViewModel
     /// </summary>
     public class LoginViewModel : ViewModelBase
     {
+        private List<string> titles = new List<string> { AppResources.Login, AppResources.Register, AppResources.ForgotPassword };
+        public List<string> Titles
+        {
+            get
+            {
+                return titles;
+            }
+        }
         /// <summary>
         /// Initializes a new instance of the LoginViewModel class.
         /// </summary>

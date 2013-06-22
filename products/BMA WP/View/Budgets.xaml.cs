@@ -124,7 +124,7 @@ namespace BMA_WP.View
             add.Click += new EventHandler(Add_Click);
 
             transaction = new ApplicationBarMenuItem();
-            transaction.Text = AppResources.AppBarButtonBudget;
+            transaction.Text = AppResources.AppBarButtonTransaction;
             ApplicationBar.MenuItems.Add(transaction);
             transaction.Click += new EventHandler(Transaction_Click);
 

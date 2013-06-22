@@ -320,4 +320,97 @@
   <data name="AppBarButtonTransaction" xml:space="preserve">
     <value>transaction</value>
   </data>
+  <data name="MenuDescriptionBudgetThreshold" xml:space="preserve">
+    <value>Budget will change its color to grab your attention when it reach the threshold</value>
+  </data>
+  <data name="MenuDescriptionCategory" xml:space="preserve">
+    <value>Category of the transaction</value>
+  </data>
+  <data name="MenuDescriptionFrequency" xml:space="preserve">
+    <value>Predifined time periods</value>
+  </data>
+  <data name="MenuDescriptionInterval" xml:space="preserve">
+    <value>Periodic occurances for expences or income</value>
+  </data>
+  <data name="MenuDescriptionNotification" xml:space="preserve">
+    <value>Notifications for transaction capturing reminders</value>
+  </data>
+  <data name="MenuDescriptionSecurity" xml:space="preserve">
+    <value>Manage users for accessing this application</value>
+  </data>
+  <data name="MenuDescriptionTransactionReason" xml:space="preserve">
+    <value>Reason of the transaction. Like a sub-category</value>
+  </data>
+  <data name="RegisterFail" xml:space="preserve">
+    <value>Registration failed. Please try again</value>
+  </data>
+  <data name="Registering" xml:space="preserve">
+    <value>Registering ...</value>
+  </data>
+  <data name="RegisterSuccess" xml:space="preserve">
+    <value>Registered successfully</value>
+  </data>
+  <data name="RegistrationFailed" xml:space="preserve">
+    <value>Registration Failed</value>
+  </data>
+  <data name="AppBarButtonAbout" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="AppBarButtonHelp" xml:space="preserve">
+    <value>help</value>
+  </data>
+  <data name="ConfirmDeletion" xml:space="preserve">
+    <value>Confirm deletion</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete ?</value>
+  </data>
+  <data name="UsernameOrEmail" xml:space="preserve">
+    <value>Username or Email</value>
+  </data>
+  <data name="PasswordSending" xml:space="preserve">
+    <value>Sending password...</value>
+  </data>
+  <data name="PasswordSentFailed" xml:space="preserve">
+    <value>Password sent failed. Please try again</value>
+  </data>
+  <data name="PasswordSentSuccess" xml:space="preserve">
+    <value>Your Passwoed is sent to the email provided</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="UserDetails" xml:space="preserve">
+    <value>User Details</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="Forth" xml:space="preserve">
+    <value>Forth</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="Purpose" xml:space="preserve">
+    <value>Purpose</value>
+  </data>
+  <data name="RangeOfOccurence" xml:space="preserve">
+    <value>Range of Occurence</value>
+  </data>
+  <data name="ReccurencePattern" xml:space="preserve">
+    <value>Reccurence Pattern</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Third" xml:space="preserve">
+    <value>Third</value>
+  </data>
 </root>

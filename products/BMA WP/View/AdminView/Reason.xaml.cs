@@ -42,36 +42,20 @@ namespace BMA_WP.View.AdminView
 
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
-            //categoryList.SelectedItems.Clear();
-            vm.CurrTransactionReason = (BMA.BusinessLogic.TypeTransactionReason)ReasonsMultiSelect.SelectedItem;
-
-            if (vm.CurrTransactionReason == null || vm.CurrTransactionReason.IsDeleted)
-                vm.IsEnabled = false;
-            else
-            {
-                vm.IsEnabled = true;
-                var items = (ObservableCollection<BMA.BusinessLogic.Category>)categoryList.ItemsSource;
-                foreach (var item in items)
-                {
-                    var container = categoryList.ContainerFromItem(item) as LongListMultiSelectorItem;
-                    if (vm.CurrTransactionReason.Categories != null && 
-                        vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId && !x.IsDeleted).Count() == 0)
-                    {
-                        container.IsSelected = false;
-                        continue;
-                    }
-
-                    if (container != null)
-                        container.IsSelected = true;
-                }
-            }
 
             switch (piName)
             {
                 case "piReason":
+                    vm.CurrTransactionReason = (BMA.BusinessLogic.TypeTransactionReason)ReasonsMultiSelect.SelectedItem;                    
+                    ReasonItem();
                     SetupAppBar_Reason();
                     break;
                 case "piReasonList":
+                    
+                    ReasonsMultiSelect.SelectedItem = null;
+                    vm.CurrTransactionReason = (BMA.BusinessLogic.TypeTransactionReason)ReasonsMultiSelect.SelectedItem;
+
+                    categoryList.SelectedItems.Clear();
                     SetupAppBar_ReasonList();
                     break;
             }
@@ -88,6 +72,30 @@ namespace BMA_WP.View.AdminView
                     }
                 };
                 delete.IsEnabled = true;
+            }
+        }
+
+        private void ReasonItem()
+        {
+            if (vm.CurrTransactionReason == null || vm.CurrTransactionReason.IsDeleted)
+                vm.IsEnabled = false;
+            else
+            {
+                vm.IsEnabled = true;
+                var items = (ObservableCollection<BMA.BusinessLogic.Category>)categoryList.ItemsSource;
+                foreach (var item in items)
+                {
+                    var container = categoryList.ContainerFromItem(item) as LongListMultiSelectorItem;
+                    if (vm.CurrTransactionReason.Categories != null &&
+                        vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId && !x.IsDeleted).Count() == 0)
+                    {
+                        container.IsSelected = false;
+                        continue;
+                    }
+
+                    if (container != null)
+                        container.IsSelected = true;
+                }
             }
         }
 
@@ -173,8 +181,13 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            vm.CurrTransactionReason.IsDeleted = true;
-            SaveTransactionReason();
+            var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                vm.CurrTransactionReason.IsDeleted = true;
+                SaveTransactionReason();
+            }
         }
 
         private async void SaveTransactionReason()
@@ -193,6 +206,7 @@ namespace BMA_WP.View.AdminView
 
         private void Add_Click(object sender, EventArgs e)
         {
+
             var item = new BMA.BusinessLogic.TypeTransactionReason(App.Instance.User);
 
             vm.PivotIndex = 0;
@@ -209,6 +223,9 @@ namespace BMA_WP.View.AdminView
             var isAdded = e.AddedItems.Count > 0;
             var item = isAdded ? (BMA.BusinessLogic.Category)e.AddedItems[0] : (BMA.BusinessLogic.Category)e.RemovedItems[0];
 
+            if (vm.CurrTransactionReason == null)
+                return;
+
             if (vm.CurrTransactionReason.Categories == null && isAdded)
                 vm.CurrTransactionReason.Categories = new List<BMA.BusinessLogic.Category>();
 
@@ -220,7 +237,6 @@ namespace BMA_WP.View.AdminView
             }
             else if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) != null && !isAdded)
             {
-                //vm.CurrTransactionReason.Categories.Remove(item);
                 vm.CurrTransactionReason.Categories.Find(x => x.CategoryId == item.CategoryId).IsDeleted = true;
                 vm.CurrTransactionReason.ModifiedDate = DateTime.Now;
                 vm.CurrTransactionReason.HasChanges = true;

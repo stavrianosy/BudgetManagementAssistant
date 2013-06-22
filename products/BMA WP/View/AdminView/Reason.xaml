@@ -64,7 +64,7 @@
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <TextBox x:Name="txtName" 
+                        <toolkit:AutoCompleteBox x:Name="txtName" 
                                          Text="{Binding ElementName=ReasonsMultiSelect, Path=SelectedItem.Name, Mode=TwoWay}"
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>

@@ -81,6 +81,7 @@ namespace BMAServiceLib
                     var query = (from i in context.Category
                                 .Include(x=>x.TypeTransactionReasons)
                                 .Include(x=>x.CreatedUser)
+                                orderby i.Name ascending
                                 where !i.IsDeleted
                                 select i).ToList();
 
@@ -102,7 +103,9 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TransactionReason
+                                .Include(x => x.CreatedUser)
                                 .Include(x => x.Categories)
+                                 orderby i.Name ascending
                                 where !i.IsDeleted
                                 select i).ToList();
 
@@ -273,11 +276,11 @@ namespace BMAServiceLib
         #endregion
 
         #region Save / Add
-        public StaticTypeList SyncStaticData(StaticTypeList staticData)
+        public StaticTypeList SyncStaticData(StaticTypeList staticData, User user)
         {
             var result = new StaticTypeList();
 
-            result.Categories = SyncCategories(staticData.Categories);
+            result.Categories = SyncCategories(staticData.Categories, user);
             result.BudgetThresholds = SyncBudgetThresholds(staticData.BudgetThresholds);
             result.Notifications = SyncNotifications(staticData.Notifications);
             result.TypeFrequencies = SyncTypeFrequencies(staticData.TypeFrequencies);
@@ -288,7 +291,7 @@ namespace BMAServiceLib
             return result;
         }
 
-        public List<Category> SyncCategories(List<Category> categories)
+        public List<Category> SyncCategories(List<Category> categories, User user)
         {
             try
             {
@@ -310,7 +313,7 @@ namespace BMAServiceLib
                         categoryList.Add(item);
                     }
 
-                    return SaveCategories(categoryList);
+                    return SaveCategories(categoryList, user);
                 }
             }
             catch (Exception)
@@ -506,7 +509,7 @@ namespace BMAServiceLib
         }
 
 
-        public List<Category> SaveCategories(List<Category> categories)
+        public List<Category> SaveCategories(List<Category> categories, User user)
         {
             try
             {
@@ -524,10 +527,24 @@ namespace BMAServiceLib
 
                             if (original != null)
                             {
+                                context.Entry(original).Collection(x => x.TypeTransactionReasons).Load();
+
                                 item.HasChanges = false;
                                 
-                                original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
-                                original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+                                //original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                                original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == user.UserId);
+
+                                if (item.TypeTransactionReasons != null)
+                                {
+                                    item.TypeTransactionReasons.ForEach(x =>
+                                    {
+                                        var query = context.TransactionReason.FirstOrDefault(k => k.TypeTransactionReasonId == x.TypeTransactionReasonId);
+                                        if (x.IsDeleted)
+                                            original.TypeTransactionReasons.Remove(query);
+                                        else
+                                            original.TypeTransactionReasons.Add(query);
+                                    });
+                                }
 
                                 context.Entry(original).CurrentValues.SetValues(item);
                                 updateFound = true;
@@ -537,6 +554,19 @@ namespace BMAServiceLib
                         {
                             item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                             item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            if (item.TypeTransactionReasons != null)
+                            {
+                                item.TypeTransactionReasons.ForEach(x =>
+                                {
+                                    x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                    x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+
+                                    x.Categories = null; 
+                                    
+                                    context.Entry(x).State = System.Data.EntityState.Unchanged;
+                                });
+                            }
 
                             context.Category.Add(item);
                             
@@ -586,9 +616,11 @@ namespace BMAServiceLib
                         {
                             item.HasChanges = false;
                             
-                            var original = context.TransactionReason.Where(t => t.TypeTransactionReasonId == item.TypeTransactionReasonId && !t.IsDeleted).FirstOrDefault();
+                            var original = context.TransactionReason.Where(t => t.TypeTransactionReasonId == item.TypeTransactionReasonId &&
+                                                                            t.ModifiedDate < item.ModifiedDate &&
+                                                                            !t.IsDeleted).FirstOrDefault();
 
-                            if (original.ModifiedDate < item.ModifiedDate)
+                            if (original != null)
                             {
                                 context.Entry(original).Collection(x => x.Categories).Load();
 
@@ -602,13 +634,6 @@ namespace BMAServiceLib
                                         else
                                             original.Categories.Add(query);
                                     });
-
-                                    ////remove
-                                    //original.Categories.ForEach(x =>
-                                    //{
-                                    //    var query = item.Categories.Where(k => k.CategoryId != x.CategoryId).ToList();
-                                    //    query.ForEach(k => original.Categories.RemoveAll(z=>z.CategoryId==k.CategoryId));
-                                    //});
                                 }
 
                                 context.Entry(original).CurrentValues.SetValues(item);
@@ -626,6 +651,8 @@ namespace BMAServiceLib
                                         {
                                             x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
                                             x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+
+                                            x.TypeTransactionReasons = null;
 
                                             context.Entry(x).State = System.Data.EntityState.Unchanged;
                                         });
@@ -1033,6 +1060,9 @@ namespace BMAServiceLib
                         if (context.User.Where(i => i.UserName == user.UserName).ToList().Count > 0)
                             throw new Exception("Username exist");
 
+                        if (context.User.Where(i => i.Email == user.Email).ToList().Count > 0)
+                            throw new Exception("Email exist");
+
                         var query = context.User.Where(i => i.UserName == "admin").FirstOrDefault();
                         user.CreatedUser = query;
                         user.ModifiedUser = query;
@@ -1042,6 +1072,7 @@ namespace BMAServiceLib
 
                     context.SaveChanges();
                 }
+
                 return AuthenticateUser(user);
             }
             catch (DbEntityValidationException e)

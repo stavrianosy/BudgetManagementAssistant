@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMAServiceHost", "..\librar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMAServiceLib", "..\libraries\BMAServiceLib\BMAServiceLib.csproj", "{C31072DE-DF1E-4E46-99C7-E8890121F05B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMA Console Test", "BMA Console Test\ConsoleApplication1.csproj", "{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernUI.Toolkit.Data.Charting", "..\controls\ModernUI.Controls\Charting\ModernUI.Toolkit.Data.Charting.csproj", "{C6C4FC26-8000-49C2-A525-79CA241472A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackTask", "..\libraries\BackTask\BackTask.csproj", "{3D0CD1B2-B358-4664-AA9D-938ADE602AB7}"
@@ -203,31 +201,6 @@ Global
 		{C31072DE-DF1E-4E46-99C7-E8890121F05B}.Release|ARM.ActiveCfg = Release|Any CPU
 		{C31072DE-DF1E-4E46-99C7-E8890121F05B}.Release|x64.ActiveCfg = Release|Any CPU
 		{C31072DE-DF1E-4E46-99C7-E8890121F05B}.Release|x86.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Client-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Client-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Client-Debug|ARM.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Client-Debug|x64.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Client-Debug|x86.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Moussa|Any CPU.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Moussa|Any CPU.Build.0 = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Moussa|ARM.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Moussa|x64.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Moussa|x86.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release - ARM|Any CPU.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release - ARM|Any CPU.Build.0 = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release - ARM|ARM.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release - ARM|x64.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release - ARM|x86.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|ARM.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|x64.ActiveCfg = Release|Any CPU
-		{4097DDBA-EFE9-48E2-A1F7-42FC1AC78D1E}.Release|x86.ActiveCfg = Release|Any CPU
 		{C6C4FC26-8000-49C2-A525-79CA241472A7}.Client-Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C6C4FC26-8000-49C2-A525-79CA241472A7}.Client-Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6C4FC26-8000-49C2-A525-79CA241472A7}.Client-Debug|ARM.ActiveCfg = Debug|ARM

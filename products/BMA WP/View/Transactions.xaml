@@ -110,7 +110,7 @@
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Total, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                     Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                                <TextBox x:Name="txtTotal" Margin="0 -6 0 0"
+                                <toolkit:AutoCompleteBox x:Name="txtTotal" Margin="0 -6 0 0"
                                          Text="{Binding CurrTransaction.TotalAmount, Mode=TwoWay}" 
                                          IsEnabled="False"/>
                             </StackPanel>

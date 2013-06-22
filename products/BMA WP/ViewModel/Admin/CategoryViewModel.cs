@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BMA_WP.ViewModel.Admin
@@ -35,7 +36,9 @@ namespace BMA_WP.ViewModel.Admin
             {
                 return new RelayCommand<object>((param) =>
                 {
-                    PivotIndex = 0;
+                    var selectedItem = (SelectionChangedEventArgs)param;
+                    if (selectedItem.AddedItems[0] != null)
+                        PivotIndex = 0;
                 });
             }
         }
