@@ -664,11 +664,11 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reccurence Pattern.
+        ///   Looks up a localized string similar to Recurrence Pattern.
         /// </summary>
-        public static string ReccurencePattern {
+        public static string RecurrencePattern {
             get {
-                return ResourceManager.GetString("ReccurencePattern", resourceCulture);
+                return ResourceManager.GetString("RecurrencePattern", resourceCulture);
             }
         }
         

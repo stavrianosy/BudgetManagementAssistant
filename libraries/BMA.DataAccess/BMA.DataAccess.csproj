@@ -54,6 +54,38 @@
     <Compile Include="Migrations\201306211952138_repeat.Designer.cs">
       <DependentUpon>201306211952138_repeat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201306230006095_rules.cs" />
+    <Compile Include="Migrations\201306230006095_rules.Designer.cs">
+      <DependentUpon>201306230006095_rules.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306231306206_rules1.cs" />
+    <Compile Include="Migrations\201306231306206_rules1.Designer.cs">
+      <DependentUpon>201306231306206_rules1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306231424188_rules2.cs" />
+    <Compile Include="Migrations\201306231424188_rules2.Designer.cs">
+      <DependentUpon>201306231424188_rules2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306231436157_rules3.cs" />
+    <Compile Include="Migrations\201306231436157_rules3.Designer.cs">
+      <DependentUpon>201306231436157_rules3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306231436423_rules4.cs" />
+    <Compile Include="Migrations\201306231436423_rules4.Designer.cs">
+      <DependentUpon>201306231436423_rules4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306231437361_rules5.cs" />
+    <Compile Include="Migrations\201306231437361_rules5.Designer.cs">
+      <DependentUpon>201306231437361_rules5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306231647365_rules6.cs" />
+    <Compile Include="Migrations\201306231647365_rules6.Designer.cs">
+      <DependentUpon>201306231647365_rules6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201306241616352_rules7.cs" />
+    <Compile Include="Migrations\201306241616352_rules7.Designer.cs">
+      <DependentUpon>201306241616352_rules7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -76,6 +108,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201306211952138_repeat.resx">
       <DependentUpon>201306211952138_repeat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306230006095_rules.resx">
+      <DependentUpon>201306230006095_rules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306231306206_rules1.resx">
+      <DependentUpon>201306231306206_rules1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306231424188_rules2.resx">
+      <DependentUpon>201306231424188_rules2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306231436157_rules3.resx">
+      <DependentUpon>201306231436157_rules3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306231436423_rules4.resx">
+      <DependentUpon>201306231436423_rules4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306231437361_rules5.resx">
+      <DependentUpon>201306231437361_rules5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306231647365_rules6.resx">
+      <DependentUpon>201306231647365_rules6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201306241616352_rules7.resx">
+      <DependentUpon>201306241616352_rules7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

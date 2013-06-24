@@ -32,16 +32,22 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
 
-            GetAllBudgets(a);
+            //GetAllBudgets(a);
+            //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
+            SaveTypeInterval(b, usr);
+
+
+
+
 
             //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
             var auth = b.AuthenticateUser(usr);
             var usr11 = b.GetUpcomingNotifications(DateTime.Now);
             //var bud = a.GetAllBudgets();
 
-            b.GetAllStaticData();
+            
 
             var trans = a.GetLatestTransactions();
             var list = new TransactionList();
@@ -82,6 +88,11 @@ namespace ConsoleApplication1
             //var arrC = st.Categories.ToList();
 
            // var c = a.SaveCategories(st.Categories);
+        }
+
+        private static void SaveTypeInterval(ServiceReference2.StaticClient b, User usr)
+        {
+             setup one interval object for saving. Good luck !
         }
         private static void GetAllBudgets(ServiceReference1.MainClient client)
         {

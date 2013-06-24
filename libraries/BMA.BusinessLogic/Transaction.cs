@@ -174,9 +174,9 @@ namespace BMA.BusinessLogic
         #region Contructors
         //parameterless ctor in order to be used in generic as T
         public Transaction()
-            : base(null)
+            : this(null)
         {}
-        public Transaction(User user):base(user)
+        public Transaction(User user):this(null,null,null, user)
         { }
 
         //Simple contructor with rules applied

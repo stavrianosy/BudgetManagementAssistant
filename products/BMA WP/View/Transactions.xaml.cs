@@ -58,17 +58,26 @@ namespace BMA_WP.View
                 Binding bindTransType = new Binding("TransactionType");
                 bindTransType.Mode = BindingMode.TwoWay;
                 bindTransType.Source = vm.CurrTransaction;
-                cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
+                if (vm.CurrTransaction.TransactionType != null &&
+                    ((ObservableCollection<TypeTransaction>)cmbType.ItemsSource)
+                                                .FirstOrDefault(x => x.TypeTransactionId == vm.CurrTransaction.TransactionType.TypeTransactionId)!=null)
+                    cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
 
                 Binding bindCategory = new Binding("Category");
                 bindCategory.Mode = BindingMode.TwoWay;
                 bindCategory.Source = vm.CurrTransaction;
-                cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
+                if (vm.CurrTransaction.Category != null &&
+                    ((ObservableCollection<Category>)cmbCategory.ItemsSource)
+                        .FirstOrDefault(x => x.CategoryId == vm.CurrTransaction.Category.CategoryId) != null)
+                    cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
 
                 Binding bindTransReasonType = new Binding("TransactionReasonType");
                 bindTransReasonType.Mode = BindingMode.TwoWay;
                 bindTransReasonType.Source = vm.CurrTransaction;
-                cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
+                if (vm.CurrTransaction.TransactionReasonType != null && 
+                    ((List<TypeTransactionReason>)cmbReason.ItemsSource)
+                        .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrTransaction.TransactionReasonType.TypeTransactionReasonId) != null)
+                    cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
             }
             else
             {

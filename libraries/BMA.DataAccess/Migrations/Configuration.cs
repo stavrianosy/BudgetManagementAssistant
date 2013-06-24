@@ -237,74 +237,148 @@ namespace BMA.DataAccess.Migrations
                 #endregion
 
                 #region Transaction
-                context.Transaction.AddOrUpdate(t => t.NameOfPlace,
-                    new Transaction(context.User.Local.Single(u => u.UserName == userName))
-                    {
-                        TransactionId = 1,
-                        Amount = 6.5d,
-                        NameOfPlace = "Four Seassons",
-                        TipAmount = 0d,
-                        Category = context.Category.Local.Single(c => c.Name == "Restaurant"),
-                        TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Lunch"),
-                        TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Expense"),
-                        Comments = "Juice and Perrier"
-                    },
-                    new Transaction(context.User.Local.Single(u => u.UserName == userName))
-                    {
-                        TransactionId = 2,
-                        Amount = 475d,
-                        NameOfPlace = "BBD",
-                        TipAmount = 0d,
-                        Category = context.Category.Local.Single(c => c.Name == "Work"),
-                        TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Salary"),
-                        TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Income"),
-                        Comments = "Allowances"
-                    },
-                    new Transaction(context.User.Local.Single(u => u.UserName == userName))
-                    {
-                        TransactionId = 3,
-                        Amount = 5d,
-                        NameOfPlace = "Strovolos Municipality",
-                        TipAmount = 0d,
-                        Category = context.Category.Local.Single(c => c.Name == "Entertainment"),
-                        TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Futsal"),
-                        TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Expense"),
-                        Comments = "Statndard fee"
-                    });
+                //## No need to seed transactions anymore
+                //context.Transaction.AddOrUpdate(t => t.NameOfPlace,
+                //    new Transaction(context.User.Local.Single(u => u.UserName == userName))
+                //    {
+                //        TransactionId = 1,
+                //        Amount = 6.5d,
+                //        NameOfPlace = "Four Seassons",
+                //        TipAmount = 0d,
+                //        Category = context.Category.Local.Single(c => c.Name == "Restaurant"),
+                //        TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Lunch"),
+                //        TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Expense"),
+                //        Comments = "Juice and Perrier"
+                //    },
+                //    new Transaction(context.User.Local.Single(u => u.UserName == userName))
+                //    {
+                //        TransactionId = 2,
+                //        Amount = 475d,
+                //        NameOfPlace = "BBD",
+                //        TipAmount = 0d,
+                //        Category = context.Category.Local.Single(c => c.Name == "Work"),
+                //        TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Salary"),
+                //        TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Income"),
+                //        Comments = "Allowances"
+                //    },
+                //    new Transaction(context.User.Local.Single(u => u.UserName == userName))
+                //    {
+                //        TransactionId = 3,
+                //        Amount = 5d,
+                //        NameOfPlace = "Strovolos Municipality",
+                //        TipAmount = 0d,
+                //        Category = context.Category.Local.Single(c => c.Name == "Entertainment"),
+                //        TransactionReasonType = context.TransactionReason.Local.Single(tr => tr.Name == "Futsal"),
+                //        TransactionType = context.TypeTransaction.Local.Single(c => c.Name == "Expense"),
+                //        Comments = "Statndard fee"
+                //    });
                 #endregion
 
                 #region FieldType
                 context.FieldType.AddOrUpdate(x => x.Name,
                     new FieldType{Name = "label",Type = "label"},
-                    new FieldType{Name = "int",Type = "int"},
-                    new FieldType{Name = "datetime",Type = "datetime"}
+                    new FieldType { Name = "int", Type = "int" },
+                    new FieldType { Name = "dayNumber", Type = "daynum" },
+                    new FieldType{Name = "date",Type = "dateint"},
+                    new FieldType{Name = "truefalse",Type = "bit"},
+                    new FieldType{Name = "text",Type = "string"}
                 );
                 #endregion
 
                 #region RulePart
                 context.RulePart.AddOrUpdate(x => x.FieldName,
-                    new RulePart {FieldName="RangeNoEndDate", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
-                    new RulePart {FieldName="RangeTotalRecurrences", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
-                    new RulePart {FieldName="RangeEndBy", FieldType=context.FieldType.Local.Single(x=>x.Type == "datetime") }
+                    new RulePart { FieldName = "RangeStartDate", FieldType = context.FieldType.Local.Single(x => x.Type == "dateint") },
+                    new RulePart { FieldName = "RangeNoEndDate", FieldType = context.FieldType.Local.Single(x => x.Type == "label") },
+                    new RulePart {FieldName="RangeTotalOcurrences", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
+                    new RulePart {FieldName="RangeEndBy", FieldType=context.FieldType.Local.Single(x=>x.Type == "dateint") },
+                    new RulePart {FieldName="DailyEveryDay", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
+                    new RulePart {FieldName="DailyOnlyWeekdays", FieldType=context.FieldType.Local.Single(x=>x.Type == "bit") },
+                    new RulePart {FieldName="WeeklyEveryWeek", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
+                    new RulePart { FieldName = "WeeklyDayName", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
+                    new RulePart { FieldName = "MonthlyDayNumber", FieldType = context.FieldType.Local.Single(x => x.Type == "daynum") },
+                    new RulePart { FieldName = "MonthlyEveryMonth", FieldType = context.FieldType.Local.Single(x => x.Type == "int") },
+                    new RulePart { FieldName = "MonthlyCountOfWeekDay", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
+                    new RulePart { FieldName = "MonthlyDayName", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
+                    new RulePart { FieldName = "MonthlyCountOfMonth", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
+                    new RulePart { FieldName = "YearlyEveryYear", FieldType = context.FieldType.Local.Single(x => x.Type == "int") },
+                    new RulePart {FieldName="YearlyOnDayPos", FieldType=context.FieldType.Local.Single(x=>x.Type == "daynum") },
+                    new RulePart {FieldName="YearlyMonthName", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") },
+                    new RulePart {FieldName="YearlyPositions", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") },
+                    new RulePart {FieldName="YearlyDayName", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") },
+                    new RulePart {FieldName="YearlyMonthNameSec", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") }
                 );
                 #endregion
 
-                #region RecurrenceRangeRule
-                context.RecurrenceRangeRule.AddOrUpdate(t => t.Name,
-                    new RecurrenceRangeRule{Name = "NoEndDate", 
-                        RuleParts = {
-                            context.RulePart.Local.Single(x=>x.FieldName=="RangeNoEndDate")}},
-                    new RecurrenceRangeRule{Name = "TotalRecurrences", 
-                        RuleParts = {
-                            context.RulePart.Local.Single(x=>x.FieldName=="RangeTotalRecurrences")}},
-                    new RecurrenceRangeRule{Name = "EndBy", 
-                        RuleParts = {context.RulePart.Local.Single(x=>x.FieldName=="RangeTotalRecurrences")}}                    
+                #region RecurrenceRule
+                context.RecurrenceRule.AddOrUpdate(t => t.Name,
+                    new RecurrenceRule
+                    {
+                        Name = "RuleRangeNoEndDate",
+                        RuleParts = new List<RulePart>{
+                            context.RulePart.Local.Single(x=>x.FieldName=="RangeStartDate")}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleRangeTotalOcurrences",
+                        RuleParts = new List<RulePart>{
+                            context.RulePart.Local.Single(x=>x.FieldName=="RangeTotalOcurrences"),
+                            context.RulePart.Local.Single(x=>x.FieldName=="RangeStartDate")}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleRangeEndBy",
+                        RuleParts = new List<RulePart> { 
+                            context.RulePart.Local.Single(x => x.FieldName == "RangeEndBy") ,
+                            context.RulePart.Local.Single(x=>x.FieldName=="RangeStartDate")}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleDailyEveryDays",
+                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "DailyEveryDay"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "DailyOnlyWeekdays") }
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleWeeklyEveryWeek",
+                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "WeeklyEveryWeek"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "WeeklyDayName")}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleMonthlyDayNum",
+                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "MonthlyDayNumber"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "MonthlyEveryMonth")}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleMonthlyPrecise",
+                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "MonthlyCountOfWeekDay"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "MonthlyDayName"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "MonthlyCountOfMonth")}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = "RuleYearlyOnMonth",
+                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "YearlyEveryYear"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyOnDayPos"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyMonthName")}
+                    }, 
+                    new RecurrenceRule
+                    {
+                        Name = "RuleYearlyOnTheWeekDay",
+                        RuleParts = new List<RulePart>{ 
+                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyEveryYear"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyPositions"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyDayName"),
+                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyMonthNameSec")}
+                    }
+
                 );
                 #endregion
-                
-                //#region Target
+
+                #region Target
                 ////context.Target.AddOrUpdate(t => t.EndDate, new Target { });
-                //#endregion
+                #endregion
 
 
                 //context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] OFF");

@@ -70,16 +70,16 @@ namespace ConsoleApplication1.ServiceReference2 {
         System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Notification>> GetUpcomingNotificationsAsync(System.DateTime clientTime);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncStaticData", ReplyAction="http://tempuri.org/IStatic/SyncStaticDataResponse")]
-        BMA.BusinessLogic.StaticTypeList SyncStaticData(BMA.BusinessLogic.StaticTypeList staticData);
+        BMA.BusinessLogic.StaticTypeList SyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncStaticData", ReplyAction="http://tempuri.org/IStatic/SyncStaticDataResponse")]
-        System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData);
+        System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncCategories", ReplyAction="http://tempuri.org/IStatic/SyncCategoriesResponse")]
-        System.Collections.Generic.List<BMA.BusinessLogic.Category> SyncCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
+        System.Collections.Generic.List<BMA.BusinessLogic.Category> SyncCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncCategories", ReplyAction="http://tempuri.org/IStatic/SyncCategoriesResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SyncCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SyncCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncTypeTransactionReasons", ReplyAction="http://tempuri.org/IStatic/SyncTypeTransactionReasonsResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> SyncTypeTransactionReasons(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason);
@@ -118,10 +118,10 @@ namespace ConsoleApplication1.ServiceReference2 {
         System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold>> SyncBudgetThresholdsAsync(System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold> budgetThreshold);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
-        System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
+        System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SaveCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SaveCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveTypeTransactionReasons", ReplyAction="http://tempuri.org/IStatic/SaveTypeTransactionReasonsResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> SaveTypeTransactionReasons(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason);
@@ -259,20 +259,20 @@ namespace ConsoleApplication1.ServiceReference2 {
             return base.Channel.GetUpcomingNotificationsAsync(clientTime);
         }
         
-        public BMA.BusinessLogic.StaticTypeList SyncStaticData(BMA.BusinessLogic.StaticTypeList staticData) {
-            return base.Channel.SyncStaticData(staticData);
+        public BMA.BusinessLogic.StaticTypeList SyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user) {
+            return base.Channel.SyncStaticData(staticData, user);
         }
         
-        public System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData) {
-            return base.Channel.SyncStaticDataAsync(staticData);
+        public System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user) {
+            return base.Channel.SyncStaticDataAsync(staticData, user);
         }
         
-        public System.Collections.Generic.List<BMA.BusinessLogic.Category> SyncCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
-            return base.Channel.SyncCategories(categories);
+        public System.Collections.Generic.List<BMA.BusinessLogic.Category> SyncCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
+            return base.Channel.SyncCategories(categories, user);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SyncCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
-            return base.Channel.SyncCategoriesAsync(categories);
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SyncCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
+            return base.Channel.SyncCategoriesAsync(categories, user);
         }
         
         public System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> SyncTypeTransactionReasons(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason) {
@@ -323,12 +323,12 @@ namespace ConsoleApplication1.ServiceReference2 {
             return base.Channel.SyncBudgetThresholdsAsync(budgetThreshold);
         }
         
-        public System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
-            return base.Channel.SaveCategories(categories);
+        public System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
+            return base.Channel.SaveCategories(categories, user);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SaveCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
-            return base.Channel.SaveCategoriesAsync(categories);
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SaveCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
+            return base.Channel.SaveCategoriesAsync(categories, user);
         }
         
         public System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> SaveTypeTransactionReasons(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason) {

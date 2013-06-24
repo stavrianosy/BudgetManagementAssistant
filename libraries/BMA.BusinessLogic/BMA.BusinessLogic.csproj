@@ -49,8 +49,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FieldType.cs" />
-    <Compile Include="RecurrenceRangeRule.cs" />
+    <Compile Include="RecurrenceRule.cs" />
     <Compile Include="RuleParts.cs" />
+    <Compile Include="RuleSupportItems.cs" />
     <Compile Include="TransactionComparer.cs" />
     <Compile Include="TransactionImage.cs" />
     <Compile Include="TypeFrequency.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="TypeTransaction.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

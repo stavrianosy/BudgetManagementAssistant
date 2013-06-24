@@ -19,7 +19,6 @@ namespace BMA_WP.Model
             {
                 string param = parameter.ToString().ToLower();
 
-                var pivotIndex = 0;
                 double barSize = 1;
                 if(value!=null)
                     double.TryParse(value.ToString(), out barSize);
@@ -59,7 +58,7 @@ namespace BMA_WP.Model
                         
                     case "bitconverter":
                         return BitConverter(value);
-                        
+                
                     case "nulltranimages":
                         return GetNullTransImages(value);
 
@@ -141,6 +140,7 @@ namespace BMA_WP.Model
             return bit ? "true" : "false";
         }
 
+        
         private string TransTypeConverter(object value)
         {
             var isIncome = (bool)value;

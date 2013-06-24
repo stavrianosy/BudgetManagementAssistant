@@ -23,6 +23,7 @@ namespace BMA_WP.Model
         private const string STATIC_NOTIFICATION_FOLDER = "Static_Notification";
         private const string STATIC_TYPEFREQUENCY_FOLDER = "Static_TypeFrequency";
         private const string STATIC_TYPEINTERVAL_FOLDER = "Static_TypeInterval";
+        private const string STATIC_RECURRENCE_FOLDER = "Static_Recurrence";
         private const string STATIC_BUDGETTHRESHOLD_FOLDER = "Static_BudgetThreshold";
         private const string STATIC_USER_FOLDER = "Static_User";
 
@@ -38,6 +39,7 @@ namespace BMA_WP.Model
         public ObservableCollection<TypeSavingsDencity> TypeSavingsDencityList { get; set; }
         public ObservableCollection<TypeFrequency> TypeFrequencyList { get; set; }
         public ObservableCollection<TypeInterval> IntervalList { get; set; }
+        public ObservableCollection<RecurrenceRule> RecurrenceRuleList { get; set; }
         public ObservableCollection<Notification> NotificationList { get; set; }
         public ObservableCollection<BudgetThreshold> BudgetThresholdList { get; set; }
         #endregion
@@ -52,6 +54,7 @@ namespace BMA_WP.Model
             NotificationList = new ObservableCollection<Notification>();
             TypeFrequencyList = new ObservableCollection<TypeFrequency>();
             IntervalList = new ObservableCollection<TypeInterval>();
+            RecurrenceRuleList = new ObservableCollection<RecurrenceRule>();
             BudgetThresholdList = new ObservableCollection<BudgetThreshold>();
         }
         #endregion
@@ -67,6 +70,9 @@ namespace BMA_WP.Model
         {
             StaticTypeList existing = new StaticTypeList();
 
+            await LoadCategories();
+            await LoadTypeTransactionReason();
+
             if (!App.Instance.IsOnline)
             {
                 existing.TypeTransactions = await LoadCachedTypeTransaction(STATIC_TYPETRANSACTION_FOLDER);
@@ -76,6 +82,7 @@ namespace BMA_WP.Model
                 existing.Notifications = await LoadCachedNotification(STATIC_NOTIFICATION_FOLDER);
                 existing.TypeFrequencies = await LoadCachedTypeFrequency(STATIC_TYPEFREQUENCY_FOLDER);
                 existing.TypeIntervals = await LoadCachedInterval(STATIC_TYPEINTERVAL_FOLDER);
+                existing.RecurrenceRules = await LoadCachedRecurrenceRule(STATIC_RECURRENCE_FOLDER);
                 existing.BudgetThresholds = await LoadCachedBudgetThreshold(STATIC_BUDGETTHRESHOLD_FOLDER);
 
                 SetupAllData(existing);
@@ -84,8 +91,7 @@ namespace BMA_WP.Model
             {
                 var client = new BMAStaticDataService.StaticClient();
                 client.GetAllStaticDataAsync();
-                client.GetAllCategoriesAsync();
-                client.GetAllTypeTransactionReasonsAsync();
+
                 client.GetAllStaticDataCompleted += async (o, e) =>
                 {
                     try
@@ -101,6 +107,7 @@ namespace BMA_WP.Model
                         SetupNotificationData(result.Notifications);
                         SetupTypeFrequencyData(result.TypeFrequencies);
                         SetupIntervalData(result.TypeIntervals);
+                        SetupRecurrenceRuleData(result.RecurrenceRules);
                         SetupBudgetThresholdData(result.BudgetThresholds);
                     }
                     catch (Exception)
@@ -108,6 +115,25 @@ namespace BMA_WP.Model
                         throw;
                     }
                 };
+            }
+
+        }
+
+        public async Task LoadCategories()
+        {
+            List<Category> existing = new List<Category>();
+
+            if (!App.Instance.IsOnline)
+            {
+                existing = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
+
+                SetupTypeCategoryData(existing);
+            }
+            else
+            {
+                var client = new BMAStaticDataService.StaticClient();
+
+                client.GetAllCategoriesAsync();
                 client.GetAllCategoriesCompleted += async (o, e) =>
                 {
                     try
@@ -124,6 +150,24 @@ namespace BMA_WP.Model
                         throw;
                     }
                 };
+            }
+        }
+
+        public async Task LoadTypeTransactionReason()
+        {
+            List<TypeTransactionReason> existing = new List<TypeTransactionReason>();
+
+            if (!App.Instance.IsOnline)
+            {
+                existing = await LoadCachedTypeTransactionReason(STATIC_TYPETRANSACTIONREASON_FOLDER);
+
+                SetupTypeTransactionReasonData(existing);
+            }
+            else
+            {
+                var client = new BMAStaticDataService.StaticClient();
+
+                client.GetAllTypeTransactionReasonsAsync();
                 client.GetAllTypeTransactionReasonsCompleted += async (o, e) =>
                 {
                     try
@@ -141,8 +185,8 @@ namespace BMA_WP.Model
                     }
                 };
             }
-
         }
+
 
         public async Task LoadUser(User user, Action<User, Exception> callback)
         {
@@ -275,6 +319,16 @@ namespace BMA_WP.Model
 
             foreach (var item in existing)
                 IntervalList.Add(item);
+        }
+
+        private void SetupRecurrenceRuleData(ICollection<RecurrenceRule> existing)
+        {
+            existing = existing ?? new List<RecurrenceRule>();
+
+            RecurrenceRuleList.Clear();
+
+            foreach (var item in existing)
+                RecurrenceRuleList.Add(item);
         }
 
         private void SetupBudgetThresholdData(ICollection<BudgetThreshold> existing)
@@ -416,6 +470,24 @@ namespace BMA_WP.Model
             return retVal;
         }
 
+        private async Task<List<RecurrenceRule>> LoadCachedRecurrenceRule(string folder)
+        {
+            var retVal = new List<RecurrenceRule>();
+            foreach (var item in await StorageUtility.ListItems(folder))
+            {
+                try
+                {
+                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(folder, item);
+                    retVal.Add(staticType);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            return retVal;
+        }
+
         private async Task<List<BudgetThreshold>> LoadCachedBudgetThreshold(string folder)
         {
             var retVal = new List<BudgetThreshold>();
@@ -473,6 +545,8 @@ namespace BMA_WP.Model
                     {
                         if (completedEventArgs.Error == null)
                         {
+                            await LoadTypeTransactionReason();
+
                             await UpdateCacheCategory(completedEventArgs.Result);
                             SetupTypeCategoryData(completedEventArgs.Result);
                         }
@@ -505,6 +579,8 @@ namespace BMA_WP.Model
                     {
                         if (completedEventArgs.Error == null)
                         {
+                            await LoadCategories();
+
                             await UpdateCacheTypeTransactionReason(completedEventArgs.Result);
                             SetupTypeTransactionReasonData(completedEventArgs.Result);
                         }
@@ -517,6 +593,39 @@ namespace BMA_WP.Model
                 throw;
             }
         }
+
+        public async Task SaveTypeInterval(ObservableCollection<TypeInterval> typeInterval)
+        {
+            try
+            {
+                var result = this.IntervalList.ToObservableCollection();
+
+                if (!App.Instance.IsOnline)
+                {
+                    result = result.Where(i => !i.IsDeleted).ToObservableCollection();
+                    ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
+                }
+                else
+                {
+                    var client = new BMAStaticDataService.StaticClient();
+                    client.SaveTypeIntervalsAsync(typeInterval, App.Instance.User);
+                    client.SaveTypeIntervalsCompleted += async (sender, completedEventArgs) =>
+                    {
+                        if (completedEventArgs.Error == null)
+                        {
+                            await UpdateCacheTypeInterval(completedEventArgs.Result);
+                            SetupIntervalData(completedEventArgs.Result);
+                        }
+
+                    };
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         public async Task RegisterUser(User user, Action<User, Exception> callback)
         {
@@ -678,6 +787,13 @@ namespace BMA_WP.Model
             await StorageUtility.Clear(STATIC_TYPEINTERVAL_FOLDER);
             foreach (var item in typeIntervalList)
                 await StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId);
+        }
+
+        private async Task UpdateCacheRecurrenceRule(ICollection<RecurrenceRule> recurrenceRuleList)
+        {
+            await StorageUtility.Clear(STATIC_RECURRENCE_FOLDER);
+            foreach (var item in RecurrenceRuleList)
+                await StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId);
         }
 
         private async Task UpdateCacheTypeSavingsDencity(ICollection<TypeSavingsDencity> typeSavingsDencityList)

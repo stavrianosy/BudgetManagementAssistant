@@ -88,15 +88,6 @@ namespace BMA.DataModel
             return !isDeleted ? "Collapsed" : "Visible";
         }
 
-        private BaseItem FilterListView(object value)
-        {
-            var item = value as BaseItem;
-            if (item == null || item.IsDeleted)
-                item = null;
-
-            return item;
-        }
-
         private string GetDateFormat(object value)
         {
             DateTime date = DateTime.Now;

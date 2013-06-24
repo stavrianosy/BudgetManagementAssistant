@@ -100,6 +100,10 @@
     <Compile Include="Common\NumberInputBox.cs" />
     <Compile Include="Common\StorageUtility.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Model\IntervalRuleConverter.cs" />
+    <Compile Include="Model\RuleSupportItems\BasicItem.cs" />
+    <Compile Include="Model\RuleSupportItems\Position.cs" />
+    <Compile Include="Model\RuleSupportItems\Position4.cs" />
     <Compile Include="Service References\BMAService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,6 +114,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Model\RuleSupportItems\Month.cs" />
+    <Compile Include="Model\RuleSupportItems\WeekDay.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

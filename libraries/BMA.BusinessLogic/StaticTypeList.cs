@@ -17,6 +17,7 @@ namespace BMA.BusinessLogic
         public List<TypeInterval> TypeIntervals { get; set; }
         public List<TypeFrequency> TypeFrequencies { get; set; }
         public List<BudgetThreshold> BudgetThresholds { get; set; }
+        public List<RecurrenceRule> RecurrenceRules { get; set; }
         
     }
 }

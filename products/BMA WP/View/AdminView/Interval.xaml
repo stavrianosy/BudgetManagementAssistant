@@ -56,10 +56,16 @@
             <!--Pivot item one-->
             <phone:PivotItem x:Name="piInterval" Header="Interval" >
                 <ScrollViewer >
-                    <StackPanel Margin="0 -500 0 0">
+                    <StackPanel Margin="0 -00 0 0">
+                        <TextBlock 
+                            Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="txtName" VerticalAlignment="Top" 
+                                Text="{Binding CurrInterval.Name, Mode=TwoWay}"
+                                IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                            ItemsSource="{Binding TransactionTypeList}"
+                                            ItemsSource="{Binding TypeTransactionList}"
                                             FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
                                             ItemTemplate="{StaticResource PickerItemTemplate}"
                                             ExpansionMode="ExpansionAllowed"
@@ -70,7 +76,8 @@
                             Text="{Binding Path=LocalizedResources.Purpose, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtPurpose" VerticalAlignment="Top" 
-                                Text="{Binding Purpose, Mode=TwoWay}"/>
+                                Text="{Binding CurrInterval.Purpose, Mode=TwoWay}"
+                                IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:ListPicker x:Name="cmbCategory" 
                                           Header="{Binding Path=LocalizedResources.Category, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                           ItemsSource="{Binding CategoryList}"
@@ -81,35 +88,42 @@
                         <TextBlock Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}" 
                                    Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
                         <TextBox x:Name="txtAmount" Margin="0 -6 0 0"
-                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
+                                         Text="{Binding CurrInterval.Amount, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        
                         <toolkit:AutoCompleteBox x:Name="txtComments" Margin="0 -6 0 0"
-                                 Text="{Binding CurrTransaction.Comments, Mode=TwoWay}"
+                                 Text="{Binding CurrInterval.Comments, Mode=TwoWay}"
                                             VerticalAlignment="Top" 
                                             Height="120" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock 
-                            Text="{Binding Path=LocalizedResources.ReccurencePattern, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                            Text="{Binding Path=LocalizedResources.RecurrencePattern, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeExtraLarge}"/>
-                        <Grid>
+                        <Grid x:Name="tglRecurrenceRules">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
+                                <ColumnDefinition/>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" HorizontalAlignment="Center" Content="Daily" />
-                            <Button Grid.Column="1" HorizontalAlignment="Center" Content="Weekly" />
-                            <Button Grid.Column="2" HorizontalAlignment="Center" Content="Monthly" />
-                            <Button Grid.Column="3" HorizontalAlignment="Center" Content="Yearly" />
+                            <ToggleButton x:Name="tglDaily" Grid.Column="0" HorizontalAlignment="Center" 
+                                          Content="Daily" Tap="tglDaily_Tap" IsChecked="True"
+                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <ToggleButton x:Name="tglWeekly" Grid.Column="1" HorizontalAlignment="Center" 
+                                          Content="Weekly" Tap="tglWeekly_Tap"
+                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <ToggleButton x:Name="tglMonthly" Grid.Column="2" HorizontalAlignment="Center" 
+                                          Content="Monthly" Tap="tglMonthly_Tap" 
+                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <ToggleButton x:Name="tglYearly" Grid.Column="3" HorizontalAlignment="Center" 
+                                          Content="Yearly" Tap="tglYearly_Tap" 
+                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         </Grid>
-                        <Grid x:Name="reccurenceDaily" >
+                        <Grid x:Name="reccurenceDaily" Visibility="Visible">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
@@ -117,26 +131,26 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
-                                <RowDefinition Height="23"/>
-                                <RowDefinition />
-                                <RowDefinition />
                             </Grid.RowDefinitions>
-                            <RadioButton VerticalAlignment="Center" Grid.RowSpan="2" IsChecked="True"/>
+                            <RadioButton x:Name ="rbDailyRule1" VerticalAlignment="Center" Grid.RowSpan="2" 
+                                         GroupName="grpRecurrenceRule" Checked="rbDailyRule1_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock Text="Every" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:AutoCompleteBox x:Name="txtDailyEvery" Width="100"
-                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
+                                         Text="{Binding DailyEveryDay, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
-                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
+                                         IsEnabled="{Binding IsEnabled_RuleDailyEveryDays, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                                 <TextBlock Text="day(s)" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                                 <toolkit:ToggleSwitch Content="Only weekdays " FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
-                                                      IsChecked="True"/>
+                                                      IsChecked="{Binding DailyOnlyWeekdays, Mode=TwoWay}" 
+                                                      IsEnabled="{Binding IsEnabled_RuleDailyEveryDays, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
                         </Grid>
-                        <Grid x:Name="reccurenceWeekly">
+                        <Grid x:Name="reccurenceWeekly" Visibility="Collapsed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
@@ -144,29 +158,30 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
-                                <RowDefinition Height="23"/>
-                                <RowDefinition />
-                                <RowDefinition />
                             </Grid.RowDefinitions>
-                            <RadioButton VerticalAlignment="Center" Grid.RowSpan="2" IsChecked="True"/>
+                            <RadioButton VerticalAlignment="Center" Grid.RowSpan="2" 
+                                         GroupName="grpRecurrenceRule" Checked="rbWeeklyRule1_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock Text="Recur every" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:AutoCompleteBox x:Name="txtWeeklyEvery" Width="100"
-                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
+                                         Text="{Binding WeeklyEveryWeek, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
-                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
+                                         IsEnabled="{Binding IsEnabled_RuleWeeklyEveryWeek, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                                 <TextBlock Text="week(s)" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Text="on " Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:ListPicker x:Name="cmbWeeklyDays" Width="200" 
                                               ItemsSource="{Binding WeekDays}"
-                                              FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              SelectedItem="{Binding WeeklyDayName, Converter={StaticResource ruleConverters}, ConverterParameter=weekDays, Mode=TwoWay}" 
+                                              FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}" ExpansionMode="FullScreenOnly"
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleWeeklyEveryWeek, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
                         </Grid>
-                        <Grid x:Name="reccurenceMonthly" >
+                        <Grid x:Name="reccurenceMonthly" Visibility="Collapsed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
@@ -178,45 +193,57 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <RadioButton VerticalAlignment="Center" Grid.RowSpan="2"/>
+                            <RadioButton VerticalAlignment="Center" Grid.RowSpan="2"
+                                          GroupName="grpRecurrenceRule" Checked="rbMonthlyRule1_Checked"/>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock Text="Day" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:ListPicker x:Name="cmbMonthlyDay" Width="100" 
-                                              ItemsSource="{Binding Months}"
-                                              FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                <toolkit:ListPicker x:Name="cmbMonthlyDay" Width="200" 
+                                              ItemsSource="{Binding PosDayOfMonth}"
+                                              SelectedItem="{Binding MonthlyDayNumber, Converter={StaticResource ruleConverters}, ConverterParameter=positionAll, Mode=TwoWay}"
+                                              FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}" ExpansionMode="FullScreenOnly"
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleMonthlyDayNum, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Text="of every " Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:ListPicker x:Name="cmbMonthlyEveryMonth" Width="100" 
+                                <toolkit:ListPicker x:Name="cmbMonthlyEveryMonth" Width="120" 
                                               ItemsSource="{Binding Months}"
-                                              FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              SelectedItem="{Binding MonthlyEveryMonth, Converter={StaticResource ruleConverters}, ConverterParameter=months, Mode=TwoWay}"
+                                              FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}" ExpansionMode="FullScreenOnly"
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleMonthlyDayNum, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 <TextBlock Text="month(s)" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
                             <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Margin="0 10" Fill="Gray"></Rectangle>
-                            <RadioButton Grid.Row="3" VerticalAlignment="Center" Grid.RowSpan="2"/>
+                            <RadioButton Grid.Row="3" VerticalAlignment="Center" Grid.RowSpan="2"
+                                         GroupName="grpRecurrenceRule" Checked="rbMonthlyRule2_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock Text="The" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:ListPicker x:Name="cmbMonthlyPosDay" Width="150" 
-                                              ItemsSource="{Binding PosDayOfMonth}"
+                                              ItemsSource="{Binding Position4}"
+                                              SelectedItem="{Binding MonthlyCountOfWeekDay, Converter={StaticResource ruleConverters}, ConverterParameter=position4, Mode=TwoWay}"
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleMonthlyPrecise, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 <toolkit:ListPicker x:Name="cmbMonthlyWeekDays" Width="150" 
                                               ItemsSource="{Binding WeekDays}"
+                                              SelectedItem="{Binding MonthlyDayName, Converter={StaticResource ruleConverters}, ConverterParameter=weekDays, Mode=TwoWay}" 
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleMonthlyPrecise, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
                                 <TextBlock Text="of every " Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:ListPicker x:Name="cmbMonthlyTypeEvery" Width="100" 
-                                              ItemsSource="{Binding Months}"
-                                              FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                <toolkit:AutoCompleteBox x:Name="txtMonthlyTypeEvery" Width="100"
+                                         Text="{Binding MonthlyCountOfMonth, Mode=TwoWay}" 
+                                         InputScope="Number"
+                                         Background="{StaticResource PhoneTextBoxBrush}"
+                                         IsEnabled="{Binding IsEnabled_RuleMonthlyPrecise, Converter={StaticResource converters}, ConverterParameter=bitConverter}" Margin="0,2,0,-2" />
                                 <TextBlock Text="month(s)" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
                         </Grid>
-                        <Grid x:Name="reccurenceYearly" >
+                        <Grid x:Name="reccurenceYearly" Visibility="Collapsed" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
@@ -224,50 +251,65 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
-                                <RowDefinition/>
+                                <RowDefinition Height="23"/>
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <TextBlock Text="Recur every" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             <toolkit:AutoCompleteBox x:Name="txtYearlyEvery" Width="100"
-                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
+                                         Text="{Binding YearlyEveryYear, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
-                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
+                                         IsEnabled="{Binding IsEnabled_RuleYearlyOnMonth, Converter={StaticResource converters}, ConverterParameter=bitConverter}" Margin="0,2,0,-2" />
                                 <TextBlock Text="year(s)" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
-                            <RadioButton Grid.Row="1" VerticalAlignment="Center"/>
+                            <RadioButton Grid.Row="1" VerticalAlignment="Center"
+                                         GroupName="grpRecurrenceRule" Checked="rbYearlyRule1_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Text="On" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:ListPicker x:Name="cmbYearlyMonth" Width="80" 
-                                              ItemsSource="{Binding Months}"
+                                <toolkit:ListPicker x:Name="cmbYearlyMonth" Width="140" 
+                                              ItemsSource="{Binding PosDayOfMonth}"
+                                              SelectedItem="{Binding YearlyOnDayPos, Converter={StaticResource ruleConverters}, ConverterParameter=positionAll, Mode=TwoWay}"
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleYearlyOnTheWeekDay, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 <TextBlock Text="of" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:ListPicker x:Name="cmbYearlyMonthName" Width="150" 
-                                              ItemsSource="{Binding MonthNames}"
+                                              ItemsSource="{Binding Months}"
+                                              SelectedItem="{Binding YearlyMonthName, Converter={StaticResource ruleConverters}, ConverterParameter=months, Mode=TwoWay}"
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleYearlyOnTheWeekDay, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
-                            <RadioButton Grid.Row="2" VerticalAlignment="Center"/>
-                            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                            <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Margin="0 10" Fill="Gray"></Rectangle>
+                            <RadioButton Grid.Row="3" VerticalAlignment="Center"
+                                         GroupName="grpRecurrenceRule"  Checked="rbYearlyRule2_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
                                 <TextBlock Text="On the" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:ListPicker x:Name="cmbYearlyMonthSec" Width="80" 
-                                              ItemsSource="{Binding PosDayOfMonth}"
+                                <toolkit:ListPicker x:Name="cmbYearlyMonthSec" Width="90" 
+                                              ItemsSource="{Binding Position4, Mode=TwoWay}"
+                                              SelectedItem="{Binding YearlyPositions, Converter={StaticResource ruleConverters}, ConverterParameter=position4, Mode=TwoWay}"
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleYearlyOnMonth2, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 <toolkit:ListPicker x:Name="cmbYearlyWeekDaySec" Width="180" 
                                               ItemsSource="{Binding WeekDays}"
+                                              SelectedItem="{Binding YearlyDayName, Converter={StaticResource ruleConverters}, ConverterParameter=weekDays, Mode=TwoWay}"
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleYearlyOnMonth2, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-                            <TextBlock Text="of " Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
+                            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+                            <TextBlock Text="of each" Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:ListPicker x:Name="cmbYearlyMonthNameSec" Width="180" 
-                                              ItemsSource="{Binding MonthNames}"
+                                              ItemsSource="{Binding Months}"
+                                              SelectedItem="{Binding YearlyMonthNameSec, Converter={StaticResource ruleConverters}, ConverterParameter=months, Mode=TwoWay}"
                                               FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}" ExpansionMode="FullScreenOnly"
-                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                              ItemTemplate="{StaticResource PickerItemTemplate}"
+                                              IsEnabled="{Binding IsEnabled_RuleYearlyOnMonth2, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </StackPanel>
                         </Grid>
                         <TextBlock 
@@ -275,8 +317,8 @@
                             Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeExtraLarge}"/>
                         <toolkit:DatePicker 
                                             Header="{Binding Path=LocalizedResources.Start, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                                            Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
-                                            IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                            Value="{Binding RangeStartDate, Converter={StaticResource ruleConverters}, ConverterParameter=ruleDateInt, Mode=TwoWay}"
+                                            IsEnabled="{Binding IsEnabled_RuleRangeStartDate, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -287,27 +329,30 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                                <RadioButton IsChecked="True" GroupName="grpRecurrenceRange"/>
-                            <RadioButton Grid.Row="1" GroupName="grpRecurrenceRange"/>
-                            <RadioButton Grid.Row="2" GroupName="grpRecurrenceRange"/>
+                            <RadioButton GroupName="grpRecurrenceRange" Checked="rbRangeRule1_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <RadioButton Grid.Row="1" GroupName="grpRecurrenceRange" Checked="rbRangeRule2_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <RadioButton Grid.Row="2" GroupName="grpRecurrenceRange" Checked="rbRangeRule3_Checked"
+                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
                                 <TextBlock Text="No end date" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
                                 <TextBlock Text="End after" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                 <toolkit:AutoCompleteBox x:Name="txtEndAfterOccurences"  Width="100"
-                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
+                                         Text="{Binding RangeTotalOcurrences, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
-                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
+                                         IsEnabled="{Binding IsEnabled_RuleRangeTotalOcurrences, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                                 <TextBlock Text="occurence(s)" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="End by" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
                                     <toolkit:DatePicker Width="200"
-                                            Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
-                                            IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                            Value="{Binding RangeEndBy, Converter={StaticResource ruleConverters}, ConverterParameter=ruleDateInt, Mode=TwoWay}"
+                                            IsEnabled="{Binding IsEnabled_RuleRangeEndBy, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 </StackPanel>
                                 <StackPanel >
                                     <TextBlock Text="* Depending on the pattern, today + (month, etc.)" FontSize="{StaticResource PhoneFontSizeMediumLarge}"

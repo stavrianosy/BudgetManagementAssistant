@@ -92,10 +92,12 @@
                             Value="{Binding ElementName=CategoriesMultiSelect, Path=SelectedItem.ToDate, Mode=TwoWay}"
                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         </Grid>
-                        <toolkit:AutoCompleteBox x:Name="txtNote"
-                                   Text="{Binding Path=LocalizedResources.CategoryNote, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtReason"
-                                   Text="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
+                        <TextBlock x:Name="txtNote"
+                                   Text="{Binding Path=LocalizedResources.CategoryNote, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock x:Name="txtReason"
+                                   Text="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                   Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:LongListMultiSelector x:Name="transactionReasonList" Margin="0 12 0 0"
                                                        LayoutMode="List" 
                                                        ItemsSource="{Binding TransactionReasonList, Mode=TwoWay}"

@@ -55,7 +55,9 @@ namespace BMA_WP.View.AdminView
                     ReasonsMultiSelect.SelectedItem = null;
                     vm.CurrTransactionReason = (BMA.BusinessLogic.TypeTransactionReason)ReasonsMultiSelect.SelectedItem;
 
-                    categoryList.SelectedItems.Clear();
+                    if(categoryList.SelectedItems.Count > 0)
+                        categoryList.SelectedItems.Clear();
+
                     SetupAppBar_ReasonList();
                     break;
             }

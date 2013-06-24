@@ -56,12 +56,18 @@ namespace BMAServiceLib
                                     where !i.IsDeleted
                                     select i).ToList();
 
+                    var recRule = (from i in context.RecurrenceRule
+                                    .Include(i => i.RuleParts)
+                                    select i).ToList();
+
+
                     typeData.TypeTransactions = typeTrans;
                     typeData.TypeSavingsDencities = typeSD;
                     typeData.Notifications = notice;
                     typeData.TypeFrequencies = typeF;
                     typeData.TypeIntervals = inter;
                     typeData.BudgetThresholds = budgetTH;
+                    typeData.RecurrenceRules = recRule;
 
                     return typeData;
                 }
@@ -508,7 +514,6 @@ namespace BMAServiceLib
             }
         }
 
-
         public List<Category> SaveCategories(List<Category> categories, User user)
         {
             try
@@ -864,6 +869,8 @@ namespace BMAServiceLib
         {
             try
             {
+                update save according to the new tables and rules
+                
                 bool updateFound = false;
                 using (EntityContext context = new EntityContext())
                 {

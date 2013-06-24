@@ -2,8 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dataModel="clr-namespace:BMA_WP.Model">
-    
+
     <dataModel:StatusConverter x:Key="converters" />
+    <dataModel:IntervalRuleConverter x:Key="ruleConverters" />
 
     <Style x:Key="TextBlockStyle1" TargetType="TextBlock">
         <Setter Property="Foreground" Value="Orange"/>
@@ -52,6 +53,12 @@
         </StackPanel>
     </DataTemplate>
 
+    <DataTemplate x:Name="PickerFullModeIndexTemplate">
+        <StackPanel Orientation="Horizontal" Margin="16 21 0 20">
+            <TextBlock Text="{Binding Index}" Margin="16 0 0 0" FontSize="43" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
+        </StackPanel>
+    </DataTemplate>
+    
     <DataTemplate x:Name="PickerFullModeReasonTemplate">
         <StackPanel Orientation="Horizontal" Margin="16 21 0 20">
             <TextBlock Text="{Binding Name}" Margin="16 0 0 0" FontSize="43" FontFamily="{StaticResource PhoneFontFamilyLight}"/>

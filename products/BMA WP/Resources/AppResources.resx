@@ -401,8 +401,8 @@
   <data name="RangeOfOccurence" xml:space="preserve">
     <value>Range of Occurence</value>
   </data>
-  <data name="ReccurencePattern" xml:space="preserve">
-    <value>Reccurence Pattern</value>
+  <data name="RecurrencePattern" xml:space="preserve">
+    <value>Recurrence Pattern</value>
   </data>
   <data name="Second" xml:space="preserve">
     <value>Second</value>
