@@ -10,13 +10,9 @@ namespace BMA.BusinessLogic
 {
     public class RulePart:INotifyPropertyChanged
     {
-        string fieldValue;
-
         public int RulePartId { get; set; }
 
         public string FieldName { get; set; }
-
-        public string FieldValue { get { return fieldValue; } set { fieldValue = value; OnPropertyChanged("FieldValue"); } }
 
         public FieldType FieldType { get; set; }
 

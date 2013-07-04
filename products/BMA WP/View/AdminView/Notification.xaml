@@ -56,7 +56,7 @@
             <!--Pivot item one-->
             <phone:PivotItem x:Name="piNotification" 
                              Header="{Binding Path=LocalizedResources.Notification, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
-                <ScrollViewer>
+                <ScrollViewer x:Name="svItem">
                     <StackPanel>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"

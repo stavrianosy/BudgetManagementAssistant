@@ -96,8 +96,6 @@ namespace BMA_WP.View
 
         private void Transactions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            scrollItem.ScrollToVerticalOffset(0d);
-
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
             switch (piName)
@@ -105,6 +103,7 @@ namespace BMA_WP.View
                 case "piTransaction":
                     ItemSelected();
                     SetupAppBar_Transaction();
+                   svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piTransactionList":
                     TransactionMultiSelect.SelectedItem = null;
@@ -264,6 +263,8 @@ namespace BMA_WP.View
                                                 App.Instance.User);
 
             vm.PivotIndex = 0;
+
+            svItem.ScrollToVerticalOffset(0d);
 
             vm.Transactions.Add(item);
             TransactionMultiSelect.SelectedItem = item;

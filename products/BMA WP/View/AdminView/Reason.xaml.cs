@@ -49,6 +49,7 @@ namespace BMA_WP.View.AdminView
                     vm.CurrTransactionReason = (BMA.BusinessLogic.TypeTransactionReason)ReasonsMultiSelect.SelectedItem;                    
                     ReasonItem();
                     SetupAppBar_Reason();
+                   svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piReasonList":
                     
@@ -212,6 +213,9 @@ namespace BMA_WP.View.AdminView
             var item = new BMA.BusinessLogic.TypeTransactionReason(App.Instance.User);
 
             vm.PivotIndex = 0;
+
+            svItem.ScrollToVerticalOffset(0d);
+
             vm.TransactionReasonList.Add(item);
             ReasonsMultiSelect.SelectedItem = item;
             vm.CurrTransactionReason = item;

@@ -50,6 +50,7 @@ namespace BMA_WP.View
             {
                 case "piBudget":
                     SetupAppBar_Budget();
+                   svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piBudgetList":
                     SetupAppBar_BudgetList();
@@ -170,6 +171,8 @@ namespace BMA_WP.View
             Budget item = new Budget(App.Instance.User);
 
             vm.PivotIndex = 0;
+
+            svItem.ScrollToVerticalOffset(0d);
 
             vm.Budgets.Add(item);
             BudgetMultiSelect.SelectedItem = item;

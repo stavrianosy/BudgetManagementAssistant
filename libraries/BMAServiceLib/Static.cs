@@ -46,15 +46,14 @@ namespace BMAServiceLib
                                  where !i.IsDeleted
                                  select i).ToList();
 
-                    var inter = (from i in context.TypeInterval
-                                 .Include(i => i.CreatedUser)
-                                 where !i.IsDeleted
-                                 select i).ToList();
+                    var inter = GetAllTypeIntervals();
 
                     var budgetTH = (from i in context.BudgetThreshold
                                     .Include(i => i.CreatedUser)
                                     where !i.IsDeleted
                                     select i).ToList();
+
+                    var field = context.FieldType.ToList();
 
                     var recRule = (from i in context.RecurrenceRule
                                     .Include(i => i.RuleParts)
@@ -189,11 +188,46 @@ namespace BMAServiceLib
             {
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.TypeInterval
-                                where !i.IsDeleted
-                                select i;
+                    var query = (from i in context.TypeInterval
+                                 .Include(i => i.CreatedUser)
+                                 .Include(i => i.Category)
+                                 .Include(i => i.RecurrenceRuleValue.RecurrenceRule)
+                                 .Include(i => i.RecurrenceRuleValue.RulePartValueList)
+                                 .Include(i => i.RecurrenceRangeRuleValue.RecurrenceRule)
+                                 .Include(i => i.RecurrenceRangeRuleValue.RulePartValueList)
+                     where !i.IsDeleted
+                     select i).ToList();
 
-                    return query.ToList();
+
+                    query.ForEach(x =>
+                    {
+                        if (x.RecurrenceRuleValue != null && x.RecurrenceRuleValue.RulePartValueList != null)
+                        {
+                            x.RecurrenceRuleValue.RecurrenceRule.RuleParts = new List<RulePart>();
+                            x.RecurrenceRuleValue.RulePartValueList.ForEach(z =>
+                            {
+                                var tt = context.RulePartValue.Include(i => i.RulePart).Include(i => i.RulePart.FieldType).Where(k => k.RulePartValueId == z.RulePartValueId).ToList();
+                                x.RecurrenceRuleValue.RecurrenceRule.RuleParts.Add(z.RulePart);
+
+                            });
+                        }
+                    });
+
+                    query.ForEach(x =>
+                    {
+                        if (x.RecurrenceRangeRuleValue != null && x.RecurrenceRangeRuleValue.RulePartValueList != null)
+                        {
+                            x.RecurrenceRangeRuleValue.RecurrenceRule.RuleParts = new List<RulePart>();
+                            x.RecurrenceRangeRuleValue.RulePartValueList.ForEach(z =>
+                            {
+                                var tt = context.RulePartValue.Include(i => i.RulePart).Include(i => i.RulePart.FieldType).Where(k => k.RulePartValueId == z.RulePartValueId).ToList();
+                                x.RecurrenceRangeRuleValue.RecurrenceRule.RuleParts.Add(z.RulePart);
+
+                            });
+                        }
+                    });
+
+                    return query;
                 }
             }
             catch (Exception)
@@ -869,27 +903,134 @@ namespace BMAServiceLib
         {
             try
             {
-                update save according to the new tables and rules
-                
                 bool updateFound = false;
                 using (EntityContext context = new EntityContext())
                 {
                     foreach (var item in typeIntervals)
                     {
+
                         if (item.TypeIntervalId > 0) //Update
                         {
+                            //## RulePart will remain null after this query, but it is not need
+                            var original = context.TypeInterval
+                                                    .Include(i => i.CreatedUser)
+                                                    .Include(i => i.Category)
+                                                    .Include(i => i.TransactionType)
+                                                    .Include(i => i.RecurrenceRuleValue.RecurrenceRule)
+                                                    .Include(i => i.RecurrenceRuleValue.RulePartValueList)
+                                                    .Include(i => i.RecurrenceRangeRuleValue.RecurrenceRule)
+                                                    .Include(i => i.RecurrenceRangeRuleValue.RulePartValueList)
+                                                    .Where(t =>
+                                                        t.TypeIntervalId == item.TypeIntervalId &&
+                                                        t.ModifiedDate < item.ModifiedDate &&
+                                                        !t.IsDeleted).FirstOrDefault();
+
+                            
+
+                            if (original == null)
+                                throw new Exception("No TypeInterval found to be update");
+
+
                             item.HasChanges = false;
-                            var original = context.TypeInterval.Where(t => t.TypeIntervalId == item.TypeIntervalId && !t.IsDeleted).FirstOrDefault();
 
                             if (original.ModifiedDate < item.ModifiedDate)
                             {
+                                //## RECURRENCE RULE ##//
+                                if (item.RecurrenceRuleValue != null && item.RecurrenceRuleValue.RulePartValueList != null)
+                                {
+                                    //## Remove previous rule
+                                    if (original.RecurrenceRuleValue.RecurrenceRule != null)
+                                    {
+                                        context.Entry(original.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
+                                        for (int x = original.RecurrenceRuleValue.RulePartValueList.Count - 1; x >= 0; x--)
+                                        {
+
+                                            var i = original.RecurrenceRuleValue.RulePartValueList[x].RulePartValueId;
+                                            var temp = context.RulePartValue.FirstOrDefault(z => z.RulePartValueId == i);
+                                            context.RulePartValue.Remove(temp);
+                                        }
+                                        context.Entry(original.RecurrenceRuleValue).State = System.Data.EntityState.Deleted;
+                                        //## Previous rule is removed
+                                    }
+
+                                    original.RecurrenceRuleValue = new RecurrenceRulePart();
+                                    original.RecurrenceRuleValue.RecurrenceRule = context.RecurrenceRule.FirstOrDefault(x=>x.RecurrenceRuleId == item.RecurrenceRuleValue.RecurrenceRule.RecurrenceRuleId);
+
+                                    original.RecurrenceRuleValue.RulePartValueList = new List<RulePartValue>();
+                                    original.RecurrenceRuleValue.RulePartValueList = item.RecurrenceRuleValue.RulePartValueList;
+                                    original.RecurrenceRuleValue.RulePartValueList.ForEach(x =>
+                                    {
+                                        x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                    });
+
+                                }
+
+                                //## RECURRENCE RANGE RULE ##//
+                                if (item.RecurrenceRangeRuleValue != null && item.RecurrenceRangeRuleValue.RulePartValueList != null)
+                                {
+                                  //## Remove previous rule
+                                    if (original.RecurrenceRangeRuleValue.RecurrenceRule != null)
+                                    {
+                                        context.Entry(original.RecurrenceRangeRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
+                                        for (int x = original.RecurrenceRangeRuleValue.RulePartValueList.Count - 1; x >= 0; x--)
+                                        {
+
+                                            var i = original.RecurrenceRangeRuleValue.RulePartValueList[x].RulePartValueId;
+                                            var temp = context.RulePartValue.FirstOrDefault(z => z.RulePartValueId == i);
+                                            context.RulePartValue.Remove(temp);
+                                        }
+                                        context.Entry(original.RecurrenceRangeRuleValue).State = System.Data.EntityState.Deleted;
+                                    }
+                                    //## Previous rule is removed
+
+
+                                    original.RecurrenceRangeRuleValue = new RecurrenceRulePart();
+                                    original.RecurrenceRangeRuleValue.RecurrenceRule = context.RecurrenceRule.FirstOrDefault(x => x.RecurrenceRuleId == item.RecurrenceRangeRuleValue.RecurrenceRule.RecurrenceRuleId);
+
+                                    original.RecurrenceRangeRuleValue.RulePartValueList = new List<RulePartValue>();
+                                    original.RecurrenceRangeRuleValue.RulePartValueList = item.RecurrenceRangeRuleValue.RulePartValueList;
+                                    original.RecurrenceRangeRuleValue.RulePartValueList.ForEach(x =>
+                                    {
+                                        x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                    });
+                                }
+
+                                //item.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
+                                //item.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
+
                                 context.Entry(original).CurrentValues.SetValues(item);
+
                                 updateFound = true;
                             }
                         }
                         else //Insert
                         {
+
+                            item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                            item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            item.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
+                            item.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
+                            
+                            //item.RecurrenceRule = null;
+                            //item.RecurrenceRangeRuleValue = null;
+                            item.Category.TypeTransactionReasons = null;
+
+                            context.Entry(item.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
+                            context.Entry(item.RecurrenceRangeRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
+
+                            item.RecurrenceRuleValue.RulePartValueList.ForEach(x =>
+                            {
+                                x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                            });
+
+                            item.RecurrenceRangeRuleValue.RulePartValueList.ForEach(x =>
+                            {
+                                x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                            });
+
                             context.TypeInterval.Add(item);
+
                             updateFound = true;
                         }
                     }

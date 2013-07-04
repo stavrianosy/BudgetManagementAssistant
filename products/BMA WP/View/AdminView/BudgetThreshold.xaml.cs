@@ -32,6 +32,7 @@ namespace BMA_WP.View.AdminView
             {
                 case "piBudgetThreshold":
                     SetupAppBar_BudgetThreshold();
+                    svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piBudgetThresholdList":
                     SetupAppBar_BudgetThresholdList();
@@ -103,6 +104,8 @@ namespace BMA_WP.View.AdminView
 
         private void Add_Click(object sender, EventArgs e)
         {
+            svItem.ScrollToVerticalOffset(0d);
+
             //var item = new TypeTransaction();
             //vm.TypeFrequencies.Add(item);
             //TypeFrequenciesMultiSelect.SelectedItem = item;

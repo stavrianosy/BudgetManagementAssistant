@@ -140,7 +140,6 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="FieldName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FieldType" nillable="true" type="tns:FieldType" />
-      <xs:element minOccurs="0" name="FieldValue" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="RulePartId" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
@@ -186,8 +185,8 @@
           <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Purpose" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="RecurrenceRangeRule" nillable="true" type="tns:RecurrenceRule" />
-          <xs:element minOccurs="0" name="RecurrenceRule" nillable="true" type="tns:RecurrenceRule" />
+          <xs:element minOccurs="0" name="RecurrenceRangeRuleValue" nillable="true" type="tns:RecurrenceRulePart" />
+          <xs:element minOccurs="0" name="RecurrenceRuleValue" nillable="true" type="tns:RecurrenceRulePart" />
           <xs:element minOccurs="0" name="TransactionType" nillable="true" type="tns:TypeTransaction" />
           <xs:element minOccurs="0" name="TypeIntervalId" type="xs:int" />
         </xs:sequence>
@@ -195,6 +194,28 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="TypeInterval" nillable="true" type="tns:TypeInterval" />
+  <xs:complexType name="RecurrenceRulePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RecurrenceRule" nillable="true" type="tns:RecurrenceRule" />
+      <xs:element minOccurs="0" name="RecurrenceRulePartId" type="xs:int" />
+      <xs:element minOccurs="0" name="RulePartValueList" nillable="true" type="tns:ArrayOfRulePartValue" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RecurrenceRulePart" nillable="true" type="tns:RecurrenceRulePart" />
+  <xs:complexType name="ArrayOfRulePartValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RulePartValue" nillable="true" type="tns:RulePartValue" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRulePartValue" nillable="true" type="tns:ArrayOfRulePartValue" />
+  <xs:complexType name="RulePartValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RulePart" nillable="true" type="tns:RulePart" />
+      <xs:element minOccurs="0" name="RulePartValueId" type="xs:int" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RulePartValue" nillable="true" type="tns:RulePartValue" />
   <xs:complexType name="TypeTransaction">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseItem">

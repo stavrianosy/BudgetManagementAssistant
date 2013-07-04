@@ -64,7 +64,7 @@
 
             <!--Panorama item one-->
             <phone:PivotItem Header="Budget" x:Name="piBudget">
-                <ScrollViewer>
+                <ScrollViewer x:Name="svItem">
                     <StackPanel>
                         <TextBlock Text="Name" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtName" 

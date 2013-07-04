@@ -17,8 +17,8 @@ namespace BMA.BusinessLogic
         Category category;
         Double amount;
         string comments;
-        RecurrenceRule recurrenceRule;
-        RecurrenceRule recurrenceRangeRule;
+        RecurrenceRulePart recurrenceRuleValue;
+        RecurrenceRulePart recurrenceRangeRuleValue;
         #endregion
 
         #region Public Properties
@@ -36,9 +36,9 @@ namespace BMA.BusinessLogic
 
         public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); } }
 
-        public RecurrenceRule RecurrenceRule { get { return recurrenceRule; } set { recurrenceRule = value; OnPropertyChanged("RecurrenceRule"); } }
+        public RecurrenceRulePart RecurrenceRuleValue { get { return recurrenceRuleValue; } set { recurrenceRuleValue = value; OnPropertyChanged("RecurrenceRuleValue"); } }
 
-        public RecurrenceRule RecurrenceRangeRule { get { return recurrenceRangeRule; } set { recurrenceRangeRule = value; OnPropertyChanged("RecurrenceRangeRule"); } }
+        public RecurrenceRulePart RecurrenceRangeRuleValue { get { return recurrenceRangeRuleValue; } set { recurrenceRangeRuleValue = value; OnPropertyChanged("RecurrenceRangeRuleValue"); } }
         #endregion
 
         #region Constructors
@@ -63,13 +63,52 @@ namespace BMA.BusinessLogic
             else
                 TransactionType = typeTransactionList.Single(t => t.Name == "Expense");
 
-            RecurrenceRule = new RecurrenceRule();
+            RecurrenceRuleValue = new RecurrenceRulePart();
             
-            RecurrenceRangeRule = new RecurrenceRule();
+            RecurrenceRangeRuleValue = new RecurrenceRulePart();
         }
         #endregion
 
         #region Public Events
+        public StringBuilder SelfValidation()
+        {
+            List<string> result = new List<string>();
+            var errorMessage = new StringBuilder();
+
+            if (this.RecurrenceRuleValue == null || this.RecurrenceRuleValue.RecurrenceRule == null || this.RecurrenceRuleValue.RulePartValueList == null)
+            {
+                errorMessage.Append(string.Format("Interval {0} doesn't have a Recurrence Rule\n", this.Name));
+            }
+
+            if (this.RecurrenceRuleValue.RulePartValueList != null)
+            {
+                foreach(var item in this.RecurrenceRuleValue.RulePartValueList)
+                {
+                    if (item.Value == null || item.Value == "")
+                    {
+                        errorMessage.Append(string.Format("Rule {0} of Interval {1} cannot be empty\n", item.RulePart.FieldName, this.Name));
+                    }
+                }
+            }
+
+            if (this.RecurrenceRangeRuleValue == null || this.RecurrenceRangeRuleValue.RecurrenceRule == null || this.RecurrenceRangeRuleValue.RulePartValueList == null)
+            {
+                errorMessage.Append(string.Format("Interval {0} doesn't have a Recurrence Range Rule\n", this.Name));
+            }
+
+            if (this.RecurrenceRangeRuleValue.RulePartValueList != null)
+            {
+                foreach(var item in this.RecurrenceRangeRuleValue.RulePartValueList)
+                {
+                    if (item.Value == null || item.Value == "")
+                    {
+                        errorMessage.Append(string.Format("Rule {0} of Interval {1} cannot be empty\n", item.RulePart.FieldName, this.Name));
+                    }
+                }
+            }
+
+            return errorMessage;
+        }
         #endregion
 
         #region Private Properties

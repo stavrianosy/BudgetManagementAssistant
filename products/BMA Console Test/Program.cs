@@ -36,7 +36,7 @@ namespace ConsoleApplication1
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
-            SaveTypeInterval(b, usr);
+            SaveTypeInterval(a, b, usr);
 
 
 
@@ -90,9 +90,39 @@ namespace ConsoleApplication1
            // var c = a.SaveCategories(st.Categories);
         }
 
-        private static void SaveTypeInterval(ServiceReference2.StaticClient b, User usr)
+        private static void SaveTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)
         {
-             setup one interval object for saving. Good luck !
+            var cat = b.GetAllCategories();
+            var staticData = b.GetAllStaticData();
+
+            staticData.TypeIntervals[0].Amount = 9d;
+            staticData.TypeIntervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "9123";
+            staticData.TypeIntervals[0].ModifiedDate = DateTime.Now;
+            //staticData.TypeIntervals[1].ModifiedDate = DateTime.Now;
+
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "33a11";
+            //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "b22";
+            //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "c22";
+
+            var update = b.SaveTypeIntervals(staticData.TypeIntervals);
+
+
+            var intervals = new List<TypeInterval>{new TypeInterval(cat, staticData.TypeTransactions, usr)};
+            //intervals[0].RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays");
+
+
+            intervals[0].RecurrenceRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays") ;
+            intervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "aaa";
+            intervals[0].RecurrenceRuleValue.RulePartValueList[1].Value = "bbb";
+
+            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
+            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "1111";
+            //intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "2222";
+
+
+           var result = b.SaveTypeIntervals(intervals);
+
         }
         private static void GetAllBudgets(ServiceReference1.MainClient client)
         {

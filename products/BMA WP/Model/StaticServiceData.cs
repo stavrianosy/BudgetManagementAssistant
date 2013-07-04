@@ -616,7 +616,6 @@ namespace BMA_WP.Model
                             await UpdateCacheTypeInterval(completedEventArgs.Result);
                             SetupIntervalData(completedEventArgs.Result);
                         }
-
                     };
                 }
             }

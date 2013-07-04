@@ -55,7 +55,7 @@
         <phone:Pivot x:Name="pivotContainer" Grid.Row="1"  SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem  x:Name="piThreshold" Header="Threshold">
-                <ScrollViewer>
+                <ScrollViewer x:Name="svItem">
                     <StackPanel>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"

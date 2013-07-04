@@ -48,10 +48,12 @@
     <Compile Include="CollectionExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Const.cs" />
     <Compile Include="FieldType.cs" />
     <Compile Include="RecurrenceRule.cs" />
+    <Compile Include="RecurrenceRulePart.cs" />
     <Compile Include="RuleParts.cs" />
-    <Compile Include="RuleSupportItems.cs" />
+    <Compile Include="RulePartValue.cs" />
     <Compile Include="TransactionComparer.cs" />
     <Compile Include="TransactionImage.cs" />
     <Compile Include="TypeFrequency.cs" />

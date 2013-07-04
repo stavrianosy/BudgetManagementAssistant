@@ -276,36 +276,37 @@ namespace BMA.DataAccess.Migrations
 
                 #region FieldType
                 context.FieldType.AddOrUpdate(x => x.Name,
-                    new FieldType{Name = "label",Type = "label"},
-                    new FieldType { Name = "int", Type = "int" },
-                    new FieldType { Name = "dayNumber", Type = "daynum" },
-                    new FieldType{Name = "date",Type = "dateint"},
-                    new FieldType{Name = "truefalse",Type = "bit"},
-                    new FieldType{Name = "text",Type = "string"}
+                    new FieldType { Name = "label", Type = Const.FieldType.Label.ToString(), DefaultValue = "" },
+                    new FieldType { Name = "int", Type = Const.FieldType.Int.ToString(), DefaultValue = "1" },
+                    new FieldType { Name = "dayNumber", Type = Const.FieldType.DayNum.ToString(), DefaultValue = "1" },
+                    new FieldType { Name = "date", Type = Const.FieldType.DateInt.ToString(), DefaultValue = "20000101" },
+                    new FieldType { Name = "truefalse", Type = Const.FieldType.Bit.ToString(), DefaultValue = "False" },
+                    new FieldType { Name = "text", Type = Const.FieldType.String.ToString(), DefaultValue = "" },
+                    new FieldType { Name = "position", Type = Const.FieldType.Position.ToString(), DefaultValue = "1" }
                 );
                 #endregion
 
                 #region RulePart
                 context.RulePart.AddOrUpdate(x => x.FieldName,
-                    new RulePart { FieldName = "RangeStartDate", FieldType = context.FieldType.Local.Single(x => x.Type == "dateint") },
-                    new RulePart { FieldName = "RangeNoEndDate", FieldType = context.FieldType.Local.Single(x => x.Type == "label") },
-                    new RulePart {FieldName="RangeTotalOcurrences", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
-                    new RulePart {FieldName="RangeEndBy", FieldType=context.FieldType.Local.Single(x=>x.Type == "dateint") },
-                    new RulePart {FieldName="DailyEveryDay", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
-                    new RulePart {FieldName="DailyOnlyWeekdays", FieldType=context.FieldType.Local.Single(x=>x.Type == "bit") },
-                    new RulePart {FieldName="WeeklyEveryWeek", FieldType=context.FieldType.Local.Single(x=>x.Type == "int") },
-                    new RulePart { FieldName = "WeeklyDayName", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
-                    new RulePart { FieldName = "MonthlyDayNumber", FieldType = context.FieldType.Local.Single(x => x.Type == "daynum") },
-                    new RulePart { FieldName = "MonthlyEveryMonth", FieldType = context.FieldType.Local.Single(x => x.Type == "int") },
-                    new RulePart { FieldName = "MonthlyCountOfWeekDay", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
-                    new RulePart { FieldName = "MonthlyDayName", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
-                    new RulePart { FieldName = "MonthlyCountOfMonth", FieldType = context.FieldType.Local.Single(x => x.Type == "string") },
-                    new RulePart { FieldName = "YearlyEveryYear", FieldType = context.FieldType.Local.Single(x => x.Type == "int") },
-                    new RulePart {FieldName="YearlyOnDayPos", FieldType=context.FieldType.Local.Single(x=>x.Type == "daynum") },
-                    new RulePart {FieldName="YearlyMonthName", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") },
-                    new RulePart {FieldName="YearlyPositions", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") },
-                    new RulePart {FieldName="YearlyDayName", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") },
-                    new RulePart {FieldName="YearlyMonthNameSec", FieldType=context.FieldType.Local.Single(x=>x.Type == "string") }
+                    new RulePart { FieldName = Const.RuleField.RangeStartDate.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DateInt.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.RangeNoEndDate.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Label.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.RangeTotalOcurrences.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.RangeEndBy.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DateInt.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.DailyEveryDay.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.DailyOnlyWeekdays.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Bit.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.WeeklyEveryWeek.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.WeeklyDayName.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.String.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.MonthlyDayNumber.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DayNum.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.MonthlyEveryMonth.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.MonthlyCountOfWeekDay.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Position.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.MonthlyDayName.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DayNum.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.MonthlyCountOfMonth.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.YearlyEveryYear.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.YearlyOnDayPos.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Position.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.YearlyMonthName.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.String.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.YearlyPositions.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Position.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.YearlyDayName.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.String.ToString()) },
+                    new RulePart { FieldName = Const.RuleField.YearlyMonthNameSec.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.String.ToString()) }
                 );
                 #endregion
 
@@ -313,64 +314,69 @@ namespace BMA.DataAccess.Migrations
                 context.RecurrenceRule.AddOrUpdate(t => t.Name,
                     new RecurrenceRule
                     {
-                        Name = "RuleRangeNoEndDate",
+                        Name = Const.Rule.RuleRangeNoEndDate.ToString(),
                         RuleParts = new List<RulePart>{
-                            context.RulePart.Local.Single(x=>x.FieldName=="RangeStartDate")}
+                            context.RulePart.Local.Single(x=>x.FieldName==Const.RuleField.RangeStartDate.ToString())}
                     },
                     new RecurrenceRule
                     {
-                        Name = "RuleRangeTotalOcurrences",
+                        Name = Const.Rule.RuleRangeTotalOcurrences.ToString(),
                         RuleParts = new List<RulePart>{
-                            context.RulePart.Local.Single(x=>x.FieldName=="RangeTotalOcurrences"),
-                            context.RulePart.Local.Single(x=>x.FieldName=="RangeStartDate")}
+                            context.RulePart.Local.Single(x=>x.FieldName==Const.RuleField.RangeTotalOcurrences.ToString()),
+                            context.RulePart.Local.Single(x=>x.FieldName==Const.RuleField.RangeStartDate.ToString())}
                     },
                     new RecurrenceRule
                     {
-                        Name = "RuleRangeEndBy",
+                        Name = Const.Rule.RuleRangeEndBy.ToString(),
                         RuleParts = new List<RulePart> { 
-                            context.RulePart.Local.Single(x => x.FieldName == "RangeEndBy") ,
-                            context.RulePart.Local.Single(x=>x.FieldName=="RangeStartDate")}
+                            context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.RangeEndBy.ToString()) ,
+                            context.RulePart.Local.Single(x=>x.FieldName==Const.RuleField.RangeStartDate.ToString())}
                     },
                     new RecurrenceRule
                     {
-                        Name = "RuleDailyEveryDays",
-                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "DailyEveryDay"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "DailyOnlyWeekdays") }
-                    },
-                    new RecurrenceRule
-                    {
-                        Name = "RuleWeeklyEveryWeek",
-                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "WeeklyEveryWeek"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "WeeklyDayName")}
-                    },
-                    new RecurrenceRule
-                    {
-                        Name = "RuleMonthlyDayNum",
-                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "MonthlyDayNumber"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "MonthlyEveryMonth")}
-                    },
-                    new RecurrenceRule
-                    {
-                        Name = "RuleMonthlyPrecise",
-                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "MonthlyCountOfWeekDay"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "MonthlyDayName"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "MonthlyCountOfMonth")}
-                    },
-                    new RecurrenceRule
-                    {
-                        Name = "RuleYearlyOnMonth",
-                        RuleParts = new List<RulePart>{ context.RulePart.Local.Single(x => x.FieldName == "YearlyEveryYear"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyOnDayPos"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyMonthName")}
-                    }, 
-                    new RecurrenceRule
-                    {
-                        Name = "RuleYearlyOnTheWeekDay",
+                        Name = Const.Rule.RuleDailyEveryDays.ToString(),
                         RuleParts = new List<RulePart>{ 
-                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyEveryYear"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyPositions"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyDayName"),
-                                      context.RulePart.Local.Single(x => x.FieldName == "YearlyMonthNameSec")}
+                            context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.DailyEveryDay.ToString()),
+                            context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.DailyOnlyWeekdays.ToString()) }
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = Const.Rule.RuleWeeklyEveryWeek.ToString(),
+                        RuleParts = new List<RulePart>{ 
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.WeeklyEveryWeek.ToString()),
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.WeeklyDayName.ToString())}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = Const.Rule.RuleMonthlyDayNum.ToString(),
+                        RuleParts = new List<RulePart>{ 
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.MonthlyDayNumber.ToString()),
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.MonthlyEveryMonth.ToString())}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = Const.Rule.RuleMonthlyPrecise.ToString(),
+                        RuleParts = new List<RulePart>{ 
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.MonthlyCountOfWeekDay.ToString()),
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.MonthlyDayName.ToString()),
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.MonthlyCountOfMonth.ToString())}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = Const.Rule.RuleYearlyOnMonth.ToString(),
+                        RuleParts = new List<RulePart>{ 
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyEveryYear.ToString()),
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyOnDayPos.ToString()),
+                                        context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyMonthName.ToString())}
+                    },
+                    new RecurrenceRule
+                    {
+                        Name = Const.Rule.RuleYearlyOnTheWeekDay.ToString(),
+                        RuleParts = new List<RulePart>{ 
+                                      context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyEveryYear.ToString()),
+                                      context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyPositions.ToString()),
+                                      context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyDayName.ToString()),
+                                      context.RulePart.Local.Single(x => x.FieldName==Const.RuleField.YearlyMonthNameSec.ToString())}
                     }
 
                 );

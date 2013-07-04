@@ -12,6 +12,8 @@ using BMA_WP.ViewModel.Admin;
 using BMA_WP.Resources;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BMA_WP.View.AdminView
 {
@@ -22,6 +24,7 @@ namespace BMA_WP.View.AdminView
         ApplicationBarIconButton delete;
         ApplicationBarIconButton saveContinute;
         ApplicationBarIconButton save;
+        ApplicationBarMenuItem transaction;
 
         public IntervalViewModel vm
         {
@@ -72,6 +75,7 @@ namespace BMA_WP.View.AdminView
                 case "piInterval":
                     ItemSelected();                    
                     SetupAppBar_Interval();
+                    svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piIntervalList":
                     IntervalsMultiSelect.SelectedItem = null;
@@ -100,7 +104,26 @@ namespace BMA_WP.View.AdminView
         private void SetupAppBar_IntervalList()
         {
             ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsVisible = false;
+            ApplicationBar.IsVisible = true;
+
+            add = new ApplicationBarIconButton();
+            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
+            add.Text = AppResources.AppBarButtonAdd;
+            add.IsEnabled = true;
+            ApplicationBar.Buttons.Add(add);
+            add.Click += new EventHandler(Add_Click);
+
+            mainMenu = new ApplicationBarMenuItem();
+            mainMenu.Text = AppResources.AppBarButtonMainMenu;
+            mainMenu.IsEnabled = true;
+            ApplicationBar.MenuItems.Add(mainMenu);
+            mainMenu.Click += new EventHandler(MainMenu_Click);
+
+            transaction = new ApplicationBarMenuItem();
+            transaction.Text = AppResources.AppBarButtonTransaction;
+            transaction.IsEnabled = true;
+            ApplicationBar.MenuItems.Add(transaction);
+            transaction.Click += new EventHandler(Transaction_Click);
         }
 
         private void SetupAppBar_Interval()
@@ -149,23 +172,53 @@ namespace BMA_WP.View.AdminView
             throw new NotImplementedException();
         }
 
-        private void Delete_Click(object sender, EventArgs e)
+        private void Transaction_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            NavigationService.Navigate(new Uri("/View/Transactions.xaml", UriKind.Relative));
+        }
+
+        private async void Delete_Click(object sender, EventArgs e)
+        {
+            vm.CurrInterval.IsDeleted = true;
+
+            await SaveTypeInterval();
+        }
+
+
+        private async Task SaveTypeInterval()
+        {
+            var saveOC = vm.TypeIntervalList.Where(t => t.HasChanges).ToObservableCollection();
+            //var hasError = false;
+            var errorMessage = new StringBuilder();
+
+            saveOC.ToList().ForEach(x =>
+            {
+                errorMessage.Append(x.SelfValidation());
+            });
+
+            if (errorMessage.ToString().Length > 0)
+            {
+                MessageBox.Show(errorMessage.ToString());
+                return;
+            }
+
+            await App.Instance.StaticServiceData.SaveTypeInterval(saveOC);
+
+            pivotContainer.SelectedIndex = 1;
         }
 
         private async void Save_Click(object sender, EventArgs e)
         {
-            var saveOC = vm.TypeIntervalList.Where(t => t.HasChanges).ToObservableCollection();
-
-            //await App.Instance.StaticServiceData.SaveTypeInterval(saveOC);
-
-            //pivotContainer.SelectedIndex = 1;
+            await SaveTypeInterval();
         }
 
         private void Add_Click(object sender, EventArgs e)
         {
+            svItem.ScrollToVerticalOffset(0);
+
             var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList.ToList(), vm.TypeTransactionList.ToList(), App.Instance.User);
+
+            ResetRules();
 
             vm.PivotIndex = 0;
             vm.TypeIntervalList.Add(item);
@@ -175,50 +228,51 @@ namespace BMA_WP.View.AdminView
 
             save.IsEnabled = true;
             vm.IsEnabled = true;
+            vm.IsToggled_tglDaily = true;
 
         }
 
-        private void tglDaily_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void tglDaily_Checked(object sender, RoutedEventArgs e)
         {
-            UncheckAllRules();
+            HideAllRules();
             reccurenceDaily.Visibility = System.Windows.Visibility.Visible;
-            tglDaily.IsChecked = true;
-        }
 
-        private void tglWeekly_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            UncheckAllRules();
-            reccurenceWeekly.Visibility = System.Windows.Visibility.Visible;
-            tglWeekly.IsChecked = true;
-
-        }
-
-        private void tglMonthly_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            UncheckAllRules();
-            reccurenceMonthly.Visibility = System.Windows.Visibility.Visible;
-            tglMonthly.IsChecked = true;
-
-        }
-
-        private void tglYearly_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            UncheckAllRules();
-            reccurenceYearly.Visibility = System.Windows.Visibility.Visible;
-            tglYearly.IsChecked = true;
-
-        }
-        void UncheckAllRules()
-        {
-            tglDaily.IsChecked = false;
             tglWeekly.IsChecked = false;
             tglMonthly.IsChecked = false;
             tglYearly.IsChecked = false;
+        }
 
-            reccurenceDaily.Visibility = System.Windows.Visibility.Collapsed;
-            reccurenceWeekly.Visibility = System.Windows.Visibility.Collapsed;
-            reccurenceMonthly.Visibility = System.Windows.Visibility.Collapsed;
-            reccurenceYearly.Visibility = System.Windows.Visibility.Collapsed;
+        private void tglWeekly_Checked(object sender, RoutedEventArgs e)
+        {
+            HideAllRules();
+            reccurenceWeekly.Visibility = System.Windows.Visibility.Visible;
+
+            tglDaily.IsChecked = false;
+            tglMonthly.IsChecked = false;
+            tglYearly.IsChecked = false;
+
+        }
+
+        private void tglMonthly_Checked(object sender, RoutedEventArgs e)
+        {
+            HideAllRules();
+            reccurenceMonthly.Visibility = System.Windows.Visibility.Visible;
+
+            tglDaily.IsChecked = false;
+            tglWeekly.IsChecked = false;
+            tglYearly.IsChecked = false;
+
+        }
+
+        private void tglYearly_Checked(object sender, RoutedEventArgs e)
+        {
+            HideAllRules();
+            reccurenceYearly.Visibility = System.Windows.Visibility.Visible;
+
+            tglDaily.IsChecked = false;
+            tglWeekly.IsChecked = false;
+            tglMonthly.IsChecked = false;
+
         }
 
         private void rbDailyRule1_Checked(object sender, RoutedEventArgs e)
@@ -227,7 +281,11 @@ namespace BMA_WP.View.AdminView
             {
                 DisableAllRules();
                 vm.IsEnabled_RuleDailyEveryDays = true;
-                vm.CurrInterval.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleDailyEveryDays");
+
+                vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleDailyEveryDays.ToString());
+
+                vm.DailyEveryDay = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString()).Value;
+                vm.DailyOnlyWeekdays = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyOnlyWeekdays.ToString()).Value;
             }
         }
 
@@ -237,7 +295,11 @@ namespace BMA_WP.View.AdminView
             {
                 DisableAllRules();
                 vm.IsEnabled_RuleWeeklyEveryWeek = true;
-                vm.CurrInterval.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleWeeklyEveryWeek");
+                
+                vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleWeeklyEveryWeek.ToString());
+
+                vm.WeeklyEveryWeek = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyEveryWeek.ToString()).Value;
+                vm.WeeklyDayName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyDayName.ToString()).Value;
             }
         }
 
@@ -247,7 +309,11 @@ namespace BMA_WP.View.AdminView
             {
                 DisableAllRules();
                 vm.IsEnabled_RuleMonthlyDayNum = true;
-                vm.CurrInterval.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleMonthlyDayNum");
+
+                vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleMonthlyDayNum.ToString());
+
+                vm.MonthlyDayNumber = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyDayNumber.ToString()).Value;
+                vm.MonthlyEveryMonth = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyEveryMonth.ToString()).Value;
             }
         }
 
@@ -257,7 +323,11 @@ namespace BMA_WP.View.AdminView
             {
                 DisableAllRules();
                 vm.IsEnabled_RuleMonthlyPrecise = true;
-                vm.CurrInterval.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleMonthlyPrecise");
+                vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleMonthlyPrecise.ToString());
+
+                vm.MonthlyCountOfWeekDay = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfWeekDay.ToString()).Value;
+                vm.MonthlyDayName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyDayName.ToString()).Value;
+                vm.MonthlyCountOfMonth = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfMonth.ToString()).Value;
             }
         }
 
@@ -268,7 +338,11 @@ namespace BMA_WP.View.AdminView
                 DisableAllRules();
                 vm.IsEnabled_RuleYearlyOnMonth = true;
                 vm.IsEnabled_RuleYearlyOnTheWeekDay = true;
-                vm.CurrInterval.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleYearlyOnMonth");
+                vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleYearlyOnMonth.ToString());
+
+                vm.YearlyEveryYear = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value;
+                vm.YearlyOnDayPos = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyOnDayPos.ToString()).Value;
+                vm.YearlyMonthName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthName.ToString()).Value;
             }
         }
 
@@ -279,7 +353,12 @@ namespace BMA_WP.View.AdminView
                 DisableAllRules();
                 vm.IsEnabled_RuleYearlyOnMonth = true;
                 vm.IsEnabled_RuleYearlyOnMonth2 = true;
-                vm.CurrInterval.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleYearlyOnTheWeekDay");
+                vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleYearlyOnTheWeekDay.ToString());
+
+                vm.YearlyEveryYear = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value;
+                vm.YearlyPositions = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyPositions.ToString()).Value;
+                vm.YearlyDayName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyDayName.ToString()).Value;
+                vm.YearlyMonthNameSec = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthNameSec.ToString()).Value;
             }
         }
 
@@ -290,11 +369,15 @@ namespace BMA_WP.View.AdminView
                 DisableAllRangeRules();
                 
                 vm.IsEnabled_RuleRangeStartDate = true;
-                
-                vm.CurrInterval.RecurrenceRangeRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
+
+                vm.CurrInterval.RecurrenceRangeRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeNoEndDate.ToString());
+
+                vm.RangeStartDate = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
+
             }
 
         }
+        
         private void rbRangeRule2_Checked(object sender, RoutedEventArgs e)
         {
             if (vm.CurrInterval != null)
@@ -303,11 +386,16 @@ namespace BMA_WP.View.AdminView
 
                 vm.IsEnabled_RuleRangeStartDate = true;
                 vm.IsEnabled_RuleRangeTotalOcurrences = true;
-                
-                vm.CurrInterval.RecurrenceRangeRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleRangeTotalOcurrences");
+
+                vm.CurrInterval.RecurrenceRangeRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+
+                vm.RangeStartDate = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
+                vm.RangeTotalOcurrences = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString()).Value;
+
             }
 
         }
+        
         private void rbRangeRule3_Checked(object sender, RoutedEventArgs e)
         {
             if (vm.CurrInterval != null)
@@ -316,10 +404,22 @@ namespace BMA_WP.View.AdminView
 
                 vm.IsEnabled_RuleRangeStartDate = true; 
                 vm.IsEnabled_RuleRangeEndBy = true;
-                
-                vm.CurrInterval.RecurrenceRangeRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == "RuleRangeEndBy");
+
+                vm.CurrInterval.RecurrenceRangeRuleValue.RecurrenceRule = vm.RecurrenceRuleList.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeEndBy.ToString());
+
+                vm.RangeStartDate = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
+                vm.RangeEndBy = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeEndBy.ToString()).Value;
+
             }
 
+        }
+
+        void HideAllRules()
+        {
+            reccurenceDaily.Visibility = System.Windows.Visibility.Collapsed;
+            reccurenceWeekly.Visibility = System.Windows.Visibility.Collapsed;
+            reccurenceMonthly.Visibility = System.Windows.Visibility.Collapsed;
+            reccurenceYearly.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void DisableAllRules()
@@ -333,6 +433,20 @@ namespace BMA_WP.View.AdminView
             vm.IsEnabled_RuleYearlyOnMonth2 = false;
         }
 
+        void UnCheckAllRules()
+        {
+            vm.IsChecked_RuleDailyEveryDays = false;
+            vm.IsChecked_RuleWeeklyEveryWeek = false;
+            vm.IsChecked_RuleMonthlyDayNum = false;
+            vm.IsChecked_RuleMonthlyPrecise = false;
+            vm.IsChecked_RuleYearlyOnMonth = false;
+            vm.IsChecked_RuleYearlyOnTheWeekDay = false;
+            vm.IsChecked_RuleYearlyOnMonth2 = false;
+            vm.IsChecked_RuleRangeNoEndDate = false;
+            vm.IsChecked_RuleRangeTotalOcurrences = false;
+            vm.IsChecked_RuleRangeEndBy = false;
+        }
+
         private void DisableAllRangeRules()
         {
             vm.IsEnabled_RuleRangeStartDate = false;
@@ -340,5 +454,23 @@ namespace BMA_WP.View.AdminView
             vm.IsEnabled_RuleRangeEndBy = false;
         }
 
+        void UnCheckAllToggles()
+        {
+            vm.IsToggled_tglDaily = false;
+            vm.IsToggled_tglWeekly = false;
+            vm.IsToggled_tglMonthly = false;
+            vm.IsToggled_tglYearly = false;
+        }
+
+        private void ResetRules()
+        {
+            DisableAllRules();
+            DisableAllRangeRules();
+            UnCheckAllToggles();
+            UnCheckAllRules();
+
+            vm.IsToggled_tglDaily = true;
+            reccurenceDaily.Visibility = System.Windows.Visibility.Visible;
+        }
     }
 }

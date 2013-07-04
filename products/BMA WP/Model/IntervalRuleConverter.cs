@@ -54,6 +54,13 @@ namespace BMA_WP.Model
                             pos4 = Position4List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return pos4;
+                    case "position12":
+                        BasicItem pos12 = null;
+                        if (value != null)
+                            pos12 = Position12List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
+
+                        return pos12;
+
                 }
             }
             return null;
@@ -91,6 +98,7 @@ namespace BMA_WP.Model
                         return resultMonth;
                     case "positionall":
                     case "position4":
+                    case "position12":
                         BasicItem posAll = value as BasicItem;
                         string resultPosAll = null;
                         if (posAll != null)

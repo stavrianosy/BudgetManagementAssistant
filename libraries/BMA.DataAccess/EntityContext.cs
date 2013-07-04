@@ -28,6 +28,7 @@ namespace BMA.DataAccess
         public DbSet<RecurrenceRule> RecurrenceRule { get; set; }
         public DbSet<RulePart> RulePart { get; set; }
         public DbSet<FieldType> FieldType { get; set; }
+        public DbSet<RulePartValue> RulePartValue { get; set; }
 
         public EntityContext()
             : base("name=primaryConn")

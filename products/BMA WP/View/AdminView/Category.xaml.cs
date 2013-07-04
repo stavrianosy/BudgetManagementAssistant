@@ -45,6 +45,7 @@ namespace BMA_WP.View.AdminView
                     vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;                    
                     CategoryItem();
                     SetupAppBar_Category();
+                   svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piCategoryList":
                     CategoriesMultiSelect.SelectedItem = null;
@@ -204,6 +205,9 @@ namespace BMA_WP.View.AdminView
             var item = new BMA.BusinessLogic.Category(App.Instance.User);
 
             vm.PivotIndex = 0;
+
+            svItem.ScrollToVerticalOffset(0d);
+
             vm.CategoryList.Add(item);
             CategoriesMultiSelect.SelectedItem = item;
             vm.CurrCategory = item;

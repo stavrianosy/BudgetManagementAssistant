@@ -66,7 +66,7 @@
             <!--Panorama item one-->
             <phone:PivotItem x:Name="piTransaction"
                              Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
-                <ScrollViewer x:Name="scrollItem">
+                <ScrollViewer x:Name="svItem">
                     <StackPanel>
                         <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
