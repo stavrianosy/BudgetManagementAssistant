@@ -628,6 +628,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password cannot be changed for for the following reasons:.
+        /// </summary>
+        public static string PasswordValidationFailMessage {
+            get {
+                return ResourceManager.GetString("PasswordValidationFailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Purpose.
         /// </summary>
         public static string Purpose {

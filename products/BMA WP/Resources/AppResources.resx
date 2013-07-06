@@ -413,4 +413,7 @@
   <data name="Third" xml:space="preserve">
     <value>Third</value>
   </data>
+  <data name="PasswordValidationFailMessage" xml:space="preserve">
+    <value>Password cannot be changed for for the following reasons:</value>
+  </data>
 </root>

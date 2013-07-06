@@ -155,9 +155,10 @@ namespace BMA_WP.View
             App.Instance.User.UserName = txtUsername.Text.Trim();
             App.Instance.User.Password = txtPassword.Password.Trim();
 
+            var errMsg = App.Instance.User.SelfValidation(false);
             StringBuilder sb = new StringBuilder();
             string delim = "";
-            foreach (var item in App.Instance.User.SelfValidation(false))
+            foreach (var item in errMsg)
             {
                 sb.AppendFormat("{0}{1}", delim, item);
                 delim = "\r";
@@ -167,7 +168,7 @@ namespace BMA_WP.View
             {
                 MessageBox.Show(string.Format("{0}{1}:\n\r{2}",
                                             AppResources.LoginFailMessage,
-                                            App.Instance.User.SelfValidation(false).Count > 1 ? "s" : "",
+                                            errMsg.Count > 1 ? "s" : "",
                                             sb.ToString()),
                                             AppResources.LoginFail, MessageBoxButton.OK);
 

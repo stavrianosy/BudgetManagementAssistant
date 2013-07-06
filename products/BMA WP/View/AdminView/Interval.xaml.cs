@@ -187,6 +187,8 @@ namespace BMA_WP.View.AdminView
 
         private async Task SaveTypeInterval()
         {
+            //2. update record, then choose another one = error
+            
             var saveOC = vm.TypeIntervalList.Where(t => t.HasChanges).ToObservableCollection();
             //var hasError = false;
             var errorMessage = new StringBuilder();

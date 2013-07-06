@@ -413,4 +413,7 @@
   <data name="Third" xml:space="preserve">
     <value>Τριτη</value>
   </data>
+  <data name="PasswordValidationFailMessage" xml:space="preserve">
+    <value>Ο κωδικος προσβασης δεν μπορει να αλλαξει για τους πιο κατω λογους:</value>
+  </data>
 </root>

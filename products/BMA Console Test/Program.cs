@@ -100,12 +100,16 @@ namespace ConsoleApplication1
             staticData.TypeIntervals[0].ModifiedDate = DateTime.Now;
             //staticData.TypeIntervals[1].ModifiedDate = DateTime.Now;
 
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "33a11";
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20100202";
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "3";
             //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "b22";
             //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "c22";
 
-            var update = b.SaveTypeIntervals(staticData.TypeIntervals);
+            var k = new List<TypeInterval>();
+            k.Add(staticData.TypeIntervals[0]);
+
+            var update = b.SaveTypeIntervals(k);
 
 
             var intervals = new List<TypeInterval>{new TypeInterval(cat, staticData.TypeTransactions, usr)};
@@ -116,9 +120,9 @@ namespace ConsoleApplication1
             intervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "aaa";
             intervals[0].RecurrenceRuleValue.RulePartValueList[1].Value = "bbb";
 
-            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
-            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "1111";
-            //intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "2222";
+            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20111111";
+            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "234";
 
 
            var result = b.SaveTypeIntervals(intervals);
