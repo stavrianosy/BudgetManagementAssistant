@@ -14,6 +14,9 @@ namespace BMA.BusinessLogic
         string userName;
         string password;
         string email;
+        string firstName;
+        string lastName;
+        DateTime birthdate;
         #endregion
 
         #region Public Properties
@@ -25,6 +28,12 @@ namespace BMA.BusinessLogic
         public string Password { get { return password; } set { password = value; OnPropertyChanged("Password"); } }
 
         public string Email { get { return email; } set { email = value; OnPropertyChanged("Email"); } }
+
+        public string FirstName { get { return firstName; } set { firstName = value; OnPropertyChanged("FirstName"); } }
+
+        public string LastName { get { return lastName; } set { lastName = value; OnPropertyChanged("LastName"); } }
+
+        public DateTime Birthdate { get { return birthdate; } set { birthdate = value; OnPropertyChanged("Birthdate"); } }
         #endregion
 
         #region Constructors
@@ -42,6 +51,17 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Public Methods
+        public void Update(User user)
+        {
+            UserId = user.UserId;
+            UserName = user.UserName;
+            Password = user.Password;
+            Email = user.Email;
+            FirstName= user.FirstName;
+            LastName = user.LastName;
+            Birthdate = user.Birthdate;
+        }
+
         public List<string> SelfValidation(bool includeEmail)
         {
             List<string> result = new List<string>();

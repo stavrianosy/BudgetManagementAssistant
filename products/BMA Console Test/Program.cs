@@ -36,7 +36,7 @@ namespace ConsoleApplication1
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
-            SaveTypeInterval(a, b, usr);
+            //SaveTypeInterval(a, b, usr);
 
 
 

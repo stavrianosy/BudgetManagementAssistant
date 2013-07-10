@@ -237,16 +237,9 @@ namespace BMA_WP.View
 
         private async void SaveTransaction()
         {
-            //manually update model. textbox dont work well with numeric bindings
-            var amount =0d;
-            var tipAmount =0d;
-
-            double.TryParse(txtAmount.Text, out amount);
-            double.TryParse(txtTip.Text, out tipAmount);
-
-            vm.CurrTransaction.Amount = amount;
-            vm.CurrTransaction.TipAmount = tipAmount;
-            //end of - manually update model
+            ManualUpdate();
+            if (!ValidateTransaction())
+                return;
 
             var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
 
@@ -255,8 +248,32 @@ namespace BMA_WP.View
             pivotContainer.SelectedIndex = 1;
         }
 
+        private void ManualUpdate()
+        {
+            //manually update model. textbox dont work well with numeric bindings
+            var amount = 0d;
+            var tipAmount = 0d;
+
+            double.TryParse(txtAmount.Text, out amount);
+            double.TryParse(txtTip.Text, out tipAmount);
+
+            if (vm.CurrTransaction != null)
+            {
+                vm.CurrTransaction.Amount = amount;
+                vm.CurrTransaction.TipAmount = tipAmount;
+            }
+            //set the focus to a control without keyboard
+            cmbType.Focus();
+
+            //end of - manually update model
+        }
+
         private void Add_Click(object sender, EventArgs e)
         {
+            ManualUpdate();
+            if (!ValidateTransaction())
+                return;
+
             Transaction item = new Transaction(App.Instance.StaticServiceData.CategoryList.ToList(),
                                                 App.Instance.StaticServiceData.TypeTransactionList.ToList(),
                                                 App.Instance.StaticServiceData.TypeTransactionReasonList.ToList(),
@@ -269,10 +286,50 @@ namespace BMA_WP.View
             vm.Transactions.Add(item);
             TransactionMultiSelect.SelectedItem = item;
             vm.CurrTransaction = item;
+            
             SetBindings(true);
 
             save.IsEnabled = true;
             vm.IsEnabled = true;
+        }
+
+        private bool ValidateTransaction()
+        {
+            var result = true;
+            if (vm.CurrTransaction == null)
+                return result;
+
+            SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });
+            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240});
+
+            txtAmount.Background = okColor;
+            txtTip.Background = okColor;
+
+            if (vm.CurrTransaction.Amount <= 0 && vm.CurrTransaction.TipAmount <= 0)
+            {
+                result = false;
+                txtAmount.Background = errColor;
+                txtTip.Background = errColor;
+            }
+
+            if (vm.CurrTransaction.Amount < 0)
+            {
+                result = false;
+                txtAmount.Background = errColor;
+            }
+
+            if (vm.CurrTransaction.TipAmount < 0)
+            {
+                result = false;
+                txtTip.Background = errColor;
+            }
+
+            //var tempTrans = vm.Transactions.FirstOrDefault(x => (x.Amount <= 0 && x.TipAmount <= 0) || (x.Amount < 0 || x.TipAmount < 0));
+
+            if (!result)
+                svItem.ScrollToVerticalOffset(0);
+
+            return result;
         }
 
         private void btnTest_Tap(object sender, System.Windows.Input.GestureEventArgs e)

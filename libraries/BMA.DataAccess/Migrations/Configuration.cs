@@ -40,8 +40,8 @@ namespace BMA.DataAccess.Migrations
                 ////Must add the first user in a more T-Sql way since there are fields in User table that references its self.
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON " +
                     "if not exists(select * from [User] where Username = {0}) BEGIN " +
-                    "INSERT INTO [User] (UserId, UserName, Password, Email, ModifiedDate, CreatedDate,ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
-                    "(1, {0}, {1}, {2}, GETDATE(), GETDATE(), 1, 1, 0) " +
+                    "INSERT INTO [User] (UserId, UserName, Password, Email, Birthdate, FirstName, LastName, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                    "(1, {0}, {1}, {2}, GETDATE(), GETDATE(),GETDATE(), 'Name', 'Surname', 1, 1, 0) " +
                     "END " +
                     "SET IDENTITY_INSERT [User] OFF", buildInAdmin, buildInAdminPass, buildInAdminEmail);
 
@@ -50,6 +50,9 @@ namespace BMA.DataAccess.Migrations
                     UserId = 2,
                     UserName = userName,
                     Email = buildInAdminEmail,
+                    Birthdate = new DateTime(1979, 11, 5),
+                    FirstName = "Yiannis",
+                    LastName = "Stavrianos",
                     CreatedDate = DateTime.Now,
                     CreatedUser = context.User.Single(u => u.UserName == buildInAdmin),
                     ModifiedDate = DateTime.Now,

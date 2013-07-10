@@ -67,6 +67,9 @@ namespace BMA_WP.Model
 
                     case "reasoncatlist":
                         return GetReasonCategoryList(value);
+
+                    case "changedcolor":
+                        return GetChangedColor(value);
                 }
             }
 
@@ -98,6 +101,12 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object GetChangedColor(object value)
+        {
+            var color = (bool)value;
+            return color ? "Blue" :"White";
         }
 
         private string GetReasonCategoryList(object value)

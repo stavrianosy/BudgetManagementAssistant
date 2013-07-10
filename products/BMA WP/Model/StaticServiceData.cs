@@ -193,8 +193,14 @@ namespace BMA_WP.Model
             User existing = new User();
             if (!App.Instance.IsOnline)
             {
-                var query = await LoadCachedUser(STATIC_USER_FOLDER);
-                existing = query.Where(i => i.UserName == user.UserName).Single();
+                try
+                {
+                    var query = await LoadCachedUser(STATIC_USER_FOLDER);
+                    existing = query.Where(i => i.UserName == user.UserName).Single();
+                    callback(existing, null);
+                    UserFound(existing);
+                }
+                catch (Exception) { throw new Exception("Username or Password is incorrect.\nThis might be due to that offline mode is not updated.\nPlease connect to the live system get get the latest data."); }
             }
             else
             {
@@ -216,23 +222,27 @@ namespace BMA_WP.Model
 
                         existing = eventargs.Result;
                         await UpdateCacheUserData(existing);
-                        if (existing.UserId > 0)
-                        {
-                            App.Instance.User.UserId = existing.UserId;
-                            App.Instance.User.Email = existing.Email;
-
-                            App.Instance.IsUserAuthenticated = true;
-                        }
-                        else
-                        {
-                            App.Instance.IsUserAuthenticated = false;
-
-                            throw new Exception("User has no authentication");
-                        }
+                        UserFound(existing);
                     }
                     catch (Exception){throw;}
-                };                
-            }            
+                };
+            }
+        }
+
+        private void UserFound(User existing)
+        {
+            if (existing.UserId > 0)
+            {
+                App.Instance.User.Update(existing);
+
+                App.Instance.IsUserAuthenticated = true;
+            }
+            else
+            {
+                App.Instance.IsUserAuthenticated = false;
+
+                throw new Exception("User has no authentication");
+            }
         }
         #endregion
 
@@ -729,8 +739,10 @@ namespace BMA_WP.Model
         #region Update Cache Data
         private async Task UpdateCacheUserData(User user)
         {
-            await StorageUtility.Clear(STATIC_USER_FOLDER);
+      //     await StorageUtility.Clear(STATIC_USER_FOLDER);
             await StorageUtility.SaveItem(STATIC_USER_FOLDER, user, user.UserId);
+
+            var test = await StorageUtility.ListItems(STATIC_USER_FOLDER);
         }
 
         private async Task UpdateCacheStaticData(StaticTypeList staticDataList)

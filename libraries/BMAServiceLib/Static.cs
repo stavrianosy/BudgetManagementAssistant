@@ -262,18 +262,14 @@ namespace BMAServiceLib
             {
                 using(EntityContext context = new EntityContext())
                 {
-                    var query = (from i in context.User
-                                     //.Include(i => i.CreatedUser)
-                                     //.Include(i => i.ModifiedUser)
-                                where i.UserName == user.UserName && !i.IsDeleted
-                                select i).ToList();
+                    var query = context.User.FirstOrDefault(i => i.UserName == user.UserName && !i.IsDeleted);
 
-                    if (query.Count() < 1)
+                    if (query == null)
                         throw new Exception("Username cannot be found");
-                    else if (query.Count() == 1 && query[0].Password != user.Password)
+                    else if (query != null && query.Password != user.Password)
                         throw new Exception("Username and password don't match");
                     else
-                        result = query[0];
+                        result = query;
                 }
             }
             catch (Exception)
@@ -928,7 +924,7 @@ namespace BMAServiceLib
                             
 
                             if (original == null)
-                                throw new Exception("No TypeInterval found to be update");
+                                throw new Exception("No TypeInterval found to update");
 
 
                             item.HasChanges = false;
@@ -1016,8 +1012,9 @@ namespace BMAServiceLib
                             //item.RecurrenceRangeRuleValue = null;
                             item.Category.TypeTransactionReasons = null;
 
-                            context.Entry(item.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
-                            context.Entry(item.RecurrenceRangeRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
+                            //context.Entry(item.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
+                            item.RecurrenceRuleValue.RecurrenceRule = context.RecurrenceRule.Where(k => !k.IsDeleted).Single(p => p.RecurrenceRuleId == item.RecurrenceRuleValue.RecurrenceRule.RecurrenceRuleId);
+                            item.RecurrenceRangeRuleValue.RecurrenceRule = context.RecurrenceRule.Where(k => !k.IsDeleted).Single(p => p.RecurrenceRuleId == item.RecurrenceRangeRuleValue.RecurrenceRule.RecurrenceRuleId);
 
                             item.RecurrenceRuleValue.RulePartValueList.ForEach(x =>
                             {

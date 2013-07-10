@@ -99,10 +99,11 @@
                                    Text="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                                    Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:LongListMultiSelector x:Name="transactionReasonList" Margin="0 12 0 0"
-                                                       LayoutMode="List" 
+                                                       LayoutMode="List"
                                                        ItemsSource="{Binding TransactionReasonList, Mode=TwoWay}"
                                                        SelectionChanged="transactionReasonList_SelectionChanged"
-                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"/>
+                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"
+                                                       IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>

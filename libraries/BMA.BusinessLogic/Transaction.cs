@@ -169,6 +169,7 @@ namespace BMA.BusinessLogic
         //[DataMember]
         //[IgnoreDataMember]
         public List<TransactionImage> TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); } }
+
         #endregion
 
         #region Contructors

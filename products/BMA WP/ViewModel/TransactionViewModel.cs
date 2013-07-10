@@ -27,7 +27,13 @@ namespace BMA_WP.ViewModel
 
         #region Public Properties
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
-        public Transaction CurrTransaction { get { return _currTransaction; } set { _currTransaction = value; RaisePropertyChanged("CurrTransaction"); } } 
+        public Transaction CurrTransaction { get { return _currTransaction; } 
+            set 
+            { 
+                _currTransaction = value; 
+                RaisePropertyChanged("CurrTransaction");
+            } } 
+        
 
         public TransactionList Transactions { get { return App.Instance.ServiceData.TransactionList; } }
         public ObservableCollection<TypeTransaction> TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
@@ -72,6 +78,7 @@ namespace BMA_WP.ViewModel
             IsEnabled = false;
             App.Instance.ServiceData.LoadTransactions();
             PivotIndex = 0;
+              
         }
     }
 }

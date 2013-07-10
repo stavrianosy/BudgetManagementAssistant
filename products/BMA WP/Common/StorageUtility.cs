@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 
 using BMA.BusinessLogic;
+using System.Runtime.Serialization;
 
 namespace BMA_WP.Common
 {
@@ -23,7 +24,13 @@ namespace BMA_WP.Common
 
             var folder = await ApplicationData.Current.LocalFolder
                                              .CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
-            return (from file in await folder.GetFilesAsync() select file.DisplayName).ToArray();
+
+            //var allFiles = folder.GetFilesAsync().GetResults();
+            //var aa = (StorageFile)allFiles;
+
+            return (from file in await folder.GetFilesAsync() select file.Name).ToArray();
+
+            //return null;
         }
         public static async Task<T> RestoreItem<T>(string folderName, string hashCode)
             where T : BaseItem, new()
@@ -40,9 +47,10 @@ namespace BMA_WP.Common
 
             var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync(folderName);
             var file = await folder.GetFileAsync(hashCode);
-            var inStream = await file.OpenSequentialReadAsync();
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            var retVal = (T)serializer.ReadObject(inStream.AsStreamForRead());
+            //var inStream = await file.OpenSequentialReadAsync();
+            var inStream = await file.OpenStreamForReadAsync();
+            var serializer = new DataContractSerializer(typeof(T));
+            var retVal = (T)serializer.ReadObject(inStream);
             return retVal;
         }
 
@@ -81,15 +89,21 @@ namespace BMA_WP.Common
                 var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
 
                 var file = await folder.CreateFileAsync(id.GetHashCode().ToString(), CreationCollisionOption.ReplaceExisting);
-                var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                //var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
-                using (var outStream = stream.GetOutputStreamAt(0))
-                {
-                    var serializer = new DataContractJsonSerializer(typeof(T));
-                    serializer.WriteObject(outStream.AsStreamForWrite(), item);
-                    await outStream.FlushAsync();
-                    stream.Dispose();
-                }
+                //using (var outStream = stream.GetOutputStreamAt(0))
+                //{
+                //    var serializer = new DataContractJsonSerializer(typeof(T));
+                //    serializer.WriteObject(outStream.AsStreamForWrite(), item);
+                //    await outStream.FlushAsync();
+                //    stream.Dispose();
+                //}
+
+                var outStream = await file.OpenStreamForWriteAsync();
+                var serializer = new DataContractSerializer(typeof(T));
+                serializer.WriteObject(outStream, item);
+                await outStream.FlushAsync();
+                outStream.Dispose();
             }
             catch (Exception ex)
             {

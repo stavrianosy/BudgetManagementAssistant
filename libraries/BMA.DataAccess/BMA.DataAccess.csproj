@@ -62,6 +62,10 @@
     <Compile Include="Migrations\201307040929408_rule3.Designer.cs">
       <DependentUpon>201307040929408_rule3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307091445542_user.cs" />
+    <Compile Include="Migrations\201307091445542_user.Designer.cs">
+      <DependentUpon>201307091445542_user.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307040929408_rule3.resx">
       <DependentUpon>201307040929408_rule3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307091445542_user.resx">
+      <DependentUpon>201307091445542_user.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
