@@ -9,6 +9,7 @@ namespace BMA.BusinessLogic
     public abstract class BaseItem : INotifyPropertyChanged //BindableBase
     {
         bool isDeleted;
+        bool hasChanges;
         DateTime createdDate;
 
         [DataMember]
@@ -26,7 +27,7 @@ namespace BMA.BusinessLogic
 
         //[IgnoreDataMember]
         [DataMember]
-        public bool HasChanges { get; set; }
+        public bool HasChanges { get { return hasChanges; } set { hasChanges = value; OnPropertyChanged("HasChanges"); } }
 
         //[Required]
         [DataMember]
@@ -38,7 +39,7 @@ namespace BMA.BusinessLogic
             ModifiedDate = DateTime.Now;
             CreatedDate = DateTime.Now;
             IsDeleted = false;
-            HasChanges = false;
+            HasChanges = true;
         }
         public BaseItem(User user)
             : this()
@@ -53,7 +54,7 @@ namespace BMA.BusinessLogic
         {
             if (PropertyChanged != null)
             {
-                HasChanges = true;
+                hasChanges = true;
                 ModifiedDate = DateTime.Now;
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }

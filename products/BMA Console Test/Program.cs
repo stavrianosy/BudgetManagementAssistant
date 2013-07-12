@@ -37,7 +37,7 @@ namespace ConsoleApplication1
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
             //SaveTypeInterval(a, b, usr);
-
+            b.GetAllTypeTransactionReasons();
 
 
 

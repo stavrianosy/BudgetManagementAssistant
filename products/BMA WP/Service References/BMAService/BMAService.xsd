@@ -40,7 +40,10 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseItem">
         <xs:sequence>
+          <xs:element minOccurs="0" name="Birthdate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="UserId" type="xs:int" />
           <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />

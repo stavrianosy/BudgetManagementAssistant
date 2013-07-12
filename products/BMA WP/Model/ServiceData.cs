@@ -107,11 +107,7 @@ namespace BMA_WP.Model
                 else
                 {
                     existing = await LoadLiveTransactions(budgetId);
-                    await UpdateCacheTransactions(existing);
                 }
-
-                SetupTransactionList(existing);
-
             }
             
             private void SetupTransactionList(ICollection<Transaction> existing)
@@ -175,8 +171,9 @@ namespace BMA_WP.Model
 
                         client.GetLatestTransactionsCompleted += (sender, completedEventArgs) =>
                         {
-                            foreach (var item in completedEventArgs.Result)
-                                TransactionList.Add(item);
+                            SetupTransactionList(completedEventArgs.Result);
+
+                            UpdateCacheTransactions(TransactionList);
                         };
                         client.GetLatestTransactionsAsync(latestTransactionsState);
                     }
@@ -234,6 +231,9 @@ namespace BMA_WP.Model
                         Debug.WriteLine(ex.ToString());
                     }
                 }
+                
+                SetupTransactionList(retVal);
+
                 return retVal;
             }
 

@@ -20,6 +20,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Data;
 using BMA_WP.Model;
+using Microsoft.Phone;
+using System.IO;
 
 namespace BMA_WP.View
 {
@@ -221,7 +223,8 @@ namespace BMA_WP.View
             if (result == MessageBoxResult.OK)
             {
                 vm.CurrTransaction.IsDeleted = true;
-                SaveTransaction();
+                vm.PivotIndex = 1;
+                //SaveTransaction();
             }
         }
 
@@ -324,10 +327,21 @@ namespace BMA_WP.View
                 txtTip.Background = errColor;
             }
 
-            //var tempTrans = vm.Transactions.FirstOrDefault(x => (x.Amount <= 0 && x.TipAmount <= 0) || (x.Amount < 0 || x.TipAmount < 0));
-
             if (!result)
                 svItem.ScrollToVerticalOffset(0);
+            else
+            {
+                var tempTrans = vm.Transactions.Where(x => !x.IsDeleted && ((x.Amount <= 0 && x.TipAmount <= 0) || (x.Amount < 0 || x.TipAmount < 0))).ToList();
+                if (tempTrans.Count>0)
+                {
+                    result = false;
+                    //for more specific message
+                    if(tempTrans.Count ==1)
+                        MessageBox.Show(string.Format("There is another transaction that failed validation.\nUpdate it from the list and save again."));
+                    else
+                        MessageBox.Show(string.Format("There are another {0} transactions that failed validation.\nUpdate them from the list and save again.", tempTrans.Count));
+                }
+            }
 
             return result;
         }
@@ -347,9 +361,19 @@ namespace BMA_WP.View
             {
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(e.ChosenPhoto);
+
+                var imgBinary = new BinaryReader(e.ChosenPhoto);
+                var bytes = ReadImageBytes(imgBinary.BaseStream);
+                
                 //imgReceipt.Source = new BitmapImage(new Uri(e.OriginalFileName));
                 //vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User) { Path = e.OriginalFileName });
-                vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User){Path= "/Assets/login_white.png",Name="ys1"}) ;
+
+                using (var stream = new MemoryStream())
+                {
+                     //PictureDecoder.DecodeJpeg(stream);
+                }
+
+                vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User) { Path = "/Assets/login_white.png", Name = "ys1", Image = bytes });
                 imgReceipt.Source = bitmap;
             }
         }
@@ -364,5 +388,20 @@ namespace BMA_WP.View
 
             var a = vm.CurrTransaction;
         }
+
+        private byte[] ReadImageBytes(BinaryReader brImage)
+        {
+            byte[] imageBytes = new byte[brImage.BaseStream.Length];
+            var a = brImage.Read(imageBytes, 0, imageBytes.Length);
+            return null;
+        }
+
+        private byte[] ReadImageBytes(Stream imageStream)
+        {
+            byte[] imageBytes = new byte[imageStream.Length];
+            imageStream.Read(imageBytes, 0, imageBytes.Length);
+            return imageBytes;
+        } 
+ 
     }
 }

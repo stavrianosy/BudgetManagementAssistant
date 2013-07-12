@@ -81,6 +81,7 @@ namespace BMAServiceLib
         {
         try
             {
+            var result = new List<Category>();
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.Category
@@ -88,11 +89,15 @@ namespace BMAServiceLib
                                 .Include(x=>x.CreatedUser)
                                 orderby i.Name ascending
                                 where !i.IsDeleted
-                                select i).ToList();
+                                select new {Category = i, Reasons=i.TypeTransactionReasons.Where(x=>!x.IsDeleted)}).ToList();
 
-                    query.ForEach(x => x.TypeTransactionReasons.ForEach(z => z.Categories = null));
+                    query.ForEach(x => 
+                        {
+                            x.Category.TypeTransactionReasons = x.Reasons.ToList();
+                            result.Add(x.Category);
+                        });
 
-                    return query;
+                    return result;
                 }
             }
             catch (Exception)
@@ -105,18 +110,23 @@ namespace BMAServiceLib
         {
             try
             {
+                var result = new List<TypeTransactionReason>();
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TransactionReason
                                 .Include(x => x.CreatedUser)
                                 .Include(x => x.Categories)
                                  orderby i.Name ascending
-                                where !i.IsDeleted
-                                select i).ToList();
+                                 where !i.IsDeleted
+                                 select new {TransReason = i, Categories=i.Categories.Where(x=>!x.IsDeleted) }).ToList();
 
-                    query.ForEach(x=>x.Categories.ForEach(z=>z.TypeTransactionReasons=null));
+                    query.ForEach(x=>
+                        {
+                           x.TransReason.Categories = x.Categories.ToList();
+                            result.Add(x.TransReason);
+                        });
 
-                    return query;
+                    return result;
                 }
             }
             catch (Exception)

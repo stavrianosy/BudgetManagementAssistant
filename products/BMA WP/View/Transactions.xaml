@@ -168,7 +168,7 @@
                                 </DataTemplate>
                             </phone:LongListSelector.ItemTemplate>
                         </phone:LongListSelector>
-                        <Image x:Name="imgReceipt" Source="/Assets/login_white.png" Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
+                        <Image x:Name="imgReceipt" Source="{Binding Image}" Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
                     </StackPanel>
 
                 </ScrollViewer>

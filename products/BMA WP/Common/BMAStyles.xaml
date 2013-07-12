@@ -75,18 +75,28 @@
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Amount: " FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                        <TextBlock Text="Amount: " 
+                                   Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"
+                                   FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
                         <TextBlock Text="{Binding TotalAmount}" 
-                                   Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor, Mode=TwoWay}"
+                                   Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"
                                    FontSize="{StaticResource PhoneFontSizeLarge}" 
                                    FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="6 0 0 6"
                                     Visibility="{Binding TipAmount, Converter={StaticResource converters}, ConverterParameter=VisibilityOnTipAmount}">
-                            <TextBlock Text="(" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                            <TextBlock Text="{Binding Amount}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                            <TextBlock Text=" + " FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                            <TextBlock Text="{Binding TipAmount}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                            <TextBlock Text=")" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                            <TextBlock Text="(" 
+                                       Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"
+                                       FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                            <TextBlock Text="{Binding Amount}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                       Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"/>
+                            <TextBlock Text=" + " 
+                                       Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"
+                                       FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                            <TextBlock Text="{Binding TipAmount}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                       Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"/>
+                            <TextBlock Text=")" 
+                                       Foreground="{Binding HasChanges, Converter={StaticResource converters}, ConverterParameter=changedColor}"
+                                       FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
