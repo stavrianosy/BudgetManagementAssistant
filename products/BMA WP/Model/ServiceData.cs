@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
@@ -297,12 +298,14 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    var result = this.TransactionList.ToObservableCollection();
-
                     if (!App.Instance.IsOnline)
                     {
-                        result = result.Where(i => !i.IsDeleted).ToObservableCollection();
-                        ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
+                        foreach (var item in TransactionList.Where(x=>x.HasChanges))
+                            item.HasChanges = false;
+
+                        await UpdateCacheTransactions(TransactionList);
+
+                        App.Instance.IsSync = false;
                     }
                     else
                     {
