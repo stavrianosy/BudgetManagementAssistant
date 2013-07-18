@@ -167,7 +167,7 @@ namespace BMA.BusinessLogic
         public DateTime TransactionDate { get { return transactionDate; } set { transactionDate = value; OnPropertyChanged("TransactionDate"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
-        //[IgnoreDataMember]
+        [IgnoreDataMember]
         public List<TransactionImage> TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); OnPropertyChanged("HasChanges"); } }
 
         #endregion

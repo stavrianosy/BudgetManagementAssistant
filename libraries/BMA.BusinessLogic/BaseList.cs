@@ -9,6 +9,7 @@ namespace BMA.BusinessLogic
 {
     public abstract class BaseList:ObservableCollection<BaseItem>
     {
+
         public BaseList GetChanges<T>() 
             where T: BaseList, new()
         {
@@ -18,6 +19,12 @@ namespace BMA.BusinessLogic
                 obj.Add(item);
 
             return obj;
+        }
+
+        public void AcceptChanges()
+        {
+            foreach (var item in Items)
+                item.HasChanges = false;
         }
     }
 }

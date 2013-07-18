@@ -54,7 +54,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions()
         {
-            return GetLatestTransactionsLimit(20);
+            return GetLatestTransactionsLimit(50);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs)
@@ -81,11 +81,11 @@ namespace BMAServiceLib
                     {
                         //one way to handle circular referenceis to explicitly set the child to null
                         item.Category.TypeTransactionReasons.ForEach(x => x.Categories = null);
-                        var transImg = (from k in context.TransactionImage
-                                        .Include(x => x.CreatedUser)
-                                        where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
-                                        select k).ToList();
-                        item.TransactionImages = transImg;
+                        //var transImg = (from k in context.TransactionImage
+                        //                .Include(x => x.CreatedUser)
+                        //                where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
+                        //                select k).ToList();
+                        //item.TransactionImages = transImg;
                         transList.Add(item);
                     }
 
@@ -152,6 +152,19 @@ namespace BMAServiceLib
             {
                 throw;
             }
+        }
+
+        public List<TransactionImage> GetImagesForTransaction(int transactionId)
+        {
+            List<TransactionImage> result = null;
+            using(EntityContext context = new EntityContext())
+            {
+                var query = context.TransactionImage.Where(x =>x.Transaction.TransactionId == transactionId && !x.IsDeleted);
+
+                result = query.ToList();
+
+            }
+            return result;
         }
 
         public BudgetList GetAllBudgets()
@@ -310,7 +323,7 @@ namespace BMAServiceLib
                                 if (item.TransactionImages != null)
                                 {
                                     item.TransactionImages.ForEach(x =>
-                                        {
+                                    {
                                             if (x.TransactionImageId > 0)
                                                 original.TransactionImages.Where(k => k.TransactionImageId == x.TransactionImageId).Select(k =>
                                                 {
@@ -487,6 +500,82 @@ namespace BMAServiceLib
             }
         }
 
+
+        public bool SaveTransactionImages(TransactionImageList transactionImages)
+        {
+            try
+            {
+                bool updateFound = false;
+                using (EntityContext context = new EntityContext())
+                {
+                    foreach (var item in transactionImages)
+                    {
+                        if (item.TransactionImageId > 0) //Update
+                        {
+                            var original = context.TransactionImage.Where(t =>
+                                                                t.TransactionImageId == item.TransactionImageId &&
+                                                                t.ModifiedDate < item.ModifiedDate &&
+                                                                !t.IsDeleted).FirstOrDefault();
+
+                            if (original != null)
+                            {
+                                item.HasChanges = false;
+
+                                original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                                original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                                context.Entry(original).CurrentValues.SetValues(item);
+                                updateFound = true;
+                            }
+                        }
+                        else //Insert
+                        {
+                            item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                            item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            item.Transaction.Category = null;
+                            item.Transaction.TransactionImages = null;
+                            item.Transaction.TransactionReasonType = null;
+                            item.Transaction.TransactionType = null;
+                            item.Transaction.ModifiedUser = null;
+                            item.Transaction.CreatedUser = null;
+
+                            context.Entry(item.Transaction).State = EntityState.Unchanged;
+
+                            context.TransactionImage.Add(item);
+
+                            updateFound = true;
+                        }
+                    }
+
+                    if (updateFound)
+                        context.SaveChanges();
+                }
+                return true;
+            }
+            catch (DbEntityValidationException e)
+            {
+                StringBuilder s = new StringBuilder();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                        s.Append(string.Format("{0} - {1}", ve.PropertyName, ve.ErrorMessage));
+                    }
+                }
+
+                throw new DbEntityValidationException(s.ToString());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         #endregion
 
     }

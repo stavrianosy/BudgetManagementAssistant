@@ -22,6 +22,7 @@ namespace BMA_WP.ViewModel
         #region Private Members
         private bool _isEnabled;
         private Transaction _currTransaction;
+        private ObservableCollection<TransactionImage> _currTransactionImages;
         private int pivotIndex;
         #endregion
 
@@ -29,31 +30,22 @@ namespace BMA_WP.ViewModel
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
         public Transaction CurrTransaction { get { return _currTransaction; } 
             set 
-            { 
-                _currTransaction = value; 
+            {
+                _currTransaction = value;
                 RaisePropertyChanged("CurrTransaction");
-            } } 
-        
+            } }
+
 
         public TransactionList Transactions { get { return App.Instance.ServiceData.TransactionList; } }
+        public TransactionImageList CurrTransactionImages { get { return App.Instance.ServiceData.TransactionImageList; } }
         public ObservableCollection<TypeTransaction> TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public ObservableCollection<TypeTransactionReason> TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
         public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
         
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         
-        public List<TransactionImage> TransactionImageList
-        {
-            get
-            {
-                if (CurrTransaction != null)
-                    return CurrTransaction.TransactionImages;
-                else
-                    return null;
-            }
-        }
-        
-        #endregion
+
+                #endregion
 
         #region Event To Commands
         public ICommand Transactions_SelectionChanged
@@ -80,5 +72,6 @@ namespace BMA_WP.ViewModel
             PivotIndex = 0;
               
         }
+
     }
 }

@@ -16,5 +16,10 @@ namespace BMA_WP.View.ReportsView
         {
             InitializeComponent();
         }
+
+        private void categoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

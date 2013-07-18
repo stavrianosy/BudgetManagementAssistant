@@ -89,11 +89,20 @@ namespace BMAServiceLib
                                 .Include(x=>x.CreatedUser)
                                 orderby i.Name ascending
                                 where !i.IsDeleted
-                                select new {Category = i, Reasons=i.TypeTransactionReasons.Where(x=>!x.IsDeleted)}).ToList();
+                                select new {Category = i,
+                                            CreatedUser = i.CreatedUser,
+                                            ModifiedUser = i.ModifiedUser,
+                                            Reasons=i.TypeTransactionReasons.Where(x=>!x.IsDeleted)}).ToList();
 
                     query.ForEach(x => 
                         {
-                            x.Category.TypeTransactionReasons = x.Reasons.ToList();
+                            var reasons = x.Reasons.ToList();
+                            
+                            reasons.ForEach(z => z.HasChanges = false);
+                            x.Category.HasChanges = false;
+
+                            x.Category.TypeTransactionReasons = reasons;
+
                             result.Add(x.Category);
                         });
 
@@ -118,11 +127,21 @@ namespace BMAServiceLib
                                 .Include(x => x.Categories)
                                  orderby i.Name ascending
                                  where !i.IsDeleted
-                                 select new {TransReason = i, Categories=i.Categories.Where(x=>!x.IsDeleted) }).ToList();
+                                 select new {
+                                     TransReason = i,
+                                     CreatedUser = i.CreatedUser,
+                                     ModifiedUser = i.ModifiedUser,
+                                     Categories=i.Categories.Where(x=>!x.IsDeleted) }).ToList();
 
-                    query.ForEach(x=>
+                    query.ForEach(x =>
                         {
-                           x.TransReason.Categories = x.Categories.ToList();
+                            var cats = x.Categories.ToList();
+                            
+                            cats.ForEach(z=>z.HasChanges = false);
+                            x.TransReason.HasChanges = false;
+
+                            x.TransReason.Categories = cats;
+                            
                             result.Add(x.TransReason);
                         });
 
@@ -576,7 +595,7 @@ namespace BMAServiceLib
 
                                 item.HasChanges = false;
                                 
-                                //original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                                original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                                 original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == user.UserId);
 
                                 if (item.TypeTransactionReasons != null)

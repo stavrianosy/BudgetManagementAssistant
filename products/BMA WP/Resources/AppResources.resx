@@ -239,8 +239,8 @@
   <data name="ReportsMenuTransactionCategory" xml:space="preserve">
     <value>Transaction Category</value>
   </data>
-  <data name="ReportsMenuTransactionPeriod" xml:space="preserve">
-    <value>Transaction Period</value>
+  <data name="ReportsMenuTransactionReason" xml:space="preserve">
+    <value>Transaction Reason</value>
   </data>
   <data name="ReportsMenuTransactionPlace" xml:space="preserve">
     <value>Transaction Place</value>
@@ -415,5 +415,29 @@
   </data>
   <data name="PasswordValidationFailMessage" xml:space="preserve">
     <value>Password cannot be changed for for the following reasons:</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Date From</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Date To</value>
+  </data>
+  <data name="AmountFrom" xml:space="preserve">
+    <value>Amount from</value>
+  </data>
+  <data name="AmountTo" xml:space="preserve">
+    <value>Amount to</value>
+  </data>
+  <data name="BudgetStatus" xml:space="preserve">
+    <value>Budget Status</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
   </data>
 </root>

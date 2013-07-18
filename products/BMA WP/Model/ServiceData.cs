@@ -16,17 +16,19 @@ namespace BMA_WP.Model
         public class ServiceData
         {
             const string TRANSACTIONS_FOLDER = "Transactions";
+            const string TRANSACTIONIMAGES_FOLDER = "TransactionImagess";
             const string BUDGETS_FOLDER = "Budgets";
 
             static readonly string Utf8ByteOrderMark =
             Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
 
-            string latestTransactionsState;
+            string latestState;
             
             #region Constructor
             public ServiceData()
             {
                 TransactionList = new TransactionList();
+                TransactionImageList = new TransactionImageList();
                 BudgetList = new BudgetList();
             }
 
@@ -110,15 +112,88 @@ namespace BMA_WP.Model
                     existing = await LoadLiveTransactions(budgetId);
                 }
             }
-            
+
+            public async Task LoadAllTransactionImages(int transactionId, Action<Exception> callback)
+            {
+                ICollection<TransactionImage> existing = null;
+
+                if (!App.Instance.IsOnline)
+                {
+                    try
+                    {
+                        existing = await LoadCachedTransactionImages();
+                        callback(null);
+                    }
+                    catch (Exception) { throw new Exception("Username"); }
+                }
+                else
+                {
+                    try
+                    {
+                        var client = new BMAService.MainClient();
+                        latestState = Guid.NewGuid().ToString();
+
+                        client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
+                        {
+                            if (completedEventArgs.Error != null)
+                            {
+                                callback(completedEventArgs.Error);
+                                return;
+                            }
+                            SetupTransactionImageList(completedEventArgs.Result);
+
+                            UpdateCacheTransactionImages(TransactionImageList);
+
+                            callback(null);
+
+                        };
+                        client.GetImagesForTransactionAsync(transactionId, latestState);
+                    }
+                    catch (Exception ex)
+                    {
+                        var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                        throw;
+                    }
+                }
+            }
+
             private void SetupTransactionList(ICollection<Transaction> existing)
             {
-                existing = existing ?? new TransactionList();
+                //sync logic
+                
+                //REMOVE all inserted records as they will be added with a new Id
+                var newItems = TransactionList.Select((x,i) => new {Item=x, Index=i}).Where(x=>x.Item.TransactionId <= 0).ToList();
+                newItems.ForEach(x=>TransactionList.RemoveAt(x.Index));
 
-                TransactionList.Clear();
+                foreach (var item in existing)
+                {
+                    var query = TransactionList.Select((x, i) => new
+                    {
+                        trans = x,
+                        Index = i
+                    }).Where(x => x.trans.TransactionId == item.TransactionId).FirstOrDefault();
+                    
+                    //UPDATE
+                    if (query == null)
+                    {
+                        TransactionList.Add(item);
+                    }
+                    //INSERT
+                    else
+                    {
+                        TransactionList[query.Index] = item;
+                    }
+                }
+            }
+
+            private void SetupTransactionImageList(ICollection<TransactionImage> existing)
+            {
+                existing = existing ?? new List<TransactionImage>();
+
+                TransactionImageList.Clear();
 
                 foreach (var trans in existing)
-                    TransactionList.Add(trans);
+                    TransactionImageList.Add(trans);
             }
 
             private void SetupBudgetList(ICollection<Budget> existing)
@@ -168,15 +243,18 @@ namespace BMA_WP.Model
                     var client = new BMAService.MainClient();
                     if (budgetId == 0)
                     {
-                        latestTransactionsState = Guid.NewGuid().ToString();
+                        latestState = Guid.NewGuid().ToString();
 
                         client.GetLatestTransactionsCompleted += (sender, completedEventArgs) =>
                         {
+                            1. change save method to return only the saved records
+                            2. When saving, remove childs of categories and reasons because when you choose the Other option for both, 
+                               you get an error that the object is too large
                             SetupTransactionList(completedEventArgs.Result);
 
-                            UpdateCacheTransactions(TransactionList);
+                            UpdateCacheTransactions();
                         };
-                        client.GetLatestTransactionsAsync(latestTransactionsState);
+                        client.GetLatestTransactionsAsync(latestState);
                     }
                     else
                     {
@@ -217,6 +295,37 @@ namespace BMA_WP.Model
                 return retVal;
             }
 
+            private async Task<ICollection<TransactionImage>> LoadLiveTransactionImages(int transactionId)
+            {
+
+                var retVal = new List<TransactionImage>();
+
+                if (!App.Instance.IsOnline)
+                {
+                    return retVal;
+                }
+
+                try
+                {
+                    var client = new BMAService.MainClient();
+                        latestState = Guid.NewGuid().ToString();
+
+                        client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
+                        {
+                            SetupTransactionImageList(completedEventArgs.Result);
+
+                            UpdateCacheTransactionImages(TransactionImageList);
+                        };
+                        client.GetImagesForTransactionAsync(transactionId, latestState);
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                    throw;
+                }
+                return retVal;
+            }
+
             private async Task<ICollection<Transaction>> LoadCachedTransactions()
             {
                 var retVal = new List<Transaction>();
@@ -232,8 +341,29 @@ namespace BMA_WP.Model
                         Debug.WriteLine(ex.ToString());
                     }
                 }
-                
+
                 SetupTransactionList(retVal);
+
+                return retVal;
+            }
+
+            private async Task<ICollection<TransactionImage>> LoadCachedTransactionImages()
+            {
+                var retVal = new List<TransactionImage>();
+                foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER))
+                {
+                    try
+                    {
+                        var trans = await StorageUtility.RestoreItem<TransactionImage>(TRANSACTIONIMAGES_FOLDER, item);
+                        retVal.Add(trans);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.ToString());
+                    }
+                }
+
+                SetupTransactionImageList(retVal);
 
                 return retVal;
             }
@@ -256,6 +386,7 @@ namespace BMA_WP.Model
                 return retVal;
             }
 
+            public TransactionImageList TransactionImageList { get; set; }
             public TransactionList TransactionList { get; set; }
             public BudgetList BudgetList { get; set; }
 
@@ -273,7 +404,7 @@ namespace BMA_WP.Model
                         try
                         {
                             var result = e.Result;
-                            await UpdateCacheTransactions(result);
+                            await UpdateCacheTransactions();
                             SetupTransactionList(result);
 
                             App.Instance.IsSync = true;
@@ -300,10 +431,10 @@ namespace BMA_WP.Model
                 {
                     if (!App.Instance.IsOnline)
                     {
-                        foreach (var item in TransactionList.Where(x=>x.HasChanges))
+                        foreach (var item in TransactionList.Where(x => x.HasChanges))
                             item.HasChanges = false;
 
-                        await UpdateCacheTransactions(TransactionList);
+                        await UpdateCacheTransactions();
 
                         App.Instance.IsSync = false;
                     }
@@ -311,14 +442,47 @@ namespace BMA_WP.Model
                     {
                         var client = new BMAService.MainClient();
                         client.SaveTransactionsAsync(transactions);
-                        client.SaveTransactionsCompleted += async (sender, completedEventArgs) => 
+                        client.SaveTransactionsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                await UpdateCacheTransactions(completedEventArgs.Result);
+                                await UpdateCacheTransactions();
                                 SetupTransactionList(completedEventArgs.Result);
                             }
-                            
+
+                        };
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            public async Task SaveTransactionImages(ObservableCollection<TransactionImage> transactionImages)
+            {
+                try
+                {
+                    if (!App.Instance.IsOnline)
+                    {
+                        foreach (var item in TransactionImageList.Where(x => x.HasChanges))
+                            item.HasChanges = false;
+
+                        await UpdateCacheTransactionImages(TransactionImageList);
+
+                        App.Instance.IsSync = false;
+                    }
+                    else
+                    {
+                        var client = new BMAService.MainClient();
+                        client.SaveTransactionImagesAsync(transactionImages);
+                        client.SaveTransactionImagesCompleted += async (sender, completedEventArgs) =>
+                        {
+                            if (completedEventArgs.Error == null)
+                            {
+                                //await UpdateCacheTransactionImages(completedEventArgs.Result);
+                                //SetupTransactionImageList(completedEventArgs.Result);
+                            }
+
                         };
                     }
                 }
@@ -401,11 +565,18 @@ namespace BMA_WP.Model
                     await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId);
             }
 
-            private async Task UpdateCacheTransactions(ICollection<Transaction> transList)
+            private async Task UpdateCacheTransactions()
             {
                 await StorageUtility.Clear(TRANSACTIONS_FOLDER);
-                foreach (var item in transList)
+                foreach (var item in TransactionList)
                     await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
+            }
+
+            private async Task UpdateCacheTransactionImages(ICollection<TransactionImage> transImageList)
+            {
+                await StorageUtility.Clear(TRANSACTIONIMAGES_FOLDER);
+                foreach (var item in transImageList)
+                    await StorageUtility.SaveItem(TRANSACTIONIMAGES_FOLDER, item, item.TransactionImageId);
             }
             #endregion
         }

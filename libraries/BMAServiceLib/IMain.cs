@@ -28,6 +28,9 @@ namespace BMAServiceLib
         TransactionList GetTransactionsForBudget(int budgetId);
 
         [OperationContract]
+        List<TransactionImage> GetImagesForTransaction(int transactionId);
+
+        [OperationContract]
         BudgetList GetAllBudgets();
 
         [OperationContract]
@@ -43,7 +46,10 @@ namespace BMAServiceLib
         TransactionList SyncTransactions(TransactionList transactions);
 
         [OperationContract]
-        BudgetList SaveBudgets(BudgetList transactions);
+        BudgetList SaveBudgets(BudgetList budgets);
+
+        [OperationContract]
+        bool SaveTransactionImages(TransactionImageList transactionImages);
 
         [OperationContract]
         BudgetList SyncBudgets(BudgetList budgets);

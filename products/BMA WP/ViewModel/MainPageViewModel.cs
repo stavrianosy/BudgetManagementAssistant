@@ -94,7 +94,7 @@ namespace BMA_WP.ViewModel
                 new MenuItem{Name=AppResources.ReportsMenuTransactionAmount, SubName="a11", IconPath="/Assets/icons/Dark/delete.png", Description="a22", NavigateTo="/View/Transactions.xaml"},
                 new MenuItem{Name=AppResources.ReportsMenuTransactionBudget, SubName="b11", IconPath="/Assets/icons/Dark/delete.png", Description="b22", NavigateTo="/View/Budgets.xaml"},
                 new MenuItem{Name=AppResources.ReportsMenuTransactionCategory, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="3"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionPeriod, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="4"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionReason, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="4"},
                 new MenuItem{Name=AppResources.ReportsMenuTransactionPlace, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="5"},
             };
 

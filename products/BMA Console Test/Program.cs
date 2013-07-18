@@ -37,9 +37,9 @@ namespace ConsoleApplication1
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
             //SaveTypeInterval(a, b, usr);
-            b.GetAllTypeTransactionReasons();
-
-
+            //b.GetAllTypeTransactionReasons();
+            //SaveCategories(b, usr);
+            SaveTransactionImages(a, usr);
 
 
             //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
@@ -81,13 +81,58 @@ namespace ConsoleApplication1
             var b1 = a.SaveTransactions(trans);
             var b2 = a.SaveBudgets(newbudList);
 
-            //st.Categories[7].Name = "asd";
-            //st.Categories[7].ModifiedDate = DateTime.Now;
+        }
 
-            //b.SaveCategories(st.Categories);
-            //var arrC = st.Categories.ToList();
+        private static void SaveTransactionImages(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetAllTransactions();
+            var trans = transactions[0];
+            var transWithImages = transactions.FirstOrDefault(x => x.TransactionId == 7112);
+            var transImages = a.GetImagesForTransaction(transWithImages.TransactionId);
 
-           // var c = a.SaveCategories(st.Categories);
+            var transImage = new TransactionImage(usr)
+            {
+                Transaction = trans,
+                Path = "/Assets/login_white.png",
+                Name = string.Format("{0} [{1}]", "aaaa", "bbbb"),
+                Image = transImages[0].Image,
+                Thumbnail = transImages[0].Image
+            };
+
+            var transImageList = new List<TransactionImage>();
+            transImageList.Add(transImage);
+
+            transImages.Add(transImage);
+
+            a.SaveTransactionImages(transImages);
+        }
+
+        private static void SaveCategories(ServiceReference2.StaticClient b, User usr)
+        {
+            var allCat = b.GetAllCategories();
+            var allReasins = b.GetAllTypeTransactionReasons();
+
+            var catList = new List<Category>();
+            var newCat = new Category(usr);
+            newCat.Name = "CarTest";
+
+            if (newCat.TypeTransactionReasons == null)
+                newCat.TypeTransactionReasons = new List<TypeTransactionReason>();
+
+            newCat.TypeTransactionReasons.Add(allReasins[0]);
+            newCat.TypeTransactionReasons.Add(allReasins[1]);
+
+            //var transReasonList = new List<TypeTransactionReason>();
+            //var transReason = new TypeTransactionReason(usr);
+            //transReason.Name = "CarTest";
+
+
+            catList.Add(newCat);
+
+            b.SaveCategories(catList, usr);
+            //var arrC = st.ToList();
+
+            //var c = b.SaveCategories(st.Categories);
         }
 
         private static void SaveTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)

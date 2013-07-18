@@ -8,12 +8,12 @@ namespace BMA_WP.ViewModel.ReportsView
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class TransactionPeriodViewModel : ViewModelBase
+    public class TransactionReasonViewModel : ViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of the TransactionPeriodViewModel class.
         /// </summary>
-        public TransactionPeriodViewModel()
+        public TransactionReasonViewModel()
         {
         }
     }

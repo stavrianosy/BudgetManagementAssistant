@@ -239,8 +239,8 @@
   <data name="ReportsMenuTransactionCategory" xml:space="preserve">
     <value>Συναλλαγες Κατηγοριων</value>
   </data>
-  <data name="ReportsMenuTransactionPeriod" xml:space="preserve">
-    <value>Συναλλαγες Περιόδου</value>
+  <data name="ReportsMenuTransactionReason" xml:space="preserve">
+    <value>Συναλλαγες Αιτιων</value>
   </data>
   <data name="ReportsMenuTransactionPlace" xml:space="preserve">
     <value>Συναλλαγες Τοποθεσιας</value>
@@ -415,5 +415,29 @@
   </data>
   <data name="PasswordValidationFailMessage" xml:space="preserve">
     <value>Ο κωδικος προσβασης δεν μπορει να αλλαξει για τους πιο κατω λογους:</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Ημερομηνια απο</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Ημερομηνια μεχρι</value>
+  </data>
+  <data name="AmountFrom" xml:space="preserve">
+    <value>Ποσο απο</value>
+  </data>
+  <data name="AmountTo" xml:space="preserve">
+    <value>Πσο μεχρι</value>
+  </data>
+  <data name="BudgetStatus" xml:space="preserve">
+    <value>Κατασταση Προυπολογησμου</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Απο</value>
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value>Τοποθεσια</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Μεχρι</value>
   </data>
 </root>

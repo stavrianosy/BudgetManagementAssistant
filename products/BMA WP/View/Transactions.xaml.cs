@@ -22,6 +22,7 @@ using System.Windows.Data;
 using BMA_WP.Model;
 using Microsoft.Phone;
 using System.IO;
+using Microsoft.Devices;
 
 namespace BMA_WP.View
 {
@@ -130,7 +131,7 @@ namespace BMA_WP.View
 
         }
 
-        private void ItemSelected()
+        private async void ItemSelected()
         {
             var trans = (Transaction)TransactionMultiSelect.SelectedItem;
             SetBindings(false);
@@ -141,9 +142,23 @@ namespace BMA_WP.View
                 SetBindings(true);
 
             if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
+            {
                 vm.IsEnabled = false;
+            }
             else
+            {
+                spProgressImages.Visibility = System.Windows.Visibility.Visible;
+                await App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
+                {
+                    if (error == null)
+                    {
+                        //everything is ok
+                        spProgressImages.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+                });
+
                 vm.IsEnabled = true;
+            }
 
         }
 
@@ -245,8 +260,10 @@ namespace BMA_WP.View
                 return;
 
             var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
+            var saveImg = vm.CurrTransactionImages.Where(t => t.HasChanges).ToObservableCollection();
 
             await App.Instance.ServiceData.SaveTransaction(saveOC);
+            await App.Instance.ServiceData.SaveTransactionImages(saveImg);
 
             pivotContainer.SelectedIndex = 1;
         }
@@ -348,11 +365,28 @@ namespace BMA_WP.View
 
         private void btnTest_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+
+            PhotoCamera camera = new PhotoCamera();
+            //Set the VideoBrush source to the camera 
+            // a rectangle in xaml
+            //viewfinderBrush.SetSource(camera);
+
+            //camera.CaptureImageAvailable += camera_CaptureImageAvailable;
+
+            //camera.CaptureImage();
+
+            //return;
+
             CameraCaptureTask cameraTask = new CameraCaptureTask();
-            
+
             cameraTask.Completed += cameraTask_Completed;
 
             cameraTask.Show();
+        }
+
+        private void camera_CaptureImageAvailable(object sender, ContentReadyEventArgs e)
+        {
+            var bytes = ReadImageBytes(e.ImageStream);
         }
 
         private void cameraTask_Completed(object sender, PhotoResult e)
@@ -362,9 +396,8 @@ namespace BMA_WP.View
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(e.ChosenPhoto);
 
-                var imgBinary = new BinaryReader(e.ChosenPhoto);
-                var bytes = ReadImageBytes(imgBinary.BaseStream);
-                
+                byte[] m_Bytes = ReadToEnd(e.ChosenPhoto);
+
                 //imgReceipt.Source = new BitmapImage(new Uri(e.OriginalFileName));
                 //vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User) { Path = e.OriginalFileName });
 
@@ -373,8 +406,21 @@ namespace BMA_WP.View
                      //PictureDecoder.DecodeJpeg(stream);
                 }
 
-                vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User) { Path = "/Assets/login_white.png", Name = "ys1", Image = bytes });
-                imgReceipt.Source = bitmap;
+                WriteableBitmap wBitmap = new WriteableBitmap(bitmap);
+                MemoryStream ms = new MemoryStream();
+                wBitmap.SaveJpeg(ms, 100, 100, 0, 100);
+                byte[] tn_Bytes = ReadToEnd(ms);
+
+                var transImage = new TransactionImage(App.Instance.User) { 
+                                                Transaction = vm.CurrTransaction,
+                                                Path = "/Assets/login_white.png",
+                                                Name = string.Format("{0} [{1}]", vm.CurrTransaction.NameOfPlace, vm.CurrTransaction.TotalAmount),
+                                                Image = tn_Bytes,
+                                                Thumbnail = tn_Bytes
+                };
+                vm.CurrTransactionImages.Add(transImage);
+                save.IsEnabled = true;
+                //imgReceipt.Source = bitmap;
             }
         }
 
@@ -382,26 +428,88 @@ namespace BMA_WP.View
         {
             var transImage = (TransactionImage)((Microsoft.Phone.Controls.MenuItem)sender).DataContext;
             transImage.IsDeleted = true;
-            vm.CurrTransaction.HasChanges = true;
+            //vm.CurrTransaction.HasChanges = true;
 
             save.IsEnabled = true;
 
             var a = vm.CurrTransaction;
+            var b = vm.CurrTransactionImages;
         }
 
         private byte[] ReadImageBytes(BinaryReader brImage)
         {
-            byte[] imageBytes = new byte[brImage.BaseStream.Length];
-            var a = brImage.Read(imageBytes, 0, imageBytes.Length);
-            return null;
+            byte[] imgByteArray = brImage.ReadBytes((int)(brImage.BaseStream.Length));
+
+            return imgByteArray;
         }
 
         private byte[] ReadImageBytes(Stream imageStream)
         {
             byte[] imageBytes = new byte[imageStream.Length];
             imageStream.Read(imageBytes, 0, imageBytes.Length);
+
             return imageBytes;
-        } 
- 
+        }
+
+        public static byte[] ReadToEnd(System.IO.Stream stream)
+        {
+            long originalPosition = 0;
+
+            if (stream.CanSeek)
+            {
+                originalPosition = stream.Position;
+                stream.Position = 0;
+            }
+
+            try
+            {
+                byte[] readBuffer = new byte[4096];
+
+                int totalBytesRead = 0;
+                int bytesRead;
+
+                while ((bytesRead = stream.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0)
+                {
+                    totalBytesRead += bytesRead;
+
+                    if (totalBytesRead == readBuffer.Length)
+                    {
+                        int nextByte = stream.ReadByte();
+                        if (nextByte != -1)
+                        {
+                            byte[] temp = new byte[readBuffer.Length * 2];
+                            Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
+                            Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
+                            readBuffer = temp;
+                            totalBytesRead++;
+                        }
+                    }
+                }
+
+                byte[] buffer = readBuffer;
+                if (readBuffer.Length != totalBytesRead)
+                {
+                    buffer = new byte[totalBytesRead];
+                    Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
+                }
+                return buffer;
+            }
+            finally
+            {
+                if (stream.CanSeek)
+                {
+                    stream.Position = originalPosition;
+                }
+            }
+        }
+
+        private void btnImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image thumbnail = e.OriginalSource as Image;
+            var transImageId = thumbnail.Tag.ToString();
+
+            var uri = string.Format("/View/ImageViewer.xaml?transImageId={0}", transImageId);
+            NavigationService.Navigate(new Uri(uri, UriKind.Relative));
+        }
     }
 }

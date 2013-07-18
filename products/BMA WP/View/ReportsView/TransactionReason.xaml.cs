@@ -10,11 +10,16 @@ using Microsoft.Phone.Shell;
 
 namespace BMA_WP.View.ReportsView
 {
-    public partial class TransactionPeriod : PhoneApplicationPage
+    public partial class TransactionReason : PhoneApplicationPage
     {
-        public TransactionPeriod()
+        public TransactionReason()
         {
             InitializeComponent();
+        }
+
+        private void reasonList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

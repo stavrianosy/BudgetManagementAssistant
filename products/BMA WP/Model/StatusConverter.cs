@@ -2,7 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +73,9 @@ namespace BMA_WP.Model
 
                     case "changedcolor":
                         return GetChangedColor(value);
+
+                    case "bytestoimage":
+                        return ConvertByteArrayToImage(value);
                 }
             }
 
@@ -101,6 +107,24 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object ConvertByteArrayToImage(object value)
+        {
+            BitmapImage image = null;
+            if (value != null && value is byte[])
+            {
+                byte[] bytes = value as byte[];
+                MemoryStream stream = new MemoryStream(bytes);
+                image = new BitmapImage();
+
+                image.SetSource(stream);
+
+                return image;
+            }
+
+            return image;
+
         }
 
         private object GetChangedColor(object value)
@@ -136,7 +160,7 @@ namespace BMA_WP.Model
 
         private object GetNullTransImages(object value)
         {
-            var tranImgs = (List<TransactionImage>)value;
+            var tranImgs = (ObservableCollection<TransactionImage>)value;
             if (tranImgs == null || tranImgs.Count == 0)
                 return null;
             else
