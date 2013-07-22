@@ -162,7 +162,7 @@ namespace BMA_WP.Model
                 //sync logic
                 
                 //REMOVE all inserted records as they will be added with a new Id
-                var newItems = TransactionList.Select((x,i) => new {Item=x, Index=i}).Where(x=>x.Item.TransactionId <= 0).ToList();
+                var newItems = TransactionList.Select((x,i) => new {Item=x, Index=i}).Where(x=>x.Item.TransactionId <= 0).OrderByDescending(x=>x.Index).ToList();
                 newItems.ForEach(x=>TransactionList.RemoveAt(x.Index));
 
                 foreach (var item in existing)
@@ -173,12 +173,12 @@ namespace BMA_WP.Model
                         Index = i
                     }).Where(x => x.trans.TransactionId == item.TransactionId).FirstOrDefault();
                     
-                    //UPDATE
+                    //INSERT
                     if (query == null)
                     {
                         TransactionList.Add(item);
                     }
-                    //INSERT
+                    //UPDATE
                     else
                     {
                         TransactionList[query.Index] = item;
@@ -247,9 +247,6 @@ namespace BMA_WP.Model
 
                         client.GetLatestTransactionsCompleted += (sender, completedEventArgs) =>
                         {
-                            1. change save method to return only the saved records
-                            2. When saving, remove childs of categories and reasons because when you choose the Other option for both, 
-                               you get an error that the object is too large
                             SetupTransactionList(completedEventArgs.Result);
 
                             UpdateCacheTransactions();
@@ -441,13 +438,24 @@ namespace BMA_WP.Model
                     else
                     {
                         var client = new BMAService.MainClient();
+
+                        foreach (var item in transactions)
+                        {
+                            item.Category.TypeTransactionReasons = null;
+                            item.TransactionReasonType.Categories = null;
+                        }
+
                         client.SaveTransactionsAsync(transactions);
                         client.SaveTransactionsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                await UpdateCacheTransactions();
+                                //1. change save method to return only the saved records
+                                //2. When saving, remove childs of categories and reasons because when you choose the Other option for both, 
+                                //    you get an error that the object is too large
+
                                 SetupTransactionList(completedEventArgs.Result);
+                                await UpdateCacheTransactions();
                             }
 
                         };

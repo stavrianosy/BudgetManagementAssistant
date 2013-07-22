@@ -27,6 +27,12 @@ namespace BMA.BusinessLogic
         {
             return this.TypeTransactionReasonId.GetHashCode();
         }
+
+        public TypeTransactionReason Clone()
+        {
+            return (TypeTransactionReason)this.MemberwiseClone();
+        }
+
         #endregion
 
         #region Public Properties

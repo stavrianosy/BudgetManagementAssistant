@@ -76,6 +76,9 @@ namespace BMA_WP.Model
 
                     case "bytestoimage":
                         return ConvertByteArrayToImage(value);
+
+                    case "abc":
+                        return GetTypeTransactionReasonByCategory(value);
                 }
             }
 
@@ -107,6 +110,16 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object GetTypeTransactionReasonByCategory(object value)
+        {
+            List<TypeTransactionReason> result = null;
+            var cat = value as Category;
+            var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
+
+            result = query.TypeTransactionReasons;
+            return result;
         }
 
         private object ConvertByteArrayToImage(object value)

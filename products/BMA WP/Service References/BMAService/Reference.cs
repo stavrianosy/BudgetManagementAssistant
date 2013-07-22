@@ -43,6 +43,11 @@ namespace BMA_WP.BMAService {
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndGetTransactionsForBudget(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetImagesForTransaction", ReplyAction="http://tempuri.org/IMain/GetImagesForTransactionResponse")]
+        System.IAsyncResult BeginGetImagesForTransaction(int transactionId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> EndGetImagesForTransaction(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetAllBudgets", ReplyAction="http://tempuri.org/IMain/GetAllBudgetsResponse")]
         System.IAsyncResult BeginGetAllBudgets(System.AsyncCallback callback, object asyncState);
         
@@ -69,9 +74,14 @@ namespace BMA_WP.BMAService {
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndSyncTransactions(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SaveBudgets", ReplyAction="http://tempuri.org/IMain/SaveBudgetsResponse")]
-        System.IAsyncResult BeginSaveBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSaveBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> EndSaveBudgets(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SaveTransactionImages", ReplyAction="http://tempuri.org/IMain/SaveTransactionImagesResponse")]
+        System.IAsyncResult BeginSaveTransactionImages(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages, System.AsyncCallback callback, object asyncState);
+        
+        bool EndSaveTransactionImages(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SyncBudgets", ReplyAction="http://tempuri.org/IMain/SyncBudgetsResponse")]
         System.IAsyncResult BeginSyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState);
@@ -174,6 +184,25 @@ namespace BMA_WP.BMAService {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetImagesForTransactionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetImagesForTransactionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage>)(this.results[0]));
             }
         }
     }
@@ -294,6 +323,25 @@ namespace BMA_WP.BMAService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class SaveTransactionImagesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public SaveTransactionImagesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class SyncBudgetsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
@@ -345,6 +393,12 @@ namespace BMA_WP.BMAService {
         
         private System.Threading.SendOrPostCallback onGetTransactionsForBudgetCompletedDelegate;
         
+        private BeginOperationDelegate onBeginGetImagesForTransactionDelegate;
+        
+        private EndOperationDelegate onEndGetImagesForTransactionDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetImagesForTransactionCompletedDelegate;
+        
         private BeginOperationDelegate onBeginGetAllBudgetsDelegate;
         
         private EndOperationDelegate onEndGetAllBudgetsDelegate;
@@ -380,6 +434,12 @@ namespace BMA_WP.BMAService {
         private EndOperationDelegate onEndSaveBudgetsDelegate;
         
         private System.Threading.SendOrPostCallback onSaveBudgetsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginSaveTransactionImagesDelegate;
+        
+        private EndOperationDelegate onEndSaveTransactionImagesDelegate;
+        
+        private System.Threading.SendOrPostCallback onSaveTransactionImagesCompletedDelegate;
         
         private BeginOperationDelegate onBeginSyncBudgetsDelegate;
         
@@ -450,6 +510,8 @@ namespace BMA_WP.BMAService {
         
         public event System.EventHandler<GetTransactionsForBudgetCompletedEventArgs> GetTransactionsForBudgetCompleted;
         
+        public event System.EventHandler<GetImagesForTransactionCompletedEventArgs> GetImagesForTransactionCompleted;
+        
         public event System.EventHandler<GetAllBudgetsCompletedEventArgs> GetAllBudgetsCompleted;
         
         public event System.EventHandler<GetAllTypeTransactionsCompletedEventArgs> GetAllTypeTransactionsCompleted;
@@ -461,6 +523,8 @@ namespace BMA_WP.BMAService {
         public event System.EventHandler<SyncTransactionsCompletedEventArgs> SyncTransactionsCompleted;
         
         public event System.EventHandler<SaveBudgetsCompletedEventArgs> SaveBudgetsCompleted;
+        
+        public event System.EventHandler<SaveTransactionImagesCompletedEventArgs> SaveTransactionImagesCompleted;
         
         public event System.EventHandler<SyncBudgetsCompletedEventArgs> SyncBudgetsCompleted;
         
@@ -693,6 +757,52 @@ namespace BMA_WP.BMAService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetImagesForTransaction(int transactionId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetImagesForTransaction(transactionId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> BMA_WP.BMAService.IMain.EndGetImagesForTransaction(System.IAsyncResult result) {
+            return base.Channel.EndGetImagesForTransaction(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetImagesForTransaction(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int transactionId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginGetImagesForTransaction(transactionId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetImagesForTransaction(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> retVal = ((BMA_WP.BMAService.IMain)(this)).EndGetImagesForTransaction(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetImagesForTransactionCompleted(object state) {
+            if ((this.GetImagesForTransactionCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetImagesForTransactionCompleted(this, new GetImagesForTransactionCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetImagesForTransactionAsync(int transactionId) {
+            this.GetImagesForTransactionAsync(transactionId, null);
+        }
+        
+        public void GetImagesForTransactionAsync(int transactionId, object userState) {
+            if ((this.onBeginGetImagesForTransactionDelegate == null)) {
+                this.onBeginGetImagesForTransactionDelegate = new BeginOperationDelegate(this.OnBeginGetImagesForTransaction);
+            }
+            if ((this.onEndGetImagesForTransactionDelegate == null)) {
+                this.onEndGetImagesForTransactionDelegate = new EndOperationDelegate(this.OnEndGetImagesForTransaction);
+            }
+            if ((this.onGetImagesForTransactionCompletedDelegate == null)) {
+                this.onGetImagesForTransactionCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetImagesForTransactionCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetImagesForTransactionDelegate, new object[] {
+                        transactionId}, this.onEndGetImagesForTransactionDelegate, this.onGetImagesForTransactionCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetAllBudgets(System.AsyncCallback callback, object asyncState) {
             return base.Channel.BeginGetAllBudgets(callback, asyncState);
         }
@@ -917,8 +1027,8 @@ namespace BMA_WP.BMAService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAService.IMain.BeginSaveBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSaveBudgets(transactions, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginSaveBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSaveBudgets(budgets, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -927,8 +1037,8 @@ namespace BMA_WP.BMAService {
         }
         
         private System.IAsyncResult OnBeginSaveBudgets(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>)(inValues[0]));
-            return ((BMA_WP.BMAService.IMain)(this)).BeginSaveBudgets(transactions, callback, asyncState);
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>)(inValues[0]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginSaveBudgets(budgets, callback, asyncState);
         }
         
         private object[] OnEndSaveBudgets(System.IAsyncResult result) {
@@ -944,11 +1054,11 @@ namespace BMA_WP.BMAService {
             }
         }
         
-        public void SaveBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions) {
-            this.SaveBudgetsAsync(transactions, null);
+        public void SaveBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets) {
+            this.SaveBudgetsAsync(budgets, null);
         }
         
-        public void SaveBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions, object userState) {
+        public void SaveBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, object userState) {
             if ((this.onBeginSaveBudgetsDelegate == null)) {
                 this.onBeginSaveBudgetsDelegate = new BeginOperationDelegate(this.OnBeginSaveBudgets);
             }
@@ -959,7 +1069,53 @@ namespace BMA_WP.BMAService {
                 this.onSaveBudgetsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSaveBudgetsCompleted);
             }
             base.InvokeAsync(this.onBeginSaveBudgetsDelegate, new object[] {
-                        transactions}, this.onEndSaveBudgetsDelegate, this.onSaveBudgetsCompletedDelegate, userState);
+                        budgets}, this.onEndSaveBudgetsDelegate, this.onSaveBudgetsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginSaveTransactionImages(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSaveTransactionImages(transactionImages, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        bool BMA_WP.BMAService.IMain.EndSaveTransactionImages(System.IAsyncResult result) {
+            return base.Channel.EndSaveTransactionImages(result);
+        }
+        
+        private System.IAsyncResult OnBeginSaveTransactionImages(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage>)(inValues[0]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginSaveTransactionImages(transactionImages, callback, asyncState);
+        }
+        
+        private object[] OnEndSaveTransactionImages(System.IAsyncResult result) {
+            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndSaveTransactionImages(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnSaveTransactionImagesCompleted(object state) {
+            if ((this.SaveTransactionImagesCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SaveTransactionImagesCompleted(this, new SaveTransactionImagesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void SaveTransactionImagesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages) {
+            this.SaveTransactionImagesAsync(transactionImages, null);
+        }
+        
+        public void SaveTransactionImagesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages, object userState) {
+            if ((this.onBeginSaveTransactionImagesDelegate == null)) {
+                this.onBeginSaveTransactionImagesDelegate = new BeginOperationDelegate(this.OnBeginSaveTransactionImages);
+            }
+            if ((this.onEndSaveTransactionImagesDelegate == null)) {
+                this.onEndSaveTransactionImagesDelegate = new EndOperationDelegate(this.OnEndSaveTransactionImages);
+            }
+            if ((this.onSaveTransactionImagesCompletedDelegate == null)) {
+                this.onSaveTransactionImagesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSaveTransactionImagesCompleted);
+            }
+            base.InvokeAsync(this.onBeginSaveTransactionImagesDelegate, new object[] {
+                        transactionImages}, this.onEndSaveTransactionImagesDelegate, this.onSaveTransactionImagesCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1146,6 +1302,19 @@ namespace BMA_WP.BMAService {
                 return _result;
             }
             
+            public System.IAsyncResult BeginGetImagesForTransaction(int transactionId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = transactionId;
+                System.IAsyncResult _result = base.BeginInvoke("GetImagesForTransaction", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> EndGetImagesForTransaction(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage>)(base.EndInvoke("GetImagesForTransaction", _args, result)));
+                return _result;
+            }
+            
             public System.IAsyncResult BeginGetAllBudgets(System.AsyncCallback callback, object asyncState) {
                 object[] _args = new object[0];
                 System.IAsyncResult _result = base.BeginInvoke("GetAllBudgets", _args, callback, asyncState);
@@ -1208,9 +1377,9 @@ namespace BMA_WP.BMAService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSaveBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> transactions, System.AsyncCallback callback, object asyncState) {
+            public System.IAsyncResult BeginSaveBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState) {
                 object[] _args = new object[1];
-                _args[0] = transactions;
+                _args[0] = budgets;
                 System.IAsyncResult _result = base.BeginInvoke("SaveBudgets", _args, callback, asyncState);
                 return _result;
             }
@@ -1218,6 +1387,19 @@ namespace BMA_WP.BMAService {
             public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> EndSaveBudgets(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>)(base.EndInvoke("SaveBudgets", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginSaveTransactionImages(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = transactionImages;
+                System.IAsyncResult _result = base.BeginInvoke("SaveTransactionImages", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public bool EndSaveTransactionImages(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                bool _result = ((bool)(base.EndInvoke("SaveTransactionImages", _args, result)));
                 return _result;
             }
             

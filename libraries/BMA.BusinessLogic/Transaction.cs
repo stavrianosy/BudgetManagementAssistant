@@ -99,6 +99,14 @@ namespace BMA.BusinessLogic
         //apply the same 
         //where i.CreatedDate >= context.Budget.Where(b => b.BudgetId == budgetId).Select(b => b.FromDate).FirstOrDefault()
         //&& i.CreatedDate <= context.Budget.Where(b => b.BudgetId == budgetId).Select(b => b.ToDate).FirstOrDefault()
+        public void OnlyLevelTop()
+        {
+            foreach (var item in this)
+            {
+                item.Category.TypeTransactionReasons = null;
+                item.TransactionReasonType.Categories = null;
+            }
+        }
     }
 
     //[DataContract]
@@ -198,7 +206,8 @@ namespace BMA.BusinessLogic
             }
             else
             {
-                Category = categoryList.Where(
+                
+                var categoryTemp = categoryList.FirstOrDefault(
                     c =>
                     {
                         bool found = false;
@@ -211,19 +220,26 @@ namespace BMA.BusinessLogic
                                 (c.FromDate.Hour >= DateTime.Now.Hour && c.ToDate.Hour >= DateTime.Now.Hour);
                         }
                         return found ? found : c.Name == "Other";
-                    }
-                ).FirstOrDefault();
+                    });
+
+                Category = categoryTemp.Clone();
             }
 
             if (typeTransactionList == null)
                 TransactionType = new TypeTransaction(user);
             else
-                TransactionType = typeTransactionList.Single(t => t.Name == "Expense");
+            {
+                var typeTransactionTemp = typeTransactionList.Single(t => t.Name == "Expense");
+                TransactionType = typeTransactionTemp.Clone();
+            }
 
             if (typeTransactionReasonList == null)
                 TransactionReasonType = new TypeTransactionReason(user);
             else
-                TransactionReasonType = typeTransactionReasonList.Single(t => t.Name == "Other");
+            {
+                var typeTransReasonTemp = typeTransactionReasonList.Single(t => t.Name == "Other");
+                TransactionReasonType = typeTransReasonTemp.Clone();
+            }
 
             TransactionImages = new List<TransactionImage>();
         }

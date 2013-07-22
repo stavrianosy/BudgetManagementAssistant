@@ -54,7 +54,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions()
         {
-            return GetLatestTransactionsLimit(50);
+            return GetLatestTransactionsLimit(5);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs)

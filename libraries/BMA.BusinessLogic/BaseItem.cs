@@ -49,6 +49,13 @@ namespace BMA.BusinessLogic
         }
         #endregion
 
+        #region Public Methods
+        public BaseItem Clone()
+        {
+            return (BaseItem)this.MemberwiseClone();
+        }
+        #endregion
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propName)
         {

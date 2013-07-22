@@ -13,18 +13,18 @@
             </basicHttpBinding>
         </bindings>
         <client>
-          <!--<endpoint address="http://win-vvthsubpmki/BMAService/BMAService.svc"
+          <endpoint address="http://win-vvthsubpmki/BMAService/BMAService.svc"
               binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
               contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
           <endpoint address="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc"
               binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
-              contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />-->
-          <endpoint address="http://192.168.2.11/BMAService/BMAService.svc"
+              contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
+          <!--<endpoint address="http://192.168.10.6/BMAService/BMAService.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
                 contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
-          <endpoint address="http://192.168.2.11/BMAService/BMAStaticDataService.svc"
+          <endpoint address="http://192.168.10.6/BMAService/BMAStaticDataService.svc"
               binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
-              contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
+              contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />-->
         </client>
     </system.serviceModel>
 </configuration>

@@ -62,7 +62,18 @@ namespace BMA.BusinessLogic
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **//
             FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 0, 0);
             ToDate = FromDate.AddHours(1);
+
+        }
+
+        #endregion
+
+
+        #region Public Methods
+        public Category Clone()
+        {
+            return (Category)this.MemberwiseClone();
         }
         #endregion
+
     }
 }

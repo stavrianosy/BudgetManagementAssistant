@@ -22,6 +22,11 @@ namespace BMA.BusinessLogic
         {
             return this.TypeTransactionId.GetHashCode();
         }
+
+        public TypeTransaction Clone()
+        {
+            return (TypeTransaction)this.MemberwiseClone();
+        }
         #endregion
 
         #region Public Properties
@@ -41,5 +46,6 @@ namespace BMA.BusinessLogic
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **//  
         }
         #endregion
+
     }
 }
