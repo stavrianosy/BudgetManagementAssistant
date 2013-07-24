@@ -152,7 +152,8 @@
                                             VerticalAlignment="Top" 
                                             Height="140" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                        <Button x:Name="btnTest" Tap="btnTest_Tap" Content="receipt"></Button>
+                        <Button x:Name="btnTest" Tap="btnTest_Tap" Content="receipt" 
+                                IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
 
                         <StackPanel x:Name="spProgressImages" Visibility="Collapsed">
                             <TextBlock Text="Loading Images" Margin="0 0 0 6" Foreground="{StaticResource PhoneSubtleBrush}"/>

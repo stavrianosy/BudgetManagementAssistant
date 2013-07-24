@@ -54,7 +54,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions()
         {
-            return GetLatestTransactionsLimit(5);
+            return GetLatestTransactionsLimit(50);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs)
@@ -80,12 +80,10 @@ namespace BMAServiceLib
                     foreach (var item in query)
                     {
                         //one way to handle circular referenceis to explicitly set the child to null
-                        item.Category.TypeTransactionReasons.ForEach(x => x.Categories = null);
-                        //var transImg = (from k in context.TransactionImage
-                        //                .Include(x => x.CreatedUser)
-                        //                where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
-                        //                select k).ToList();
-                        //item.TransactionImages = transImg;
+                        //item.Category.TypeTransactionReasons.ForEach(x => x.Categories = null);
+                        item.Category.TypeTransactionReasons = null;
+                        item.TransactionReasonType.Categories = null;
+
                         transList.Add(item);
                     }
 

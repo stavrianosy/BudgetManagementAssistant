@@ -26,7 +26,7 @@
             <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <Image Grid.Row="1" x:Name="transImage" Stretch="None" />
+        <Image Grid.Row="1" x:Name="transImage" Stretch="UniformToFill" />
     </Grid>
 
 </phone:PhoneApplicationPage>

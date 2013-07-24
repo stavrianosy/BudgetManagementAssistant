@@ -69,6 +69,11 @@ namespace BMA_WP.View
                 Binding bindCategory = new Binding("Category");
                 bindCategory.Mode = BindingMode.TwoWay;
                 bindCategory.Source = vm.CurrTransaction;
+                
+                bindCategory.Converter = new StatusConverter();
+                bindCategory.ConverterParameter = "categoryCloneInstance";
+//                bindCategory.UpdateSourceTrigger(
+
                 if (vm.CurrTransaction.Category != null &&
                     ((ObservableCollection<Category>)cmbCategory.ItemsSource)
                         .FirstOrDefault(x => x.CategoryId == vm.CurrTransaction.Category.CategoryId) != null)
@@ -122,7 +127,7 @@ namespace BMA_WP.View
                     var items = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
                     if (items.Count > 0)
                     {
-                        save.IsEnabled = true;
+                        save.IsEnabled = vm.Transactions.HasItemsWithChanges();
                         delete.IsEnabled = true;
                     }
                 };
@@ -174,6 +179,14 @@ namespace BMA_WP.View
             ApplicationBar.Buttons.Add(add);
             add.Click += new EventHandler(Add_Click);
 
+            save = new ApplicationBarIconButton();
+            save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
+            save.Text = AppResources.AppBarButtonSave;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+            ApplicationBar.Buttons.Add(save);
+            save.Click += new EventHandler(Save_Click);
+            
+
             mainMenu = new ApplicationBarMenuItem();
             mainMenu.Text = AppResources.AppBarButtonMainMenu;
             mainMenu.IsEnabled = true;
@@ -195,7 +208,7 @@ namespace BMA_WP.View
             save = new ApplicationBarIconButton();
             save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
             save.Text = AppResources.AppBarButtonSave;
-            save.IsEnabled = false;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
 
@@ -266,6 +279,8 @@ namespace BMA_WP.View
             await App.Instance.ServiceData.SaveTransactionImages(saveImg);
 
             pivotContainer.SelectedIndex = 1;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+
         }
 
         private void ManualUpdate()
@@ -309,7 +324,8 @@ namespace BMA_WP.View
             
             SetBindings(true);
 
-            save.IsEnabled = true;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+            delete.IsEnabled = vm.Transactions.HasItemsWithChanges();
             vm.IsEnabled = true;
         }
 
@@ -396,7 +412,7 @@ namespace BMA_WP.View
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(e.ChosenPhoto);
 
-                byte[] m_Bytes = ReadToEnd(e.ChosenPhoto);
+                //byte[] m_Bytes = ReadToEnd(e.ChosenPhoto);
 
                 //imgReceipt.Source = new BitmapImage(new Uri(e.OriginalFileName));
                 //vm.CurrTransaction.TransactionImages.Add(new TransactionImage(App.Instance.User) { Path = e.OriginalFileName });
@@ -407,19 +423,44 @@ namespace BMA_WP.View
                 }
 
                 WriteableBitmap wBitmap = new WriteableBitmap(bitmap);
-                MemoryStream ms = new MemoryStream();
-                wBitmap.SaveJpeg(ms, 100, 100, 0, 100);
-                byte[] tn_Bytes = ReadToEnd(ms);
+                
+                double factorThumb = 1l;
+                double factorImage = 1l;
+
+                if (wBitmap.PixelHeight > wBitmap.PixelWidth)
+                {
+                    factorThumb = wBitmap.PixelHeight / 100;
+                    factorImage = wBitmap.PixelHeight / 600;
+                }
+                else
+                {
+                    factorThumb = wBitmap.PixelWidth / 100;
+                    factorImage = wBitmap.PixelWidth / 600;
+                }
+
+                int heightThumb = Convert.ToInt32(wBitmap.PixelHeight / factorThumb);
+                int widthThumb = Convert.ToInt32(wBitmap.PixelWidth / factorThumb);
+
+                int heightImage = Convert.ToInt32(wBitmap.PixelHeight / factorImage);
+                int widthImage = Convert.ToInt32(wBitmap.PixelWidth / factorImage);
+
+                MemoryStream msThumb = new MemoryStream();
+                wBitmap.SaveJpeg(msThumb, widthThumb, heightThumb, 0, 100);
+                byte[] tn_Bytes = ReadToEnd(msThumb);
+
+                MemoryStream msImage = new MemoryStream();
+                wBitmap.SaveJpeg(msImage, widthImage, heightImage, 0, 100);
+                byte[] m_Bytes = ReadToEnd(msImage);
 
                 var transImage = new TransactionImage(App.Instance.User) { 
                                                 Transaction = vm.CurrTransaction,
                                                 Path = "/Assets/login_white.png",
                                                 Name = string.Format("{0} [{1}]", vm.CurrTransaction.NameOfPlace, vm.CurrTransaction.TotalAmount),
-                                                Image = tn_Bytes,
+                                                Image = m_Bytes,
                                                 Thumbnail = tn_Bytes
                 };
                 vm.CurrTransactionImages.Add(transImage);
-                save.IsEnabled = true;
+                save.IsEnabled = vm.Transactions.HasItemsWithChanges();
                 //imgReceipt.Source = bitmap;
             }
         }
@@ -430,7 +471,7 @@ namespace BMA_WP.View
             transImage.IsDeleted = true;
             //vm.CurrTransaction.HasChanges = true;
 
-            save.IsEnabled = true;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
 
             var a = vm.CurrTransaction;
             var b = vm.CurrTransactionImages;

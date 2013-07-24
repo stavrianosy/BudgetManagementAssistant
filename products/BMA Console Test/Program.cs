@@ -32,6 +32,7 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
 
+            a.GetLatestTransactionsLimit(5);
             //GetAllBudgets(a);
             //b.GetAllStaticData();
             //ForgotPass(b);
@@ -39,7 +40,7 @@ namespace ConsoleApplication1
             //SaveTypeInterval(a, b, usr);
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
-            SaveTransactionImages(a, usr);
+            //SaveTransactionImages(a, usr);
 
 
             //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
@@ -173,6 +174,7 @@ namespace ConsoleApplication1
            var result = b.SaveTypeIntervals(intervals);
 
         }
+        
         private static void GetAllBudgets(ServiceReference1.MainClient client)
         {
             var bud = client.GetAllBudgets();
@@ -181,6 +183,7 @@ namespace ConsoleApplication1
             bud[0].Name = "bbbbb";
             bud[0].ModifiedDate = DateTime.Now;
         }
+        
         private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User user)
         {
             //var stData = client.GetAllStaticData();

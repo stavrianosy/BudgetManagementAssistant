@@ -77,6 +77,9 @@ namespace BMA_WP.Model
                     case "bytestoimage":
                         return ConvertByteArrayToImage(value);
 
+                    case "categorycloneinstance":
+                        return CategoryCloneInstance(value);
+
                     case "abc":
                         return GetTypeTransactionReasonByCategory(value);
                 }
@@ -110,6 +113,12 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object CategoryCloneInstance(object value)
+        {
+            var category = value as Category;
+            return category.Clone();
         }
 
         private object GetTypeTransactionReasonByCategory(object value)
@@ -205,20 +214,6 @@ namespace BMA_WP.Model
             return isDeleted ? "Collapsed" : "Visible";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (parameter != null)
-            {
-                string param = parameter.ToString().ToLower();
-                switch (param)
-                {
-                    default:
-                        break;
-                }
-            }
-            return null;
-        }
-
         private string VisibilityConverter(object value)
         {
             var isDeleted = (bool)value;
@@ -295,6 +290,23 @@ namespace BMA_WP.Model
             double.TryParse(value.ToString(), out result);
             //no need of a break;
             return string.Format("{0:N0}", result);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter != null)
+            {
+                string param = parameter.ToString().ToLower();
+                switch (param)
+                {
+                    case "categorycloneinstance":
+                        return CategoryCloneInstance(value);
+
+                    default:
+                        break;
+                }
+            }
+            return null;
         }
     }
 }
