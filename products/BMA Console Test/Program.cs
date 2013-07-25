@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BMA.BusinessLogic;
 using BMA.DataAccess;
+using System.Collections.ObjectModel;
 
 namespace ConsoleApplication1
 {
@@ -32,7 +33,7 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
 
-            a.GetLatestTransactionsLimit(5);
+            //a.GetLatestTransactionsLimit(5);
             //GetAllBudgets(a);
             //b.GetAllStaticData();
             //ForgotPass(b);
@@ -40,8 +41,9 @@ namespace ConsoleApplication1
             //SaveTypeInterval(a, b, usr);
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
-            //SaveTransactionImages(a, usr);
+            SaveTransactionImages(a, usr);
 
+            return;
 
             //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
             var auth = b.AuthenticateUser(usr);
@@ -80,7 +82,7 @@ namespace ConsoleApplication1
             //var aa = a.SyncTransactions(list.ToList());
 
             var b1 = a.SaveTransactions(trans);
-            var b2 = a.SaveBudgets(newbudList);
+            //var b2 = a.SaveBudgets(newbudList);
 
         }
 
@@ -88,9 +90,9 @@ namespace ConsoleApplication1
         {
             var transactions = a.GetAllTransactions();
             var trans = transactions[0];
-            var transWithImages = transactions.FirstOrDefault(x => x.TransactionId == 7112);
+            var transWithImages = transactions.FirstOrDefault(x => x.TransactionId == 11132);
             var transImages = a.GetImagesForTransaction(transWithImages.TransactionId);
-
+            
             var transImage = new TransactionImage(usr)
             {
                 Transaction = trans,
@@ -100,12 +102,16 @@ namespace ConsoleApplication1
                 Thumbnail = transImages[0].Image
             };
 
-            var transImageList = new List<TransactionImage>();
+            var transImageList = new TransactionImageList();
             transImageList.Add(transImage);
 
             transImages.Add(transImage);
+            trans.TransactionImages = (TransactionImageList)transImages;
+            trans.ModifiedDate = DateTime.Now;
+            trans.OptimizeOnSecondLevel(true);
 
-            a.SaveTransactionImages(transImages);
+            a.SaveTransactions(new ObservableCollection<Transaction> { trans });
+//            a.SaveTransactionImages(transImages);
         }
 
         private static void SaveCategories(ServiceReference2.StaticClient b, User usr)

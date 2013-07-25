@@ -28,7 +28,7 @@ namespace BMAServiceLib
         TransactionList GetTransactionsForBudget(int budgetId);
 
         [OperationContract]
-        List<TransactionImage> GetImagesForTransaction(int transactionId);
+        TransactionImageList GetImagesForTransaction(int transactionId);
 
         [OperationContract]
         BudgetList GetAllBudgets();

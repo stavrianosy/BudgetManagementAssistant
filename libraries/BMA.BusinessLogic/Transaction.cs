@@ -131,7 +131,7 @@ namespace BMA.BusinessLogic
         TypeTransactionReason typeTransactionReason;
         TypeTransaction typeTransaction;
         DateTime transactionDate;
-        List<TransactionImage> transactionImages;
+        TransactionImageList transactionImages;
         #endregion
 
         public class PlaceComparer : IEqualityComparer<Transaction>
@@ -185,8 +185,8 @@ namespace BMA.BusinessLogic
         public DateTime TransactionDate { get { return transactionDate; } set { transactionDate = value; OnPropertyChanged("TransactionDate"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
-        [IgnoreDataMember]
-        public List<TransactionImage> TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); OnPropertyChanged("HasChanges"); } }
+        //[IgnoreDataMember]
+        public TransactionImageList TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); OnPropertyChanged("HasChanges"); } }
 
         #endregion
 
@@ -251,11 +251,28 @@ namespace BMA.BusinessLogic
                 TransactionReasonType = typeTransReasonTemp.Clone();
             }
 
-            TransactionImages = new List<TransactionImage>();
+            TransactionImages = new TransactionImageList();
         }
         #endregion
 
         #region Public Methods
+        public void OptimizeOnSecondLevel(bool removeUnchangedImages)
+        {
+            this.Category.TypeTransactionReasons = null;
+            this.TransactionReasonType.Categories = null;
+            foreach (var item in this.TransactionImages)
+                item.Transaction = null;
+
+            if (removeUnchangedImages)
+            {
+                var transImages = this.TransactionImages.Where(x => x.HasChanges == true).ToList();
+                this.TransactionImages = new TransactionImageList();
+                foreach (var item in transImages)
+                    this.TransactionImages.Add(item); 
+
+            }
+        }
+
         public override bool Equals(Object obj)
         {
             Transaction transaction = obj as Transaction;

@@ -152,14 +152,24 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TransactionImage> GetImagesForTransaction(int transactionId)
+        public TransactionImageList GetImagesForTransaction(int transactionId)
         {
-            List<TransactionImage> result = null;
+            TransactionImageList result = new TransactionImageList();
             using(EntityContext context = new EntityContext())
             {
-                var query = context.TransactionImage.Where(x =>x.Transaction.TransactionId == transactionId && !x.IsDeleted);
+                var query = context.TransactionImage
+                                    .Include(x => x.Transaction)
+                                    .Include(x => x.CreatedUser)
+                                    .Include(x => x.ModifiedUser)
+                                    .Where(x =>x.Transaction.TransactionId == transactionId && !x.IsDeleted);
 
-                result = query.ToList();
+                query.ToList().ForEach(x=> 
+                {
+                    x.Transaction.TransactionImages = null;
+                    result.Add(x);
+                });
+                result.AcceptChanges();
+
 
             }
             return result;
@@ -297,6 +307,7 @@ namespace BMAServiceLib
                             var original = context.Transaction
                                                             .Include(x => x.Category)
                                                             .Include(x => x.TransactionType)
+                                                            .Include(x => x.TransactionImages)
                                                             .Include(x => x.TransactionReasonType)
                                                             .Where(t => t.TransactionId == item.TransactionId && 
                                                             t.ModifiedDate < item.ModifiedDate &&
@@ -310,7 +321,7 @@ namespace BMAServiceLib
                                 //original.Category.CreatedUser = null;
                                 //original.Category.ModifiedUser = null;
 
-                                context.Entry(original).Collection(x => x.TransactionImages).Load();
+                                //context.Entry(original).Collection(x => x.TransactionImages).Load();
                                 
                                 original.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
                                 original.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
@@ -320,23 +331,23 @@ namespace BMAServiceLib
 
                                 if (item.TransactionImages != null)
                                 {
-                                    item.TransactionImages.ForEach(x =>
+                                    foreach (var x in item.TransactionImages)
                                     {
-                                            if (x.TransactionImageId > 0)
-                                                original.TransactionImages.Where(k => k.TransactionImageId == x.TransactionImageId).Select(k =>
-                                                {
-                                                    k.Name = x.Name; k.Path = x.Path; k.ModifiedDate = x.ModifiedDate; k.IsDeleted = x.IsDeleted;
-                                                    k.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
-                                                    return k;
-                                                }).ToList();
-                                            else
+                                        if (x.TransactionImageId > 0)
+                                            original.TransactionImages.Where(k => k.TransactionImageId == x.TransactionImageId).Select(k =>
                                             {
-                                                x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
-                                                x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                                k.Name = x.Name; k.Path = x.Path; k.ModifiedDate = x.ModifiedDate; k.IsDeleted = x.IsDeleted;
+                                                k.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                                return k;
+                                            }).ToList();
+                                        else
+                                        {
+                                            x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                            x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
 
-                                                original.TransactionImages.Add(x);
-                                            }
-                                        });
+                                            original.TransactionImages.Add(x);
+                                        }
+                                    }
                                 }
 
                                 context.Entry(original).CurrentValues.SetValues(item);
@@ -355,13 +366,13 @@ namespace BMAServiceLib
 
                             if (item.TransactionImages != null)
                             {
-                                item.TransactionImages.ForEach(x =>
-                                    {
-                                        x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
-                                        x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                foreach (var x in item.TransactionImages)
+                                {
+                                    x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                    x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
 
-                                        //item.TransactionImages.Add(x);
-                                    });
+                                    //item.TransactionImages.Add(x);
+                                }
                             }
 
                             context.Transaction.Add(item);

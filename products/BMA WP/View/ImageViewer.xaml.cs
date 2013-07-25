@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media.Imaging;
 using System.IO;
+using BMA.BusinessLogic;
 
 namespace BMA_WP.View
 {
@@ -22,9 +23,19 @@ namespace BMA_WP.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var transimageId = 0;
-            int.TryParse(this.NavigationContext.QueryString["transImageId"], out transimageId);
+            var transactionId = 0;
 
-            var TransImage = App.Instance.ServiceData.TransactionImageList.FirstOrDefault(x => x.TransactionImageId == transimageId);
+            int.TryParse(this.NavigationContext.QueryString["transImageId"], out transimageId);
+            int.TryParse(this.NavigationContext.QueryString["transId"], out transactionId);
+
+            var Transaction = App.Instance.ServiceData.TransactionList.FirstOrDefault(x => x.TransactionId == transactionId);
+            TransactionImage TransImage = null;
+
+            if (Transaction != null && Transaction.TransactionImages != null)
+                TransImage = Transaction.TransactionImages.FirstOrDefault(x=>x.TransactionImageId == transimageId);
+
+            if (TransImage == null)
+                return;
 
             BitmapImage newImage = new BitmapImage();
 

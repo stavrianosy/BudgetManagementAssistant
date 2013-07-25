@@ -105,7 +105,7 @@ namespace BMA_WP.View
         private void Transactions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string piName = (e.AddedItems[0] as PivotItem).Name;
-
+            
             switch (piName)
             {
                 case "piTransaction":
@@ -127,7 +127,7 @@ namespace BMA_WP.View
                     var items = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
                     if (items.Count > 0)
                     {
-                        save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+                        save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
                         delete.IsEnabled = true;
                     }
                 };
@@ -152,17 +152,26 @@ namespace BMA_WP.View
             }
             else
             {
+                
                 spProgressImages.Visibility = System.Windows.Visibility.Visible;
                 await App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
                 {
                     if (error == null)
                     {
                         //everything is ok
+                        //vm.CurrTransaction.TransactionImages.ForEach(x =>
+                        //    {
+                        //        vm.CurrTransactionImages.Add(x);
+                        //    });
+                        //var expression = listSelectTransImages.GetBindingExpression(LongListSelector.ItemsSourceProperty);
+                        //expression.UpdateSource();
+                        //listSelectTransImages.UpdateLayout();
+                        
                         spProgressImages.Visibility = System.Windows.Visibility.Collapsed;
                     }
                 });
 
-                vm.IsEnabled = true;
+                vm.IsEnabled = vm.IsLoading ? false :true;
             }
 
         }
@@ -182,7 +191,7 @@ namespace BMA_WP.View
             save = new ApplicationBarIconButton();
             save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
             save.Text = AppResources.AppBarButtonSave;
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
             
@@ -208,7 +217,7 @@ namespace BMA_WP.View
             save = new ApplicationBarIconButton();
             save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
             save.Text = AppResources.AppBarButtonSave;
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
 
@@ -272,14 +281,23 @@ namespace BMA_WP.View
             if (!ValidateTransaction())
                 return;
 
-            var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
-            var saveImg = vm.CurrTransactionImages.Where(t => t.HasChanges).ToObservableCollection();
+            vm.IsLoading = true;
 
-            await App.Instance.ServiceData.SaveTransaction(saveOC);
-            await App.Instance.ServiceData.SaveTransactionImages(saveImg);
+            var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
+            //var saveImg = vm.CurrTransactionImages.Where(t => t.HasChanges).ToObservableCollection();
+
+
+            await App.Instance.ServiceData.SaveTransaction(saveOC, (error) => 
+            {
+                    vm.IsLoading = false;
+            });
+            
+            //##Images WITH CHANGES will be saved with their transactions but wont be retruned again. 
+            //Only after you select specific transaction.
+            //await App.Instance.ServiceData.SaveTransactionImages(saveImg); //leave this as comment
 
             pivotContainer.SelectedIndex = 1;
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
 
         }
 
@@ -324,9 +342,9 @@ namespace BMA_WP.View
             
             SetBindings(true);
 
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
-            delete.IsEnabled = vm.Transactions.HasItemsWithChanges();
-            vm.IsEnabled = true;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
+            delete.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
+            vm.IsEnabled = vm.IsLoading ? false : true;
         }
 
         private bool ValidateTransaction()
@@ -459,8 +477,10 @@ namespace BMA_WP.View
                                                 Image = m_Bytes,
                                                 Thumbnail = tn_Bytes
                 };
-                vm.CurrTransactionImages.Add(transImage);
-                save.IsEnabled = vm.Transactions.HasItemsWithChanges();
+                //vm.CurrTransactionImages.Add(transImage);
+                vm.CurrTransaction.TransactionImages.Add(transImage);
+                vm.CurrTransaction.HasChanges = true;
+                save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
                 //imgReceipt.Source = bitmap;
             }
         }
@@ -469,12 +489,9 @@ namespace BMA_WP.View
         {
             var transImage = (TransactionImage)((Microsoft.Phone.Controls.MenuItem)sender).DataContext;
             transImage.IsDeleted = true;
-            //vm.CurrTransaction.HasChanges = true;
+            vm.CurrTransaction.HasChanges = true;
 
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges();
-
-            var a = vm.CurrTransaction;
-            var b = vm.CurrTransactionImages;
+            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
         }
 
         private byte[] ReadImageBytes(BinaryReader brImage)
@@ -549,7 +566,7 @@ namespace BMA_WP.View
             Image thumbnail = e.OriginalSource as Image;
             var transImageId = thumbnail.Tag.ToString();
 
-            var uri = string.Format("/View/ImageViewer.xaml?transImageId={0}", transImageId);
+            var uri = string.Format("/View/ImageViewer.xaml?transId={0}&transImageId={1}", vm.CurrTransaction.TransactionId,  transImageId);
             NavigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
     }

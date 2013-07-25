@@ -21,13 +21,15 @@ namespace BMA_WP.ViewModel
     {
         #region Private Members
         private bool _isEnabled;
+        private bool _isLoading;
         private Transaction _currTransaction;
-        private ObservableCollection<TransactionImage> _currTransactionImages;
+        private TransactionImageList _currTransactionImages;
         private int pivotIndex;
         #endregion
 
         #region Public Properties
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
+        public bool IsLoading { get { return _isLoading; } set { _isLoading = value; RaisePropertyChanged("IsLoading"); } }
         public Transaction CurrTransaction { get { return _currTransaction; } 
             set 
             {
@@ -37,7 +39,7 @@ namespace BMA_WP.ViewModel
 
 
         public TransactionList Transactions { get { return App.Instance.ServiceData.TransactionList; } }
-        public TransactionImageList CurrTransactionImages { get { return App.Instance.ServiceData.TransactionImageList; } }
+        //public TransactionImageList CurrTransactionImages { get { return _currTransactionImages; } set { _currTransactionImages = value; RaisePropertyChanged("CurrTransactionImages"); } }
         public ObservableCollection<TypeTransaction> TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public ObservableCollection<TypeTransactionReason> TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
         public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
@@ -70,8 +72,8 @@ namespace BMA_WP.ViewModel
             IsEnabled = false;
             App.Instance.ServiceData.LoadTransactions();
             PivotIndex = 0;
-              
         }
+
 
     }
 }

@@ -49,6 +49,7 @@
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -58,9 +59,13 @@
                        Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
-
+        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0"
+                    Visibility="{Binding IsLoading, Converter={StaticResource converters}, ConverterParameter=trueVisible}">
+            <TextBlock Text="Synchronizing..."/>
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
         <phone:Pivot x:Name="pivotContainer" 
-                     Grid.Row="1" 
+                     Grid.Row="2" 
                      SelectedIndex="{Binding PivotIndex, Mode=TwoWay}"
                      SelectionChanged="Transactions_SelectionChanged">
             <!--Panorama item one-->
@@ -160,19 +165,26 @@
                             <ProgressBar x:Name="ProgressImages" IsIndeterminate="True"></ProgressBar>
                         </StackPanel>
                         <phone:LongListSelector LayoutMode="Grid" GridCellSize="150,150" x:Name="listSelectTransImages"
-                            ItemsSource="{Binding CurrTransactionImages}">
+                            ItemsSource="{Binding CurrTransaction.TransactionImages}">
                             <phone:LongListSelector.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel >
+                                    <StackPanel>
                                         <toolkit:ContextMenuService.ContextMenu>
                                             <toolkit:ContextMenu>
-                                                <toolkit:MenuItem Header="delete" x:Name="deletePhoto" Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
+                                                <toolkit:MenuItem x:Name="deletePhoto" Header="delete" 
+                                                                  Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
+                                                <toolkit:MenuItem x:Name="undoDeletePhoto" Header="undo delete" IsEnabled="False"
+                                                                  Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
                                             </toolkit:ContextMenu>
                                         </toolkit:ContextMenuService.ContextMenu>
-                                        <Image Margin="5"
-                                            Source="{Binding Thumbnail, Converter={StaticResource converters}, ConverterParameter=bytesToImage}" 
-                                               Tag="{Binding TransactionImageId}"
-                                              Tap="btnImage_Tap" />
+                                        <Border BorderThickness="3" Padding="0" Margin="0" 
+                                                Background="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}"
+                                                BorderBrush="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}">
+                                            <Image Margin="5" 
+                                                Source="{Binding Thumbnail, Converter={StaticResource converters}, ConverterParameter=bytesToImage}" 
+                                                   Tag="{Binding TransactionImageId}"
+                                                  Tap="btnImage_Tap" />
+                                        </Border>
                                     </StackPanel>
                                 </DataTemplate>
                             </phone:LongListSelector.ItemTemplate>

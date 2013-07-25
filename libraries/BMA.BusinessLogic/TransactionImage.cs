@@ -32,6 +32,12 @@ namespace BMA.BusinessLogic
             base.InsertItem(index, item);
         }
 
+        public void AcceptChanges()
+        {
+            foreach (var item in Items)
+                item.HasChanges = false;
+        }
+
     }
 
     public class TransactionImage : BaseItem

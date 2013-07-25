@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using Windows.UI;
 
 namespace BMA_WP.Model
 {
@@ -53,8 +54,11 @@ namespace BMA_WP.Model
                     case "itemisdeleted":
                         return TrueCollapse(value);
 
-                    case "visibilityontipamount":
+                    case "truevisible":
                         return TrueVisible(value);
+
+                    case "visibilityontipamount":
+                        return TrueVisibleDouble(value);
 
                     case "intervalbool":
                         return TransTypeConverter(value);
@@ -79,6 +83,9 @@ namespace BMA_WP.Model
 
                     case "categorycloneinstance":
                         return CategoryCloneInstance(value);
+
+                    case "deletedimagecolor":
+                        return DeletedImageColor(value);
 
                     case "abc":
                         return GetTypeTransactionReasonByCategory(value);
@@ -115,6 +122,13 @@ namespace BMA_WP.Model
             return null;
         }
 
+        private object DeletedImageColor(object value)
+        {
+            var result = (bool)value ? "Red" : "Black";
+
+            return result;
+        }
+
         private object CategoryCloneInstance(object value)
         {
             var category = value as Category;
@@ -127,7 +141,9 @@ namespace BMA_WP.Model
             var cat = value as Category;
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
 
-            result = query.TypeTransactionReasons;
+            if(query != null)
+                result = query.TypeTransactionReasons;
+
             return result;
         }
 
@@ -202,7 +218,7 @@ namespace BMA_WP.Model
             return isIncome ? "Income" : "Expense";
         }
 
-        private string TrueVisible(object value)
+        private string TrueVisibleDouble(object value)
         {
             var hasTipAmount = (double)value > 0;
             return hasTipAmount ? "Visible" : "Collapsed";
@@ -210,8 +226,14 @@ namespace BMA_WP.Model
 
         private string TrueCollapse(object value)
         {
-            var isDeleted = (bool)value;
-            return isDeleted ? "Collapsed" : "Visible";
+            var collapsed = (bool)value;
+            return collapsed ? "Collapsed" : "Visible";
+        }
+
+        private string TrueVisible(object value)
+        {
+            var visible = (bool)value;
+            return visible ? "Visible" : "Collapsed";
         }
 
         private string VisibilityConverter(object value)
