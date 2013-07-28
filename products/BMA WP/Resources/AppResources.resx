@@ -440,4 +440,13 @@
   <data name="To" xml:space="preserve">
     <value>To</value>
   </data>
+  <data name="BusySynchronizing" xml:space="preserve">
+    <value>Busy Synchronizing. Please wait...</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>offline</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>checking status</value>
+  </data>
 </root>

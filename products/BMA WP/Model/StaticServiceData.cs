@@ -15,6 +15,15 @@ namespace BMA_WP.Model
 {
     public class StaticServiceData
     {
+        #region Enumerators
+        public enum ServerStatus
+        {
+            Communicating,
+            Ok,
+            Error
+        }
+        #endregion
+
         #region Privat Memebrs
         private const string STATIC_CATEGORY_FOLDER = "Static_Category";
         private const string STATIC_TYPETRANSACTION_FOLDER = "Static_TypeTransaction";
@@ -73,7 +82,7 @@ namespace BMA_WP.Model
             await LoadCategories();
             await LoadTypeTransactionReason();
 
-            if (!App.Instance.IsOnline)
+            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
             {
                 existing.TypeTransactions = await LoadCachedTypeTransaction(STATIC_TYPETRANSACTION_FOLDER);
                 existing.Categories = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
@@ -119,11 +128,38 @@ namespace BMA_WP.Model
 
         }
 
+        public async Task<ServerStatus> SetServerStatus(Action<ServerStatus> callback)
+        {
+            var result = ServerStatus.Communicating;
+            try
+            {
+                var client = new BMAStaticDataService.StaticClient();
+                client.GetDBStatusAsync();
+                client.GetDBStatusCompleted += (sender, e) =>
+                    {
+                        if(e.Error != null)
+                            result = ServerStatus.Error;
+                        else if(e.Result)
+                            result = ServerStatus.Ok;
+                        else
+                            result = ServerStatus.Error;
+
+                        callback(result);
+                    };
+            }
+            catch (Exception)
+            {
+                //throw;
+                result = ServerStatus.Error;
+            }
+            return result;
+        }
+
         public async Task LoadCategories()
         {
             List<Category> existing = new List<Category>();
 
-            if (!App.Instance.IsOnline)
+            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
             {
                 existing = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
 
@@ -157,7 +193,7 @@ namespace BMA_WP.Model
         {
             List<TypeTransactionReason> existing = new List<TypeTransactionReason>();
 
-            if (!App.Instance.IsOnline)
+            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
             {
                 existing = await LoadCachedTypeTransactionReason(STATIC_TYPETRANSACTIONREASON_FOLDER);
 
@@ -191,7 +227,7 @@ namespace BMA_WP.Model
         public async Task LoadUser(User user, Action<User, Exception> callback)
         {
             User existing = new User();
-            if (!App.Instance.IsOnline)
+            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
             {
                 try
                 {
@@ -542,10 +578,10 @@ namespace BMA_WP.Model
             {
                 var result = this.CategoryList.ToObservableCollection();
 
-                if (!App.Instance.IsOnline)
+                if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
                 {
                     result = result.Where(i => !i.IsDeleted).ToObservableCollection();
-                    ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
+                    //ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
                 }
                 else
                 {
@@ -576,7 +612,7 @@ namespace BMA_WP.Model
             {
                 var result = this.TypeTransactionReasonList.ToObservableCollection();
 
-                if (!App.Instance.IsOnline)
+                if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
                 {
                     result = result.Where(i => !i.IsDeleted).ToObservableCollection();
                     ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
@@ -610,7 +646,7 @@ namespace BMA_WP.Model
             {
                 var result = this.IntervalList.ToObservableCollection();
 
-                if (!App.Instance.IsOnline)
+                if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
                 {
                     result = result.Where(i => !i.IsDeleted).ToObservableCollection();
                     ApplicationData.Current.LocalSettings.Values["IsSync"] = false;

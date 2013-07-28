@@ -440,4 +440,13 @@
   <data name="To" xml:space="preserve">
     <value>Μεχρι</value>
   </data>
+  <data name="BusySynchronizing" xml:space="preserve">
+    <value>Ενημερονετε. Παρακαλο περιμεντε...</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>τοπικο</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>ενημερονετε</value>
+  </data>
 </root>

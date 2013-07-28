@@ -2,29 +2,29 @@
     <system.serviceModel>
         <bindings>
             <basicHttpBinding>
-                <binding name="BasicHttpBinding_IMain" maxBufferSize="2147483647"
+                <binding name="BasicHttpBinding_IStatic" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
                     <security mode="None" />
                 </binding>
-                <binding name="BasicHttpBinding_IStatic" maxBufferSize="2147483647"
+                <binding name="BasicHttpBinding_IMain" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
                     <security mode="None" />
                 </binding>
             </basicHttpBinding>
         </bindings>
         <client>
-          <!--<endpoint address="http://win-vvthsubpmki/BMAService/BMAService.svc"
+          <!--<endpoint address="http://192.168.20.100/BMAService/BMAStaticDataService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
+                contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
+          <endpoint address="http://192.168.20.100/BMAService/BMAService.svc"
               binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
-              contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
-          <endpoint address="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc"
-              binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
-              contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />-->
-          <endpoint address="http://192.168.10.4/BMAService/BMAService.svc"
-                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
-                contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
-          <endpoint address="http://192.168.10.4/BMAService/BMAStaticDataService.svc"
+              contract="BMAService.IMain" name="BasicHttpBinding_IMain" />-->
+          <endpoint address="http://192.168.2.112/BMAService/BMAStaticDataService.svc"
               binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic"
               contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
+          <endpoint address="http://192.168.2.112/BMAService/BMAService.svc"
+              binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
+              contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
         </client>
     </system.serviceModel>
 </configuration>

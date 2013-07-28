@@ -17,6 +17,7 @@
           <xs:element minOccurs="0" name="TipAmount" type="xs:double" />
           <xs:element minOccurs="0" name="TransactionDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="TransactionId" type="xs:int" />
+          <xs:element minOccurs="0" name="TransactionImages" nillable="true" type="tns:ArrayOfTransactionImage" />
           <xs:element minOccurs="0" name="TransactionReasonType" nillable="true" type="tns:TypeTransactionReason" />
           <xs:element minOccurs="0" name="TransactionType" nillable="true" type="tns:TypeTransaction" />
         </xs:sequence>
@@ -89,17 +90,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfCategory" nillable="true" type="tns:ArrayOfCategory" />
-  <xs:complexType name="TypeTransaction">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="TypeTransactionId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
   <xs:complexType name="ArrayOfTransactionImage">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="TransactionImage" nillable="true" type="tns:TransactionImage" />
@@ -121,6 +111,17 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="TransactionImage" nillable="true" type="tns:TransactionImage" />
+  <xs:complexType name="TypeTransaction">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TypeTransactionId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
   <xs:complexType name="ArrayOfBudget">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Budget" nillable="true" type="tns:Budget" />

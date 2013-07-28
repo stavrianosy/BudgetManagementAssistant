@@ -41,7 +41,8 @@ namespace ConsoleApplication1
             //SaveTypeInterval(a, b, usr);
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
-            SaveTransactionImages(a, usr);
+            //SaveTransactionImages(a, usr);
+            UpdateTransaction(a, usr);
 
             return;
 
@@ -86,6 +87,20 @@ namespace ConsoleApplication1
 
         }
 
+        private static void UpdateTransaction(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetLatestTransactions();
+            var trans = transactions[0];
+            trans.ModifiedDate = DateTime.Now;
+            trans.TransactionId = -1;
+
+            var transList = new ObservableCollection<Transaction> { trans };
+            foreach (var item in transList)
+                item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
+
+            var result = a.SaveTransactions(transList);
+        }
+
         private static void SaveTransactionImages(ServiceReference1.MainClient a, User usr)
         {
             var transactions = a.GetAllTransactions();
@@ -108,7 +123,7 @@ namespace ConsoleApplication1
             transImages.Add(transImage);
             trans.TransactionImages = (TransactionImageList)transImages;
             trans.ModifiedDate = DateTime.Now;
-            trans.OptimizeOnSecondLevel(true);
+            trans.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
 
             a.SaveTransactions(new ObservableCollection<Transaction> { trans });
 //            a.SaveTransactionImages(transImages);

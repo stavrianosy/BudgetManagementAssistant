@@ -165,7 +165,8 @@
                             <ProgressBar x:Name="ProgressImages" IsIndeterminate="True"></ProgressBar>
                         </StackPanel>
                         <phone:LongListSelector LayoutMode="Grid" GridCellSize="150,150" x:Name="listSelectTransImages"
-                            ItemsSource="{Binding CurrTransaction.TransactionImages}">
+                            ItemsSource="{Binding CurrTransaction.TransactionImages, Mode=TwoWay}"
+                            IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}">
                             <phone:LongListSelector.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -173,11 +174,11 @@
                                             <toolkit:ContextMenu>
                                                 <toolkit:MenuItem x:Name="deletePhoto" Header="delete" 
                                                                   Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
-                                                <toolkit:MenuItem x:Name="undoDeletePhoto" Header="undo delete" IsEnabled="False"
-                                                                  Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
+                                                <toolkit:MenuItem x:Name="undoDeletePhoto" Header="undo delete"
+                                                                  Tap="undoDeletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
                                             </toolkit:ContextMenu>
                                         </toolkit:ContextMenuService.ContextMenu>
-                                        <Border BorderThickness="3" Padding="0" Margin="0" 
+                                        <Border BorderThickness="3" Padding="0" Margin="0" Opacity="1" 
                                                 Background="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}"
                                                 BorderBrush="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}">
                                             <Image Margin="5" 

@@ -1,4 +1,5 @@
-﻿using BMA_WP.Resources;
+﻿using BMA_WP.Model;
+using BMA_WP.Resources;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 
@@ -12,7 +13,9 @@ namespace BMA_WP.ViewModel
     /// </summary>
     public class LoginViewModel : ViewModelBase
     {
-        private List<string> titles = new List<string> { AppResources.Login, AppResources.Register, AppResources.ForgotPassword };
+        List<string> titles = new List<string> { AppResources.Login, AppResources.Register, AppResources.ForgotPassword };
+        StaticServiceData.ServerStatus status;
+        
         public List<string> Titles
         {
             get
@@ -20,6 +23,8 @@ namespace BMA_WP.ViewModel
                 return titles;
             }
         }
+
+        public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
         /// <summary>
         /// Initializes a new instance of the LoginViewModel class.
         /// </summary>

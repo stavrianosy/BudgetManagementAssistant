@@ -7,6 +7,12 @@
       <xsd:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IStatic_GetDBStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDBStatus" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_GetDBStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDBStatusResponse" />
+  </wsdl:message>
   <wsdl:message name="IStatic_AuthenticateUser_InputMessage">
     <wsdl:part name="parameters" element="tns:AuthenticateUser" />
   </wsdl:message>
@@ -152,6 +158,10 @@
     <wsdl:part name="parameters" element="tns:SaveBudgetThresholdsResponse" />
   </wsdl:message>
   <wsdl:portType name="IStatic">
+    <wsdl:operation name="GetDBStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/GetDBStatus" message="tns:IStatic_GetDBStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/GetDBStatusResponse" message="tns:IStatic_GetDBStatus_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="AuthenticateUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/AuthenticateUser" message="tns:IStatic_AuthenticateUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStatic/AuthenticateUserResponse" message="tns:IStatic_AuthenticateUser_OutputMessage" />
@@ -251,6 +261,15 @@
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IStatic" type="tns:IStatic">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDBStatus">
+      <soap:operation soapAction="http://tempuri.org/IStatic/GetDBStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="AuthenticateUser">
       <soap:operation soapAction="http://tempuri.org/IStatic/AuthenticateUser" style="document" />
       <wsdl:input>

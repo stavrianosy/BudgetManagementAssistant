@@ -13,7 +13,7 @@ namespace BMAServiceLib
     public interface IMain
     {
         [OperationContract]
-        bool GetStatus();
+        bool GetDBStatus();
 
         [OperationContract]
         TransactionList GetAllTransactions();

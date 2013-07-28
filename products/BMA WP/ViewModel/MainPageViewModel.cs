@@ -16,12 +16,13 @@ namespace BMA_WP.ViewModel
 {
     public class MenuItem
     {
+
         public string Name{get;set;}
         public string SubName{get;set;}
         public string IconPath { get; set; }
         public string Description{get;set;}
         public string NavigateTo { get; set; }
- 
+
     }
     /// <summary>
     /// This class contains properties that a View can data bind to.
@@ -31,9 +32,13 @@ namespace BMA_WP.ViewModel
     /// </summary>
     public class MainPageViewModel : ViewModelBase
     {
+        StaticServiceData.ServerStatus status;
+
         private RelayCommand<SelectionChangedEventArgs> _goToCommand_SelectionChanged = null;
         private RelayCommand<string> _goToCommand_NavigateTo = null;
         private RelayCommand<string> _goToCommand_SelectionChangedParam = null;
+
+        public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
 
         public RelayCommand<string> GoToCommand_NavigateTo
         {

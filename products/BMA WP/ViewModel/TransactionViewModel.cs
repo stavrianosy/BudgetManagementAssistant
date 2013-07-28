@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using BMA_WP.Model;
 
 namespace BMA_WP.ViewModel
 {
@@ -30,19 +31,15 @@ namespace BMA_WP.ViewModel
         #region Public Properties
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
         public bool IsLoading { get { return _isLoading; } set { _isLoading = value; RaisePropertyChanged("IsLoading"); } }
-        public Transaction CurrTransaction { get { return _currTransaction; } 
-            set 
-            {
-                _currTransaction = value;
-                RaisePropertyChanged("CurrTransaction");
-            } }
+        public Transaction CurrTransaction { get { return _currTransaction; } set {_currTransaction = value;RaisePropertyChanged("CurrTransaction");} }
+        //public StaticServiceData.ServerStatus Status { get { return App.Instance.StaticDataOnlineStatus; }}
 
 
         public TransactionList Transactions { get { return App.Instance.ServiceData.TransactionList; } }
         //public TransactionImageList CurrTransactionImages { get { return _currTransactionImages; } set { _currTransactionImages = value; RaisePropertyChanged("CurrTransactionImages"); } }
         public ObservableCollection<TypeTransaction> TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public ObservableCollection<TypeTransactionReason> TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
-        public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
+        public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; }}
         
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         
@@ -70,10 +67,29 @@ namespace BMA_WP.ViewModel
         public TransactionViewModel()
         {
             IsEnabled = false;
-            App.Instance.ServiceData.LoadTransactions();
+            IsLoading = CheckForLoading();
+
+            TransactionReasonTypeList.CollectionChanged += (sender, eventargs) => IsLoading = CheckForLoading();
+            TransactionTypeList.CollectionChanged += (sender, eventargs) => IsLoading = CheckForLoading();
+            CategoryList.CollectionChanged += (sender, eventargs) => IsLoading = CheckForLoading();
+
+
             PivotIndex = 0;
         }
 
+        bool CheckForLoading()
+        {
+            bool result = true;
 
+            var tranTypeOk = TransactionTypeList != null && TransactionTypeList.Count > 0;
+            var categoryOk = CategoryList != null && CategoryList.Count > 0;
+            var reasonOk = TransactionReasonTypeList != null && TransactionReasonTypeList.Count > 0;
+
+            result = !tranTypeOk || !categoryOk || !reasonOk;
+            
+            //**
+            //result = true;
+            return result;
+        }
     }
 }

@@ -16,7 +16,8 @@
     shell:SystemTray.IsVisible="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP8"
-    DataContext="{Binding MainPageViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding MainPageViewModel, Source={StaticResource Locator}}"
+    Loaded="PhoneApplicationPage_Loaded">
     
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -46,11 +47,32 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,24,0,0">
-            <TextBlock x:Name="ApplicationTitle" 
-                       Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                       Style="{StaticResource PhoneTextNormalStyle}"/>
-        </StackPanel>
+        <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="ApplicationTitle" Margin="12 0 0 6"
+                           Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                           Style="{StaticResource PhoneTextNormalStyle}"/>
+            <Grid Grid.Row="1" Background="DarkRed" >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel 
+                    Visibility="{Binding Status, Converter={StaticResource converters}, ConverterParameter=updateToVisibility}">
+                    <TextBlock Margin="12 0" HorizontalAlignment="Right" 
+                               Text="{Binding Path=LocalizedResources.Updating, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
+                    <ProgressBar IsIndeterminate="True" />
+                </StackPanel>
+                <StackPanel Grid.Row="1"
+                            Visibility="{Binding Status, Converter={StaticResource converters}, ConverterParameter=offlineToVisibility}">
+                    <TextBlock Margin="12 0" HorizontalAlignment="Right" 
+                               Text="{Binding Path=LocalizedResources.Offline, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
         <phone:Pivot Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="480">
             <phone:PivotItem CacheMode="{x:Null}" Header="Main" Width="455">
                 <Grid>

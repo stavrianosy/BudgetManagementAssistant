@@ -54,6 +54,11 @@ namespace BMA.BusinessLogic
         {
             return (BaseItem)this.MemberwiseClone();
         }
+
+        public void AcceptChanges()
+        {
+            hasChanges = false;
+        }
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,7 +66,8 @@ namespace BMA.BusinessLogic
         {
             if (PropertyChanged != null)
             {
-                hasChanges = true;
+                if (propName != "HasChanges")
+                    hasChanges = true;
                 ModifiedDate = DateTime.Now;
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }

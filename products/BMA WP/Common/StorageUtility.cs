@@ -32,6 +32,7 @@ namespace BMA_WP.Common
 
             //return null;
         }
+        
         public static async Task<T> RestoreItem<T>(string folderName, string hashCode)
             where T : BaseItem, new()
         {
@@ -47,11 +48,38 @@ namespace BMA_WP.Common
 
             var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync(folderName);
             var file = await folder.GetFileAsync(hashCode);
+            
             //var inStream = await file.OpenSequentialReadAsync();
             var inStream = await file.OpenStreamForReadAsync();
             var serializer = new DataContractSerializer(typeof(T));
             var retVal = (T)serializer.ReadObject(inStream);
             return retVal;
+        }
+
+        public static async Task DeleteItem<T>(string folderName, string hashCode)
+            where T : BaseItem, new()
+        {
+            if (string.IsNullOrEmpty(folderName))
+            {
+                throw new ArgumentNullException("folderName");
+            }
+
+            if (string.IsNullOrEmpty(hashCode))
+            {
+                throw new ArgumentNullException("hashCode");
+            }
+
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync(folderName);
+                var file = await folder.GetFileAsync(hashCode);
+
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
         }
 
         public static async Task Clear(string folderName)
@@ -89,6 +117,7 @@ namespace BMA_WP.Common
                 var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
 
                 var file = await folder.CreateFileAsync(id.GetHashCode().ToString(), CreationCollisionOption.ReplaceExisting);
+
                 //var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 
                 //using (var outStream = stream.GetOutputStreamAt(0))

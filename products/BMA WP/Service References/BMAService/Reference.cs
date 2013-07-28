@@ -18,10 +18,10 @@ namespace BMA_WP.BMAService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BMAService.IMain")]
     public interface IMain {
         
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetStatus", ReplyAction="http://tempuri.org/IMain/GetStatusResponse")]
-        System.IAsyncResult BeginGetStatus(System.AsyncCallback callback, object asyncState);
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetDBStatus", ReplyAction="http://tempuri.org/IMain/GetDBStatusResponse")]
+        System.IAsyncResult BeginGetDBStatus(System.AsyncCallback callback, object asyncState);
         
-        bool EndGetStatus(System.IAsyncResult result);
+        bool EndGetDBStatus(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetAllTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTransactionsResponse")]
         System.IAsyncResult BeginGetAllTransactions(System.AsyncCallback callback, object asyncState);
@@ -95,11 +95,11 @@ namespace BMA_WP.BMAService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class GetStatusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetDBStatusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        public GetStatusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        public GetDBStatusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -363,11 +363,11 @@ namespace BMA_WP.BMAService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class MainClient : System.ServiceModel.ClientBase<BMA_WP.BMAService.IMain>, BMA_WP.BMAService.IMain {
         
-        private BeginOperationDelegate onBeginGetStatusDelegate;
+        private BeginOperationDelegate onBeginGetDBStatusDelegate;
         
-        private EndOperationDelegate onEndGetStatusDelegate;
+        private EndOperationDelegate onEndGetDBStatusDelegate;
         
-        private System.Threading.SendOrPostCallback onGetStatusCompletedDelegate;
+        private System.Threading.SendOrPostCallback onGetDBStatusCompletedDelegate;
         
         private BeginOperationDelegate onBeginGetAllTransactionsDelegate;
         
@@ -500,7 +500,7 @@ namespace BMA_WP.BMAService {
             }
         }
         
-        public event System.EventHandler<GetStatusCompletedEventArgs> GetStatusCompleted;
+        public event System.EventHandler<GetDBStatusCompletedEventArgs> GetDBStatusCompleted;
         
         public event System.EventHandler<GetAllTransactionsCompletedEventArgs> GetAllTransactionsCompleted;
         
@@ -533,47 +533,47 @@ namespace BMA_WP.BMAService {
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> CloseCompleted;
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetStatus(System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetStatus(callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetDBStatus(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetDBStatus(callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        bool BMA_WP.BMAService.IMain.EndGetStatus(System.IAsyncResult result) {
-            return base.Channel.EndGetStatus(result);
+        bool BMA_WP.BMAService.IMain.EndGetDBStatus(System.IAsyncResult result) {
+            return base.Channel.EndGetDBStatus(result);
         }
         
-        private System.IAsyncResult OnBeginGetStatus(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            return ((BMA_WP.BMAService.IMain)(this)).BeginGetStatus(callback, asyncState);
+        private System.IAsyncResult OnBeginGetDBStatus(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return ((BMA_WP.BMAService.IMain)(this)).BeginGetDBStatus(callback, asyncState);
         }
         
-        private object[] OnEndGetStatus(System.IAsyncResult result) {
-            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndGetStatus(result);
+        private object[] OnEndGetDBStatus(System.IAsyncResult result) {
+            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndGetDBStatus(result);
             return new object[] {
                     retVal};
         }
         
-        private void OnGetStatusCompleted(object state) {
-            if ((this.GetStatusCompleted != null)) {
+        private void OnGetDBStatusCompleted(object state) {
+            if ((this.GetDBStatusCompleted != null)) {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.GetStatusCompleted(this, new GetStatusCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                this.GetDBStatusCompleted(this, new GetDBStatusCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
         
-        public void GetStatusAsync() {
-            this.GetStatusAsync(null);
+        public void GetDBStatusAsync() {
+            this.GetDBStatusAsync(null);
         }
         
-        public void GetStatusAsync(object userState) {
-            if ((this.onBeginGetStatusDelegate == null)) {
-                this.onBeginGetStatusDelegate = new BeginOperationDelegate(this.OnBeginGetStatus);
+        public void GetDBStatusAsync(object userState) {
+            if ((this.onBeginGetDBStatusDelegate == null)) {
+                this.onBeginGetDBStatusDelegate = new BeginOperationDelegate(this.OnBeginGetDBStatus);
             }
-            if ((this.onEndGetStatusDelegate == null)) {
-                this.onEndGetStatusDelegate = new EndOperationDelegate(this.OnEndGetStatus);
+            if ((this.onEndGetDBStatusDelegate == null)) {
+                this.onEndGetDBStatusDelegate = new EndOperationDelegate(this.OnEndGetDBStatus);
             }
-            if ((this.onGetStatusCompletedDelegate == null)) {
-                this.onGetStatusCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetStatusCompleted);
+            if ((this.onGetDBStatusCompletedDelegate == null)) {
+                this.onGetDBStatusCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetDBStatusCompleted);
             }
-            base.InvokeAsync(this.onBeginGetStatusDelegate, null, this.onEndGetStatusDelegate, this.onGetStatusCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetDBStatusDelegate, null, this.onEndGetDBStatusDelegate, this.onGetDBStatusCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1240,15 +1240,15 @@ namespace BMA_WP.BMAService {
                     base(client) {
             }
             
-            public System.IAsyncResult BeginGetStatus(System.AsyncCallback callback, object asyncState) {
+            public System.IAsyncResult BeginGetDBStatus(System.AsyncCallback callback, object asyncState) {
                 object[] _args = new object[0];
-                System.IAsyncResult _result = base.BeginInvoke("GetStatus", _args, callback, asyncState);
+                System.IAsyncResult _result = base.BeginInvoke("GetDBStatus", _args, callback, asyncState);
                 return _result;
             }
             
-            public bool EndGetStatus(System.IAsyncResult result) {
+            public bool EndGetDBStatus(System.IAsyncResult result) {
                 object[] _args = new object[0];
-                bool _result = ((bool)(base.EndInvoke("GetStatus", _args, result)));
+                bool _result = ((bool)(base.EndInvoke("GetDBStatus", _args, result)));
                 return _result;
             }
             

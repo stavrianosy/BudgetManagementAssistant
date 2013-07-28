@@ -86,7 +86,20 @@ namespace BMA_WP.Model
 
                     case "deletedimagecolor":
                         return DeletedImageColor(value);
+                        
+                    case "onlinestatustotext":
+                        return OnlineStatusToText(value);
+                        
+                    case "onlinestatustovisibility":
+                        return OnlineStatusToVisibility(value);
 
+                    case "offlinetovisibility":
+                        return OfflineToVisibility(value);
+
+                    case "updatetovisibility":
+                        return UpdateToVisibility(value);
+
+                        
                     case "abc":
                         return GetTypeTransactionReasonByCategory(value);
                 }
@@ -121,6 +134,66 @@ namespace BMA_WP.Model
 
             return null;
         }
+
+        private object OfflineToVisibility(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status == StaticServiceData.ServerStatus.Error ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object UpdateToVisibility(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status == StaticServiceData.ServerStatus.Communicating ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object OnlineStatusToHeight(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status != StaticServiceData.ServerStatus.Ok ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object OnlineStatusToVisibility(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status != StaticServiceData.ServerStatus.Ok ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object OnlineStatusToText(object value)
+        {
+            var result = "";
+            var status = (StaticServiceData.ServerStatus)value;
+
+            switch (status)
+            {
+                case StaticServiceData.ServerStatus.Error:
+                    result = "offline";
+                    break;
+                case StaticServiceData.ServerStatus.Communicating:
+                    result = "updating";
+                    break;
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
 
         private object DeletedImageColor(object value)
         {

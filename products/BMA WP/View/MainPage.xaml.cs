@@ -13,6 +13,7 @@ using System.Threading;
 using BMA_WP.Resources;
 using System.Windows.Markup;
 using BMA_WP.View;
+using BMA_WP.Model;
 
 namespace BMA_WP.View
 {
@@ -31,6 +32,21 @@ namespace BMA_WP.View
             MainPageObject = this;
 
             SetupAppBar();
+        }
+
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(status =>
+            {
+                App.Instance.StaticDataOnlineStatus = status;
+                vm.Status = status;
+            });
+            //App.Instance.OnlineStatus = await App.Instance.ServiceData.SetServerStatus(status =>
+            //{
+            //    App.Instance.OnlineStatus = status;
+            //    vm.Status = status;
+            //});
+            
         }
 
         private void SetupAppBar()
@@ -63,12 +79,12 @@ namespace BMA_WP.View
             else return false;
         }
 
-        private void hTileTransactions_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void hTileTransactions_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Transactions.xaml", UriKind.Relative));
         }
 
-        private void hTileBudgets_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void hTileBudgets_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Budgets.xaml", UriKind.Relative));
         }
@@ -87,5 +103,6 @@ namespace BMA_WP.View
         {
             NavigationService.Navigate(new Uri("/View/Help.xaml", UriKind.Relative));
         }
+
     }
 }

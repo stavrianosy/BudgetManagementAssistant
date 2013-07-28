@@ -105,16 +105,12 @@ namespace BMA.BusinessLogic
 
             return result;
         }
-        //create a method that accepts a budget for input and will give you all transactions for that budget
-        //apply the same 
-        //where i.CreatedDate >= context.Budget.Where(b => b.BudgetId == budgetId).Select(b => b.FromDate).FirstOrDefault()
-        //&& i.CreatedDate <= context.Budget.Where(b => b.BudgetId == budgetId).Select(b => b.ToDate).FirstOrDefault()
-        public void OnlyLevelTop()
+        
+        public void OptimizeOnTopLevel(Transaction.ImageRemovalStatus removeImages)
         {
             foreach (var item in this)
             {
-                item.Category.TypeTransactionReasons = null;
-                item.TransactionReasonType.Categories = null;
+                item.OptimizeOnTopLevel(removeImages);   
             }
         }
     }
@@ -122,6 +118,16 @@ namespace BMA.BusinessLogic
     //[DataContract]
     public class Transaction : BaseItem
     {
+        #region Enumarators
+        public enum ImageRemovalStatus
+        {
+            None,
+            All,
+            Unchanged,
+            Changed
+        }
+        #endregion
+
         #region Private Members
         double amount;
         string nameOfPlace;
@@ -256,20 +262,43 @@ namespace BMA.BusinessLogic
         #endregion
 
         #region Public Methods
-        public void OptimizeOnSecondLevel(bool removeUnchangedImages)
+        public void OptimizeOnTopLevel(ImageRemovalStatus removeImages)
         {
             this.Category.TypeTransactionReasons = null;
             this.TransactionReasonType.Categories = null;
-            foreach (var item in this.TransactionImages)
-                item.Transaction = null;
 
-            if (removeUnchangedImages)
+            if (this.TransactionImages != null)
             {
-                var transImages = this.TransactionImages.Where(x => x.HasChanges == true).ToList();
-                this.TransactionImages = new TransactionImageList();
-                foreach (var item in transImages)
-                    this.TransactionImages.Add(item); 
+                switch (removeImages)
+                {
+                    case Transaction.ImageRemovalStatus.All:
+                        this.TransactionImages = null;
+                        break;
+                    case Transaction.ImageRemovalStatus.Changed:
+                        var transImagesNoChange = this.TransactionImages.Where(x => x.HasChanges == false).ToList();
+                        this.TransactionImages = new TransactionImageList();
 
+                        foreach (var img in transImagesNoChange)
+                            this.TransactionImages.Add(img);
+
+                        break;
+                    case Transaction.ImageRemovalStatus.Unchanged:
+                        var transImagesChange = this.TransactionImages.Where(x => x.HasChanges == true).ToList();
+                        this.TransactionImages = new TransactionImageList();
+
+                        foreach (var img in transImagesChange)
+                            this.TransactionImages.Add(img);
+
+                        break;
+                    case Transaction.ImageRemovalStatus.None:
+                        break;
+                }
+
+                if (this.TransactionImages != null)
+                {
+                    foreach (var transImage in this.TransactionImages)
+                        transImage.Transaction = null;
+                }
             }
         }
 

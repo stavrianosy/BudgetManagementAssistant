@@ -13,13 +13,19 @@ using System.Windows.Markup;
 using BMA_WP.Resources;
 using System.Threading;
 using System.Windows.Threading;
+using System.Threading.Tasks;
+using BMA_WP.ViewModel;
 
 namespace BMA_WP.View
 {
     public partial class Login : PhoneApplicationPage
     {
-        //public delegate void LoginDelegate();
-        //public event LoginDelegate LoginSuccess;
+        #region Public Properties
+        public LoginViewModel vm
+        {
+            get { return (LoginViewModel)DataContext; }
+        }
+        #endregion
 
         public Login()
         {
@@ -35,6 +41,19 @@ namespace BMA_WP.View
             
             //Progress.Width = screenWidth - (cnvProgress.Margin.Left + (cnvProgress.Margin.Right * 2));
             //Progress.Margin = new Thickness(0, -screenHeight/2, 0, 0);
+        }
+
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(status =>
+            {
+                App.Instance.StaticDataOnlineStatus = status;
+                vm.Status = status;
+            });
+            //App.Instance.OnlineStatus = await App.Instance.ServiceData.SetServerStatus(status =>
+            //{
+            //    App.Instance.OnlineStatus = status;
+            //});
         }
 
         private void SetUILanguage(string locale)
@@ -187,12 +206,12 @@ namespace BMA_WP.View
                 //# waiting for a reply in stackoverflow !!
                 //await App.Instance.StaticServiceData.LoadUser(App.Instance.User);
 
-                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, (result, error) =>
+                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, async (result, error) =>
                     {
                         if (result != null && error == null)
                         {
                             //everything is ok
-                            LoginSuccess();
+                            await LoginSuccess();
 
                             //Progress.IsActive = false;
                             txtMessage.Text = AppResources.LoginSuccess;
@@ -341,10 +360,27 @@ namespace BMA_WP.View
 
         }
 
-        async void LoginSuccess()
+        async Task LoginSuccess()
         {
+            //if (App.Instance.IsOnline && !App.Instance.IsSync)
+            //{
+            //    txtMessage.Text = "Synchronizing Transactions...";
+            //    await App.Instance.ServiceData.SyncTransactions();
+
+            //    txtMessage.Text = "Synchronizing Budgets...";
+            //    await App.Instance.ServiceData.SyncBudgets();
+
+            //    txtMessage.Text = "Synchronizing Data...";
+            //    //await App.Instance.StaticServiceData.SyncData();
+            //}
+
+            txtMessage.Text = "Loading Transactions...";
             await App.Instance.ServiceData.LoadTransactions();
+
+            txtMessage.Text = "Loading Budgets...";
             await App.Instance.ServiceData.LoadBudgets();
+            
+            txtMessage.Text = "Loading Data...";
             await App.Instance.StaticServiceData.LoadStaticData();
 
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
@@ -374,5 +410,7 @@ namespace BMA_WP.View
         {
             piLoginPage.SelectedIndex = 1;
         }
+
+        
     }
 }

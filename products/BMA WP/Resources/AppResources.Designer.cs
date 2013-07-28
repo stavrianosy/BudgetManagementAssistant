@@ -286,6 +286,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Busy Synchronizing. Please wait....
+        /// </summary>
+        public static string BusySynchronizing {
+            get {
+                return ResourceManager.GetString("BusySynchronizing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         public static string Categories {
@@ -633,6 +642,15 @@ namespace BMA_WP.Resources {
         public static string Notifications {
             get {
                 return ResourceManager.GetString("Notifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to offline.
+        /// </summary>
+        public static string Offline {
+            get {
+                return ResourceManager.GetString("Offline", resourceCulture);
             }
         }
         
@@ -993,6 +1011,15 @@ namespace BMA_WP.Resources {
         public static string TypeFrequency {
             get {
                 return ResourceManager.GetString("TypeFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to checking status.
+        /// </summary>
+        public static string Updating {
+            get {
+                return ResourceManager.GetString("Updating", resourceCulture);
             }
         }
         

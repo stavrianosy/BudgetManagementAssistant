@@ -109,31 +109,16 @@ namespace BMA_WP.View
             switch (piName)
             {
                 case "piTransaction":
-                    ItemSelected();
                     SetupAppBar_Transaction();
+                    ItemSelected();
                    svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piTransactionList":
+                    SetupAppBar_TransactionList();
                     TransactionMultiSelect.SelectedItem = null;
                     vm.CurrTransaction = null;
-                    SetupAppBar_TransactionList();
                     break;
             }
-
-            if (vm.CurrTransaction != null)
-            {
-                vm.CurrTransaction.PropertyChanged += (o, changedEventArgs) =>
-                {
-                    var items = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
-                    if (items.Count > 0)
-                    {
-                        save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
-                        delete.IsEnabled = true;
-                    }
-                };
-                delete.IsEnabled = true;
-            }
-
         }
 
         private async void ItemSelected()
@@ -152,26 +137,24 @@ namespace BMA_WP.View
             }
             else
             {
-                
-                spProgressImages.Visibility = System.Windows.Visibility.Visible;
-                await App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
+                if (!vm.CurrTransaction.HasChanges)
                 {
-                    if (error == null)
+                    spProgressImages.Visibility = System.Windows.Visibility.Visible;
+                    await App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
                     {
-                        //everything is ok
-                        //vm.CurrTransaction.TransactionImages.ForEach(x =>
-                        //    {
-                        //        vm.CurrTransactionImages.Add(x);
-                        //    });
-                        //var expression = listSelectTransImages.GetBindingExpression(LongListSelector.ItemsSourceProperty);
-                        //expression.UpdateSource();
-                        //listSelectTransImages.UpdateLayout();
-                        
-                        spProgressImages.Visibility = System.Windows.Visibility.Collapsed;
-                    }
-                });
+                        if (error == null)
+                        {
+                            spProgressImages.Visibility = System.Windows.Visibility.Collapsed;
+                        }
 
-                vm.IsEnabled = vm.IsLoading ? false :true;
+                        if(vm.CurrTransaction != null)
+                            vm.CurrTransaction.HasChanges = false;
+                    });
+                }
+                vm.CurrTransaction.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.IsLoading ? false : true;
+
+                vm.IsEnabled = vm.IsLoading ? false : true;
+                delete.IsEnabled = vm.IsLoading ? false : true;
             }
 
         }
@@ -289,6 +272,7 @@ namespace BMA_WP.View
 
             await App.Instance.ServiceData.SaveTransaction(saveOC, (error) => 
             {
+                if(error == null)
                     vm.IsLoading = false;
             });
             
@@ -323,7 +307,14 @@ namespace BMA_WP.View
 
         private void Add_Click(object sender, EventArgs e)
         {
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
+
             ManualUpdate();
+            
             if (!ValidateTransaction())
                 return;
 
@@ -447,12 +438,12 @@ namespace BMA_WP.View
 
                 if (wBitmap.PixelHeight > wBitmap.PixelWidth)
                 {
-                    factorThumb = wBitmap.PixelHeight / 100;
+                    factorThumb = wBitmap.PixelHeight / 150;
                     factorImage = wBitmap.PixelHeight / 600;
                 }
                 else
                 {
-                    factorThumb = wBitmap.PixelWidth / 100;
+                    factorThumb = wBitmap.PixelWidth / 150;
                     factorImage = wBitmap.PixelWidth / 600;
                 }
 
@@ -478,6 +469,8 @@ namespace BMA_WP.View
                                                 Thumbnail = tn_Bytes
                 };
                 //vm.CurrTransactionImages.Add(transImage);
+                if (vm.CurrTransaction.TransactionImages == null)
+                    vm.CurrTransaction.TransactionImages = new TransactionImageList();
                 vm.CurrTransaction.TransactionImages.Add(transImage);
                 vm.CurrTransaction.HasChanges = true;
                 save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
@@ -487,13 +480,40 @@ namespace BMA_WP.View
 
         private void deletePhoto_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            var transImage = (TransactionImage)((Microsoft.Phone.Controls.MenuItem)sender).DataContext;
+            var image = (TransactionImage)((Microsoft.Phone.Controls.MenuItem)sender).DataContext;
+            var transImage = vm.CurrTransaction.TransactionImages.FirstOrDefault(x => x.TransactionImageId == image.TransactionImageId);
+
+            //# after you save one image the then select the same index as the one deleted, the selected item is the same!!
+            if (transImage == null)
+            {
+                vm.PivotIndex = 1;
+                return;
+            }
+
             transImage.IsDeleted = true;
+            transImage.HasChanges = true;
             vm.CurrTransaction.HasChanges = true;
 
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
+            //save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
         }
 
+        private void undoDeletePhoto_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var image = (TransactionImage)((Microsoft.Phone.Controls.MenuItem)sender).DataContext;
+            var transImage = vm.CurrTransaction.TransactionImages.FirstOrDefault(x => x.TransactionImageId == image.TransactionImageId);
+
+            if (transImage == null)
+            {
+                vm.PivotIndex = 1;
+                return;
+            }
+
+            transImage.IsDeleted = false;
+            transImage.HasChanges = true;
+            vm.CurrTransaction.HasChanges = true;
+
+            //save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
+        }
         private byte[] ReadImageBytes(BinaryReader brImage)
         {
             byte[] imgByteArray = brImage.ReadBytes((int)(brImage.BaseStream.Length));
@@ -569,5 +589,6 @@ namespace BMA_WP.View
             var uri = string.Format("/View/ImageViewer.xaml?transId={0}&transImageId={1}", vm.CurrTransaction.TransactionId,  transImageId);
             NavigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
+
     }
 }

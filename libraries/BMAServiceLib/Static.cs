@@ -16,6 +16,17 @@ namespace BMAServiceLib
     [Serializable]
     public class Static : IStatic
     {
+        public bool GetDBStatus()
+        {
+            var result = false;
+            using (var context = new EntityContext())
+            {
+                var user = context.User.Take(1);
+                result = user != null; 
+            }
+            return result;
+        }
+
         #region Load
         public StaticTypeList GetAllStaticData()
         {

@@ -18,6 +18,11 @@ namespace BMA_WP.BMAStaticDataService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BMAStaticDataService.IStatic")]
     public interface IStatic {
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetDBStatus", ReplyAction="http://tempuri.org/IStatic/GetDBStatusResponse")]
+        System.IAsyncResult BeginGetDBStatus(System.AsyncCallback callback, object asyncState);
+        
+        bool EndGetDBStatus(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/AuthenticateUser", ReplyAction="http://tempuri.org/IStatic/AuthenticateUserResponse")]
         System.IAsyncResult BeginAuthenticateUser(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
         
@@ -141,6 +146,25 @@ namespace BMA_WP.BMAStaticDataService {
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IStaticChannel : BMA_WP.BMAStaticDataService.IStatic, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetDBStatusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetDBStatusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -603,6 +627,12 @@ namespace BMA_WP.BMAStaticDataService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class StaticClient : System.ServiceModel.ClientBase<BMA_WP.BMAStaticDataService.IStatic>, BMA_WP.BMAStaticDataService.IStatic {
         
+        private BeginOperationDelegate onBeginGetDBStatusDelegate;
+        
+        private EndOperationDelegate onEndGetDBStatusDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetDBStatusCompletedDelegate;
+        
         private BeginOperationDelegate onBeginAuthenticateUserDelegate;
         
         private EndOperationDelegate onEndAuthenticateUserDelegate;
@@ -800,6 +830,8 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
+        public event System.EventHandler<GetDBStatusCompletedEventArgs> GetDBStatusCompleted;
+        
         public event System.EventHandler<AuthenticateUserCompletedEventArgs> AuthenticateUserCompleted;
         
         public event System.EventHandler<RegisterUserCompletedEventArgs> RegisterUserCompleted;
@@ -851,6 +883,50 @@ namespace BMA_WP.BMAStaticDataService {
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> CloseCompleted;
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetDBStatus(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetDBStatus(callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        bool BMA_WP.BMAStaticDataService.IStatic.EndGetDBStatus(System.IAsyncResult result) {
+            return base.Channel.EndGetDBStatus(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetDBStatus(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetDBStatus(callback, asyncState);
+        }
+        
+        private object[] OnEndGetDBStatus(System.IAsyncResult result) {
+            bool retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetDBStatus(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetDBStatusCompleted(object state) {
+            if ((this.GetDBStatusCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetDBStatusCompleted(this, new GetDBStatusCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetDBStatusAsync() {
+            this.GetDBStatusAsync(null);
+        }
+        
+        public void GetDBStatusAsync(object userState) {
+            if ((this.onBeginGetDBStatusDelegate == null)) {
+                this.onBeginGetDBStatusDelegate = new BeginOperationDelegate(this.OnBeginGetDBStatus);
+            }
+            if ((this.onEndGetDBStatusDelegate == null)) {
+                this.onEndGetDBStatusDelegate = new EndOperationDelegate(this.OnEndGetDBStatus);
+            }
+            if ((this.onGetDBStatusCompletedDelegate == null)) {
+                this.onGetDBStatusCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetDBStatusCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetDBStatusDelegate, null, this.onEndGetDBStatusDelegate, this.onGetDBStatusCompletedDelegate, userState);
+        }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginAuthenticateUser(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
@@ -2028,6 +2104,18 @@ namespace BMA_WP.BMAStaticDataService {
             
             public StaticClientChannel(System.ServiceModel.ClientBase<BMA_WP.BMAStaticDataService.IStatic> client) : 
                     base(client) {
+            }
+            
+            public System.IAsyncResult BeginGetDBStatus(System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[0];
+                System.IAsyncResult _result = base.BeginInvoke("GetDBStatus", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public bool EndGetDBStatus(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                bool _result = ((bool)(base.EndInvoke("GetDBStatus", _args, result)));
+                return _result;
             }
             
             public System.IAsyncResult BeginAuthenticateUser(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {

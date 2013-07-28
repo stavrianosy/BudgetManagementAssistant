@@ -17,9 +17,15 @@ namespace BMAServiceLib
     {
         #region Load
 
-        public bool GetStatus()
+        public bool GetDBStatus()
         {
-            return true;
+            var result = false;
+            using (var context = new EntityContext())
+            {
+                var user = context.User.Take(1);
+                result = user != null;
+            }
+            return result;
         }
 
         public TransactionList GetAllTransactions()
@@ -78,15 +84,10 @@ namespace BMAServiceLib
 
                     //investigate if there is a better way to convert the generic list to ObservableCollection
                     foreach (var item in query)
-                    {
-                        //one way to handle circular referenceis to explicitly set the child to null
-                        //item.Category.TypeTransactionReasons.ForEach(x => x.Categories = null);
-                        item.Category.TypeTransactionReasons = null;
-                        item.TransactionReasonType.Categories = null;
-
                         transList.Add(item);
-                    }
 
+                    //one way to handle circular referenceis to explicitly set the child to null
+                    transList.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.All);
                     transList.AcceptChanges();
 
                     return transList;
@@ -383,7 +384,12 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetLatestTransactions();
+
+                transactions.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.All);
+                transactions.AcceptChanges();
+
+                //return GetLatestTransactions();
+                return transactions;
             }
             catch (DbEntityValidationException e)
             {

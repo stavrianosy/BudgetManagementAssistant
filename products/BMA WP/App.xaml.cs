@@ -252,6 +252,9 @@ namespace BMA_WP
         public StaticServiceData StaticServiceData { get; private set; }
         public User User { get; private set; }
 
+        public StaticServiceData.ServerStatus StaticDataOnlineStatus { get; set; }
+        public ServiceData.ServerStatus OnlineStatus { get; set; }
+
         public bool IsOnline
         {
             get
@@ -259,6 +262,7 @@ namespace BMA_WP
                 var isOnline = false;
 
                 isOnline = DeviceNetworkInformation.IsNetworkAvailable;
+                //isOnline = StaticServiceData.LoadCategories();
 
                 return isOnline;
             }

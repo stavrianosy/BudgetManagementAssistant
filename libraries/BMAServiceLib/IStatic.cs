@@ -12,6 +12,9 @@ namespace BMAServiceLib
     public interface IStatic
     {
         [OperationContract]
+        bool GetDBStatus();
+
+        [OperationContract]
         User AuthenticateUser(User user);
 
         [OperationContract]
