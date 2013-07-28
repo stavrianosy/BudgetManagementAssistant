@@ -13,6 +13,18 @@
   <wsdl:message name="IMain_GetDBStatus_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDBStatusResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDate" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDateDouble_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDateDouble" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDateDouble_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDateDoubleResponse" />
+  </wsdl:message>
   <wsdl:message name="IMain_GetAllTransactions_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllTransactions" />
   </wsdl:message>
@@ -96,6 +108,14 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetDBStatus" message="tns:IMain_GetDBStatus_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetDBStatusResponse" message="tns:IMain_GetDBStatus_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDate" message="tns:IMain_GetLatestTransactionDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDateResponse" message="tns:IMain_GetLatestTransactionDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDateDouble">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDateDouble" message="tns:IMain_GetLatestTransactionDateDouble_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDateDoubleResponse" message="tns:IMain_GetLatestTransactionDateDouble_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetAllTransactions">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllTransactions" message="tns:IMain_GetAllTransactions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetAllTransactionsResponse" message="tns:IMain_GetAllTransactions_OutputMessage" />
@@ -153,6 +173,24 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetDBStatus">
       <soap:operation soapAction="http://tempuri.org/IMain/GetDBStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDate">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetLatestTransactionDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDateDouble">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetLatestTransactionDateDouble" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

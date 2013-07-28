@@ -65,7 +65,7 @@ namespace BMA_WP.Model
 
             private async Task<ICollection<Transaction>> LoadLiveTransactions(int budgetId)
             {
-                var retVal = new List<Transaction>();
+                var retVal = new TransactionList();
 
                 if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
                     return retVal;
@@ -135,7 +135,7 @@ namespace BMA_WP.Model
             private async Task<ICollection<TransactionImage>> LoadLiveTransactionImages(int transactionId)
             {
 
-                var retVal = new List<TransactionImage>();
+                var retVal = new TransactionImageList();
 
                 if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
                 {
@@ -165,9 +165,9 @@ namespace BMA_WP.Model
             #endregion
 
             #region Load Cached Data
-            private async Task<ICollection<Transaction>> LoadCachedTransactions()
+            public async Task<ICollection<Transaction>> LoadCachedTransactions()
             {
-                var retVal = new List<Transaction>();
+                var retVal = new TransactionList();
                 foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER))
                 {
                     try
@@ -188,7 +188,7 @@ namespace BMA_WP.Model
 
             private async Task<ICollection<TransactionImage>> LoadCachedTransactionImages()
             {
-                var retVal = new List<TransactionImage>();
+                var retVal = new TransactionImageList();
                 foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER))
                 {
                     try
@@ -228,7 +228,7 @@ namespace BMA_WP.Model
 
             private async void SetupTransactionList(ICollection<Transaction> existing, bool removeNew)
             {
-                existing = existing ?? new List<Transaction>();
+                existing = existing ?? new TransactionList();
 
                 //sync logic
                 if (removeNew)
@@ -245,13 +245,14 @@ namespace BMA_WP.Model
                     else
                         TransactionList[query.Index] = item;
 
-                    await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
+                    StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
                 }
+                var aa = await StorageUtility.ListItems(TRANSACTIONS_FOLDER);
             }
 
             private void SetupTransactionImageList(ICollection<TransactionImage> existing, int transactionId)
             {
-                existing = existing ?? new List<TransactionImage>();
+                existing = existing ?? new TransactionImageList();
 
                 TransactionImageList.Clear();
                 var trans = TransactionList.FirstOrDefault(x => x.TransactionId == transactionId);
@@ -282,7 +283,7 @@ namespace BMA_WP.Model
                 foreach (var x in newItems)
                 {
                     TransactionList.RemoveAt(x.Index);
-                    await StorageUtility.DeleteItem<Transaction>(TRANSACTIONS_FOLDER, x.Item.TransactionId.GetHashCode().ToString());
+                    StorageUtility.DeleteItem<Transaction>(TRANSACTIONS_FOLDER, x.Item.TransactionId.GetHashCode().ToString());
                 }
             }
 
@@ -404,6 +405,47 @@ namespace BMA_WP.Model
                 SetupBudgetList(existing);
             }
 
+            public async Task GetLatestTransactionDateDouble(Action<double, Exception> callback)
+            {
+                try
+                {
+                    var client = new BMAService.MainClient();
+                    client.GetLatestTransactionDateDoubleAsync();
+
+                    client.GetLatestTransactionDateDoubleCompleted += (sender, e) =>
+                    {
+                        callback(e.Result, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            public async Task GetLatestTransactionDate(Action<DateTime, Exception> callback)
+            {
+                try
+                {
+                    var client = new BMAService.MainClient();
+                    client.GetLatestTransactionDateAsync();
+
+                    client.GetLatestTransactionDateCompleted += (sender, e) =>
+                    {
+                        if(e.Error == null)
+                            callback(e.Result, null);
+                        else
+                            callback(DateTime.Now, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
             #endregion
 
             #region Save
@@ -417,8 +459,8 @@ namespace BMA_WP.Model
                         try
                         {
 
-                            //foreach (var item in transactions)
-                            //    item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
+                            foreach (var item in transactions)
+                                item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.None);
 
                             foreach (var item in TransactionList.Where(x => x.HasChanges))
                                 item.HasChanges = false;
@@ -497,6 +539,7 @@ namespace BMA_WP.Model
                     throw;
                 }
             }
+            
             public async Task SaveBudgets(ObservableCollection<Budget> budgets)
             {
                 try

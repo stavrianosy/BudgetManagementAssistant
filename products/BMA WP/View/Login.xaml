@@ -91,8 +91,9 @@
                     <StackPanel VerticalAlignment="Top" Margin="10" Grid.Column="1">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel>
                                 <TextBlock 
@@ -115,6 +116,14 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock x:Name="txtMessage" Foreground="White" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="Progress" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
+                            </Grid>
+                            <Grid Grid.Row="2" x:Name="grdSync" Margin="0 24 0 0" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Name="txtMessageSync" Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Foreground="White" VerticalAlignment="Center"/>
+                                <ProgressBar Grid.Row="1" x:Name="ProgressSync" IsIndeterminate="True"></ProgressBar>
                             </Grid>
                         </Grid>
                     </StackPanel>

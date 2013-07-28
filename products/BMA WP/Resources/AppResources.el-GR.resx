@@ -449,4 +449,7 @@
   <data name="Updating" xml:space="preserve">
     <value>ενημερονετε</value>
   </data>
+  <data name="Synchronizing" xml:space="preserve">
+    <value>Ενημερονετε...</value>
+  </data>
 </root>

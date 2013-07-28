@@ -16,6 +16,12 @@ namespace BMAServiceLib
         bool GetDBStatus();
 
         [OperationContract]
+        DateTime GetLatestTransactionDate();
+
+        [OperationContract]
+        double GetLatestTransactionDateDouble();
+
+        [OperationContract]
         TransactionList GetAllTransactions();
 
         [OperationContract]

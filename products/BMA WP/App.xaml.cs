@@ -15,6 +15,10 @@ using System.IO.IsolatedStorage;
 using BMA.BusinessLogic;
 using BMA_WP.Common;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace BMA_WP
 {
@@ -290,6 +294,122 @@ namespace BMA_WP
             {
                 IsolatedStorageSettings.ApplicationSettings["IsSync"] = value;
             }
+        }
+
+        public async Task Sync(Action callback)
+        {
+            try
+            {
+                var transRespont = false;
+                var transSuccess = false;
+
+                var budgetRespont = false;
+                var budgetSuccess = false;
+
+                var staticRespont = false;
+                var staticSuccess = false;
+
+                SyncTransactions((isSuccess) => 
+                { 
+                    transRespont = true;
+                    transSuccess = true;
+                    if (ReadyToCallback(transRespont, budgetRespont, staticRespont))
+                    {
+                        UpdateSyncStatus(transSuccess, budgetSuccess, staticSuccess);
+                        callback();
+                    }
+                });
+
+                SyncBudgets((isSuccess) =>
+                {
+                    budgetRespont = true;
+                    budgetSuccess = true;
+                    if (ReadyToCallback(transRespont, budgetRespont, staticRespont))
+                    {
+                        UpdateSyncStatus(transSuccess, budgetSuccess, staticSuccess);
+                        callback();
+                    }
+                });
+
+                SyncStaticData((isSuccess) =>
+                {
+                    staticRespont = true;
+                    staticSuccess = true;
+                    if (ReadyToCallback(transRespont, budgetRespont, staticRespont))
+                    {
+                        UpdateSyncStatus(transSuccess, budgetSuccess, staticSuccess);
+                        callback();
+                    }
+                });
+
+                //callback(true);
+            }
+            catch
+            {
+                //callback(false);
+            }
+
+        }
+
+        private bool UpdateSyncStatus(bool transSuccess, bool budgetSuccess, bool staticSuccess)
+        {
+            return transSuccess && budgetSuccess && staticSuccess;
+        }
+
+        private bool ReadyToCallback(bool transRespont, bool catRespont, bool staticRespont)
+        {
+            return transRespont && catRespont && staticRespont;
+        }
+
+        public void SyncTransactions(Action<bool> callback)
+        {
+            App.Instance.ServiceData.GetLatestTransactionDate(async (lastDate, error) =>
+            {
+                if (error == null)
+                {
+                    var cachedTransactions = await App.Instance.ServiceData.LoadCachedTransactions();
+                    
+                    var transList = cachedTransactions.ToObservableCollection().Where(x => x.ModifiedDate > lastDate).ToObservableCollection();
+
+                    await App.Instance.ServiceData.SaveTransaction(transList, (transError) =>
+                    {
+                        if (transError == null)
+                            callback(true);
+                        else
+                            callback(false);
+                    });
+                }
+                else
+                    callback(false);
+            });
+            //App.Instance.ServiceData.GetLatestTransactionDateDouble((lastDate, error) =>
+            //{
+            //    if (error == null)
+            //    {
+            //        var dateStr = lastDate.ToString();
+            //        var year = int.Parse(dateStr.Substring(0, 4));
+            //        var month = int.Parse(dateStr.Substring(4, 2));
+            //        var day = int.Parse(dateStr.Substring(6, 2));
+            //        var hour = int.Parse(dateStr.Substring(8, 2));
+            //        var min = int.Parse(dateStr.Substring(10, 2));
+            //        var sec = int.Parse(dateStr.Substring(12, 2));
+
+            //        var date = new DateTime(year, month, day, hour, min, sec);
+
+            //        var transList = App.Instance.ServiceData.TransactionList.Where(x => x.ModifiedDate > date);
+            //        App.Instance.ServiceData.SaveTransaction(transList.ToObservableCollection(), (transError) => { });
+            //    }
+            //});
+        }
+
+        public void SyncBudgets(Action<bool> callback)
+        {
+            callback(true);
+        }
+
+        public void SyncStaticData(Action<bool> callback)
+        {
+            callback(true);
         }
     }
 }

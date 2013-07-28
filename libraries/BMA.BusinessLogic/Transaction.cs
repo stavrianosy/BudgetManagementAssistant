@@ -21,6 +21,19 @@ namespace BMA.BusinessLogic
 
             bool added = false;
 
+            //logic for new unueqe id 
+            if (item.TransactionId <= 0)
+            {
+                var minIndex = (from i in this
+                                orderby i.TransactionId ascending
+                                select i).ToList();
+
+                if (minIndex.Count > 0 && minIndex[0].TransactionId <= 0)
+                    item.TransactionId = minIndex[0].TransactionId - 1;
+                else
+                    item.TransactionId = 0;
+            }
+
             for (int idx = 0; idx < Count; idx++)
             {
                 if (item.TransactionDate > Items[idx].TransactionDate)

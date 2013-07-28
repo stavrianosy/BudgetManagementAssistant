@@ -23,6 +23,16 @@ namespace BMA_WP.BMAService {
         
         bool EndGetDBStatus(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetLatestTransactionDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateResponse")]
+        System.IAsyncResult BeginGetLatestTransactionDate(System.AsyncCallback callback, object asyncState);
+        
+        System.DateTime EndGetLatestTransactionDate(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetLatestTransactionDateDouble", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateDoubleResponse")]
+        System.IAsyncResult BeginGetLatestTransactionDateDouble(System.AsyncCallback callback, object asyncState);
+        
+        double EndGetLatestTransactionDateDouble(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetAllTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTransactionsResponse")]
         System.IAsyncResult BeginGetAllTransactions(System.AsyncCallback callback, object asyncState);
         
@@ -108,6 +118,44 @@ namespace BMA_WP.BMAService {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetLatestTransactionDateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetLatestTransactionDateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.DateTime Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.DateTime)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetLatestTransactionDateDoubleCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetLatestTransactionDateDoubleCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public double Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((double)(this.results[0]));
             }
         }
     }
@@ -369,6 +417,18 @@ namespace BMA_WP.BMAService {
         
         private System.Threading.SendOrPostCallback onGetDBStatusCompletedDelegate;
         
+        private BeginOperationDelegate onBeginGetLatestTransactionDateDelegate;
+        
+        private EndOperationDelegate onEndGetLatestTransactionDateDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetLatestTransactionDateCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetLatestTransactionDateDoubleDelegate;
+        
+        private EndOperationDelegate onEndGetLatestTransactionDateDoubleDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetLatestTransactionDateDoubleCompletedDelegate;
+        
         private BeginOperationDelegate onBeginGetAllTransactionsDelegate;
         
         private EndOperationDelegate onEndGetAllTransactionsDelegate;
@@ -502,6 +562,10 @@ namespace BMA_WP.BMAService {
         
         public event System.EventHandler<GetDBStatusCompletedEventArgs> GetDBStatusCompleted;
         
+        public event System.EventHandler<GetLatestTransactionDateCompletedEventArgs> GetLatestTransactionDateCompleted;
+        
+        public event System.EventHandler<GetLatestTransactionDateDoubleCompletedEventArgs> GetLatestTransactionDateDoubleCompleted;
+        
         public event System.EventHandler<GetAllTransactionsCompletedEventArgs> GetAllTransactionsCompleted;
         
         public event System.EventHandler<GetLatestTransactionsCompletedEventArgs> GetLatestTransactionsCompleted;
@@ -574,6 +638,94 @@ namespace BMA_WP.BMAService {
                 this.onGetDBStatusCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetDBStatusCompleted);
             }
             base.InvokeAsync(this.onBeginGetDBStatusDelegate, null, this.onEndGetDBStatusDelegate, this.onGetDBStatusCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetLatestTransactionDate(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetLatestTransactionDate(callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.DateTime BMA_WP.BMAService.IMain.EndGetLatestTransactionDate(System.IAsyncResult result) {
+            return base.Channel.EndGetLatestTransactionDate(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetLatestTransactionDate(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return ((BMA_WP.BMAService.IMain)(this)).BeginGetLatestTransactionDate(callback, asyncState);
+        }
+        
+        private object[] OnEndGetLatestTransactionDate(System.IAsyncResult result) {
+            System.DateTime retVal = ((BMA_WP.BMAService.IMain)(this)).EndGetLatestTransactionDate(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetLatestTransactionDateCompleted(object state) {
+            if ((this.GetLatestTransactionDateCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetLatestTransactionDateCompleted(this, new GetLatestTransactionDateCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetLatestTransactionDateAsync() {
+            this.GetLatestTransactionDateAsync(null);
+        }
+        
+        public void GetLatestTransactionDateAsync(object userState) {
+            if ((this.onBeginGetLatestTransactionDateDelegate == null)) {
+                this.onBeginGetLatestTransactionDateDelegate = new BeginOperationDelegate(this.OnBeginGetLatestTransactionDate);
+            }
+            if ((this.onEndGetLatestTransactionDateDelegate == null)) {
+                this.onEndGetLatestTransactionDateDelegate = new EndOperationDelegate(this.OnEndGetLatestTransactionDate);
+            }
+            if ((this.onGetLatestTransactionDateCompletedDelegate == null)) {
+                this.onGetLatestTransactionDateCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetLatestTransactionDateCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetLatestTransactionDateDelegate, null, this.onEndGetLatestTransactionDateDelegate, this.onGetLatestTransactionDateCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetLatestTransactionDateDouble(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetLatestTransactionDateDouble(callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        double BMA_WP.BMAService.IMain.EndGetLatestTransactionDateDouble(System.IAsyncResult result) {
+            return base.Channel.EndGetLatestTransactionDateDouble(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetLatestTransactionDateDouble(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            return ((BMA_WP.BMAService.IMain)(this)).BeginGetLatestTransactionDateDouble(callback, asyncState);
+        }
+        
+        private object[] OnEndGetLatestTransactionDateDouble(System.IAsyncResult result) {
+            double retVal = ((BMA_WP.BMAService.IMain)(this)).EndGetLatestTransactionDateDouble(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetLatestTransactionDateDoubleCompleted(object state) {
+            if ((this.GetLatestTransactionDateDoubleCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetLatestTransactionDateDoubleCompleted(this, new GetLatestTransactionDateDoubleCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetLatestTransactionDateDoubleAsync() {
+            this.GetLatestTransactionDateDoubleAsync(null);
+        }
+        
+        public void GetLatestTransactionDateDoubleAsync(object userState) {
+            if ((this.onBeginGetLatestTransactionDateDoubleDelegate == null)) {
+                this.onBeginGetLatestTransactionDateDoubleDelegate = new BeginOperationDelegate(this.OnBeginGetLatestTransactionDateDouble);
+            }
+            if ((this.onEndGetLatestTransactionDateDoubleDelegate == null)) {
+                this.onEndGetLatestTransactionDateDoubleDelegate = new EndOperationDelegate(this.OnEndGetLatestTransactionDateDouble);
+            }
+            if ((this.onGetLatestTransactionDateDoubleCompletedDelegate == null)) {
+                this.onGetLatestTransactionDateDoubleCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetLatestTransactionDateDoubleCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetLatestTransactionDateDoubleDelegate, null, this.onEndGetLatestTransactionDateDoubleDelegate, this.onGetLatestTransactionDateDoubleCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1249,6 +1401,30 @@ namespace BMA_WP.BMAService {
             public bool EndGetDBStatus(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 bool _result = ((bool)(base.EndInvoke("GetDBStatus", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetLatestTransactionDate(System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[0];
+                System.IAsyncResult _result = base.BeginInvoke("GetLatestTransactionDate", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.DateTime EndGetLatestTransactionDate(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.DateTime _result = ((System.DateTime)(base.EndInvoke("GetLatestTransactionDate", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetLatestTransactionDateDouble(System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[0];
+                System.IAsyncResult _result = base.BeginInvoke("GetLatestTransactionDateDouble", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public double EndGetLatestTransactionDateDouble(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                double _result = ((double)(base.EndInvoke("GetLatestTransactionDateDouble", _args, result)));
                 return _result;
             }
             

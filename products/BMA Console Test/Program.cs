@@ -42,7 +42,8 @@ namespace ConsoleApplication1
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
-            UpdateTransaction(a, usr);
+            //UpdateTransaction(a, usr);
+            var dd = a.GetLatestTransactionDate();
 
             return;
 

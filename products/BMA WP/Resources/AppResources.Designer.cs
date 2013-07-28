@@ -916,6 +916,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synchronizing....
+        /// </summary>
+        public static string Synchronizing {
+            get {
+                return ResourceManager.GetString("Synchronizing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Third.
         /// </summary>
         public static string Third {

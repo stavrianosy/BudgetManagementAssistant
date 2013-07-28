@@ -27,8 +27,9 @@ namespace BMA_WP.Common
 
             //var allFiles = folder.GetFilesAsync().GetResults();
             //var aa = (StorageFile)allFiles;
+            var result = (from file in await folder.GetFilesAsync() select file.Name).ToArray();
 
-            return (from file in await folder.GetFilesAsync() select file.Name).ToArray();
+            return result;
 
             //return null;
         }

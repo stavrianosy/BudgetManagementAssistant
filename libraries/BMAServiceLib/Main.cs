@@ -28,6 +28,43 @@ namespace BMAServiceLib
             return result;
         }
 
+        public DateTime GetLatestTransactionDate()
+        {
+            try
+            {
+                var date = DateTime.Now;
+                
+                using (EntityContext context = new EntityContext())
+                    date = context.Transaction.OrderByDescending(x => x.ModifiedDate).FirstOrDefault().ModifiedDate;
+
+
+                return date;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public double GetLatestTransactionDateDouble()
+        {
+            try
+            {
+                return double.Parse(DateToString(GetLatestTransactionDate()));
+            }
+            catch
+            {
+                throw new Exception("aaaaa ttttt");
+                throw;
+            }
+        }
+
+        private string DateToString(DateTime date)
+        {
+            var result = string.Format("{0:00}{1:00}{2:00}{3:00}{4:00}{5:00}", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+            return result;
+        }
+
         public TransactionList GetAllTransactions()
         {
             try

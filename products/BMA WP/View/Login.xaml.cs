@@ -45,15 +45,18 @@ namespace BMA_WP.View
 
         private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(status =>
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
             {
                 App.Instance.StaticDataOnlineStatus = status;
                 vm.Status = status;
+                if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
+                {
+                    grdSync.Visibility = System.Windows.Visibility.Visible;
+
+                    await App.Instance.Sync(() => grdSync.Visibility = System.Windows.Visibility.Collapsed);
+
+                }
             });
-            //App.Instance.OnlineStatus = await App.Instance.ServiceData.SetServerStatus(status =>
-            //{
-            //    App.Instance.OnlineStatus = status;
-            //});
         }
 
         private void SetUILanguage(string locale)

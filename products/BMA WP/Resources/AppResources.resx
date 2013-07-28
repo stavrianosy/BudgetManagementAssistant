@@ -449,4 +449,7 @@
   <data name="Updating" xml:space="preserve">
     <value>checking status</value>
   </data>
+  <data name="Synchronizing" xml:space="preserve">
+    <value>Synchronizing...</value>
+  </data>
 </root>

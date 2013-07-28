@@ -15,11 +15,17 @@ namespace ConsoleApplication1.ServiceReference1 {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IMain")]
     public interface IMain {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetStatus", ReplyAction="http://tempuri.org/IMain/GetStatusResponse")]
-        bool GetStatus();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetDBStatus", ReplyAction="http://tempuri.org/IMain/GetDBStatusResponse")]
+        bool GetDBStatus();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetStatus", ReplyAction="http://tempuri.org/IMain/GetStatusResponse")]
-        System.Threading.Tasks.Task<bool> GetStatusAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetDBStatus", ReplyAction="http://tempuri.org/IMain/GetDBStatusResponse")]
+        System.Threading.Tasks.Task<bool> GetDBStatusAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateResponse")]
+        double GetLatestTransactionDate();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateResponse")]
+        System.Threading.Tasks.Task<double> GetLatestTransactionDateAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTransactionsResponse")]
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetAllTransactions();
@@ -127,12 +133,20 @@ namespace ConsoleApplication1.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public bool GetStatus() {
-            return base.Channel.GetStatus();
+        public bool GetDBStatus() {
+            return base.Channel.GetDBStatus();
         }
         
-        public System.Threading.Tasks.Task<bool> GetStatusAsync() {
-            return base.Channel.GetStatusAsync();
+        public System.Threading.Tasks.Task<bool> GetDBStatusAsync() {
+            return base.Channel.GetDBStatusAsync();
+        }
+        
+        public double GetLatestTransactionDate() {
+            return base.Channel.GetLatestTransactionDate();
+        }
+        
+        public System.Threading.Tasks.Task<double> GetLatestTransactionDateAsync() {
+            return base.Channel.GetLatestTransactionDateAsync();
         }
         
         public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetAllTransactions() {
