@@ -452,4 +452,7 @@
   <data name="Synchronizing" xml:space="preserve">
     <value>Ενημερονετε...</value>
   </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>δοκιμαστε ξανα</value>
+  </data>
 </root>

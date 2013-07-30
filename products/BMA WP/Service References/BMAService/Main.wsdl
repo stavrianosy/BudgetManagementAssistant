@@ -61,12 +61,6 @@
   <wsdl:message name="IMain_GetAllBudgets_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllBudgetsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMain_GetAllTypeTransactions_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllTypeTransactions" />
-  </wsdl:message>
-  <wsdl:message name="IMain_GetAllTypeTransactions_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllTypeTransactionsResponse" />
-  </wsdl:message>
   <wsdl:message name="IMain_LoadItemCounts_InputMessage">
     <wsdl:part name="parameters" element="tns:LoadItemCounts" />
   </wsdl:message>
@@ -79,12 +73,6 @@
   <wsdl:message name="IMain_SaveTransactions_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveTransactionsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMain_SyncTransactions_InputMessage">
-    <wsdl:part name="parameters" element="tns:SyncTransactions" />
-  </wsdl:message>
-  <wsdl:message name="IMain_SyncTransactions_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SyncTransactionsResponse" />
-  </wsdl:message>
   <wsdl:message name="IMain_SaveBudgets_InputMessage">
     <wsdl:part name="parameters" element="tns:SaveBudgets" />
   </wsdl:message>
@@ -96,12 +84,6 @@
   </wsdl:message>
   <wsdl:message name="IMain_SaveTransactionImages_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveTransactionImagesResponse" />
-  </wsdl:message>
-  <wsdl:message name="IMain_SyncBudgets_InputMessage">
-    <wsdl:part name="parameters" element="tns:SyncBudgets" />
-  </wsdl:message>
-  <wsdl:message name="IMain_SyncBudgets_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SyncBudgetsResponse" />
   </wsdl:message>
   <wsdl:portType name="IMain">
     <wsdl:operation name="GetDBStatus">
@@ -140,10 +122,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllBudgets" message="tns:IMain_GetAllBudgets_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetAllBudgetsResponse" message="tns:IMain_GetAllBudgets_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllTypeTransactions">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllTypeTransactions" message="tns:IMain_GetAllTypeTransactions_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetAllTypeTransactionsResponse" message="tns:IMain_GetAllTypeTransactions_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="LoadItemCounts">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/LoadItemCounts" message="tns:IMain_LoadItemCounts_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/LoadItemCountsResponse" message="tns:IMain_LoadItemCounts_OutputMessage" />
@@ -152,10 +130,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactions" message="tns:IMain_SaveTransactions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionsResponse" message="tns:IMain_SaveTransactions_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SyncTransactions">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SyncTransactions" message="tns:IMain_SyncTransactions_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SyncTransactionsResponse" message="tns:IMain_SyncTransactions_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="SaveBudgets">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveBudgets" message="tns:IMain_SaveBudgets_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveBudgetsResponse" message="tns:IMain_SaveBudgets_OutputMessage" />
@@ -163,10 +137,6 @@
     <wsdl:operation name="SaveTransactionImages">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactionImages" message="tns:IMain_SaveTransactionImages_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionImagesResponse" message="tns:IMain_SaveTransactionImages_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="SyncBudgets">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SyncBudgets" message="tns:IMain_SyncBudgets_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SyncBudgetsResponse" message="tns:IMain_SyncBudgets_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IMain" type="tns:IMain">
@@ -252,15 +222,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllTypeTransactions">
-      <soap:operation soapAction="http://tempuri.org/IMain/GetAllTypeTransactions" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="LoadItemCounts">
       <soap:operation soapAction="http://tempuri.org/IMain/LoadItemCounts" style="document" />
       <wsdl:input>
@@ -279,15 +240,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SyncTransactions">
-      <soap:operation soapAction="http://tempuri.org/IMain/SyncTransactions" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="SaveBudgets">
       <soap:operation soapAction="http://tempuri.org/IMain/SaveBudgets" style="document" />
       <wsdl:input>
@@ -299,15 +251,6 @@
     </wsdl:operation>
     <wsdl:operation name="SaveTransactionImages">
       <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactionImages" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SyncBudgets">
-      <soap:operation soapAction="http://tempuri.org/IMain/SyncBudgets" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

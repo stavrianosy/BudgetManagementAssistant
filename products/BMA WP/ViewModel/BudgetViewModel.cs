@@ -16,12 +16,14 @@ namespace BMA_WP.ViewModel
         #region Private Members
         private Budget _currBudget;
         private bool _isEnabled;
+        private bool _isLoading;
         private int pivotIndex;
         #endregion
 
         #region Public Properties
         public Budget CurrBudget { get { return _currBudget; } set { _currBudget = value; RaisePropertyChanged("CurrBudget"); } }
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
+        public bool IsLoading { get { return _isLoading; } set { _isLoading = value; RaisePropertyChanged("IsLoading"); } }
         public BudgetList Budgets { get { return App.Instance.ServiceData.BudgetList; } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         #endregion

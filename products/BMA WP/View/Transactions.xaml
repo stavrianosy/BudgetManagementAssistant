@@ -129,7 +129,7 @@
                                           IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:ListPicker x:Name="cmbReason" 
                                             Header="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                          ItemsSource="{Binding ElementName=cmbCategory, Path=SelectedItem, Converter={StaticResource converters}, ConverterParameter=abc}"
+                                          ItemsSource="{Binding ElementName=cmbCategory, Path=SelectedItem, Converter={StaticResource converters}, ConverterParameter=filterTransactioReasonbyCategory}"
                                           FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}"
                                           ItemTemplate="{StaticResource PickerItemTemplate}"
                                           ExpansionMode="FullScreenOnly"

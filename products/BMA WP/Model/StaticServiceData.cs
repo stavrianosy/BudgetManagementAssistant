@@ -315,6 +315,8 @@ namespace BMA_WP.Model
 
             foreach (var item in existing)
                 CategoryList.Add(item);
+
+            TypeTransactionReasonList.OrderBy(x => x.Name);
         }
 
         private void SetupTypeSavingsDencityData(ICollection<TypeSavingsDencity> existing)
@@ -335,6 +337,8 @@ namespace BMA_WP.Model
 
             foreach (var item in existing)
                 TypeTransactionReasonList.Add(item);
+
+            TypeTransactionReasonList.OrderBy(x => x.Name);
         }
 
         private void SetupNotificationData(ICollection<Notification> existing)

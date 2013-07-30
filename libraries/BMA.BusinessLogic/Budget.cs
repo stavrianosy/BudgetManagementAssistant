@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class BudgetList : ObservableCollection<Budget>
+    public class BudgetList : ObservableCollection<Budget>, IDataList
     {
         public BudgetList GetChanges()
         {
@@ -20,6 +20,22 @@ namespace BMA.BusinessLogic
                 result.Add(item);
 
             return result;
+        }
+
+        public void AcceptChanges()
+        {
+            foreach (var item in Items)
+                item.HasChanges = false;
+        }
+
+        public void PrepareForServiceSerialization()
+        {
+            //one way to handle circular referenceis to explicitly set the child to null
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            foreach (var item in deletedIDs)
+                this.RemoveAt(item.index);
+
+            this.AcceptChanges();
         }
     }
 

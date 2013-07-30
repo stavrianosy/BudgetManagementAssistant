@@ -156,7 +156,6 @@ namespace BMA_WP.View
                 vm.IsEnabled = vm.IsLoading ? false : true;
                 delete.IsEnabled = vm.IsLoading ? false : true;
             }
-
         }
 
         private void SetupAppBar_TransactionList()
@@ -164,20 +163,19 @@ namespace BMA_WP.View
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsVisible = true;
 
-            add = new ApplicationBarIconButton();
-            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
-            add.Text = AppResources.AppBarButtonAdd;
-            add.IsEnabled = true;
-            ApplicationBar.Buttons.Add(add);
-            add.Click += new EventHandler(Add_Click);
-
             save = new ApplicationBarIconButton();
             save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
             save.Text = AppResources.AppBarButtonSave;
             save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
-            
+
+            add = new ApplicationBarIconButton();
+            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
+            add.Text = AppResources.AppBarButtonAdd;
+            add.IsEnabled = true;
+            ApplicationBar.Buttons.Add(add);
+            add.Click += new EventHandler(Add_Click);
 
             mainMenu = new ApplicationBarMenuItem();
             mainMenu.Text = AppResources.AppBarButtonMainMenu;

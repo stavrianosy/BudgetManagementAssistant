@@ -43,20 +43,9 @@ namespace BMA_WP.View
             //Progress.Margin = new Thickness(0, -screenHeight/2, 0, 0);
         }
 
-        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
-            {
-                App.Instance.StaticDataOnlineStatus = status;
-                vm.Status = status;
-                if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
-                {
-                    grdSync.Visibility = System.Windows.Visibility.Visible;
-
-                    await App.Instance.Sync(() => grdSync.Visibility = System.Windows.Visibility.Collapsed);
-
-                }
-            });
+            CheckOnlineStatus();
         }
 
         private void SetUILanguage(string locale)
@@ -414,6 +403,28 @@ namespace BMA_WP.View
             piLoginPage.SelectedIndex = 1;
         }
 
+        private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            CheckOnlineStatus();
+        }
+
+
+        private async void CheckOnlineStatus()
+        {
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
+            {
+                App.Instance.StaticDataOnlineStatus = status;
+                vm.Status = status;
+                if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
+                {
+                    grdSync.Visibility = System.Windows.Visibility.Visible;
+
+                    await App.Instance.Sync(() => grdSync.Visibility = System.Windows.Visibility.Collapsed);
+
+                }
+            });
+            vm.Status = App.Instance.StaticDataOnlineStatus;
+        }
         
     }
 }

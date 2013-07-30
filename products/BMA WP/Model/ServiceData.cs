@@ -81,7 +81,7 @@ namespace BMA_WP.Model
                         {
                             SetupTransactionList(completedEventArgs.Result, true);
                         };
-                        client.GetLatestTransactionsAsync(latestState);
+                        client.GetLatestTransactionsAsync(App.Instance.User.UserId, latestState);
                     }
                     else
                     {
@@ -100,29 +100,20 @@ namespace BMA_WP.Model
             private async Task<ICollection<Budget>> LoadLiveBudgets()
             {
 
-                var retVal = new List<Budget>();
+                var retVal = new BudgetList();
 
                 if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                {
                     return retVal;
-                }
 
                 try
                 {
+                    latestState = Guid.NewGuid().ToString();
                     var client = new BMAService.MainClient();
                     client.GetAllBudgetsCompleted += (sender, e) =>
                         {
-                            try
-                            {
-                                foreach (var item in e.Result)
-                                    BudgetList.Add(item);
-                            }
-                            catch (Exception)
-                            {
-                                throw;
-                            }
+                            SetupBudgetList(e.Result, true);
                         };
-                    client.GetAllBudgetsAsync();
+                    client.GetAllBudgetsAsync(App.Instance.User.UserId);
                 }
                 catch (Exception ex)
                 {
@@ -209,7 +200,7 @@ namespace BMA_WP.Model
 
             private async Task<ICollection<Budget>> LoadCachedBudgets()
             {
-                var retVal = new List<Budget>();
+                var retVal = new BudgetList();
                 foreach (var item in await StorageUtility.ListItems(BUDGETS_FOLDER))
                 {
                     try
@@ -222,6 +213,9 @@ namespace BMA_WP.Model
                         Debug.WriteLine(ex.ToString());
                     }
                 }
+
+                SetupBudgetList(retVal, false); 
+
                 return retVal;
             }
             #endregion
@@ -247,6 +241,7 @@ namespace BMA_WP.Model
 
                     StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
                 }
+                TransactionList.OrderByDescending(x => x.TransactionDate);
                 var aa = await StorageUtility.ListItems(TRANSACTIONS_FOLDER);
             }
 
@@ -266,14 +261,27 @@ namespace BMA_WP.Model
                 StorageUtility.SaveItem<Transaction>(TRANSACTIONS_FOLDER, trans, trans.TransactionId);
             }
 
-            private void SetupBudgetList(ICollection<Budget> existing)
+            private void SetupBudgetList(ICollection<Budget> existing, bool removeNew)
             {
                 existing = existing ?? new ObservableCollection<Budget>();
 
-                BudgetList.Clear();
+                //sync logic
+                if (removeNew)
+                    RemoveInsertedTransactions();
 
-                foreach (var trans in existing)
-                    BudgetList.Add(trans);
+                foreach (var item in existing)
+                {
+                    var query = BudgetList.Select((x, i) => new { budget = x, Index = i }).Where(x => x.budget.BudgetId == item.BudgetId).FirstOrDefault();
+
+                    //INSERT
+                    if (query == null)
+                        BudgetList.Add(item);
+                    //UPDATE
+                    else
+                        BudgetList[query.Index] = item;
+
+                    StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.BudgetId);
+                }
             }
 
             private async void RemoveInsertedTransactions()
@@ -335,12 +343,10 @@ namespace BMA_WP.Model
 
             public async Task LoadAllTransactions(int budgetId)
             {
-                ICollection<Transaction> existing = null;
-
                 if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                    existing = await LoadCachedTransactions();
+                    await LoadCachedTransactions();
                 else
-                    existing = await LoadLiveTransactions(budgetId);
+                    await LoadLiveTransactions(budgetId);
             }
 
             public async Task LoadAllTransactionImages(int transactionId, Action<Exception> callback)
@@ -390,19 +396,10 @@ namespace BMA_WP.Model
 
             public async Task LoadAllBudgets()
             {
-                ICollection<Budget> existing = null;
-
                 if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                {
-                    existing = await LoadCachedBudgets();
-                }
+                    await LoadCachedBudgets();
                 else
-                {
-                    existing = await LoadLiveBudgets();
-                    await UpdateCacheBudgets(existing);
-                }
-
-                SetupBudgetList(existing);
+                    await LoadLiveBudgets();
             }
 
             public async Task GetLatestTransactionDateDouble(Action<double, Exception> callback)
@@ -410,7 +407,7 @@ namespace BMA_WP.Model
                 try
                 {
                     var client = new BMAService.MainClient();
-                    client.GetLatestTransactionDateDoubleAsync();
+                    client.GetLatestTransactionDateDoubleAsync(App.Instance.User.UserId);
 
                     client.GetLatestTransactionDateDoubleCompleted += (sender, e) =>
                     {
@@ -429,7 +426,7 @@ namespace BMA_WP.Model
                 try
                 {
                     var client = new BMAService.MainClient();
-                    client.GetLatestTransactionDateAsync();
+                    client.GetLatestTransactionDateAsync(App.Instance.User.UserId);
 
                     client.GetLatestTransactionDateCompleted += (sender, e) =>
                     {
@@ -540,31 +537,45 @@ namespace BMA_WP.Model
                 }
             }
             
-            public async Task SaveBudgets(ObservableCollection<Budget> budgets)
+            public async Task SaveBudgets(ObservableCollection<Budget> budgets, Action<Exception> callback)
             {
                 try
                 {
-                    var result = this.BudgetList.ToObservableCollection();
-
                     if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
                     {
-                        result = result.Where(i => !i.IsDeleted).ToObservableCollection();
-                        App.Instance.IsSync = false;
+                        try
+                        {
+                            foreach (var item in BudgetList.Where(x => x.HasChanges))
+                                item.HasChanges = false;
+
+                            SetupBudgetList(budgets, false);
+
+                            App.Instance.IsSync = false;
+
+                            callback(null);
+                        }
+                        catch (Exception ex)
+                        {
+                            callback(ex);
+                        }
                     }
                     else
                     {
                         var client = new BMAService.MainClient();
+                        client.SaveBudgetsAsync(budgets);
                         client.SaveBudgetsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                var reult = completedEventArgs.Result;
-                                await UpdateCacheBudgets(result);
-                                SetupBudgetList(result);
+                                SetupBudgetList(completedEventArgs.Result, true);
+
                                 App.Instance.IsSync = true;
+
+                                callback(null);
                             }
+                            else
+                                callback(completedEventArgs.Error);
                         };
-                        client.SaveBudgetsAsync(budgets);                        
                     }                    
                 }
                 catch (Exception)
@@ -576,62 +587,6 @@ namespace BMA_WP.Model
             #endregion
 
             #region Sync
-
-            public async Task SyncBudgets()
-            {
-                try
-                {
-                    var budgets = await LoadCachedBudgets();
-
-                    var client = new BMAService.MainClient();
-                    client.SyncBudgetsCompleted += async (o, e) =>
-                    {
-                        try
-                        {
-                            var result = e.Result;
-                            await UpdateCacheBudgets(result);
-                            SetupBudgetList(result);
-
-                            App.Instance.IsSync = true;
-
-                        }
-                        catch (Exception) { throw; }
-                    };
-                    client.SyncBudgetsAsync(budgets.ToObservableCollection());
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-
-            public async Task SyncTransactions()
-            {
-                try
-                {
-                    var transactions = await LoadCachedTransactions();
-
-                    var client = new BMAService.MainClient();
-                    client.SyncTransactionsCompleted += async (o, e) =>
-                    {
-                        try
-                        {
-                            var result = e.Result;
-                            //await UpdateCacheTransactions();
-                            SetupTransactionList(result, true);
-
-                            App.Instance.IsSync = true;
-
-                        }
-                        catch (Exception) { throw; }
-                    };
-                    client.SyncTransactionsAsync(transactions.ToObservableCollection());
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
 
             #endregion
 

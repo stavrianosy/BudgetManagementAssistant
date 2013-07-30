@@ -146,12 +146,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Budget" nillable="true" type="tns:Budget" />
-  <xs:complexType name="ArrayOfTypeTransaction">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeTransaction" nillable="true" type="tns:ArrayOfTypeTransaction" />
   <xs:complexType name="StartupInfo">
     <xs:sequence>
       <xs:element minOccurs="0" name="BudgetCount" type="xs:int" />

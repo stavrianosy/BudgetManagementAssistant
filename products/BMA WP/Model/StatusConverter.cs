@@ -98,9 +98,8 @@ namespace BMA_WP.Model
 
                     case "updatetovisibility":
                         return UpdateToVisibility(value);
-
                         
-                    case "abc":
+                    case "filtertransactioreasonbycategory":
                         return GetTypeTransactionReasonByCategory(value);
                 }
             }
@@ -215,8 +214,8 @@ namespace BMA_WP.Model
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
 
             if(query != null)
-                result = query.TypeTransactionReasons;
-
+                result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToList();
+            
             return result;
         }
 

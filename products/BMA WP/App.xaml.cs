@@ -369,7 +369,7 @@ namespace BMA_WP
                 {
                     var cachedTransactions = await App.Instance.ServiceData.LoadCachedTransactions();
                     
-                    var transList = cachedTransactions.ToObservableCollection().Where(x => x.ModifiedDate > lastDate).ToObservableCollection();
+                    var transList = cachedTransactions.Where(x => x.ModifiedDate > lastDate).ToObservableCollection();
 
                     await App.Instance.ServiceData.SaveTransaction(transList, (transError) =>
                     {
@@ -382,24 +382,6 @@ namespace BMA_WP
                 else
                     callback(false);
             });
-            //App.Instance.ServiceData.GetLatestTransactionDateDouble((lastDate, error) =>
-            //{
-            //    if (error == null)
-            //    {
-            //        var dateStr = lastDate.ToString();
-            //        var year = int.Parse(dateStr.Substring(0, 4));
-            //        var month = int.Parse(dateStr.Substring(4, 2));
-            //        var day = int.Parse(dateStr.Substring(6, 2));
-            //        var hour = int.Parse(dateStr.Substring(8, 2));
-            //        var min = int.Parse(dateStr.Substring(10, 2));
-            //        var sec = int.Parse(dateStr.Substring(12, 2));
-
-            //        var date = new DateTime(year, month, day, hour, min, sec);
-
-            //        var transList = App.Instance.ServiceData.TransactionList.Where(x => x.ModifiedDate > date);
-            //        App.Instance.ServiceData.SaveTransaction(transList.ToObservableCollection(), (transError) => { });
-            //    }
-            //});
         }
 
         public void SyncBudgets(Action<bool> callback)

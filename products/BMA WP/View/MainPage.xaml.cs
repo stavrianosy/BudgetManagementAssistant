@@ -34,19 +34,20 @@ namespace BMA_WP.View
             SetupAppBar();
         }
 
-        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckOnlineStatus();
+        }
+
+        private async void CheckOnlineStatus()
         {
             App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(status =>
             {
                 App.Instance.StaticDataOnlineStatus = status;
                 vm.Status = status;
             });
-            //App.Instance.OnlineStatus = await App.Instance.ServiceData.SetServerStatus(status =>
-            //{
-            //    App.Instance.OnlineStatus = status;
-            //    vm.Status = status;
-            //});
-            
+
+            vm.Status = App.Instance.StaticDataOnlineStatus;
         }
 
         private void SetupAppBar()
@@ -102,6 +103,11 @@ namespace BMA_WP.View
         private void Help_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Help.xaml", UriKind.Relative));
+        }
+
+        private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            CheckOnlineStatus();
         }
 
     }

@@ -9,7 +9,7 @@ using System.ServiceModel;
 
 namespace BMA.BusinessLogic
 {
-    public class TransactionList : ObservableCollection<Transaction>
+    public class TransactionList : ObservableCollection<Transaction>, IDataList
     {
         public TransactionList()
         {
@@ -22,20 +22,18 @@ namespace BMA.BusinessLogic
             bool added = false;
 
             //logic for new unueqe id 
-            if (item.TransactionId <= 0)
+            if (item.TransactionId <= 0 && this.Contains(item))
             {
                 var minIndex = (from i in this
                                 orderby i.TransactionId ascending
                                 select i).ToList();
 
-                if (minIndex.Count > 0 && minIndex[0].TransactionId <= 0)
-                    item.TransactionId = minIndex[0].TransactionId - 1;
-                else
-                    item.TransactionId = 0;
+                item.TransactionId = minIndex[0].TransactionId - 1;
             }
 
             for (int idx = 0; idx < Count; idx++)
             {
+                //immediate sorting !
                 if (item.TransactionDate > Items[idx].TransactionDate)
                 {
                     base.InsertItem(idx, item);
@@ -45,16 +43,10 @@ namespace BMA.BusinessLogic
             }
 
             if (!added)
-            {
                 base.InsertItem(index, item);
-            }
         }
 
-        //private void TransactionList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{
-        //    SortByCreatedDate();
-        //}
-
+        [Obsolete]
         public void SortByCreatedDate()
         {
             for (int z = 0; z < Items.Count; z++)
@@ -98,7 +90,6 @@ namespace BMA.BusinessLogic
             return result;
         }
 
-        
         public void AcceptChanges()
         {
             foreach (var item in Items)
@@ -125,6 +116,17 @@ namespace BMA.BusinessLogic
             {
                 item.OptimizeOnTopLevel(removeImages);   
             }
+        }
+
+        public void PrepareForServiceSerialization()
+        {
+            //one way to handle circular referenceis to explicitly set the child to null
+            this.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.All);
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            foreach (var item in deletedIDs)
+                this.RemoveAt(item.index);
+
+            this.AcceptChanges();
         }
     }
 
@@ -221,7 +223,7 @@ namespace BMA.BusinessLogic
         public Transaction(List<Category> categoryList, List<TypeTransaction> typeTransactionList, List<TypeTransactionReason> typeTransactionReasonList, User user)
             : base(user)
         {
-            TransactionId = -1;
+            TransactionId = 0;
             Amount = 0;
             
             Comments = "";

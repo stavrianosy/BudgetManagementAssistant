@@ -12,23 +12,24 @@ namespace BMAServiceLib
     [ServiceContract]
     public interface IMain
     {
+        #region Read
         [OperationContract]
         bool GetDBStatus();
 
         [OperationContract]
-        DateTime GetLatestTransactionDate();
+        DateTime GetLatestTransactionDate(int userId);
 
         [OperationContract]
-        double GetLatestTransactionDateDouble();
+        double GetLatestTransactionDateDouble(int userId);
 
         [OperationContract]
-        TransactionList GetAllTransactions();
+        TransactionList GetAllTransactions(int userId);
 
         [OperationContract]
-        TransactionList GetLatestTransactions();
+        TransactionList GetLatestTransactions(int userId);
 
         [OperationContract]
-        TransactionList GetLatestTransactionsLimit(int latestRecs);
+        TransactionList GetLatestTransactionsLimit(int latestRecs, int userId);
 
         [OperationContract]
         TransactionList GetTransactionsForBudget(int budgetId);
@@ -37,19 +38,15 @@ namespace BMAServiceLib
         TransactionImageList GetImagesForTransaction(int transactionId);
 
         [OperationContract]
-        BudgetList GetAllBudgets();
+        BudgetList GetAllBudgets(int userId);
 
         [OperationContract]
-        List<TypeTransaction> GetAllTypeTransactions();
+        StartupInfo LoadItemCounts(int userId);
+        #endregion
 
-        [OperationContract]
-        StartupInfo LoadItemCounts();
-
+        #region Update
         [OperationContract]
         TransactionList SaveTransactions(TransactionList transactions);
-
-        [OperationContract]
-        TransactionList SyncTransactions(TransactionList transactions);
 
         [OperationContract]
         BudgetList SaveBudgets(BudgetList budgets);
@@ -57,8 +54,6 @@ namespace BMAServiceLib
         [OperationContract]
         bool SaveTransactionImages(TransactionImageList transactionImages);
 
-        [OperationContract]
-        BudgetList SyncBudgets(BudgetList budgets);
-
+        #endregion
     }
 }

@@ -452,4 +452,7 @@
   <data name="Synchronizing" xml:space="preserve">
     <value>Synchronizing...</value>
   </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>try again</value>
+  </data>
 </root>

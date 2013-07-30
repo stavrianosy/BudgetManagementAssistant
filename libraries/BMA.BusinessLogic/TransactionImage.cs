@@ -17,16 +17,13 @@ namespace BMA.BusinessLogic
 
         protected override void InsertItem(int index, TransactionImage item)
         {
-            if (item.TransactionImageId <= 0)
+            if (item.TransactionImageId <= 0 && this.Contains(item))
             {
                 var minIndex = (from i in this
                                orderby i.TransactionImageId ascending
                                select i).ToList();
 
-                if (minIndex.Count > 0 && minIndex[0].TransactionImageId <= 0)
-                    item.TransactionImageId = minIndex[0].TransactionImageId - 1;
-                else
-                    item.TransactionImageId = 0;
+                item.TransactionImageId = minIndex[0].TransactionImageId - 1;
 
             }
             base.InsertItem(index, item);

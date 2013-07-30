@@ -28,7 +28,7 @@ namespace BMAServiceLib
         }
 
         #region Load
-        public StaticTypeList GetAllStaticData()
+        public StaticTypeList GetAllStaticData(int userId)
         {
             try
             {
@@ -38,30 +38,35 @@ namespace BMAServiceLib
                     context.Configuration.LazyLoadingEnabled = true;
                     var typeTrans = (from i in context.TypeTransaction
                                      .Include(i => i.CreatedUser)
-                                     where !i.IsDeleted
+                                     .Include(i => i.ModifiedUser)
+                                     where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                      select i).ToList();
 
                     var typeSD = (from i in context.TypeSavingsDencity
                                   .Include(i => i.CreatedUser)
-                                  where !i.IsDeleted
+                                  .Include(i => i.ModifiedUser)
+                                  where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                   select i).ToList();
 
                     
                     var notice = (from i in context.Notification
                                   .Include(i => i.CreatedUser)
-                                  where !i.IsDeleted
+                                  .Include(i => i.ModifiedUser)
+                                  where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                   select i).ToList();
 
                     var typeF = (from i in context.TypeFrequency
                                  .Include(i => i.CreatedUser)
-                                 where !i.IsDeleted
+                                 .Include(i => i.ModifiedUser)
+                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                  select i).ToList();
 
-                    var inter = GetAllTypeIntervals();
+                    var inter = GetAllTypeIntervals(userId);
 
                     var budgetTH = (from i in context.BudgetThreshold
                                     .Include(i => i.CreatedUser)
-                                    where !i.IsDeleted
+                                    .Include(i => i.ModifiedUser)
+                                    where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                     select i).ToList();
 
                     var field = context.FieldType.ToList();
@@ -88,7 +93,7 @@ namespace BMAServiceLib
             }
         }
 
-        public List<Category> GetAllCategories()
+        public List<Category> GetAllCategories(int userId)
         {
         try
             {
@@ -97,9 +102,10 @@ namespace BMAServiceLib
                 {
                     var query = (from i in context.Category
                                 .Include(x=>x.TypeTransactionReasons)
-                                .Include(x=>x.CreatedUser)
+                                .Include(i => i.ModifiedUser)
+                                .Include(i => i.CreatedUser)
                                 orderby i.Name ascending
-                                where !i.IsDeleted
+                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                 select new {Category = i,
                                             CreatedUser = i.CreatedUser,
                                             ModifiedUser = i.ModifiedUser,
@@ -126,7 +132,7 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeTransactionReason> GetAllTypeTransactionReasons()
+        public List<TypeTransactionReason> GetAllTypeTransactionReasons(int userId)
         {
             try
             {
@@ -135,9 +141,10 @@ namespace BMAServiceLib
                 {
                     var query = (from i in context.TransactionReason
                                 .Include(x => x.CreatedUser)
+                                .Include(x => x.ModifiedUser)
                                 .Include(x => x.Categories)
                                  orderby i.Name ascending
-                                 where !i.IsDeleted
+                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                  select new {
                                      TransReason = i,
                                      CreatedUser = i.CreatedUser,
@@ -165,14 +172,16 @@ namespace BMAServiceLib
             }
         }
 
-        public List<Notification> GetAllNotifications()
+        public List<Notification> GetAllNotifications(int userId)
         {
             try
             {
                 using (EntityContext context = new EntityContext())
                 {
                     var query = from i in context.Notification
-                                where !i.IsDeleted
+                                .Include(i => i.ModifiedUser)
+                                .Include(i => i.CreatedUser)
+                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                 select i;
 
                     return query.ToList();
@@ -184,14 +193,16 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeTransaction> GetAllTypeTransactions()
+        public List<TypeTransaction> GetAllTypeTransactions(int userId)
         {
             try
             {
                 using (EntityContext context = new EntityContext())
                 {
                     var query = from i in context.TypeTransaction
-                                where !i.IsDeleted
+                                .Include(i => i.ModifiedUser)
+                                .Include(i => i.CreatedUser)
+                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                 select i;
 
                     return query.ToList();
@@ -203,14 +214,16 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeFrequency> GetAllTypeFrequencies()
+        public List<TypeFrequency> GetAllTypeFrequencies(int userId)
         {
             try
             {
                 using (EntityContext context = new EntityContext())
                 {
                     var query = from i in context.TypeFrequency
-                                where !i.IsDeleted
+                                .Include(i => i.ModifiedUser)
+                                .Include(i => i.CreatedUser)
+                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                 select i;
 
                     return query.ToList();
@@ -222,20 +235,21 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeInterval> GetAllTypeIntervals()
+        public List<TypeInterval> GetAllTypeIntervals(int userId)
         {
             try
             {
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TypeInterval
-                                 .Include(i => i.CreatedUser)
                                  .Include(i => i.Category)
                                  .Include(i => i.RecurrenceRuleValue.RecurrenceRule)
                                  .Include(i => i.RecurrenceRuleValue.RulePartValueList)
                                  .Include(i => i.RecurrenceRangeRuleValue.RecurrenceRule)
                                  .Include(i => i.RecurrenceRangeRuleValue.RulePartValueList)
-                     where !i.IsDeleted
+                                 .Include(i => i.CreatedUser)
+                                 .Include(i => i.ModifiedUser)
+                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
                      select i).ToList();
 
 
@@ -276,14 +290,16 @@ namespace BMAServiceLib
             }
         }
 
-        public List<BudgetThreshold> GetAllBudgetThresholds()
+        public List<BudgetThreshold> GetAllBudgetThresholds(int userId)
         {
             try
             {
                 using (EntityContext context = new EntityContext())
                 {
                     var query = from i in context.BudgetThreshold
-                                where !i.IsDeleted
+                                .Include(i => i.ModifiedUser)
+                                .Include(i => i.CreatedUser)
+                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                 select i;
 
                     return query.ToList();
@@ -319,7 +335,7 @@ namespace BMAServiceLib
             return result;
         }
 
-        public List<Notification> GetUpcomingNotifications(DateTime clientTime)
+        public List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId)
         {
             try
             {
@@ -352,239 +368,239 @@ namespace BMAServiceLib
         #endregion
 
         #region Save / Add
-        public StaticTypeList SyncStaticData(StaticTypeList staticData, User user)
-        {
-            var result = new StaticTypeList();
+        //public StaticTypeList SyncStaticData(StaticTypeList staticData, int userId)
+        //{
+        //    var result = new StaticTypeList();
 
-            result.Categories = SyncCategories(staticData.Categories, user);
-            result.BudgetThresholds = SyncBudgetThresholds(staticData.BudgetThresholds);
-            result.Notifications = SyncNotifications(staticData.Notifications);
-            result.TypeFrequencies = SyncTypeFrequencies(staticData.TypeFrequencies);
-            result.TypeIntervals = SyncTypeIntervals(staticData.TypeIntervals);
-            result.TypeTransactionReasons = SyncTypeTransactionReasons(staticData.TypeTransactionReasons);
-            result.TypeTransactions = SyncTypeTransactions(staticData.TypeTransactions);
+        //    result.Categories = SyncCategories(staticData.Categories);
+        //    result.BudgetThresholds = SyncBudgetThresholds(staticData.BudgetThresholds);
+        //    result.Notifications = SyncNotifications(staticData.Notifications);
+        //    result.TypeFrequencies = SyncTypeFrequencies(staticData.TypeFrequencies);
+        //    result.TypeIntervals = SyncTypeIntervals(staticData.TypeIntervals, userId);
+        //    result.TypeTransactionReasons = SyncTypeTransactionReasons(staticData.TypeTransactionReasons);
+        //    result.TypeTransactions = SyncTypeTransactions(staticData.TypeTransactions);
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        public List<Category> SyncCategories(List<Category> categories, User user)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var categoryList = new List<Category>();
-                    foreach (var item in GetAllCategories())
-                    {
-                        if (categories.Where(i => i.CategoryId == item.CategoryId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            categoryList.Add(item);
-                        }
-                    }
-                    foreach (var item in categories.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        categoryList.Add(item);
-                    }
+        //public List<Category> SyncCategories(List<Category> categories)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var categoryList = new List<Category>();
+        //            foreach (var item in GetAllCategories())
+        //            {
+        //                if (categories.Where(i => i.CategoryId == item.CategoryId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    categoryList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in categories.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                categoryList.Add(item);
+        //            }
 
-                    return SaveCategories(categoryList, user);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveCategories(categoryList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReasons)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var typeTransactionReasonList = new List<TypeTransactionReason>();
-                    foreach (var item in GetAllTypeTransactionReasons())
-                    {
-                        if (typeTransactionReasons.Where(i => i.TypeTransactionReasonId == item.TypeTransactionReasonId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            typeTransactionReasonList.Add(item);
-                        }
-                    }
-                    foreach (var item in typeTransactionReasons.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        typeTransactionReasonList.Add(item);
-                    }
+        //public List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReasons)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var typeTransactionReasonList = new List<TypeTransactionReason>();
+        //            foreach (var item in GetAllTypeTransactionReasons())
+        //            {
+        //                if (typeTransactionReasons.Where(i => i.TypeTransactionReasonId == item.TypeTransactionReasonId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    typeTransactionReasonList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in typeTransactionReasons.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                typeTransactionReasonList.Add(item);
+        //            }
 
-                    return SaveTypeTransactionReasons(typeTransactionReasonList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveTypeTransactionReasons(typeTransactionReasonList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<TypeTransaction> SyncTypeTransactions(List<TypeTransaction> typeTransactions)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var typeTransactionList = new List<TypeTransaction>();
-                    foreach (var item in GetAllTypeTransactions())
-                    {
-                        if (typeTransactions.Where(i => i.TypeTransactionId == item.TypeTransactionId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            typeTransactionList.Add(item);
-                        }
-                    }
-                    foreach (var item in typeTransactions.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        typeTransactionList.Add(item);
-                    }
+        //public List<TypeTransaction> SyncTypeTransactions(List<TypeTransaction> typeTransactions)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var typeTransactionList = new List<TypeTransaction>();
+        //            foreach (var item in GetAllTypeTransactions())
+        //            {
+        //                if (typeTransactions.Where(i => i.TypeTransactionId == item.TypeTransactionId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    typeTransactionList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in typeTransactions.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                typeTransactionList.Add(item);
+        //            }
 
-                    return SaveTypeTransactions(typeTransactionList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveTypeTransactions(typeTransactionList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<Notification> SyncNotifications(List<Notification> notifications)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var notificationList = new List<Notification>();
-                    foreach (var item in GetAllNotifications())
-                    {
-                        if (notifications.Where(i => i.NotificationId == item.NotificationId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            notificationList.Add(item);
-                        }
-                    }
-                    foreach (var item in notifications.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        notificationList.Add(item);
-                    }
+        //public List<Notification> SyncNotifications(List<Notification> notifications)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var notificationList = new List<Notification>();
+        //            foreach (var item in GetAllNotifications())
+        //            {
+        //                if (notifications.Where(i => i.NotificationId == item.NotificationId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    notificationList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in notifications.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                notificationList.Add(item);
+        //            }
 
-                    return SaveNotifications(notificationList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveNotifications(notificationList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<TypeFrequency> SyncTypeFrequencies(List<TypeFrequency> typeFrequencies)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var typeFrequencyList = new List<TypeFrequency>();
-                    foreach (var item in GetAllTypeFrequencies())
-                    {
-                        if (typeFrequencies.Where(i => i.TypeFrequencyId == item.TypeFrequencyId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            typeFrequencyList.Add(item);
-                        }
-                    }
-                    foreach (var item in typeFrequencies.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        typeFrequencyList.Add(item);
-                    }
+        //public List<TypeFrequency> SyncTypeFrequencies(List<TypeFrequency> typeFrequencies)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var typeFrequencyList = new List<TypeFrequency>();
+        //            foreach (var item in GetAllTypeFrequencies())
+        //            {
+        //                if (typeFrequencies.Where(i => i.TypeFrequencyId == item.TypeFrequencyId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    typeFrequencyList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in typeFrequencies.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                typeFrequencyList.Add(item);
+        //            }
 
-                    return SaveTypeFrequencies(typeFrequencyList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveTypeFrequencies(typeFrequencyList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<TypeInterval> SyncTypeIntervals(List<TypeInterval> typeIntervals)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var typeIntervalList = new List<TypeInterval>();
-                    foreach (var item in GetAllTypeIntervals())
-                    {
-                        if (typeIntervals.Where(i => i.TypeIntervalId == item.TypeIntervalId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            typeIntervalList.Add(item);
-                        }
-                    }
-                    foreach (var item in typeIntervals.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        typeIntervalList.Add(item);
-                    }
+        //public List<TypeInterval> SyncTypeIntervals(List<TypeInterval> typeIntervals, int userId)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var typeIntervalList = new List<TypeInterval>();
+        //            foreach (var item in GetAllTypeIntervals(userId))
+        //            {
+        //                if (typeIntervals.Where(i => i.TypeIntervalId == item.TypeIntervalId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    typeIntervalList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in typeIntervals.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                typeIntervalList.Add(item);
+        //            }
 
-                    return SaveTypeIntervals(typeIntervalList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveTypeIntervals(typeIntervalList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThresholds)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var budgetThresholdList = new List<BudgetThreshold>();
-                    foreach (var item in GetAllBudgetThresholds())
-                    {
-                        if (budgetThresholds.Where(i => i.BudgetThresholdId == item.BudgetThresholdId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            budgetThresholdList.Add(item);
-                        }
-                    }
-                    foreach (var item in budgetThresholds.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        budgetThresholdList.Add(item);
-                    }
+        //public List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThresholds)
+        //{
+        //    try
+        //    {
+        //        using (EntityContext context = new EntityContext())
+        //        {
+        //            var budgetThresholdList = new List<BudgetThreshold>();
+        //            foreach (var item in GetAllBudgetThresholds())
+        //            {
+        //                if (budgetThresholds.Where(i => i.BudgetThresholdId == item.BudgetThresholdId).Count() == 0)
+        //                {
+        //                    item.IsDeleted = true;
+        //                    item.ModifiedDate = DateTime.Now;
+        //                    budgetThresholdList.Add(item);
+        //                }
+        //            }
+        //            foreach (var item in budgetThresholds.Where(i => i.HasChanges))
+        //            {
+        //                item.ModifiedDate = DateTime.Now;
+        //                budgetThresholdList.Add(item);
+        //            }
 
-                    return SaveBudgetThresholds(budgetThresholdList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //            return SaveBudgetThresholds(budgetThresholdList);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public List<Category> SaveCategories(List<Category> categories, User user)
+        public List<Category> SaveCategories(List<Category> categories)
         {
             try
             {
@@ -607,7 +623,7 @@ namespace BMAServiceLib
                                 item.HasChanges = false;
                                 
                                 original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
-                                original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == user.UserId);
+                                original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
 
                                 if (item.TypeTransactionReasons != null)
                                 {
@@ -652,7 +668,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllCategories();
+                return GetAllCategories(0);
             }
             catch (DbEntityValidationException e)
             {
@@ -741,7 +757,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllTypeTransactionReasons();
+                return GetAllTypeTransactionReasons(0);
             }
             catch (DbEntityValidationException e)
             {
@@ -797,7 +813,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllNotifications();
+                return GetAllNotifications(0);
             }
             catch (DbEntityValidationException e)
             {
@@ -853,7 +869,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllTypeTransactions();
+                return GetAllTypeTransactions(0);
             }
             catch (DbEntityValidationException e)
             {
@@ -909,7 +925,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllTypeFrequencies();
+                return GetAllTypeFrequencies(0);
             }
             catch (DbEntityValidationException e)
             {
@@ -1075,7 +1091,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllTypeIntervals();
+                return GetAllTypeIntervals(0);
             }
             catch (DbEntityValidationException e)
             {
@@ -1131,7 +1147,7 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllBudgetThresholds();
+                return GetAllBudgetThresholds(0);
             }
             catch (DbEntityValidationException e)
             {

@@ -23,17 +23,17 @@ namespace ConsoleApplication1
 
             //tl.GetChanges<TransactionList>();
 
-            User user = new User();
-            user.UserName = "asa";
-            user.Password = "asa";
-            user.Email = "asa@www.com";
+            //User user = new User();
+            //user.UserName = "asa";
+            //user.Password = "asa";
+            //user.Email = "asa@www.com";
 
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
-            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
+            var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
 
-            //a.GetLatestTransactionsLimit(5);
+            //a.GetLatestTransactionsLimit(10, 11);
             //GetAllBudgets(a);
             //b.GetAllStaticData();
             //ForgotPass(b);
@@ -43,59 +43,53 @@ namespace ConsoleApplication1
             //SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);
-            var dd = a.GetLatestTransactionDate();
+            UpdateBudget(a, usr);
+            //var dd = a.GetLatestTransactionDate();
+        }
 
-            return;
+        private static void UpdateBudget(ServiceReference1.MainClient a, User usr)
+        {
+            var budgets = a.GetAllBudgets(usr.UserId);
 
-            //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
-            var auth = b.AuthenticateUser(usr);
-            var usr11 = b.GetUpcomingNotifications(DateTime.Now);
-            //var bud = a.GetAllBudgets();
+            var budget = budgets[0];
+            budget.Comments = "remove this comment";
+            budget.ModifiedDate = DateTime.Now;
 
-            
+            var budget2 = budgets[1];
+            budget2.Comments = "delete";
+            budget2.ModifiedDate = DateTime.Now;
+            budget2.BudgetId = -1;
 
-            var trans = a.GetLatestTransactions();
-            var list = new TransactionList();
+            var budget3 = budgets[2];
+            budget3.Comments = "remove from deleted";
+            budget3.IsDeleted = true;
+            budget3.ModifiedDate = DateTime.Now;
 
-            Transaction aaaa = trans[0];
-            aaaa.TransactionId = -1;
-            aaaa.CreatedUser = usr;
-            aaaa.ModifiedUser = usr;
-            //var transImg = new TransactionImage(usr) { Path = "111asas" };
-            var ss = "22 111asas";
-            aaaa.TransactionImages[0].Path = ss;
-            aaaa.TransactionImages[0].Name = "ss";
-            aaaa.TransactionImages[0].ModifiedUser = usr;
-            aaaa.TransactionImages.Add(new TransactionImage(usr) { Path = "111asas" });
-            list.Add(aaaa);
+            var budgetList = new ObservableCollection<Budget> { budget, budget2, budget3 };
 
-            aaaa.Amount = 516d;
-            aaaa.ModifiedDate = DateTime.Now;
-            //var arr = trans.ToArray();
-
-            var newbudList = new List<Budget>();
-            var newbud = new Budget(usr);
-            newbud.Amount = 512;
-            newbud.Name = "qqaaww";
-            newbud.ModifiedDate = DateTime.Now;
-
-            newbudList.Add(newbud);
-
-            //var aa = a.SyncTransactions(list.ToList());
-
-            var b1 = a.SaveTransactions(trans);
-            //var b2 = a.SaveBudgets(newbudList);
-
+            var result = a.SaveBudgets(budgetList);
         }
 
         private static void UpdateTransaction(ServiceReference1.MainClient a, User usr)
         {
-            var transactions = a.GetLatestTransactions();
+            var transactions = a.GetLatestTransactions(usr.UserId);
+            
             var trans = transactions[0];
+            trans.Comments = "";
             trans.ModifiedDate = DateTime.Now;
-            trans.TransactionId = -1;
 
-            var transList = new ObservableCollection<Transaction> { trans };
+            var trans2 = transactions[1];
+            trans2.Comments = "delete";
+            trans2.ModifiedDate = DateTime.Now;
+            trans2.TransactionId = -1;
+
+            var trans3 = transactions[2];
+            trans3.Comments = "remove from deleted";
+            trans3.IsDeleted = true;
+            trans3.ModifiedDate = DateTime.Now;
+            //trans2.TransactionId = -1;
+
+            var transList = new ObservableCollection<Transaction> { trans, trans2, trans3 };
             foreach (var item in transList)
                 item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
 
@@ -104,7 +98,7 @@ namespace ConsoleApplication1
 
         private static void SaveTransactionImages(ServiceReference1.MainClient a, User usr)
         {
-            var transactions = a.GetAllTransactions();
+            var transactions = a.GetAllTransactions(usr.UserId);
             var trans = transactions[0];
             var transWithImages = transactions.FirstOrDefault(x => x.TransactionId == 11132);
             var transImages = a.GetImagesForTransaction(transWithImages.TransactionId);
@@ -195,15 +189,6 @@ namespace ConsoleApplication1
 
            var result = b.SaveTypeIntervals(intervals);
 
-        }
-        
-        private static void GetAllBudgets(ServiceReference1.MainClient client)
-        {
-            var bud = client.GetAllBudgets();
-
-            bud[0].Amount = 102;
-            bud[0].Name = "bbbbb";
-            bud[0].ModifiedDate = DateTime.Now;
         }
         
         private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User user)
