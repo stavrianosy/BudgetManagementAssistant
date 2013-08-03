@@ -44,72 +44,62 @@ namespace BMA_WP.BMAStaticDataService {
         BMA.BusinessLogic.User EndForgotPassword(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllStaticData", ReplyAction="http://tempuri.org/IStatic/GetAllStaticDataResponse")]
-        System.IAsyncResult BeginGetAllStaticData(System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetAllStaticData(int userId, System.AsyncCallback callback, object asyncState);
         
         BMA.BusinessLogic.StaticTypeList EndGetAllStaticData(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllCategories", ReplyAction="http://tempuri.org/IStatic/GetAllCategoriesResponse")]
-        System.IAsyncResult BeginGetAllCategories(System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetAllCategories(int userId, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> EndGetAllCategories(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllTypeTransactionReasons", ReplyAction="http://tempuri.org/IStatic/GetAllTypeTransactionReasonsResponse")]
-        System.IAsyncResult BeginGetAllTypeTransactionReasons(System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetAllTypeTransactionReasons(int userId, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> EndGetAllTypeTransactionReasons(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllTypeTransactions", ReplyAction="http://tempuri.org/IStatic/GetAllTypeTransactionsResponse")]
-        System.IAsyncResult BeginGetAllTypeTransactions(System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetAllTypeTransactions(int userId, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> EndGetAllTypeTransactions(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllTypeSavingsDencities", ReplyAction="http://tempuri.org/IStatic/GetAllTypeSavingsDencitiesResponse")]
+        System.IAsyncResult BeginGetAllTypeSavingsDencities(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity> EndGetAllTypeSavingsDencities(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllNotifications", ReplyAction="http://tempuri.org/IStatic/GetAllNotificationsResponse")]
+        System.IAsyncResult BeginGetAllNotifications(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndGetAllNotifications(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllTypeIntervals", ReplyAction="http://tempuri.org/IStatic/GetAllTypeIntervalsResponse")]
+        System.IAsyncResult BeginGetAllTypeIntervals(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> EndGetAllTypeIntervals(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllTypeFrequencies", ReplyAction="http://tempuri.org/IStatic/GetAllTypeFrequenciesResponse")]
+        System.IAsyncResult BeginGetAllTypeFrequencies(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> EndGetAllTypeFrequencies(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllBudgetThresholds", ReplyAction="http://tempuri.org/IStatic/GetAllBudgetThresholdsResponse")]
+        System.IAsyncResult BeginGetAllBudgetThresholds(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> EndGetAllBudgetThresholds(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllRecurrenceRules", ReplyAction="http://tempuri.org/IStatic/GetAllRecurrenceRulesResponse")]
+        System.IAsyncResult BeginGetAllRecurrenceRules(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> EndGetAllRecurrenceRules(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetUpcomingNotifications", ReplyAction="http://tempuri.org/IStatic/GetUpcomingNotificationsResponse")]
-        System.IAsyncResult BeginGetUpcomingNotifications(System.DateTime clientTime, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetUpcomingNotifications(System.DateTime clientTime, int userId, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndGetUpcomingNotifications(System.IAsyncResult result);
         
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncStaticData", ReplyAction="http://tempuri.org/IStatic/SyncStaticDataResponse")]
-        System.IAsyncResult BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
-        
-        BMA.BusinessLogic.StaticTypeList EndSyncStaticData(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncCategories", ReplyAction="http://tempuri.org/IStatic/SyncCategoriesResponse")]
-        System.IAsyncResult BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> EndSyncCategories(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncTypeTransactionReasons", ReplyAction="http://tempuri.org/IStatic/SyncTypeTransactionReasonsResponse")]
-        System.IAsyncResult BeginSyncTypeTransactionReasons(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> EndSyncTypeTransactionReasons(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncNotifications", ReplyAction="http://tempuri.org/IStatic/SyncNotificationsResponse")]
-        System.IAsyncResult BeginSyncNotifications(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> notifications, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndSyncNotifications(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncTypeTransactions", ReplyAction="http://tempuri.org/IStatic/SyncTypeTransactionsResponse")]
-        System.IAsyncResult BeginSyncTypeTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> typeTransactions, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> EndSyncTypeTransactions(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncTypeFrequencies", ReplyAction="http://tempuri.org/IStatic/SyncTypeFrequenciesResponse")]
-        System.IAsyncResult BeginSyncTypeFrequencies(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> typeFrequencies, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> EndSyncTypeFrequencies(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncTypeIntervals", ReplyAction="http://tempuri.org/IStatic/SyncTypeIntervalsResponse")]
-        System.IAsyncResult BeginSyncTypeIntervals(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> interval, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> EndSyncTypeIntervals(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SyncBudgetThresholds", ReplyAction="http://tempuri.org/IStatic/SyncBudgetThresholdsResponse")]
-        System.IAsyncResult BeginSyncBudgetThresholds(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> budgetThreshold, System.AsyncCallback callback, object asyncState);
-        
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> EndSyncBudgetThresholds(System.IAsyncResult result);
-        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
-        System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> EndSaveCategories(System.IAsyncResult result);
         
@@ -321,11 +311,30 @@ namespace BMA_WP.BMAStaticDataService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class GetUpcomingNotificationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetAllTypeSavingsDencitiesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        public GetUpcomingNotificationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        public GetAllTypeSavingsDencitiesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetAllNotificationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetAllNotificationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -340,125 +349,11 @@ namespace BMA_WP.BMAStaticDataService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncStaticDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetAllTypeIntervalsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        public SyncStaticDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public BMA.BusinessLogic.StaticTypeList Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((BMA.BusinessLogic.StaticTypeList)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncCategoriesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public SyncCategoriesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncTypeTransactionReasonsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public SyncTypeTransactionReasonsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason>)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncNotificationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public SyncNotificationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification>)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncTypeTransactionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public SyncTypeTransactionsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction>)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncTypeFrequenciesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public SyncTypeFrequenciesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency>)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncTypeIntervalsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public SyncTypeIntervalsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        public GetAllTypeIntervalsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -473,11 +368,30 @@ namespace BMA_WP.BMAStaticDataService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SyncBudgetThresholdsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetAllTypeFrequenciesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        public SyncBudgetThresholdsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        public GetAllTypeFrequenciesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetAllBudgetThresholdsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetAllBudgetThresholdsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -486,6 +400,44 @@ namespace BMA_WP.BMAStaticDataService {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetAllRecurrenceRulesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetAllRecurrenceRulesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetUpcomingNotificationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetUpcomingNotificationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification>)(this.results[0]));
             }
         }
     }
@@ -681,59 +633,47 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.Threading.SendOrPostCallback onGetAllTypeTransactionsCompletedDelegate;
         
+        private BeginOperationDelegate onBeginGetAllTypeSavingsDencitiesDelegate;
+        
+        private EndOperationDelegate onEndGetAllTypeSavingsDencitiesDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetAllTypeSavingsDencitiesCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetAllNotificationsDelegate;
+        
+        private EndOperationDelegate onEndGetAllNotificationsDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetAllNotificationsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetAllTypeIntervalsDelegate;
+        
+        private EndOperationDelegate onEndGetAllTypeIntervalsDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetAllTypeIntervalsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetAllTypeFrequenciesDelegate;
+        
+        private EndOperationDelegate onEndGetAllTypeFrequenciesDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetAllTypeFrequenciesCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetAllBudgetThresholdsDelegate;
+        
+        private EndOperationDelegate onEndGetAllBudgetThresholdsDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetAllBudgetThresholdsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetAllRecurrenceRulesDelegate;
+        
+        private EndOperationDelegate onEndGetAllRecurrenceRulesDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetAllRecurrenceRulesCompletedDelegate;
+        
         private BeginOperationDelegate onBeginGetUpcomingNotificationsDelegate;
         
         private EndOperationDelegate onEndGetUpcomingNotificationsDelegate;
         
         private System.Threading.SendOrPostCallback onGetUpcomingNotificationsCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncStaticDataDelegate;
-        
-        private EndOperationDelegate onEndSyncStaticDataDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncStaticDataCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncCategoriesDelegate;
-        
-        private EndOperationDelegate onEndSyncCategoriesDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncCategoriesCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncTypeTransactionReasonsDelegate;
-        
-        private EndOperationDelegate onEndSyncTypeTransactionReasonsDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncTypeTransactionReasonsCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncNotificationsDelegate;
-        
-        private EndOperationDelegate onEndSyncNotificationsDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncNotificationsCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncTypeTransactionsDelegate;
-        
-        private EndOperationDelegate onEndSyncTypeTransactionsDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncTypeTransactionsCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncTypeFrequenciesDelegate;
-        
-        private EndOperationDelegate onEndSyncTypeFrequenciesDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncTypeFrequenciesCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncTypeIntervalsDelegate;
-        
-        private EndOperationDelegate onEndSyncTypeIntervalsDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncTypeIntervalsCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginSyncBudgetThresholdsDelegate;
-        
-        private EndOperationDelegate onEndSyncBudgetThresholdsDelegate;
-        
-        private System.Threading.SendOrPostCallback onSyncBudgetThresholdsCompletedDelegate;
         
         private BeginOperationDelegate onBeginSaveCategoriesDelegate;
         
@@ -848,23 +788,19 @@ namespace BMA_WP.BMAStaticDataService {
         
         public event System.EventHandler<GetAllTypeTransactionsCompletedEventArgs> GetAllTypeTransactionsCompleted;
         
+        public event System.EventHandler<GetAllTypeSavingsDencitiesCompletedEventArgs> GetAllTypeSavingsDencitiesCompleted;
+        
+        public event System.EventHandler<GetAllNotificationsCompletedEventArgs> GetAllNotificationsCompleted;
+        
+        public event System.EventHandler<GetAllTypeIntervalsCompletedEventArgs> GetAllTypeIntervalsCompleted;
+        
+        public event System.EventHandler<GetAllTypeFrequenciesCompletedEventArgs> GetAllTypeFrequenciesCompleted;
+        
+        public event System.EventHandler<GetAllBudgetThresholdsCompletedEventArgs> GetAllBudgetThresholdsCompleted;
+        
+        public event System.EventHandler<GetAllRecurrenceRulesCompletedEventArgs> GetAllRecurrenceRulesCompleted;
+        
         public event System.EventHandler<GetUpcomingNotificationsCompletedEventArgs> GetUpcomingNotificationsCompleted;
-        
-        public event System.EventHandler<SyncStaticDataCompletedEventArgs> SyncStaticDataCompleted;
-        
-        public event System.EventHandler<SyncCategoriesCompletedEventArgs> SyncCategoriesCompleted;
-        
-        public event System.EventHandler<SyncTypeTransactionReasonsCompletedEventArgs> SyncTypeTransactionReasonsCompleted;
-        
-        public event System.EventHandler<SyncNotificationsCompletedEventArgs> SyncNotificationsCompleted;
-        
-        public event System.EventHandler<SyncTypeTransactionsCompletedEventArgs> SyncTypeTransactionsCompleted;
-        
-        public event System.EventHandler<SyncTypeFrequenciesCompletedEventArgs> SyncTypeFrequenciesCompleted;
-        
-        public event System.EventHandler<SyncTypeIntervalsCompletedEventArgs> SyncTypeIntervalsCompleted;
-        
-        public event System.EventHandler<SyncBudgetThresholdsCompletedEventArgs> SyncBudgetThresholdsCompleted;
         
         public event System.EventHandler<SaveCategoriesCompletedEventArgs> SaveCategoriesCompleted;
         
@@ -1113,8 +1049,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllStaticData(System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetAllStaticData(callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllStaticData(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllStaticData(userId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1123,7 +1059,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         private System.IAsyncResult OnBeginGetAllStaticData(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllStaticData(callback, asyncState);
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllStaticData(userId, callback, asyncState);
         }
         
         private object[] OnEndGetAllStaticData(System.IAsyncResult result) {
@@ -1139,11 +1076,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void GetAllStaticDataAsync() {
-            this.GetAllStaticDataAsync(null);
+        public void GetAllStaticDataAsync(int userId) {
+            this.GetAllStaticDataAsync(userId, null);
         }
         
-        public void GetAllStaticDataAsync(object userState) {
+        public void GetAllStaticDataAsync(int userId, object userState) {
             if ((this.onBeginGetAllStaticDataDelegate == null)) {
                 this.onBeginGetAllStaticDataDelegate = new BeginOperationDelegate(this.OnBeginGetAllStaticData);
             }
@@ -1153,12 +1090,13 @@ namespace BMA_WP.BMAStaticDataService {
             if ((this.onGetAllStaticDataCompletedDelegate == null)) {
                 this.onGetAllStaticDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllStaticDataCompleted);
             }
-            base.InvokeAsync(this.onBeginGetAllStaticDataDelegate, null, this.onEndGetAllStaticDataDelegate, this.onGetAllStaticDataCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetAllStaticDataDelegate, new object[] {
+                        userId}, this.onEndGetAllStaticDataDelegate, this.onGetAllStaticDataCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllCategories(System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetAllCategories(callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllCategories(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllCategories(userId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1167,7 +1105,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         private System.IAsyncResult OnBeginGetAllCategories(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllCategories(callback, asyncState);
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllCategories(userId, callback, asyncState);
         }
         
         private object[] OnEndGetAllCategories(System.IAsyncResult result) {
@@ -1183,11 +1122,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void GetAllCategoriesAsync() {
-            this.GetAllCategoriesAsync(null);
+        public void GetAllCategoriesAsync(int userId) {
+            this.GetAllCategoriesAsync(userId, null);
         }
         
-        public void GetAllCategoriesAsync(object userState) {
+        public void GetAllCategoriesAsync(int userId, object userState) {
             if ((this.onBeginGetAllCategoriesDelegate == null)) {
                 this.onBeginGetAllCategoriesDelegate = new BeginOperationDelegate(this.OnBeginGetAllCategories);
             }
@@ -1197,12 +1136,13 @@ namespace BMA_WP.BMAStaticDataService {
             if ((this.onGetAllCategoriesCompletedDelegate == null)) {
                 this.onGetAllCategoriesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllCategoriesCompleted);
             }
-            base.InvokeAsync(this.onBeginGetAllCategoriesDelegate, null, this.onEndGetAllCategoriesDelegate, this.onGetAllCategoriesCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetAllCategoriesDelegate, new object[] {
+                        userId}, this.onEndGetAllCategoriesDelegate, this.onGetAllCategoriesCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeTransactionReasons(System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetAllTypeTransactionReasons(callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeTransactionReasons(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllTypeTransactionReasons(userId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1211,7 +1151,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         private System.IAsyncResult OnBeginGetAllTypeTransactionReasons(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeTransactionReasons(callback, asyncState);
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeTransactionReasons(userId, callback, asyncState);
         }
         
         private object[] OnEndGetAllTypeTransactionReasons(System.IAsyncResult result) {
@@ -1227,11 +1168,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void GetAllTypeTransactionReasonsAsync() {
-            this.GetAllTypeTransactionReasonsAsync(null);
+        public void GetAllTypeTransactionReasonsAsync(int userId) {
+            this.GetAllTypeTransactionReasonsAsync(userId, null);
         }
         
-        public void GetAllTypeTransactionReasonsAsync(object userState) {
+        public void GetAllTypeTransactionReasonsAsync(int userId, object userState) {
             if ((this.onBeginGetAllTypeTransactionReasonsDelegate == null)) {
                 this.onBeginGetAllTypeTransactionReasonsDelegate = new BeginOperationDelegate(this.OnBeginGetAllTypeTransactionReasons);
             }
@@ -1241,12 +1182,13 @@ namespace BMA_WP.BMAStaticDataService {
             if ((this.onGetAllTypeTransactionReasonsCompletedDelegate == null)) {
                 this.onGetAllTypeTransactionReasonsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllTypeTransactionReasonsCompleted);
             }
-            base.InvokeAsync(this.onBeginGetAllTypeTransactionReasonsDelegate, null, this.onEndGetAllTypeTransactionReasonsDelegate, this.onGetAllTypeTransactionReasonsCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetAllTypeTransactionReasonsDelegate, new object[] {
+                        userId}, this.onEndGetAllTypeTransactionReasonsDelegate, this.onGetAllTypeTransactionReasonsCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeTransactions(System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetAllTypeTransactions(callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeTransactions(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllTypeTransactions(userId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1255,7 +1197,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         private System.IAsyncResult OnBeginGetAllTypeTransactions(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeTransactions(callback, asyncState);
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeTransactions(userId, callback, asyncState);
         }
         
         private object[] OnEndGetAllTypeTransactions(System.IAsyncResult result) {
@@ -1271,11 +1214,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void GetAllTypeTransactionsAsync() {
-            this.GetAllTypeTransactionsAsync(null);
+        public void GetAllTypeTransactionsAsync(int userId) {
+            this.GetAllTypeTransactionsAsync(userId, null);
         }
         
-        public void GetAllTypeTransactionsAsync(object userState) {
+        public void GetAllTypeTransactionsAsync(int userId, object userState) {
             if ((this.onBeginGetAllTypeTransactionsDelegate == null)) {
                 this.onBeginGetAllTypeTransactionsDelegate = new BeginOperationDelegate(this.OnBeginGetAllTypeTransactions);
             }
@@ -1285,12 +1228,289 @@ namespace BMA_WP.BMAStaticDataService {
             if ((this.onGetAllTypeTransactionsCompletedDelegate == null)) {
                 this.onGetAllTypeTransactionsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllTypeTransactionsCompleted);
             }
-            base.InvokeAsync(this.onBeginGetAllTypeTransactionsDelegate, null, this.onEndGetAllTypeTransactionsDelegate, this.onGetAllTypeTransactionsCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetAllTypeTransactionsDelegate, new object[] {
+                        userId}, this.onEndGetAllTypeTransactionsDelegate, this.onGetAllTypeTransactionsCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetUpcomingNotifications(System.DateTime clientTime, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetUpcomingNotifications(clientTime, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeSavingsDencities(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllTypeSavingsDencities(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity> BMA_WP.BMAStaticDataService.IStatic.EndGetAllTypeSavingsDencities(System.IAsyncResult result) {
+            return base.Channel.EndGetAllTypeSavingsDencities(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetAllTypeSavingsDencities(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeSavingsDencities(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetAllTypeSavingsDencities(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllTypeSavingsDencities(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetAllTypeSavingsDencitiesCompleted(object state) {
+            if ((this.GetAllTypeSavingsDencitiesCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetAllTypeSavingsDencitiesCompleted(this, new GetAllTypeSavingsDencitiesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetAllTypeSavingsDencitiesAsync(int userId) {
+            this.GetAllTypeSavingsDencitiesAsync(userId, null);
+        }
+        
+        public void GetAllTypeSavingsDencitiesAsync(int userId, object userState) {
+            if ((this.onBeginGetAllTypeSavingsDencitiesDelegate == null)) {
+                this.onBeginGetAllTypeSavingsDencitiesDelegate = new BeginOperationDelegate(this.OnBeginGetAllTypeSavingsDencities);
+            }
+            if ((this.onEndGetAllTypeSavingsDencitiesDelegate == null)) {
+                this.onEndGetAllTypeSavingsDencitiesDelegate = new EndOperationDelegate(this.OnEndGetAllTypeSavingsDencities);
+            }
+            if ((this.onGetAllTypeSavingsDencitiesCompletedDelegate == null)) {
+                this.onGetAllTypeSavingsDencitiesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllTypeSavingsDencitiesCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetAllTypeSavingsDencitiesDelegate, new object[] {
+                        userId}, this.onEndGetAllTypeSavingsDencitiesDelegate, this.onGetAllTypeSavingsDencitiesCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllNotifications(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllNotifications(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> BMA_WP.BMAStaticDataService.IStatic.EndGetAllNotifications(System.IAsyncResult result) {
+            return base.Channel.EndGetAllNotifications(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetAllNotifications(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllNotifications(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetAllNotifications(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllNotifications(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetAllNotificationsCompleted(object state) {
+            if ((this.GetAllNotificationsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetAllNotificationsCompleted(this, new GetAllNotificationsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetAllNotificationsAsync(int userId) {
+            this.GetAllNotificationsAsync(userId, null);
+        }
+        
+        public void GetAllNotificationsAsync(int userId, object userState) {
+            if ((this.onBeginGetAllNotificationsDelegate == null)) {
+                this.onBeginGetAllNotificationsDelegate = new BeginOperationDelegate(this.OnBeginGetAllNotifications);
+            }
+            if ((this.onEndGetAllNotificationsDelegate == null)) {
+                this.onEndGetAllNotificationsDelegate = new EndOperationDelegate(this.OnEndGetAllNotifications);
+            }
+            if ((this.onGetAllNotificationsCompletedDelegate == null)) {
+                this.onGetAllNotificationsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllNotificationsCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetAllNotificationsDelegate, new object[] {
+                        userId}, this.onEndGetAllNotificationsDelegate, this.onGetAllNotificationsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeIntervals(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllTypeIntervals(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> BMA_WP.BMAStaticDataService.IStatic.EndGetAllTypeIntervals(System.IAsyncResult result) {
+            return base.Channel.EndGetAllTypeIntervals(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetAllTypeIntervals(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeIntervals(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetAllTypeIntervals(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllTypeIntervals(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetAllTypeIntervalsCompleted(object state) {
+            if ((this.GetAllTypeIntervalsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetAllTypeIntervalsCompleted(this, new GetAllTypeIntervalsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetAllTypeIntervalsAsync(int userId) {
+            this.GetAllTypeIntervalsAsync(userId, null);
+        }
+        
+        public void GetAllTypeIntervalsAsync(int userId, object userState) {
+            if ((this.onBeginGetAllTypeIntervalsDelegate == null)) {
+                this.onBeginGetAllTypeIntervalsDelegate = new BeginOperationDelegate(this.OnBeginGetAllTypeIntervals);
+            }
+            if ((this.onEndGetAllTypeIntervalsDelegate == null)) {
+                this.onEndGetAllTypeIntervalsDelegate = new EndOperationDelegate(this.OnEndGetAllTypeIntervals);
+            }
+            if ((this.onGetAllTypeIntervalsCompletedDelegate == null)) {
+                this.onGetAllTypeIntervalsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllTypeIntervalsCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetAllTypeIntervalsDelegate, new object[] {
+                        userId}, this.onEndGetAllTypeIntervalsDelegate, this.onGetAllTypeIntervalsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllTypeFrequencies(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllTypeFrequencies(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> BMA_WP.BMAStaticDataService.IStatic.EndGetAllTypeFrequencies(System.IAsyncResult result) {
+            return base.Channel.EndGetAllTypeFrequencies(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetAllTypeFrequencies(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllTypeFrequencies(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetAllTypeFrequencies(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllTypeFrequencies(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetAllTypeFrequenciesCompleted(object state) {
+            if ((this.GetAllTypeFrequenciesCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetAllTypeFrequenciesCompleted(this, new GetAllTypeFrequenciesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetAllTypeFrequenciesAsync(int userId) {
+            this.GetAllTypeFrequenciesAsync(userId, null);
+        }
+        
+        public void GetAllTypeFrequenciesAsync(int userId, object userState) {
+            if ((this.onBeginGetAllTypeFrequenciesDelegate == null)) {
+                this.onBeginGetAllTypeFrequenciesDelegate = new BeginOperationDelegate(this.OnBeginGetAllTypeFrequencies);
+            }
+            if ((this.onEndGetAllTypeFrequenciesDelegate == null)) {
+                this.onEndGetAllTypeFrequenciesDelegate = new EndOperationDelegate(this.OnEndGetAllTypeFrequencies);
+            }
+            if ((this.onGetAllTypeFrequenciesCompletedDelegate == null)) {
+                this.onGetAllTypeFrequenciesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllTypeFrequenciesCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetAllTypeFrequenciesDelegate, new object[] {
+                        userId}, this.onEndGetAllTypeFrequenciesDelegate, this.onGetAllTypeFrequenciesCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllBudgetThresholds(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllBudgetThresholds(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> BMA_WP.BMAStaticDataService.IStatic.EndGetAllBudgetThresholds(System.IAsyncResult result) {
+            return base.Channel.EndGetAllBudgetThresholds(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetAllBudgetThresholds(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllBudgetThresholds(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetAllBudgetThresholds(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllBudgetThresholds(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetAllBudgetThresholdsCompleted(object state) {
+            if ((this.GetAllBudgetThresholdsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetAllBudgetThresholdsCompleted(this, new GetAllBudgetThresholdsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetAllBudgetThresholdsAsync(int userId) {
+            this.GetAllBudgetThresholdsAsync(userId, null);
+        }
+        
+        public void GetAllBudgetThresholdsAsync(int userId, object userState) {
+            if ((this.onBeginGetAllBudgetThresholdsDelegate == null)) {
+                this.onBeginGetAllBudgetThresholdsDelegate = new BeginOperationDelegate(this.OnBeginGetAllBudgetThresholds);
+            }
+            if ((this.onEndGetAllBudgetThresholdsDelegate == null)) {
+                this.onEndGetAllBudgetThresholdsDelegate = new EndOperationDelegate(this.OnEndGetAllBudgetThresholds);
+            }
+            if ((this.onGetAllBudgetThresholdsCompletedDelegate == null)) {
+                this.onGetAllBudgetThresholdsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllBudgetThresholdsCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetAllBudgetThresholdsDelegate, new object[] {
+                        userId}, this.onEndGetAllBudgetThresholdsDelegate, this.onGetAllBudgetThresholdsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllRecurrenceRules(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllRecurrenceRules(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> BMA_WP.BMAStaticDataService.IStatic.EndGetAllRecurrenceRules(System.IAsyncResult result) {
+            return base.Channel.EndGetAllRecurrenceRules(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetAllRecurrenceRules(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllRecurrenceRules(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetAllRecurrenceRules(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllRecurrenceRules(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetAllRecurrenceRulesCompleted(object state) {
+            if ((this.GetAllRecurrenceRulesCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetAllRecurrenceRulesCompleted(this, new GetAllRecurrenceRulesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetAllRecurrenceRulesAsync(int userId) {
+            this.GetAllRecurrenceRulesAsync(userId, null);
+        }
+        
+        public void GetAllRecurrenceRulesAsync(int userId, object userState) {
+            if ((this.onBeginGetAllRecurrenceRulesDelegate == null)) {
+                this.onBeginGetAllRecurrenceRulesDelegate = new BeginOperationDelegate(this.OnBeginGetAllRecurrenceRules);
+            }
+            if ((this.onEndGetAllRecurrenceRulesDelegate == null)) {
+                this.onEndGetAllRecurrenceRulesDelegate = new EndOperationDelegate(this.OnEndGetAllRecurrenceRules);
+            }
+            if ((this.onGetAllRecurrenceRulesCompletedDelegate == null)) {
+                this.onGetAllRecurrenceRulesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllRecurrenceRulesCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetAllRecurrenceRulesDelegate, new object[] {
+                        userId}, this.onEndGetAllRecurrenceRulesDelegate, this.onGetAllRecurrenceRulesCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetUpcomingNotifications(System.DateTime clientTime, int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetUpcomingNotifications(clientTime, userId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1300,7 +1520,8 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.IAsyncResult OnBeginGetUpcomingNotifications(object[] inValues, System.AsyncCallback callback, object asyncState) {
             System.DateTime clientTime = ((System.DateTime)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetUpcomingNotifications(clientTime, callback, asyncState);
+            int userId = ((int)(inValues[1]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetUpcomingNotifications(clientTime, userId, callback, asyncState);
         }
         
         private object[] OnEndGetUpcomingNotifications(System.IAsyncResult result) {
@@ -1316,11 +1537,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void GetUpcomingNotificationsAsync(System.DateTime clientTime) {
-            this.GetUpcomingNotificationsAsync(clientTime, null);
+        public void GetUpcomingNotificationsAsync(System.DateTime clientTime, int userId) {
+            this.GetUpcomingNotificationsAsync(clientTime, userId, null);
         }
         
-        public void GetUpcomingNotificationsAsync(System.DateTime clientTime, object userState) {
+        public void GetUpcomingNotificationsAsync(System.DateTime clientTime, int userId, object userState) {
             if ((this.onBeginGetUpcomingNotificationsDelegate == null)) {
                 this.onBeginGetUpcomingNotificationsDelegate = new BeginOperationDelegate(this.OnBeginGetUpcomingNotifications);
             }
@@ -1331,384 +1552,13 @@ namespace BMA_WP.BMAStaticDataService {
                 this.onGetUpcomingNotificationsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetUpcomingNotificationsCompleted);
             }
             base.InvokeAsync(this.onBeginGetUpcomingNotificationsDelegate, new object[] {
-                        clientTime}, this.onEndGetUpcomingNotificationsDelegate, this.onGetUpcomingNotificationsCompletedDelegate, userState);
+                        clientTime,
+                        userId}, this.onEndGetUpcomingNotificationsDelegate, this.onGetUpcomingNotificationsCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncStaticData(staticData, user, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        BMA.BusinessLogic.StaticTypeList BMA_WP.BMAStaticDataService.IStatic.EndSyncStaticData(System.IAsyncResult result) {
-            return base.Channel.EndSyncStaticData(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncStaticData(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            BMA.BusinessLogic.StaticTypeList staticData = ((BMA.BusinessLogic.StaticTypeList)(inValues[0]));
-            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[1]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncStaticData(staticData, user, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncStaticData(System.IAsyncResult result) {
-            BMA.BusinessLogic.StaticTypeList retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncStaticData(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncStaticDataCompleted(object state) {
-            if ((this.SyncStaticDataCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncStaticDataCompleted(this, new SyncStaticDataCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user) {
-            this.SyncStaticDataAsync(staticData, user, null);
-        }
-        
-        public void SyncStaticDataAsync(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, object userState) {
-            if ((this.onBeginSyncStaticDataDelegate == null)) {
-                this.onBeginSyncStaticDataDelegate = new BeginOperationDelegate(this.OnBeginSyncStaticData);
-            }
-            if ((this.onEndSyncStaticDataDelegate == null)) {
-                this.onEndSyncStaticDataDelegate = new EndOperationDelegate(this.OnEndSyncStaticData);
-            }
-            if ((this.onSyncStaticDataCompletedDelegate == null)) {
-                this.onSyncStaticDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncStaticDataCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncStaticDataDelegate, new object[] {
-                        staticData,
-                        user}, this.onEndSyncStaticDataDelegate, this.onSyncStaticDataCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncCategories(categories, user, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> BMA_WP.BMAStaticDataService.IStatic.EndSyncCategories(System.IAsyncResult result) {
-            return base.Channel.EndSyncCategories(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncCategories(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>)(inValues[0]));
-            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[1]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncCategories(categories, user, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncCategories(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncCategories(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncCategoriesCompleted(object state) {
-            if ((this.SyncCategoriesCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncCategoriesCompleted(this, new SyncCategoriesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
-            this.SyncCategoriesAsync(categories, user, null);
-        }
-        
-        public void SyncCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, object userState) {
-            if ((this.onBeginSyncCategoriesDelegate == null)) {
-                this.onBeginSyncCategoriesDelegate = new BeginOperationDelegate(this.OnBeginSyncCategories);
-            }
-            if ((this.onEndSyncCategoriesDelegate == null)) {
-                this.onEndSyncCategoriesDelegate = new EndOperationDelegate(this.OnEndSyncCategories);
-            }
-            if ((this.onSyncCategoriesCompletedDelegate == null)) {
-                this.onSyncCategoriesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncCategoriesCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncCategoriesDelegate, new object[] {
-                        categories,
-                        user}, this.onEndSyncCategoriesDelegate, this.onSyncCategoriesCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncTypeTransactionReasons(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncTypeTransactionReasons(typeTransactionReason, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> BMA_WP.BMAStaticDataService.IStatic.EndSyncTypeTransactionReasons(System.IAsyncResult result) {
-            return base.Channel.EndSyncTypeTransactionReasons(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncTypeTransactionReasons(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncTypeTransactionReasons(typeTransactionReason, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncTypeTransactionReasons(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncTypeTransactionReasons(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncTypeTransactionReasonsCompleted(object state) {
-            if ((this.SyncTypeTransactionReasonsCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncTypeTransactionReasonsCompleted(this, new SyncTypeTransactionReasonsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncTypeTransactionReasonsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason) {
-            this.SyncTypeTransactionReasonsAsync(typeTransactionReason, null);
-        }
-        
-        public void SyncTypeTransactionReasonsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason, object userState) {
-            if ((this.onBeginSyncTypeTransactionReasonsDelegate == null)) {
-                this.onBeginSyncTypeTransactionReasonsDelegate = new BeginOperationDelegate(this.OnBeginSyncTypeTransactionReasons);
-            }
-            if ((this.onEndSyncTypeTransactionReasonsDelegate == null)) {
-                this.onEndSyncTypeTransactionReasonsDelegate = new EndOperationDelegate(this.OnEndSyncTypeTransactionReasons);
-            }
-            if ((this.onSyncTypeTransactionReasonsCompletedDelegate == null)) {
-                this.onSyncTypeTransactionReasonsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncTypeTransactionReasonsCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncTypeTransactionReasonsDelegate, new object[] {
-                        typeTransactionReason}, this.onEndSyncTypeTransactionReasonsDelegate, this.onSyncTypeTransactionReasonsCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncNotifications(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> notifications, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncNotifications(notifications, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> BMA_WP.BMAStaticDataService.IStatic.EndSyncNotifications(System.IAsyncResult result) {
-            return base.Channel.EndSyncNotifications(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncNotifications(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> notifications = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncNotifications(notifications, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncNotifications(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncNotifications(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncNotificationsCompleted(object state) {
-            if ((this.SyncNotificationsCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncNotificationsCompleted(this, new SyncNotificationsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncNotificationsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> notifications) {
-            this.SyncNotificationsAsync(notifications, null);
-        }
-        
-        public void SyncNotificationsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> notifications, object userState) {
-            if ((this.onBeginSyncNotificationsDelegate == null)) {
-                this.onBeginSyncNotificationsDelegate = new BeginOperationDelegate(this.OnBeginSyncNotifications);
-            }
-            if ((this.onEndSyncNotificationsDelegate == null)) {
-                this.onEndSyncNotificationsDelegate = new EndOperationDelegate(this.OnEndSyncNotifications);
-            }
-            if ((this.onSyncNotificationsCompletedDelegate == null)) {
-                this.onSyncNotificationsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncNotificationsCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncNotificationsDelegate, new object[] {
-                        notifications}, this.onEndSyncNotificationsDelegate, this.onSyncNotificationsCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncTypeTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> typeTransactions, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncTypeTransactions(typeTransactions, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> BMA_WP.BMAStaticDataService.IStatic.EndSyncTypeTransactions(System.IAsyncResult result) {
-            return base.Channel.EndSyncTypeTransactions(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncTypeTransactions(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> typeTransactions = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncTypeTransactions(typeTransactions, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncTypeTransactions(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncTypeTransactions(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncTypeTransactionsCompleted(object state) {
-            if ((this.SyncTypeTransactionsCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncTypeTransactionsCompleted(this, new SyncTypeTransactionsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncTypeTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> typeTransactions) {
-            this.SyncTypeTransactionsAsync(typeTransactions, null);
-        }
-        
-        public void SyncTypeTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> typeTransactions, object userState) {
-            if ((this.onBeginSyncTypeTransactionsDelegate == null)) {
-                this.onBeginSyncTypeTransactionsDelegate = new BeginOperationDelegate(this.OnBeginSyncTypeTransactions);
-            }
-            if ((this.onEndSyncTypeTransactionsDelegate == null)) {
-                this.onEndSyncTypeTransactionsDelegate = new EndOperationDelegate(this.OnEndSyncTypeTransactions);
-            }
-            if ((this.onSyncTypeTransactionsCompletedDelegate == null)) {
-                this.onSyncTypeTransactionsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncTypeTransactionsCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncTypeTransactionsDelegate, new object[] {
-                        typeTransactions}, this.onEndSyncTypeTransactionsDelegate, this.onSyncTypeTransactionsCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncTypeFrequencies(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> typeFrequencies, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncTypeFrequencies(typeFrequencies, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> BMA_WP.BMAStaticDataService.IStatic.EndSyncTypeFrequencies(System.IAsyncResult result) {
-            return base.Channel.EndSyncTypeFrequencies(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncTypeFrequencies(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> typeFrequencies = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncTypeFrequencies(typeFrequencies, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncTypeFrequencies(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncTypeFrequencies(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncTypeFrequenciesCompleted(object state) {
-            if ((this.SyncTypeFrequenciesCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncTypeFrequenciesCompleted(this, new SyncTypeFrequenciesCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncTypeFrequenciesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> typeFrequencies) {
-            this.SyncTypeFrequenciesAsync(typeFrequencies, null);
-        }
-        
-        public void SyncTypeFrequenciesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> typeFrequencies, object userState) {
-            if ((this.onBeginSyncTypeFrequenciesDelegate == null)) {
-                this.onBeginSyncTypeFrequenciesDelegate = new BeginOperationDelegate(this.OnBeginSyncTypeFrequencies);
-            }
-            if ((this.onEndSyncTypeFrequenciesDelegate == null)) {
-                this.onEndSyncTypeFrequenciesDelegate = new EndOperationDelegate(this.OnEndSyncTypeFrequencies);
-            }
-            if ((this.onSyncTypeFrequenciesCompletedDelegate == null)) {
-                this.onSyncTypeFrequenciesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncTypeFrequenciesCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncTypeFrequenciesDelegate, new object[] {
-                        typeFrequencies}, this.onEndSyncTypeFrequenciesDelegate, this.onSyncTypeFrequenciesCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncTypeIntervals(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> interval, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncTypeIntervals(interval, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> BMA_WP.BMAStaticDataService.IStatic.EndSyncTypeIntervals(System.IAsyncResult result) {
-            return base.Channel.EndSyncTypeIntervals(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncTypeIntervals(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> interval = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncTypeIntervals(interval, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncTypeIntervals(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncTypeIntervals(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncTypeIntervalsCompleted(object state) {
-            if ((this.SyncTypeIntervalsCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncTypeIntervalsCompleted(this, new SyncTypeIntervalsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncTypeIntervalsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> interval) {
-            this.SyncTypeIntervalsAsync(interval, null);
-        }
-        
-        public void SyncTypeIntervalsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> interval, object userState) {
-            if ((this.onBeginSyncTypeIntervalsDelegate == null)) {
-                this.onBeginSyncTypeIntervalsDelegate = new BeginOperationDelegate(this.OnBeginSyncTypeIntervals);
-            }
-            if ((this.onEndSyncTypeIntervalsDelegate == null)) {
-                this.onEndSyncTypeIntervalsDelegate = new EndOperationDelegate(this.OnEndSyncTypeIntervals);
-            }
-            if ((this.onSyncTypeIntervalsCompletedDelegate == null)) {
-                this.onSyncTypeIntervalsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncTypeIntervalsCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncTypeIntervalsDelegate, new object[] {
-                        interval}, this.onEndSyncTypeIntervalsDelegate, this.onSyncTypeIntervalsCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSyncBudgetThresholds(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> budgetThreshold, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSyncBudgetThresholds(budgetThreshold, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> BMA_WP.BMAStaticDataService.IStatic.EndSyncBudgetThresholds(System.IAsyncResult result) {
-            return base.Channel.EndSyncBudgetThresholds(result);
-        }
-        
-        private System.IAsyncResult OnBeginSyncBudgetThresholds(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> budgetThreshold = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold>)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSyncBudgetThresholds(budgetThreshold, callback, asyncState);
-        }
-        
-        private object[] OnEndSyncBudgetThresholds(System.IAsyncResult result) {
-            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndSyncBudgetThresholds(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnSyncBudgetThresholdsCompleted(object state) {
-            if ((this.SyncBudgetThresholdsCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncBudgetThresholdsCompleted(this, new SyncBudgetThresholdsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void SyncBudgetThresholdsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> budgetThreshold) {
-            this.SyncBudgetThresholdsAsync(budgetThreshold, null);
-        }
-        
-        public void SyncBudgetThresholdsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> budgetThreshold, object userState) {
-            if ((this.onBeginSyncBudgetThresholdsDelegate == null)) {
-                this.onBeginSyncBudgetThresholdsDelegate = new BeginOperationDelegate(this.OnBeginSyncBudgetThresholds);
-            }
-            if ((this.onEndSyncBudgetThresholdsDelegate == null)) {
-                this.onEndSyncBudgetThresholdsDelegate = new EndOperationDelegate(this.OnEndSyncBudgetThresholds);
-            }
-            if ((this.onSyncBudgetThresholdsCompletedDelegate == null)) {
-                this.onSyncBudgetThresholdsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncBudgetThresholdsCompleted);
-            }
-            base.InvokeAsync(this.onBeginSyncBudgetThresholdsDelegate, new object[] {
-                        budgetThreshold}, this.onEndSyncBudgetThresholdsDelegate, this.onSyncBudgetThresholdsCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSaveCategories(categories, user, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSaveCategories(categories, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1718,8 +1568,7 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.IAsyncResult OnBeginSaveCategories(object[] inValues, System.AsyncCallback callback, object asyncState) {
             System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>)(inValues[0]));
-            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[1]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSaveCategories(categories, user, callback, asyncState);
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginSaveCategories(categories, callback, asyncState);
         }
         
         private object[] OnEndSaveCategories(System.IAsyncResult result) {
@@ -1735,11 +1584,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user) {
-            this.SaveCategoriesAsync(categories, user, null);
+        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories) {
+            this.SaveCategoriesAsync(categories, null);
         }
         
-        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, object userState) {
+        public void SaveCategoriesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, object userState) {
             if ((this.onBeginSaveCategoriesDelegate == null)) {
                 this.onBeginSaveCategoriesDelegate = new BeginOperationDelegate(this.OnBeginSaveCategories);
             }
@@ -1750,8 +1599,7 @@ namespace BMA_WP.BMAStaticDataService {
                 this.onSaveCategoriesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSaveCategoriesCompleted);
             }
             base.InvokeAsync(this.onBeginSaveCategoriesDelegate, new object[] {
-                        categories,
-                        user}, this.onEndSaveCategoriesDelegate, this.onSaveCategoriesCompletedDelegate, userState);
+                        categories}, this.onEndSaveCategoriesDelegate, this.onSaveCategoriesCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2170,8 +2018,9 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetAllStaticData(System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[0];
+            public System.IAsyncResult BeginGetAllStaticData(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
                 System.IAsyncResult _result = base.BeginInvoke("GetAllStaticData", _args, callback, asyncState);
                 return _result;
             }
@@ -2182,8 +2031,9 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetAllCategories(System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[0];
+            public System.IAsyncResult BeginGetAllCategories(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
                 System.IAsyncResult _result = base.BeginInvoke("GetAllCategories", _args, callback, asyncState);
                 return _result;
             }
@@ -2194,8 +2044,9 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetAllTypeTransactionReasons(System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[0];
+            public System.IAsyncResult BeginGetAllTypeTransactionReasons(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
                 System.IAsyncResult _result = base.BeginInvoke("GetAllTypeTransactionReasons", _args, callback, asyncState);
                 return _result;
             }
@@ -2206,8 +2057,9 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetAllTypeTransactions(System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[0];
+            public System.IAsyncResult BeginGetAllTypeTransactions(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
                 System.IAsyncResult _result = base.BeginInvoke("GetAllTypeTransactions", _args, callback, asyncState);
                 return _result;
             }
@@ -2218,9 +2070,88 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetUpcomingNotifications(System.DateTime clientTime, System.AsyncCallback callback, object asyncState) {
+            public System.IAsyncResult BeginGetAllTypeSavingsDencities(int userId, System.AsyncCallback callback, object asyncState) {
                 object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetAllTypeSavingsDencities", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity> EndGetAllTypeSavingsDencities(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeSavingsDencity>)(base.EndInvoke("GetAllTypeSavingsDencities", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetAllNotifications(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetAllNotifications", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndGetAllNotifications(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification>)(base.EndInvoke("GetAllNotifications", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetAllTypeIntervals(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetAllTypeIntervals", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> EndGetAllTypeIntervals(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval>)(base.EndInvoke("GetAllTypeIntervals", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetAllTypeFrequencies(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetAllTypeFrequencies", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> EndGetAllTypeFrequencies(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency>)(base.EndInvoke("GetAllTypeFrequencies", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetAllBudgetThresholds(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetAllBudgetThresholds", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> EndGetAllBudgetThresholds(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold>)(base.EndInvoke("GetAllBudgetThresholds", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetAllRecurrenceRules(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetAllRecurrenceRules", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> EndGetAllRecurrenceRules(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule>)(base.EndInvoke("GetAllRecurrenceRules", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetUpcomingNotifications(System.DateTime clientTime, int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[2];
                 _args[0] = clientTime;
+                _args[1] = userId;
                 System.IAsyncResult _result = base.BeginInvoke("GetUpcomingNotifications", _args, callback, asyncState);
                 return _result;
             }
@@ -2231,116 +2162,9 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSyncStaticData(BMA.BusinessLogic.StaticTypeList staticData, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[2];
-                _args[0] = staticData;
-                _args[1] = user;
-                System.IAsyncResult _result = base.BeginInvoke("SyncStaticData", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public BMA.BusinessLogic.StaticTypeList EndSyncStaticData(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                BMA.BusinessLogic.StaticTypeList _result = ((BMA.BusinessLogic.StaticTypeList)(base.EndInvoke("SyncStaticData", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[2];
+            public System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
                 _args[0] = categories;
-                _args[1] = user;
-                System.IAsyncResult _result = base.BeginInvoke("SyncCategories", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> EndSyncCategories(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category>)(base.EndInvoke("SyncCategories", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncTypeTransactionReasons(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReason, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = typeTransactionReason;
-                System.IAsyncResult _result = base.BeginInvoke("SyncTypeTransactionReasons", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> EndSyncTypeTransactionReasons(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransactionReason>)(base.EndInvoke("SyncTypeTransactionReasons", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncNotifications(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> notifications, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = notifications;
-                System.IAsyncResult _result = base.BeginInvoke("SyncNotifications", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndSyncNotifications(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification>)(base.EndInvoke("SyncNotifications", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncTypeTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> typeTransactions, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = typeTransactions;
-                System.IAsyncResult _result = base.BeginInvoke("SyncTypeTransactions", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> EndSyncTypeTransactions(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeTransaction>)(base.EndInvoke("SyncTypeTransactions", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncTypeFrequencies(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> typeFrequencies, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = typeFrequencies;
-                System.IAsyncResult _result = base.BeginInvoke("SyncTypeFrequencies", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> EndSyncTypeFrequencies(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeFrequency>)(base.EndInvoke("SyncTypeFrequencies", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncTypeIntervals(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> interval, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = interval;
-                System.IAsyncResult _result = base.BeginInvoke("SyncTypeIntervals", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> EndSyncTypeIntervals(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TypeInterval>)(base.EndInvoke("SyncTypeIntervals", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSyncBudgetThresholds(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> budgetThreshold, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = budgetThreshold;
-                System.IAsyncResult _result = base.BeginInvoke("SyncBudgetThresholds", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> EndSyncBudgetThresholds(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold>)(base.EndInvoke("SyncBudgetThresholds", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[2];
-                _args[0] = categories;
-                _args[1] = user;
                 System.IAsyncResult _result = base.BeginInvoke("SaveCategories", _args, callback, asyncState);
                 return _result;
             }

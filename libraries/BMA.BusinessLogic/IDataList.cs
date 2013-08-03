@@ -11,5 +11,7 @@ namespace BMA.BusinessLogic
         void AcceptChanges();
 
         void PrepareForServiceSerialization();
+
+        bool HasItemsWithChanges();
     }
 }

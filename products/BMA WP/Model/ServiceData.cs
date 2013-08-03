@@ -58,18 +58,13 @@ namespace BMA_WP.Model
 
             #region Private Methods
             #region Load Live Data
-            private async Task<ICollection<Transaction>> LoadLiveTransactions()
+            private async Task LoadLiveTransactions()
             {
-                return await LoadLiveTransactions(0);
+                await LoadLiveTransactions(0);
             }
 
-            private async Task<ICollection<Transaction>> LoadLiveTransactions(int budgetId)
+            private async Task LoadLiveTransactions(int budgetId)
             {
-                var retVal = new TransactionList();
-
-                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                    return retVal;
-
                 try
                 {
                     var client = new BMAService.MainClient();
@@ -94,7 +89,6 @@ namespace BMA_WP.Model
                     var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
                     throw;
                 }
-                return retVal;
             }
 
             private async Task<ICollection<Budget>> LoadLiveBudgets()
@@ -111,7 +105,8 @@ namespace BMA_WP.Model
                     var client = new BMAService.MainClient();
                     client.GetAllBudgetsCompleted += (sender, e) =>
                         {
-                            SetupBudgetList(e.Result, true);
+                            if(e.Error == null)
+                                SetupBudgetList(e.Result, true);
                         };
                     client.GetAllBudgetsAsync(App.Instance.User.UserId);
                 }
@@ -242,7 +237,6 @@ namespace BMA_WP.Model
                     StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
                 }
                 TransactionList.OrderByDescending(x => x.TransactionDate);
-                var aa = await StorageUtility.ListItems(TRANSACTIONS_FOLDER);
             }
 
             private void SetupTransactionImageList(ICollection<TransactionImage> existing, int transactionId)
@@ -426,15 +420,56 @@ namespace BMA_WP.Model
                 try
                 {
                     var client = new BMAService.MainClient();
-                    client.GetLatestTransactionDateAsync(App.Instance.User.UserId);
+                    client.GetLatestTransactionDateAsync();
 
                     client.GetLatestTransactionDateCompleted += (sender, e) =>
                     {
-                        if(e.Error == null)
+                        if (e.Error == null)
                             callback(e.Result, null);
                         else
                             callback(DateTime.Now, e.Error);
                     };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            public async Task SyncTransactions(Action<Exception> callback)
+            {
+                try
+                {
+                    var cachedTransactions = await App.Instance.ServiceData.LoadCachedTransactions();
+                    var transList = cachedTransactions.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+
+                    var client = new BMAService.MainClient();
+
+                    client.SyncTransactionsAsync(transList);
+
+                    client.SyncTransactionsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            public async Task SyncBudgets(Action<Exception> callback)
+            {
+                try
+                {
+                    var cachedBudgets = await App.Instance.ServiceData.LoadCachedBudgets();
+                    var budgetList = cachedBudgets.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+
+                    var client = new BMAService.MainClient();
+
+                    client.SyncBudgetsAsync(budgetList);
+
+                    client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+
                 }
                 catch (Exception)
                 {

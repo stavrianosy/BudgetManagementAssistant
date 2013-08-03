@@ -265,8 +265,6 @@ namespace BMA_WP.View
             vm.IsLoading = true;
 
             var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
-            //var saveImg = vm.CurrTransactionImages.Where(t => t.HasChanges).ToObservableCollection();
-
 
             await App.Instance.ServiceData.SaveTransaction(saveOC, (error) => 
             {
@@ -316,9 +314,9 @@ namespace BMA_WP.View
             if (!ValidateTransaction())
                 return;
 
-            Transaction item = new Transaction(App.Instance.StaticServiceData.CategoryList.ToList(),
-                                                App.Instance.StaticServiceData.TypeTransactionList.ToList(),
-                                                App.Instance.StaticServiceData.TypeTransactionReasonList.ToList(),
+            Transaction item = new Transaction(App.Instance.StaticServiceData.CategoryList,
+                                                App.Instance.StaticServiceData.TypeTransactionList,
+                                                App.Instance.StaticServiceData.TypeTransactionReasonList,
                                                 App.Instance.User);
 
             vm.PivotIndex = 0;

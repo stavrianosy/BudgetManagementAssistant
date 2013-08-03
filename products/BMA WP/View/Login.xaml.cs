@@ -33,6 +33,7 @@ namespace BMA_WP.View
             //SetUILanguage("el-GR");
 
             InitializeComponent();
+
             SetupAppBar_Signin();
 
 
@@ -45,6 +46,9 @@ namespace BMA_WP.View
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            //clear history
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
+
             CheckOnlineStatus();
         }
 
@@ -198,9 +202,9 @@ namespace BMA_WP.View
                 //# waiting for a reply in stackoverflow !!
                 //await App.Instance.StaticServiceData.LoadUser(App.Instance.User);
 
-                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, async (result, error) =>
+                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, async (error) =>
                     {
-                        if (result != null && error == null)
+                        if (error == null)
                         {
                             //everything is ok
                             await LoginSuccess();
@@ -275,7 +279,7 @@ namespace BMA_WP.View
                         }
                         else
                         {
-                            throw new Exception(error.Message);
+                            txtMessageRegister.Text =  error.Message;
                         }
                         ProgressShow(false);
                     });

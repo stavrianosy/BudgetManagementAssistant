@@ -293,7 +293,24 @@ namespace BMA_WP
             set 
             {
                 IsolatedStorageSettings.ApplicationSettings["IsSync"] = value;
+                if (value)
+                    LastSyncDate = DateTime.Now;
+                    
             }
+        }
+
+        public DateTime LastSyncDate
+        {
+            get {
+
+                DateTime result = DateTime.Now;
+
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("LastSyncDate"))
+                    IsolatedStorageSettings.ApplicationSettings.TryGetValue("LastSyncDate", out result);
+
+                return result;
+            }
+            private set { IsolatedStorageSettings.ApplicationSettings["LastSyncDate"] = value; }
         }
 
         public async Task Sync(Action callback)
@@ -351,9 +368,11 @@ namespace BMA_WP
 
         }
 
-        private bool UpdateSyncStatus(bool transSuccess, bool budgetSuccess, bool staticSuccess)
+        private void UpdateSyncStatus(bool transSuccess, bool budgetSuccess, bool staticSuccess)
         {
-            return transSuccess && budgetSuccess && staticSuccess;
+            var result = transSuccess && budgetSuccess && staticSuccess;
+            if (result)
+                App.Instance.IsSync = true;
         }
 
         private bool ReadyToCallback(bool transRespont, bool catRespont, bool staticRespont)
@@ -363,30 +382,12 @@ namespace BMA_WP
 
         public void SyncTransactions(Action<bool> callback)
         {
-            App.Instance.ServiceData.GetLatestTransactionDate(async (lastDate, error) =>
-            {
-                if (error == null)
-                {
-                    var cachedTransactions = await App.Instance.ServiceData.LoadCachedTransactions();
-                    
-                    var transList = cachedTransactions.Where(x => x.ModifiedDate > lastDate).ToObservableCollection();
-
-                    await App.Instance.ServiceData.SaveTransaction(transList, (transError) =>
-                    {
-                        if (transError == null)
-                            callback(true);
-                        else
-                            callback(false);
-                    });
-                }
-                else
-                    callback(false);
-            });
+            App.Instance.ServiceData.SyncTransactions((transError) => callback(transError == null));
         }
 
         public void SyncBudgets(Action<bool> callback)
         {
-            callback(true);
+            App.Instance.ServiceData.SyncBudgets((transError) => callback(transError == null));
         }
 
         public void SyncStaticData(Action<bool> callback)

@@ -36,6 +36,14 @@ namespace BMA_WP.View
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (NavigationService != null)
+            {
+                var login = NavigationService.BackStack.FirstOrDefault(x=>x.Source.OriginalString == "/View/Login.xaml");
+                if(login != null)
+                    NavigationService.RemoveBackEntry();
+
+            }
+
             CheckOnlineStatus();
         }
 

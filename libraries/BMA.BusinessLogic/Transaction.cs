@@ -60,8 +60,6 @@ namespace BMA.BusinessLogic
 
                         if (Items[i].CreatedDate < Items[k].CreatedDate)
                         {
-                            //Items[i] = o;
-                            //Items[k] = n;
                             base.MoveItem(k, i);
                             break;
                         }
@@ -113,9 +111,7 @@ namespace BMA.BusinessLogic
         public void OptimizeOnTopLevel(Transaction.ImageRemovalStatus removeImages)
         {
             foreach (var item in this)
-            {
                 item.OptimizeOnTopLevel(removeImages);   
-            }
         }
 
         public void PrepareForServiceSerialization()
@@ -161,6 +157,24 @@ namespace BMA.BusinessLogic
             public bool Equals(Transaction x, Transaction y)
             {
                 if (x.NameOfPlace == y.NameOfPlace)
+                    return true;
+                else
+                    return false;
+            }
+
+            public int GetHashCode(Transaction obj)
+            {
+                return base.GetHashCode();
+            }
+            #endregion
+        }
+
+        public class IDComparer : IEqualityComparer<Transaction>
+        {
+            #region IEqualityComparer Members
+            public bool Equals(Transaction x, Transaction y)
+            {
+                if (x.TransactionId == y.TransactionId)
                     return true;
                 else
                     return false;
@@ -220,7 +234,7 @@ namespace BMA.BusinessLogic
         { }
 
         //Simple contructor with rules applied
-        public Transaction(List<Category> categoryList, List<TypeTransaction> typeTransactionList, List<TypeTransactionReason> typeTransactionReasonList, User user)
+        public Transaction(CategoryList categoryList, TypeTransactionList typeTransactionList, TypeTransactionReasonList typeTransactionReasonList, User user)
             : base(user)
         {
             TransactionId = 0;

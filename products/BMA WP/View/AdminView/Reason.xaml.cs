@@ -11,6 +11,7 @@ using BMA_WP.ViewModel.Admin;
 using BMA_WP.Resources;
 using BMA.BusinessLogic;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace BMA_WP.View.AdminView
 {
@@ -195,11 +196,58 @@ namespace BMA_WP.View.AdminView
 
         private async void SaveTransactionReason()
         {
+            if (!ValidateTransaction())
+                return;
+
+            vm.IsLoading = true;
+
             var saveOC = vm.TransactionReasonList.Where(t => t.HasChanges).ToObservableCollection();
 
-            await App.Instance.StaticServiceData.SaveTransactionReason(saveOC);
+            await App.Instance.StaticServiceData.SaveTransactionReason(saveOC, (error) =>
+            {
+                if (error == null)
+                    vm.IsLoading = false;
+            });
 
             pivotContainer.SelectedIndex = 1;
+            save.IsEnabled = vm.TransactionReasonList.HasItemsWithChanges() && vm.IsLoading == false;
+        }
+
+        private bool ValidateTransaction()
+        {
+            var result = true;
+            if (vm.TransactionReasonList == null)
+                return result;
+
+            SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });
+            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
+
+            txtName.Background = okColor;
+
+            if (vm.CurrTransactionReason.Name == null || vm.CurrTransactionReason.Name.Length == 0)
+            {
+                result = false;
+                txtName.Background = errColor;
+            }
+
+            if (!result)
+                svItem.ScrollToVerticalOffset(0);
+            else
+            {
+                var tempTransReason = vm.TransactionReasonList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Length == 0)).ToList();
+                if (tempTransReason.Count > 0)
+                {
+                    result = false;
+                    //for more specific message
+                    if (tempTransReason.Count == 1)
+                        MessageBox.Show(string.Format(AppResources.FaildValidationSingle, "transaction reason"));
+                    else
+                        MessageBox.Show(string.Format(AppResources.FaildValidation, tempTransReason.Count, "transaction reasons"));
+                }
+            }
+
+            return result;
+
         }
 
         private void Save_Click(object sender, EventArgs e)

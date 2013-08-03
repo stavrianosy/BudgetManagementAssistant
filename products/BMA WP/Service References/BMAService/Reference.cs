@@ -24,7 +24,7 @@ namespace BMA_WP.BMAService {
         bool EndGetDBStatus(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetLatestTransactionDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateResponse")]
-        System.IAsyncResult BeginGetLatestTransactionDate(int userId, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetLatestTransactionDate(System.AsyncCallback callback, object asyncState);
         
         System.DateTime EndGetLatestTransactionDate(System.IAsyncResult result);
         
@@ -42,6 +42,11 @@ namespace BMA_WP.BMAService {
         System.IAsyncResult BeginGetLatestTransactions(int userId, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndGetLatestTransactions(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetLatestTransactionsOnDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionsOnDateResponse")]
+        System.IAsyncResult BeginGetLatestTransactionsOnDate(int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndGetLatestTransactionsOnDate(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/GetLatestTransactionsLimit", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionsLimitResponse")]
         System.IAsyncResult BeginGetLatestTransactionsLimit(int latestRecs, int userId, System.AsyncCallback callback, object asyncState);
@@ -67,6 +72,16 @@ namespace BMA_WP.BMAService {
         System.IAsyncResult BeginLoadItemCounts(int userId, System.AsyncCallback callback, object asyncState);
         
         BMA.BusinessLogic.StartupInfo EndLoadItemCounts(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
+        System.IAsyncResult BeginSyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState);
+        
+        bool EndSyncTransactions(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SyncBudgets", ReplyAction="http://tempuri.org/IMain/SyncBudgetsResponse")]
+        System.IAsyncResult BeginSyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState);
+        
+        bool EndSyncBudgets(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SaveTransactions", ReplyAction="http://tempuri.org/IMain/SaveTransactionsResponse")]
         System.IAsyncResult BeginSaveTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState);
@@ -185,6 +200,25 @@ namespace BMA_WP.BMAService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetLatestTransactionsOnDateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetLatestTransactionsOnDateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class GetLatestTransactionsLimitCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
@@ -280,6 +314,44 @@ namespace BMA_WP.BMAService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class SyncTransactionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public SyncTransactionsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class SyncBudgetsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public SyncBudgetsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public bool Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class SaveTransactionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
@@ -369,6 +441,12 @@ namespace BMA_WP.BMAService {
         
         private System.Threading.SendOrPostCallback onGetLatestTransactionsCompletedDelegate;
         
+        private BeginOperationDelegate onBeginGetLatestTransactionsOnDateDelegate;
+        
+        private EndOperationDelegate onEndGetLatestTransactionsOnDateDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetLatestTransactionsOnDateCompletedDelegate;
+        
         private BeginOperationDelegate onBeginGetLatestTransactionsLimitDelegate;
         
         private EndOperationDelegate onEndGetLatestTransactionsLimitDelegate;
@@ -398,6 +476,18 @@ namespace BMA_WP.BMAService {
         private EndOperationDelegate onEndLoadItemCountsDelegate;
         
         private System.Threading.SendOrPostCallback onLoadItemCountsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginSyncTransactionsDelegate;
+        
+        private EndOperationDelegate onEndSyncTransactionsDelegate;
+        
+        private System.Threading.SendOrPostCallback onSyncTransactionsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginSyncBudgetsDelegate;
+        
+        private EndOperationDelegate onEndSyncBudgetsDelegate;
+        
+        private System.Threading.SendOrPostCallback onSyncBudgetsCompletedDelegate;
         
         private BeginOperationDelegate onBeginSaveTransactionsDelegate;
         
@@ -480,6 +570,8 @@ namespace BMA_WP.BMAService {
         
         public event System.EventHandler<GetLatestTransactionsCompletedEventArgs> GetLatestTransactionsCompleted;
         
+        public event System.EventHandler<GetLatestTransactionsOnDateCompletedEventArgs> GetLatestTransactionsOnDateCompleted;
+        
         public event System.EventHandler<GetLatestTransactionsLimitCompletedEventArgs> GetLatestTransactionsLimitCompleted;
         
         public event System.EventHandler<GetTransactionsForBudgetCompletedEventArgs> GetTransactionsForBudgetCompleted;
@@ -489,6 +581,10 @@ namespace BMA_WP.BMAService {
         public event System.EventHandler<GetAllBudgetsCompletedEventArgs> GetAllBudgetsCompleted;
         
         public event System.EventHandler<LoadItemCountsCompletedEventArgs> LoadItemCountsCompleted;
+        
+        public event System.EventHandler<SyncTransactionsCompletedEventArgs> SyncTransactionsCompleted;
+        
+        public event System.EventHandler<SyncBudgetsCompletedEventArgs> SyncBudgetsCompleted;
         
         public event System.EventHandler<SaveTransactionsCompletedEventArgs> SaveTransactionsCompleted;
         
@@ -545,8 +641,8 @@ namespace BMA_WP.BMAService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetLatestTransactionDate(int userId, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetLatestTransactionDate(userId, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetLatestTransactionDate(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetLatestTransactionDate(callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -555,8 +651,7 @@ namespace BMA_WP.BMAService {
         }
         
         private System.IAsyncResult OnBeginGetLatestTransactionDate(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            int userId = ((int)(inValues[0]));
-            return ((BMA_WP.BMAService.IMain)(this)).BeginGetLatestTransactionDate(userId, callback, asyncState);
+            return ((BMA_WP.BMAService.IMain)(this)).BeginGetLatestTransactionDate(callback, asyncState);
         }
         
         private object[] OnEndGetLatestTransactionDate(System.IAsyncResult result) {
@@ -572,11 +667,11 @@ namespace BMA_WP.BMAService {
             }
         }
         
-        public void GetLatestTransactionDateAsync(int userId) {
-            this.GetLatestTransactionDateAsync(userId, null);
+        public void GetLatestTransactionDateAsync() {
+            this.GetLatestTransactionDateAsync(null);
         }
         
-        public void GetLatestTransactionDateAsync(int userId, object userState) {
+        public void GetLatestTransactionDateAsync(object userState) {
             if ((this.onBeginGetLatestTransactionDateDelegate == null)) {
                 this.onBeginGetLatestTransactionDateDelegate = new BeginOperationDelegate(this.OnBeginGetLatestTransactionDate);
             }
@@ -586,8 +681,7 @@ namespace BMA_WP.BMAService {
             if ((this.onGetLatestTransactionDateCompletedDelegate == null)) {
                 this.onGetLatestTransactionDateCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetLatestTransactionDateCompleted);
             }
-            base.InvokeAsync(this.onBeginGetLatestTransactionDateDelegate, new object[] {
-                        userId}, this.onEndGetLatestTransactionDateDelegate, this.onGetLatestTransactionDateCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetLatestTransactionDateDelegate, null, this.onEndGetLatestTransactionDateDelegate, this.onGetLatestTransactionDateCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -726,6 +820,52 @@ namespace BMA_WP.BMAService {
             }
             base.InvokeAsync(this.onBeginGetLatestTransactionsDelegate, new object[] {
                         userId}, this.onEndGetLatestTransactionsDelegate, this.onGetLatestTransactionsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginGetLatestTransactionsOnDate(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetLatestTransactionsOnDate(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> BMA_WP.BMAService.IMain.EndGetLatestTransactionsOnDate(System.IAsyncResult result) {
+            return base.Channel.EndGetLatestTransactionsOnDate(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetLatestTransactionsOnDate(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginGetLatestTransactionsOnDate(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetLatestTransactionsOnDate(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> retVal = ((BMA_WP.BMAService.IMain)(this)).EndGetLatestTransactionsOnDate(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetLatestTransactionsOnDateCompleted(object state) {
+            if ((this.GetLatestTransactionsOnDateCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetLatestTransactionsOnDateCompleted(this, new GetLatestTransactionsOnDateCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetLatestTransactionsOnDateAsync(int userId) {
+            this.GetLatestTransactionsOnDateAsync(userId, null);
+        }
+        
+        public void GetLatestTransactionsOnDateAsync(int userId, object userState) {
+            if ((this.onBeginGetLatestTransactionsOnDateDelegate == null)) {
+                this.onBeginGetLatestTransactionsOnDateDelegate = new BeginOperationDelegate(this.OnBeginGetLatestTransactionsOnDate);
+            }
+            if ((this.onEndGetLatestTransactionsOnDateDelegate == null)) {
+                this.onEndGetLatestTransactionsOnDateDelegate = new EndOperationDelegate(this.OnEndGetLatestTransactionsOnDate);
+            }
+            if ((this.onGetLatestTransactionsOnDateCompletedDelegate == null)) {
+                this.onGetLatestTransactionsOnDateCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetLatestTransactionsOnDateCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetLatestTransactionsOnDateDelegate, new object[] {
+                        userId}, this.onEndGetLatestTransactionsOnDateDelegate, this.onGetLatestTransactionsOnDateCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -961,6 +1101,98 @@ namespace BMA_WP.BMAService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginSyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSyncTransactions(transactions, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        bool BMA_WP.BMAService.IMain.EndSyncTransactions(System.IAsyncResult result) {
+            return base.Channel.EndSyncTransactions(result);
+        }
+        
+        private System.IAsyncResult OnBeginSyncTransactions(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(inValues[0]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginSyncTransactions(transactions, callback, asyncState);
+        }
+        
+        private object[] OnEndSyncTransactions(System.IAsyncResult result) {
+            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndSyncTransactions(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnSyncTransactionsCompleted(object state) {
+            if ((this.SyncTransactionsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SyncTransactionsCompleted(this, new SyncTransactionsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
+            this.SyncTransactionsAsync(transactions, null);
+        }
+        
+        public void SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, object userState) {
+            if ((this.onBeginSyncTransactionsDelegate == null)) {
+                this.onBeginSyncTransactionsDelegate = new BeginOperationDelegate(this.OnBeginSyncTransactions);
+            }
+            if ((this.onEndSyncTransactionsDelegate == null)) {
+                this.onEndSyncTransactionsDelegate = new EndOperationDelegate(this.OnEndSyncTransactions);
+            }
+            if ((this.onSyncTransactionsCompletedDelegate == null)) {
+                this.onSyncTransactionsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncTransactionsCompleted);
+            }
+            base.InvokeAsync(this.onBeginSyncTransactionsDelegate, new object[] {
+                        transactions}, this.onEndSyncTransactionsDelegate, this.onSyncTransactionsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginSyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSyncBudgets(budgets, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        bool BMA_WP.BMAService.IMain.EndSyncBudgets(System.IAsyncResult result) {
+            return base.Channel.EndSyncBudgets(result);
+        }
+        
+        private System.IAsyncResult OnBeginSyncBudgets(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>)(inValues[0]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginSyncBudgets(budgets, callback, asyncState);
+        }
+        
+        private object[] OnEndSyncBudgets(System.IAsyncResult result) {
+            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndSyncBudgets(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnSyncBudgetsCompleted(object state) {
+            if ((this.SyncBudgetsCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SyncBudgetsCompleted(this, new SyncBudgetsCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void SyncBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets) {
+            this.SyncBudgetsAsync(budgets, null);
+        }
+        
+        public void SyncBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, object userState) {
+            if ((this.onBeginSyncBudgetsDelegate == null)) {
+                this.onBeginSyncBudgetsDelegate = new BeginOperationDelegate(this.OnBeginSyncBudgets);
+            }
+            if ((this.onEndSyncBudgetsDelegate == null)) {
+                this.onEndSyncBudgetsDelegate = new EndOperationDelegate(this.OnEndSyncBudgets);
+            }
+            if ((this.onSyncBudgetsCompletedDelegate == null)) {
+                this.onSyncBudgetsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncBudgetsCompleted);
+            }
+            base.InvokeAsync(this.onBeginSyncBudgetsDelegate, new object[] {
+                        budgets}, this.onEndSyncBudgetsDelegate, this.onSyncBudgetsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult BMA_WP.BMAService.IMain.BeginSaveTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState) {
             return base.Channel.BeginSaveTransactions(transactions, callback, asyncState);
         }
@@ -1186,9 +1418,8 @@ namespace BMA_WP.BMAService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetLatestTransactionDate(int userId, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = userId;
+            public System.IAsyncResult BeginGetLatestTransactionDate(System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[0];
                 System.IAsyncResult _result = base.BeginInvoke("GetLatestTransactionDate", _args, callback, asyncState);
                 return _result;
             }
@@ -1235,6 +1466,19 @@ namespace BMA_WP.BMAService {
             public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndGetLatestTransactions(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(base.EndInvoke("GetLatestTransactions", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetLatestTransactionsOnDate(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetLatestTransactionsOnDate", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndGetLatestTransactionsOnDate(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(base.EndInvoke("GetLatestTransactionsOnDate", _args, result)));
                 return _result;
             }
             
@@ -1301,6 +1545,32 @@ namespace BMA_WP.BMAService {
             public BMA.BusinessLogic.StartupInfo EndLoadItemCounts(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 BMA.BusinessLogic.StartupInfo _result = ((BMA.BusinessLogic.StartupInfo)(base.EndInvoke("LoadItemCounts", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginSyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = transactions;
+                System.IAsyncResult _result = base.BeginInvoke("SyncTransactions", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public bool EndSyncTransactions(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                bool _result = ((bool)(base.EndInvoke("SyncTransactions", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginSyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = budgets;
+                System.IAsyncResult _result = base.BeginInvoke("SyncBudgets", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public bool EndSyncBudgets(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                bool _result = ((bool)(base.EndInvoke("SyncBudgets", _args, result)));
                 return _result;
             }
             

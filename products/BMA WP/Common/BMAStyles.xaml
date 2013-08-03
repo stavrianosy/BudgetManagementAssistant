@@ -214,7 +214,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BMA_Categories_ItemTemplate">
-        <Grid Margin="0,-12,0,24">
+        <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -237,7 +237,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BMA_ReasonCategories_ItemTemplate">
-        <Grid Margin="0 -6 0 0">
+        <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
@@ -248,7 +248,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BMA_Interval_ItemTemplate">
-        <Grid Margin="0,-12,0,24">
+        <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>

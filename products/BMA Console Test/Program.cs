@@ -13,16 +13,6 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            //Transaction t1 = new Transaction();
-            //Transaction t2 = new Transaction();
-            //TransactionList tl = new TransactionList();
-            //tl.Add(t1);
-            //tl.Add(t2);
-
-            //t1.HasChanges = true;
-
-            //tl.GetChanges<TransactionList>();
-
             //User user = new User();
             //user.UserName = "asa";
             //user.Password = "asa";
@@ -33,7 +23,12 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
 
+            var newuser = CreateUser(b);
+            //var db = b.GetDBStatus();
+            //SyncTransactions(a, usr);
             //a.GetLatestTransactionsLimit(10, 11);
+            //var tt = b.GetAllTypeTransactions(4);
+            //var cat = b.GetAllCategories(4);
             //GetAllBudgets(a);
             //b.GetAllStaticData();
             //ForgotPass(b);
@@ -43,8 +38,33 @@ namespace ConsoleApplication1
             //SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);
-            UpdateBudget(a, usr);
-            //var dd = a.GetLatestTransactionDate();
+            //UpdateBudget(a, usr);
+            //var dd = a.GetLatestTransactionDate(usr.UserId);
+        }
+
+        private static User CreateUser(ServiceReference2.StaticClient b)
+        {
+            User usr = new User();
+
+            usr.UserName = "aaaa";
+            usr.Password = "bbbb";
+            usr.Email = "bbbb@aaaa.com";
+
+            return b.RegisterUser(usr);
+        }
+
+        private static void SyncTransactions(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetLatestTransactions(usr.UserId);
+            
+            transactions[0].TransactionId = 0;
+            
+            transactions[1].ModifiedDate = transactions[1].ModifiedDate.AddDays(-1);
+            
+            transactions[2].TipAmount = 0;
+            transactions[2].ModifiedDate = transactions[2].ModifiedDate.AddDays(1);
+
+            var onDate = a.SyncTransactions(transactions);
         }
 
         private static void UpdateBudget(ServiceReference1.MainClient a, User usr)
@@ -126,18 +146,18 @@ namespace ConsoleApplication1
 
         private static void SaveCategories(ServiceReference2.StaticClient b, User usr)
         {
-            var allCat = b.GetAllCategories();
-            var allReasins = b.GetAllTypeTransactionReasons();
+            var allCat = b.GetAllCategories(usr.UserId);
+            var allReasons = b.GetAllTypeTransactionReasons(usr.UserId);
 
-            var catList = new List<Category>();
+            var catList = new CategoryList();
             var newCat = new Category(usr);
             newCat.Name = "CarTest";
 
             if (newCat.TypeTransactionReasons == null)
                 newCat.TypeTransactionReasons = new List<TypeTransactionReason>();
 
-            newCat.TypeTransactionReasons.Add(allReasins[0]);
-            newCat.TypeTransactionReasons.Add(allReasins[1]);
+            newCat.TypeTransactionReasons.Add(allReasons[0]);
+            //newCat.TypeTransactionReasons.Add(allReasons[1]);
 
             //var transReasonList = new List<TypeTransactionReason>();
             //var transReason = new TypeTransactionReason(usr);
@@ -146,7 +166,9 @@ namespace ConsoleApplication1
 
             catList.Add(newCat);
 
-            b.SaveCategories(catList, usr);
+            catList.OptimizeOnTopLevel();
+
+            var result = b.SaveCategories(catList.ToList());
             //var arrC = st.ToList();
 
             //var c = b.SaveCategories(st.Categories);
@@ -154,8 +176,8 @@ namespace ConsoleApplication1
 
         private static void SaveTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)
         {
-            var cat = b.GetAllCategories();
-            var staticData = b.GetAllStaticData();
+            var cat = b.GetAllCategories(usr.UserId);
+            var staticData = b.GetAllStaticData(usr.UserId);
 
             staticData.TypeIntervals[0].Amount = 9d;
             staticData.TypeIntervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "9123";
@@ -191,11 +213,11 @@ namespace ConsoleApplication1
 
         }
         
-        private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User user)
+        private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User usr)
         {
             //var stData = client.GetAllStaticData();
             //var stDataCat = client.GetAllCategories();
-            var stDataTR = client.GetAllTypeTransactionReasons();
+            var stDataTR = client.GetAllTypeTransactionReasons(usr.UserId);
 
             var reasons = new List<TypeTransactionReason>();
             stDataTR[11].Name = "abc";

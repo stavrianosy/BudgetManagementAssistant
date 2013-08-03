@@ -40,7 +40,26 @@ namespace BMAServiceLib
         List<TypeTransaction> GetAllTypeTransactions(int userId);
 
         [OperationContract]
+        List<TypeSavingsDencity> GetAllTypeSavingsDencities(int userId);
+
+        [OperationContract]
+        List<Notification> GetAllNotifications(int userId);
+
+        [OperationContract]
+        List<TypeInterval> GetAllTypeIntervals(int userId);
+
+        [OperationContract]
+        List<TypeFrequency> GetAllTypeFrequencies(int userId);
+
+        [OperationContract]
+        List<BudgetThreshold> GetAllBudgetThresholds(int userId);
+
+        [OperationContract]
+        List<RecurrenceRule> GetAllRecurrenceRules(int userId);
+
+        [OperationContract]
         List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId);
+
         #endregion
 
         #region Update
@@ -69,10 +88,10 @@ namespace BMAServiceLib
         //List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThreshold);
 
         [OperationContract]
-        List<Category> SaveCategories(List<Category> categories);
+        CategoryList SaveCategories(CategoryList categories);
 
         [OperationContract]
-        List<TypeTransactionReason> SaveTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+        TypeTransactionReasonList SaveTypeTransactionReasons(TypeTransactionReasonList typeTransactionReason);
 
         [OperationContract]
         List<Notification> SaveNotifications(List<Notification> notifications);

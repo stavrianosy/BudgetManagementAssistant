@@ -215,10 +215,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceDictionary1.xaml">
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Splash.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -306,6 +302,7 @@
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Notification.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Notification1.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.RecurrenceRule.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList1.datasource" />
@@ -316,6 +313,7 @@
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval1.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeSavingsDencity.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />

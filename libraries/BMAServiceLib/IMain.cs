@@ -17,7 +17,7 @@ namespace BMAServiceLib
         bool GetDBStatus();
 
         [OperationContract]
-        DateTime GetLatestTransactionDate(int userId);
+        DateTime GetLatestTransactionDate();
 
         [OperationContract]
         double GetLatestTransactionDateDouble(int userId);
@@ -27,6 +27,9 @@ namespace BMAServiceLib
 
         [OperationContract]
         TransactionList GetLatestTransactions(int userId);
+
+        [OperationContract]
+        TransactionList GetLatestTransactionsOnDate(int userId);
 
         [OperationContract]
         TransactionList GetLatestTransactionsLimit(int latestRecs, int userId);
@@ -42,6 +45,13 @@ namespace BMAServiceLib
 
         [OperationContract]
         StartupInfo LoadItemCounts(int userId);
+
+        [OperationContract]
+        bool SyncTransactions(TransactionList transactions);
+
+        [OperationContract]
+        bool SyncBudgets(BudgetList budgets);
+
         #endregion
 
         #region Update

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,15 +17,24 @@ namespace BMAServiceLib
     [Serializable]
     public class Static : IStatic
     {
+        private const string ADMIN_USERNAME = "admin";
+        private const int SYSTEM_USER_ID = 2;
         public bool GetDBStatus()
         {
-            var result = false;
-            using (var context = new EntityContext())
+            try
             {
-                var user = context.User.Take(1);
-                result = user != null; 
+                var result = false;
+                using (var context = new EntityContext())
+                {
+                    var user = context.User.Take(1);
+                    result = user != null;
+                }
+                return result;
             }
-            return result;
+            catch(Exception)
+            {
+                throw;
+            }
         }
 
         #region Load
@@ -95,33 +105,36 @@ namespace BMAServiceLib
 
         public List<Category> GetAllCategories(int userId)
         {
-        try
+            try
             {
-            var result = new List<Category>();
+                var result = new List<Category>();
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.Category
-                                .Include(x=>x.TypeTransactionReasons)
+                                .Include(x => x.TypeTransactionReasons)
                                 .Include(i => i.ModifiedUser)
                                 .Include(i => i.CreatedUser)
-                                orderby i.Name ascending
-                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                select new {Category = i,
-                                            CreatedUser = i.CreatedUser,
-                                            ModifiedUser = i.ModifiedUser,
-                                            Reasons=i.TypeTransactionReasons.Where(x=>!x.IsDeleted)}).ToList();
+                                 orderby i.Name ascending
+                                 where !i.IsDeleted && (i.ModifiedUser.UserId == SYSTEM_USER_ID || i.ModifiedUser.UserId == userId)
+                                 select new
+                                 {
+                                     Category = i,
+                                     CreatedUser = i.CreatedUser,
+                                     ModifiedUser = i.ModifiedUser,
+                                     Reasons = i.TypeTransactionReasons.Where(x => !x.IsDeleted)
+                                 }).ToList();
 
-                    query.ForEach(x => 
-                        {
-                            var reasons = x.Reasons.ToList();
-                            
-                            reasons.ForEach(z => z.HasChanges = false);
-                            x.Category.HasChanges = false;
+                    query.ForEach(x =>
+                    {
+                        var reasons = x.Reasons.ToList();
 
-                            x.Category.TypeTransactionReasons = reasons;
+                        reasons.ForEach(z => z.HasChanges = false);
+                        x.Category.HasChanges = false;
 
-                            result.Add(x.Category);
-                        });
+                        x.Category.TypeTransactionReasons = reasons;
+
+                        result.Add(x.Category);
+                    });
 
                     return result;
                 }
@@ -144,7 +157,7 @@ namespace BMAServiceLib
                                 .Include(x => x.ModifiedUser)
                                 .Include(x => x.Categories)
                                  orderby i.Name ascending
-                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
+                                 where !i.IsDeleted && (i.ModifiedUser.UserId == SYSTEM_USER_ID || i.ModifiedUser.UserId == userId)
                                  select new {
                                      TransReason = i,
                                      CreatedUser = i.CreatedUser,
@@ -174,65 +187,32 @@ namespace BMAServiceLib
 
         public List<Notification> GetAllNotifications(int userId)
         {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var query = from i in context.Notification
-                                .Include(i => i.ModifiedUser)
-                                .Include(i => i.CreatedUser)
-                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                select i;
+            return GetDataGeneric<Notification>(userId);
+        }
 
-                    return query.ToList();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        public List<TypeSavingsDencity> GetAllTypeSavingsDencities(int userId)
+        {
+            return GetDataGeneric<TypeSavingsDencity>(userId);
+        }
+
+        public List<RecurrenceRule> GetAllRecurrenceRules(int userId)
+        {
+            return GetDataGeneric<RecurrenceRule>(userId);
         }
 
         public List<TypeTransaction> GetAllTypeTransactions(int userId)
         {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var query = from i in context.TypeTransaction
-                                .Include(i => i.ModifiedUser)
-                                .Include(i => i.CreatedUser)
-                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                select i;
-
-                    return query.ToList();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return GetDataGeneric<TypeTransaction>(userId);
         }
 
         public List<TypeFrequency> GetAllTypeFrequencies(int userId)
         {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var query = from i in context.TypeFrequency
-                                .Include(i => i.ModifiedUser)
-                                .Include(i => i.CreatedUser)
-                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                select i;
+            return GetDataGeneric<TypeFrequency>(userId);
+        }
 
-                    return query.ToList();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        public List<BudgetThreshold> GetAllBudgetThresholds(int userId)
+        {
+            return GetDataGeneric<BudgetThreshold>(userId);
         }
 
         public List<TypeInterval> GetAllTypeIntervals(int userId)
@@ -249,7 +229,7 @@ namespace BMAServiceLib
                                  .Include(i => i.RecurrenceRangeRuleValue.RulePartValueList)
                                  .Include(i => i.CreatedUser)
                                  .Include(i => i.ModifiedUser)
-                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
+                                 where !i.IsDeleted && (i.ModifiedUser.UserId == SYSTEM_USER_ID || i.ModifiedUser.UserId == userId)
                      select i).ToList();
 
 
@@ -290,27 +270,6 @@ namespace BMAServiceLib
             }
         }
 
-        public List<BudgetThreshold> GetAllBudgetThresholds(int userId)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var query = from i in context.BudgetThreshold
-                                .Include(i => i.ModifiedUser)
-                                .Include(i => i.CreatedUser)
-                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                select i;
-
-                    return query.ToList();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public User AuthenticateUser(User user)
         {
             User result = null;
@@ -342,7 +301,7 @@ namespace BMAServiceLib
                 using (EntityContext context= new EntityContext())
                 {
                     List<Notification> result = new List<Notification>();
-                    var query = context.Notification.Where(i => !i.IsDeleted);
+                    var query = GetAllNotifications(userId);
 
                     foreach(var item in query)
                     {
@@ -358,6 +317,29 @@ namespace BMAServiceLib
 
 
                     return result;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public List<T> GetDataGeneric<T>(int userId) where T : class
+        {
+            try
+            {
+                using (EntityContext context = new EntityContext())
+                {
+                    var dynTable = context.Set<T>();
+                    var query = (from i in dynTable
+                                .Include("ModifiedUser")
+                                .Include("CreatedUser")
+                                .Where("IsDeleted == false AND (ModifiedUser.UserId = @0 OR ModifiedUser.UserId = @1)", SYSTEM_USER_ID, userId)
+                                 select i).ToList();
+
+                    return query;
                 }
             }
             catch (Exception)
@@ -600,7 +582,7 @@ namespace BMAServiceLib
         //    }
         //}
 
-        public List<Category> SaveCategories(List<Category> categories)
+        public CategoryList SaveCategories(CategoryList categories)
         {
             try
             {
@@ -668,7 +650,10 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllCategories(0);
+
+                categories.PrepareForServiceSerialization();
+
+                return categories;
             }
             catch (DbEntityValidationException e)
             {
@@ -694,14 +679,14 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeTransactionReason> SaveTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason)
+        public TypeTransactionReasonList SaveTypeTransactionReasons(TypeTransactionReasonList typeTransactionReasons)
         {
             try
             {
                 bool updateFound = false;
                 using (EntityContext context = new EntityContext())
                 {
-                    foreach (var item in typeTransactionReason)
+                    foreach (var item in typeTransactionReasons)
                     {
                         if (item.TypeTransactionReasonId > 0) //Update
                         {
@@ -757,7 +742,10 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllTypeTransactionReasons(0);
+
+                typeTransactionReasons.PrepareForServiceSerialization();
+
+                return typeTransactionReasons;
             }
             catch (DbEntityValidationException e)
             {
@@ -1264,7 +1252,10 @@ namespace BMAServiceLib
                         if (context.User.Where(i => i.Email == user.Email).ToList().Count > 0)
                             throw new Exception("Email exist");
 
-                        var query = context.User.Where(i => i.UserName == "admin").FirstOrDefault();
+                        if(user.Birthdate == DateTime.MinValue)
+                            user.Birthdate = new DateTime(1900, 1,1);
+
+                        var query = context.User.Where(i => i.UserName == ADMIN_USERNAME).FirstOrDefault();
                         user.CreatedUser = query;
                         user.ModifiedUser = query;
 

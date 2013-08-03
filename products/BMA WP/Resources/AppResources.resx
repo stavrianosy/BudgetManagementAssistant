@@ -455,4 +455,10 @@
   <data name="TryAgain" xml:space="preserve">
     <value>try again</value>
   </data>
+  <data name="FaildValidation" xml:space="preserve">
+    <value>There are another {0} {1} that failed validation.\nUpdate them from the list and save again.</value>
+  </data>
+  <data name="FaildValidationSingle" xml:space="preserve">
+    <value>There is another {0} that failed validation.\nUpdate it from the list and save again.</value>
+  </data>
 </root>

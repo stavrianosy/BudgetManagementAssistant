@@ -11,6 +11,7 @@ namespace BMA.BusinessLogic
         bool isDeleted;
         bool hasChanges;
         DateTime createdDate;
+        DateTime syncDate;
 
         [DataMember]
         public  DateTime ModifiedDate { get; set; }
@@ -24,6 +25,9 @@ namespace BMA.BusinessLogic
 
         [DataMember]
         public DateTime CreatedDate { get { return createdDate; } set { createdDate = value; OnPropertyChanged("CreatedDate"); } }
+
+        [DataMember]
+        public DateTime SyncDate { get { return syncDate; } set { syncDate = value; OnPropertyChanged("SyncDate"); } }
 
         //[IgnoreDataMember]
         [DataMember]

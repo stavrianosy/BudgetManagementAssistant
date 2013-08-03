@@ -37,6 +37,15 @@ namespace BMA.BusinessLogic
 
             this.AcceptChanges();
         }
+
+        public bool HasItemsWithChanges()
+        {
+            bool result = false;
+
+            result = this.FirstOrDefault(x => x.HasChanges) != null;
+
+            return result;
+        }
     }
 
     public class Budget:BaseItem

@@ -412,6 +412,24 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are another {0} {1} that failed validation.\nUpdate them from the list and save again..
+        /// </summary>
+        public static string FaildValidation {
+            get {
+                return ResourceManager.GetString("FaildValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is another {0} that failed validation.\nUpdate it from the list and save again..
+        /// </summary>
+        public static string FaildValidationSingle {
+            get {
+                return ResourceManager.GetString("FaildValidationSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First.
         /// </summary>
         public static string First {

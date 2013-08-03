@@ -120,7 +120,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Name="txtMessage" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="txtMessage" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="Progress" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                             <Grid Grid.Row="2" x:Name="grdSync" Margin="0 24 0 0" Visibility="Collapsed">
@@ -180,7 +180,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                    <TextBlock x:Name="txtMessageRegister" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtMessageRegister" TextWrapping="Wrap" Foreground="White" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="ProgressRegister" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                         </Grid>
@@ -216,7 +216,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Name="txtMessageForgot" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtMessageForgot" TextWrapping="Wrap" Foreground="White" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="ProgressForgot" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                         </Grid>

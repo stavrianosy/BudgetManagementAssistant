@@ -22,16 +22,22 @@ namespace ConsoleApplication1.ServiceReference1 {
         System.Threading.Tasks.Task<bool> GetDBStatusAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateResponse")]
-        System.DateTime GetLatestTransactionDate(int userId);
+        System.DateTime GetLatestTransactionDate();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateResponse")]
-        System.Threading.Tasks.Task<System.DateTime> GetLatestTransactionDateAsync(int userId);
+        System.Threading.Tasks.Task<System.DateTime> GetLatestTransactionDateAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDateDouble", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateDoubleResponse")]
         double GetLatestTransactionDateDouble(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDateDouble", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateDoubleResponse")]
         System.Threading.Tasks.Task<double> GetLatestTransactionDateDoubleAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
+        bool SyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
+        System.Threading.Tasks.Task<bool> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTransactionsResponse")]
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetAllTransactions(int userId);
@@ -44,6 +50,12 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactions", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionsResponse")]
         System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> GetLatestTransactionsAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionsOnDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionsOnDateResponse")]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetLatestTransactionsOnDate(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionsOnDate", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionsOnDateResponse")]
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> GetLatestTransactionsOnDateAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionsLimit", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionsLimitResponse")]
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetLatestTransactionsLimit(int latestRecs, int userId);
@@ -129,12 +141,12 @@ namespace ConsoleApplication1.ServiceReference1 {
             return base.Channel.GetDBStatusAsync();
         }
         
-        public System.DateTime GetLatestTransactionDate(int userId) {
-            return base.Channel.GetLatestTransactionDate(userId);
+        public System.DateTime GetLatestTransactionDate() {
+            return base.Channel.GetLatestTransactionDate();
         }
         
-        public System.Threading.Tasks.Task<System.DateTime> GetLatestTransactionDateAsync(int userId) {
-            return base.Channel.GetLatestTransactionDateAsync(userId);
+        public System.Threading.Tasks.Task<System.DateTime> GetLatestTransactionDateAsync() {
+            return base.Channel.GetLatestTransactionDateAsync();
         }
         
         public double GetLatestTransactionDateDouble(int userId) {
@@ -143,6 +155,14 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         public System.Threading.Tasks.Task<double> GetLatestTransactionDateDoubleAsync(int userId) {
             return base.Channel.GetLatestTransactionDateDoubleAsync(userId);
+        }
+        
+        public bool SyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
+            return base.Channel.SyncTransactions(transactions);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
+            return base.Channel.SyncTransactionsAsync(transactions);
         }
         
         public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetAllTransactions(int userId) {
@@ -159,6 +179,14 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> GetLatestTransactionsAsync(int userId) {
             return base.Channel.GetLatestTransactionsAsync(userId);
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetLatestTransactionsOnDate(int userId) {
+            return base.Channel.GetLatestTransactionsOnDate(userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> GetLatestTransactionsOnDateAsync(int userId) {
+            return base.Channel.GetLatestTransactionsOnDateAsync(userId);
         }
         
         public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetLatestTransactionsLimit(int latestRecs, int userId) {

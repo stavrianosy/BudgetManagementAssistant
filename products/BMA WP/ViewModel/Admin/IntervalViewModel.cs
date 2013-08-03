@@ -59,10 +59,10 @@ namespace BMA_WP.ViewModel.Admin
         public DateTime RangeRuleEndDate { get { return rangeRuleEnddate; } set { rangeRuleEnddate = value; RaisePropertyChanged("RangeRuleEnddate"); } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
 
-        public ObservableCollection<TypeInterval> TypeIntervalList { get { return App.Instance.StaticServiceData.IntervalList; } }
-        public ObservableCollection<RecurrenceRule> RecurrenceRuleList { get { return App.Instance.StaticServiceData.RecurrenceRuleList; } }
-        public ObservableCollection<TypeTransaction> TypeTransactionList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
-        public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
+        public TypeIntervalList TypeIntervalList { get { return App.Instance.StaticServiceData.IntervalList; } }
+        public RecurrenceRuleList RecurrenceRuleList { get { return App.Instance.StaticServiceData.RecurrenceRuleList; } }
+        public TypeTransactionList TypeTransactionList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
+        public CategoryList CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
 
 
         public List<BasicItem> Months {get {return MonthList.GetMonths();}}

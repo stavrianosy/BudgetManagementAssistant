@@ -15,6 +15,7 @@ namespace BMAServiceLib
     [Serializable]
     public class Main:IMain
     {
+        private const int SYSTEM_USER_ID = 2;
         #region Load
 
         public bool GetDBStatus()
@@ -28,14 +29,77 @@ namespace BMAServiceLib
             return result;
         }
 
-        public DateTime GetLatestTransactionDate(int userId)
+        public bool SyncTransactions(TransactionList transactions)
+        {
+            try
+            {
+                var transList = new TransactionList();
+                var transIDs = transactions.Select(x => x.TransactionId).ToList();
+                using (EntityContext context = new EntityContext())
+                {
+                    var query = (from i in context.Transaction
+                                 where transIDs.Contains(i.TransactionId)
+                                 select i).ToList();
+
+                    //investigate if there is a better way to convert the generic list to ObservableCollection
+                    foreach (var item in query)
+                    {
+                        var tempItem = transactions.FirstOrDefault(x => x.TransactionId == item.TransactionId);
+                        if (tempItem.ModifiedDate < item.ModifiedDate)
+                            transactions.Remove(tempItem);
+                    }
+                }
+
+                SaveTransactions(transactions);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return true;
+        }
+
+        public bool SyncBudgets(BudgetList budgets)
+        {
+            try
+            {
+                var budgetsList = new BudgetList();
+                var budgetIDs = budgets.Select(x => x.BudgetId).ToList();
+                using (EntityContext context = new EntityContext())
+                {
+                    var query = (from i in context.Budget
+                                 where budgetIDs.Contains(i.BudgetId)
+                                 select i).ToList();
+
+                    //investigate if there is a better way to convert the generic list to ObservableCollection
+                    foreach (var item in query)
+                    {
+                        var tempItem = budgets.FirstOrDefault(x => x.BudgetId == item.BudgetId);
+                        if (tempItem.ModifiedDate < item.ModifiedDate)
+                            budgets.Remove(tempItem);
+                    }
+                }
+
+                SaveBudgets(budgets);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return true;
+        }
+
+
+        public DateTime GetLatestTransactionDate()
         {
             try
             {
                 var date = DateTime.Now;
                 
                 using (EntityContext context = new EntityContext())
-                    date = context.Transaction.OrderByDescending(x => x.ModifiedDate).FirstOrDefault(x => x.ModifiedUser.UserId == userId).ModifiedDate;
+                    date = context.Transaction.OrderByDescending(x => x.ModifiedDate).FirstOrDefault().ModifiedDate;
 
 
                 return date;
@@ -50,7 +114,7 @@ namespace BMAServiceLib
         {
             try
             {
-                return double.Parse(DateToString(GetLatestTransactionDate(userId)));
+                return double.Parse(DateToString(GetLatestTransactionDate()));
             }
             catch
             {
@@ -98,7 +162,11 @@ namespace BMAServiceLib
         public TransactionList GetLatestTransactions(int userId)
         {
             return GetLatestTransactionsLimit(50, userId);
-        
+        }
+
+        public TransactionList GetLatestTransactionsOnDate(int userId)
+        {
+            return GetLatestTransactionsLimit(50, userId);
         }
 
         public TransactionList GetLatestTransactionsLimit(int latestRecs, int userId)
@@ -395,7 +463,7 @@ namespace BMAServiceLib
 
                 throw new DbEntityValidationException(s.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

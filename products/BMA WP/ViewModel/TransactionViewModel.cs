@@ -37,9 +37,9 @@ namespace BMA_WP.ViewModel
 
         public TransactionList Transactions { get { return App.Instance.ServiceData.TransactionList; } }
         //public TransactionImageList CurrTransactionImages { get { return _currTransactionImages; } set { _currTransactionImages = value; RaisePropertyChanged("CurrTransactionImages"); } }
-        public ObservableCollection<TypeTransaction> TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
-        public ObservableCollection<TypeTransactionReason> TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
-        public ObservableCollection<Category> CategoryList { get { return App.Instance.StaticServiceData.CategoryList; }}
+        public TypeTransactionList TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
+        public TypeTransactionReasonList TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
+        public CategoryList CategoryList { get { return App.Instance.StaticServiceData.CategoryList; }}
         
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         

@@ -39,32 +39,34 @@ namespace BMA_WP.Model
         static readonly string Utf8ByteOrderMark =
             Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
 
+        string latestState;
+
         #endregion
 
         #region Public members
-        public ObservableCollection<Category> CategoryList { get; set; }
-        public ObservableCollection<TypeTransaction> TypeTransactionList { get; set; }
-        public ObservableCollection<TypeTransactionReason> TypeTransactionReasonList { get; set; }
-        public ObservableCollection<TypeSavingsDencity> TypeSavingsDencityList { get; set; }
-        public ObservableCollection<TypeFrequency> TypeFrequencyList { get; set; }
-        public ObservableCollection<TypeInterval> IntervalList { get; set; }
-        public ObservableCollection<RecurrenceRule> RecurrenceRuleList { get; set; }
-        public ObservableCollection<Notification> NotificationList { get; set; }
-        public ObservableCollection<BudgetThreshold> BudgetThresholdList { get; set; }
+        public CategoryList CategoryList { get; set; }
+        public TypeTransactionList TypeTransactionList { get; set; }
+        public TypeTransactionReasonList TypeTransactionReasonList { get; set; }
+        public TypeSavingsDencityList TypeSavingsDencityList { get; set; }
+        public TypeFrequencyList TypeFrequencyList { get; set; }
+        public TypeIntervalList IntervalList { get; set; }
+        public RecurrenceRuleList RecurrenceRuleList { get; set; }
+        public NotificationList NotificationList { get; set; }
+        public BudgetThresholdList BudgetThresholdList { get; set; }
         #endregion
 
         #region Constructor
         public StaticServiceData()
         {
-            CategoryList = new ObservableCollection<Category>();
-            TypeTransactionList = new ObservableCollection<TypeTransaction>();
-            TypeTransactionReasonList = new ObservableCollection<TypeTransactionReason>();
-            TypeSavingsDencityList = new ObservableCollection<TypeSavingsDencity>();
-            NotificationList = new ObservableCollection<Notification>();
-            TypeFrequencyList = new ObservableCollection<TypeFrequency>();
-            IntervalList = new ObservableCollection<TypeInterval>();
-            RecurrenceRuleList = new ObservableCollection<RecurrenceRule>();
-            BudgetThresholdList = new ObservableCollection<BudgetThreshold>();
+            CategoryList = new CategoryList();
+            TypeTransactionList = new TypeTransactionList();
+            TypeTransactionReasonList = new TypeTransactionReasonList();
+            TypeSavingsDencityList = new TypeSavingsDencityList();
+            NotificationList = new NotificationList();
+            TypeFrequencyList = new TypeFrequencyList();
+            IntervalList = new TypeIntervalList();
+            RecurrenceRuleList = new RecurrenceRuleList();
+            BudgetThresholdList = new BudgetThresholdList();
         }
         #endregion
 
@@ -75,59 +77,6 @@ namespace BMA_WP.Model
         #endregion
 
         #region Public methods
-        public async Task LoadStaticData()
-        {
-            StaticTypeList existing = new StaticTypeList();
-
-            await LoadCategories();
-            await LoadTypeTransactionReason();
-
-            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
-            {
-                existing.TypeTransactions = await LoadCachedTypeTransaction(STATIC_TYPETRANSACTION_FOLDER);
-                existing.Categories = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
-                existing.TypeTransactionReasons = await LoadCachedTypeTransactionReason(STATIC_TYPETRANSACTIONREASON_FOLDER);
-                existing.TypeSavingsDencities = await LoadCachedTypeSavingsDencity(STATIC_TYPESAVINGFREQUENCY_FOLDER);
-                existing.Notifications = await LoadCachedNotification(STATIC_NOTIFICATION_FOLDER);
-                existing.TypeFrequencies = await LoadCachedTypeFrequency(STATIC_TYPEFREQUENCY_FOLDER);
-                existing.TypeIntervals = await LoadCachedInterval(STATIC_TYPEINTERVAL_FOLDER);
-                existing.RecurrenceRules = await LoadCachedRecurrenceRule(STATIC_RECURRENCE_FOLDER);
-                existing.BudgetThresholds = await LoadCachedBudgetThreshold(STATIC_BUDGETTHRESHOLD_FOLDER);
-
-                SetupAllData(existing);
-            }
-            else
-            {
-                var client = new BMAStaticDataService.StaticClient();
-                client.GetAllStaticDataAsync();
-
-                client.GetAllStaticDataCompleted += async (o, e) =>
-                {
-                    try
-                    {
-                        var result = e.Result;
-
-                        App.Instance.IsSync = true;
-
-                        await UpdateCacheStaticData(result);
-
-                        SetupTypeTransactionData(result.TypeTransactions);
-                        SetupTypeSavingsDencityData(result.TypeSavingsDencities);
-                        SetupNotificationData(result.Notifications);
-                        SetupTypeFrequencyData(result.TypeFrequencies);
-                        SetupIntervalData(result.TypeIntervals);
-                        SetupRecurrenceRuleData(result.RecurrenceRules);
-                        SetupBudgetThresholdData(result.BudgetThresholds);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                };
-            }
-
-        }
-
         public async Task<ServerStatus> SetServerStatus(Action<ServerStatus> callback)
         {
             var result = ServerStatus.Communicating;
@@ -136,16 +85,14 @@ namespace BMA_WP.Model
                 var client = new BMAStaticDataService.StaticClient();
                 client.GetDBStatusAsync();
                 client.GetDBStatusCompleted += (sender, e) =>
-                    {
-                        if(e.Error != null)
-                            result = ServerStatus.Error;
-                        else if(e.Result)
-                            result = ServerStatus.Ok;
-                        else
-                            result = ServerStatus.Error;
+                {
+                    if (e.Error != null || !e.Result)
+                        result = ServerStatus.Error;
+                    else if (e.Result)
+                        result = ServerStatus.Ok;
 
-                        callback(result);
-                    };
+                    callback(result);
+                };
             }
             catch (Exception)
             {
@@ -154,87 +101,140 @@ namespace BMA_WP.Model
             }
             return result;
         }
+        
+        public async Task LoadStaticData()
+        {
+            StaticTypeList existing = new StaticTypeList();
+
+            await LoadCategories();
+            await LoadTypeTransactionReasons();
+
+            await LoadTypeTransactions();
+            await LoadTypeSavingsDencities();
+            await LoadNotifications();
+            await LoadTypeFrequencies();
+            await LoadTypeIntervals();
+            await LoadRecurrenceRules();
+            await LoadBudgetThresholds();
+
+            //if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
+            //{
+            //    SetupAllData(existing);
+            //}
+            //else
+            //{
+            //    var client = new BMAStaticDataService.StaticClient();
+            //    client.GetAllStaticDataAsync(App.Instance.User.UserId);
+
+            //    client.GetAllStaticDataCompleted += async (o, e) =>
+            //    {
+            //        try
+            //        {
+            //            var result = e.Result;
+
+            //            App.Instance.IsSync = true;
+
+            //            SetupTypeTransactionData(result.TypeTransactions, true);
+            //            SetupTypeSavingsDencityData(result.TypeSavingsDencities, true);
+            //            SetupNotificationData(result.Notifications, true);
+            //            SetupTypeFrequencyData(result.TypeFrequencies, true);
+            //            SetupIntervalData(result.TypeIntervals, true);
+            //            SetupRecurrenceRuleData(result.RecurrenceRules, true);
+            //            SetupBudgetThresholdData(result.BudgetThresholds, true);
+            //        }
+            //        catch (Exception)
+            //        {
+            //            throw;
+            //        }
+            //    };
+            //}
+
+        }
 
         public async Task LoadCategories()
         {
-            List<Category> existing = new List<Category>();
-
-            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
-            {
-                existing = await LoadCachedCategory(STATIC_CATEGORY_FOLDER);
-
-                SetupTypeCategoryData(existing);
-            }
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedCategories();
             else
-            {
-                var client = new BMAStaticDataService.StaticClient();
-
-                client.GetAllCategoriesAsync();
-                client.GetAllCategoriesCompleted += async (o, e) =>
-                {
-                    try
-                    {
-                        var result = e.Result;
-
-                        App.Instance.IsSync = true;
-
-                        await UpdateCacheCategory(result);
-                        SetupTypeCategoryData(result);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                };
-            }
+                await LoadLiveCategories();
         }
 
-        public async Task LoadTypeTransactionReason()
+        public async Task LoadTypeTransactionReasons()
         {
-            List<TypeTransactionReason> existing = new List<TypeTransactionReason>();
-
-            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
-            {
-                existing = await LoadCachedTypeTransactionReason(STATIC_TYPETRANSACTIONREASON_FOLDER);
-
-                SetupTypeTransactionReasonData(existing);
-            }
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedTypeTransactionReasons();
             else
-            {
-                var client = new BMAStaticDataService.StaticClient();
-
-                client.GetAllTypeTransactionReasonsAsync();
-                client.GetAllTypeTransactionReasonsCompleted += async (o, e) =>
-                {
-                    try
-                    {
-                        var result = e.Result;
-
-                        App.Instance.IsSync = true;
-
-                        await UpdateCacheTypeTransactionReason(result);
-                        SetupTypeTransactionReasonData(result);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                };
-            }
+                await LoadLiveTypeTransactionReasons();
         }
 
+        public async Task LoadTypeTransactions()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedTypeTransactions();
+            else
+                await LoadLiveTypeTransactions();
+        }
 
-        public async Task LoadUser(User user, Action<User, Exception> callback)
+        public async Task LoadTypeSavingsDencities()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedTypeSavingsDencities();
+            else
+                await LoadLiveTypeSavingsDencities();
+        }
+
+        public async Task LoadNotifications()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedNotifications();
+            else
+                await LoadLiveNotifications();
+        }
+
+        public async Task LoadTypeFrequencies()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedTypeFrequencies();
+            else
+                await LoadLiveTypeFrequencies();
+        }
+
+        public async Task LoadTypeIntervals()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedTypeIntervals();
+            else
+                await LoadLiveTypeIntervals();
+        }
+
+        public async Task LoadRecurrenceRules()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedRecurrenceRules();
+            else
+                await LoadLiveRecurrenceRules();
+        }
+
+        public async Task LoadBudgetThresholds()
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await LoadCachedBudgetThresholds();
+            else
+                await LoadLiveBudgetThresholds();
+        }
+
+        public async Task LoadUser(User user, Action<Exception> callback)
         {
             User existing = new User();
             if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
             {
                 try
                 {
-                    var query = await LoadCachedUser(STATIC_USER_FOLDER);
+                    var query = await LoadCachedUser();
                     existing = query.Where(i => i.UserName == user.UserName).Single();
-                    callback(existing, null);
                     UserFound(existing);
+                    
+                    callback(null);
                 }
                 catch (Exception) { throw new Exception("Username or Password is incorrect.\nThis might be due to that offline mode is not updated.\nPlease connect to the live system get get the latest data."); }
             }
@@ -245,20 +245,11 @@ namespace BMA_WP.Model
                 client.AuthenticateUserCompleted += async (sender,eventargs) => {
                     try
                     {
-                        var userCallback = eventargs.UserState as Action<User, Exception>;
-                        if (userCallback == null)
-                            return;
-
-                        if (eventargs.Error != null)
-                        {
-                            userCallback(null, eventargs.Error);
-                            return;
-                        }
-                        userCallback(eventargs.Result, null);
-
                         existing = eventargs.Result;
                         await UpdateCacheUserData(existing);
                         UserFound(existing);
+
+                        callback(eventargs.Error);
                     }
                     catch (Exception){throw;}
                 };
@@ -286,122 +277,259 @@ namespace BMA_WP.Model
 
         private void SetupAllData(StaticTypeList existing)
         {
-            SetupTypeTransactionData(existing.TypeTransactions);
-            SetupTypeCategoryData(existing.Categories);
-            SetupTypeSavingsDencityData(existing.TypeSavingsDencities);
-            SetupTypeTransactionReasonData(existing.TypeTransactionReasons);
-            SetupNotificationData(existing.Notifications);
-            SetupTypeFrequencyData(existing.TypeFrequencies);
-            SetupIntervalData(existing.TypeIntervals);
-            SetupBudgetThresholdData(existing.BudgetThresholds);
+            SetupTypeTransactionData(existing.TypeTransactions, true);
+            SetupTypeSavingsDencityData(existing.TypeSavingsDencities, true);
+            SetupNotificationData(existing.Notifications, true);
+            SetupTypeFrequencyData(existing.TypeFrequencies, true);
+            SetupIntervalData(existing.TypeIntervals, true);
+            SetupBudgetThresholdData(existing.BudgetThresholds, true);
         }
 
-        private void SetupTypeTransactionData(ICollection<TypeTransaction> existing)
+        private void SetupTypeCategoryData(ICollection<Category> existing, bool removeNew)
         {
-            existing = existing ?? new List<TypeTransaction>();
+            existing = existing ?? new CategoryList();
 
-            TypeTransactionList.Clear();
+            //sync logic
+            if (removeNew)
+                RemoveInsertedCategories();
 
             foreach (var item in existing)
-                TypeTransactionList.Add(item);
+            {
+                var query = CategoryList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.CategoryId == item.CategoryId).FirstOrDefault();
 
-        }
+                //INSERT
+                if (query == null)
+                    CategoryList.Add(item);
+                //UPDATE
+                else
+                    CategoryList[query.Index] = item;
 
-        private void SetupTypeCategoryData(ICollection<Category> existing)
-        {
-            existing = existing ?? new List<Category>();
-
+                StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
+            }
+            var ord = CategoryList.OrderBy(x => x.Name).ToList();
             CategoryList.Clear();
-
-            foreach (var item in existing)
-                CategoryList.Add(item);
-
-            TypeTransactionReasonList.OrderBy(x => x.Name);
+            ord.ForEach(x => CategoryList.Add(x));
         }
 
-        private void SetupTypeSavingsDencityData(ICollection<TypeSavingsDencity> existing)
+        private void SetupTypeTransactionReasonData(ICollection<TypeTransactionReason> existing, bool removeNew)
         {
-            existing = existing ?? new List<TypeSavingsDencity>();
+            existing = existing ?? new TypeTransactionReasonList();
 
-            TypeSavingsDencityList.Clear();
+            //sync logic
+            if (removeNew)
+                RemoveInsertedTypeTransactionReasons();
 
             foreach (var item in existing)
-                TypeSavingsDencityList.Add(item);
-        }
+            {
+                var query = TypeTransactionReasonList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.TypeTransactionReasonId == item.TypeTransactionReasonId).FirstOrDefault();
 
-        private void SetupTypeTransactionReasonData(ICollection<TypeTransactionReason> existing)
-        {
-            existing = existing ?? new List<TypeTransactionReason>();
+                //INSERT
+                if (query == null)
+                    TypeTransactionReasonList.Add(item);
+                //UPDATE
+                else
+                    TypeTransactionReasonList[query.Index] = item;
 
+                StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
+            }
+            var ord = TypeTransactionReasonList.OrderBy(x => x.Name).ToList();
             TypeTransactionReasonList.Clear();
-
-            foreach (var item in existing)
-                TypeTransactionReasonList.Add(item);
-
-            TypeTransactionReasonList.OrderBy(x => x.Name);
+            ord.ForEach(x => TypeTransactionReasonList.Add(x));
         }
 
-        private void SetupNotificationData(ICollection<Notification> existing)
+        private void SetupTypeTransactionData(ICollection<TypeTransaction> existing, bool removeNew)
         {
-            existing = existing ?? new List<Notification>();
+            existing = existing ?? new TypeTransactionList();
 
+            //sync logic
+            if (removeNew)
+                RemoveInsertedTypeTransactions();
+
+            foreach (var item in existing)
+            {
+                var query = TypeTransactionList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.TypeTransactionId == item.TypeTransactionId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    TypeTransactionList.Add(item);
+                //UPDATE
+                else
+                    TypeTransactionList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
+            }
+            var ord = TypeTransactionList.OrderBy(x => x.Name).ToList();
+            TypeTransactionList.Clear();
+            ord.ForEach(x => TypeTransactionList.Add(x));
+        }
+
+        private void SetupTypeSavingsDencityData(ICollection<TypeSavingsDencity> existing, bool removeNew)
+        {
+            existing = existing ?? new TypeSavingsDencityList();
+
+            //sync logic
+            if (removeNew)
+                RemoveInsertedTypeSavingsDencities();
+
+            foreach (var item in existing)
+            {
+                var query = TypeSavingsDencityList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.TypeSavingsDencityId == item.TypeSavingsDencityId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    TypeSavingsDencityList.Add(item);
+                //UPDATE
+                else
+                    TypeSavingsDencityList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);
+            }
+            var ord = TypeSavingsDencityList.OrderBy(x => x.Name).ToList();
+            TypeSavingsDencityList.Clear();
+            ord.ForEach(x => TypeSavingsDencityList.Add(x));
+        }
+
+        private void SetupNotificationData(ICollection<Notification> existing, bool removeNew)
+        {
+            existing = existing ?? new NotificationList();
+
+            //sync logic
+            if (removeNew)
+                RemoveInsertedNotifications();
+
+            foreach (var item in existing)
+            {
+                var query = NotificationList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.NotificationId == item.NotificationId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    NotificationList.Add(item);
+                //UPDATE
+                else
+                    NotificationList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId);
+            }
+            var ord = NotificationList.OrderBy(x => x.Name).ToList();
             NotificationList.Clear();
-
-            foreach (var item in existing)
-                NotificationList.Add(item);
+            ord.ForEach(x => NotificationList.Add(x));
         }
 
-        private void SetupTypeFrequencyData(ICollection<TypeFrequency> existing)
+        private void SetupTypeFrequencyData(ICollection<TypeFrequency> existing, bool removeNew)
         {
-            existing = existing ?? new List<TypeFrequency>();
+            existing = existing ?? new TypeFrequencyList();
 
+            //sync logic
+            if (removeNew)
+                RemoveInsertedTypeFrequencies();
+
+            foreach (var item in existing)
+            {
+                var query = TypeFrequencyList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.TypeFrequencyId == item.TypeFrequencyId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    TypeFrequencyList.Add(item);
+                //UPDATE
+                else
+                    TypeFrequencyList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId);
+            }
+            var ord = TypeFrequencyList.OrderBy(x => x.Name).ToList();
             TypeFrequencyList.Clear();
-
-            foreach (var item in existing)
-                TypeFrequencyList.Add(item);
+            ord.ForEach(x => TypeFrequencyList.Add(x));
         }
 
-        private void SetupIntervalData(ICollection<TypeInterval> existing)
+        private void SetupIntervalData(ICollection<TypeInterval> existing, bool removeNew)
         {
-            existing = existing ?? new List<TypeInterval>();
+            existing = existing ?? new TypeIntervalList();
 
+            //sync logic
+            if (removeNew)
+                RemoveInsertedTypeIntervals();
+
+            foreach (var item in existing)
+            {
+                var query = IntervalList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.TypeIntervalId == item.TypeIntervalId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    IntervalList.Add(item);
+                //UPDATE
+                else
+                    IntervalList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId);
+            }
+            var ord = IntervalList.OrderBy(x => x.Name).ToList();
             IntervalList.Clear();
-
-            foreach (var item in existing)
-                IntervalList.Add(item);
+            ord.ForEach(x => IntervalList.Add(x));
         }
 
-        private void SetupRecurrenceRuleData(ICollection<RecurrenceRule> existing)
+        private void SetupRecurrenceRuleData(ICollection<RecurrenceRule> existing, bool removeNew)
         {
-            existing = existing ?? new List<RecurrenceRule>();
+            existing = existing ?? new RecurrenceRuleList();
 
+            //sync logic
+            if (removeNew)
+                RemoveInsertedRecurrenceRules();
+
+            foreach (var item in existing)
+            {
+                var query = RecurrenceRuleList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.RecurrenceRuleId == item.RecurrenceRuleId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    RecurrenceRuleList.Add(item);
+                //UPDATE
+                else
+                    RecurrenceRuleList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId);
+            }
+            var ord = RecurrenceRuleList.OrderBy(x => x.Name).ToList();
             RecurrenceRuleList.Clear();
-
-            foreach (var item in existing)
-                RecurrenceRuleList.Add(item);
+            ord.ForEach(x => RecurrenceRuleList.Add(x));
         }
 
-        private void SetupBudgetThresholdData(ICollection<BudgetThreshold> existing)
+        private void SetupBudgetThresholdData(ICollection<BudgetThreshold> existing, bool removeNew)
         {
-            existing = existing ?? new List<BudgetThreshold>();
+            existing = existing ?? new BudgetThresholdList();
 
-            BudgetThresholdList.Clear();
+            //sync logic
+            if (removeNew)
+                RemoveInsertedBudgetThresholds();
 
             foreach (var item in existing)
-                BudgetThresholdList.Add(item);
+            {
+                var query = BudgetThresholdList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.BudgetThresholdId == item.BudgetThresholdId).FirstOrDefault();
+
+                //INSERT
+                if (query == null)
+                    BudgetThresholdList.Add(item);
+                //UPDATE
+                else
+                    BudgetThresholdList[query.Index] = item;
+
+                StorageUtility.SaveItem(STATIC_BUDGETTHRESHOLD_FOLDER, item, item.BudgetThresholdId);
+            }
+            var ord = BudgetThresholdList.OrderByDescending(x => x.Amount).ToList();
+            BudgetThresholdList.Clear();
+            ord.ForEach(x => BudgetThresholdList.Add(x));
         }
         #endregion
 
         #region Load Cached Data
 
-        private async Task<List<Category>> LoadCachedCategory(string folder)
+        private async Task<CategoryList> LoadCachedCategories()
         {
-            var retVal = new List<Category>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            var retVal = new CategoryList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_CATEGORY_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<Category>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<Category>(STATIC_CATEGORY_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -409,17 +537,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupTypeCategoryData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<TypeTransaction>> LoadCachedTypeTransaction(string folder)
+        private void RemoveInsertedCategories()
         {
-            var retVal = new List<TypeTransaction>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = CategoryList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.CategoryId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                CategoryList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<Transaction>(STATIC_CATEGORY_FOLDER, x.Item.CategoryId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<TypeTransactionReasonList> LoadCachedTypeTransactionReasons()
+        {
+            var retVal = new TypeTransactionReasonList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTIONREASON_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -427,17 +569,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupTypeTransactionReasonData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<TypeTransactionReason>> LoadCachedTypeTransactionReason(string folder)
+        private void RemoveInsertedTypeTransactionReasons()
         {
-            var retVal = new List<TypeTransactionReason>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = TypeTransactionReasonList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeTransactionReasonId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                TypeTransactionReasonList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, x.Item.TypeTransactionReasonId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<TypeTransactionList> LoadCachedTypeTransactions()
+        {
+            var retVal = new TypeTransactionList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTION_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -445,17 +601,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+            
+            SetupTypeTransactionData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<TypeSavingsDencity>> LoadCachedTypeSavingsDencity(string folder)
+        private void RemoveInsertedTypeTransactions()
         {
-            var retVal = new List<TypeSavingsDencity>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = TypeTransactionList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeTransactionId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                TypeTransactionList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, x.Item.TypeTransactionId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<TypeSavingsDencityList> LoadCachedTypeSavingsDencities()
+        {
+            var retVal = new TypeSavingsDencityList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_TYPESAVINGFREQUENCY_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeSavingsDencity>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeSavingsDencity>(STATIC_TYPESAVINGFREQUENCY_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -463,17 +633,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupTypeSavingsDencityData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<Notification>> LoadCachedNotification(string folder)
+        private void RemoveInsertedTypeSavingsDencities()
         {
-            var retVal = new List<Notification>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = TypeSavingsDencityList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeSavingsDencityId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                TypeSavingsDencityList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<TypeSavingsDencity>(STATIC_TYPESAVINGFREQUENCY_FOLDER, x.Item.TypeSavingsDencityId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<NotificationList> LoadCachedNotifications()
+        {
+            var retVal = new NotificationList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_NOTIFICATION_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<Notification>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<Notification>(STATIC_NOTIFICATION_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -481,17 +665,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupNotificationData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<TypeFrequency>> LoadCachedTypeFrequency(string folder)
+        private void RemoveInsertedNotifications()
         {
-            var retVal = new List<TypeFrequency>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = NotificationList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.NotificationId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                NotificationList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<Notification>(STATIC_NOTIFICATION_FOLDER, x.Item.NotificationId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<TypeFrequencyList> LoadCachedTypeFrequencies()
+        {
+            var retVal = new TypeFrequencyList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_TYPEFREQUENCY_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeFrequency>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -499,17 +697,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupTypeFrequencyData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<TypeInterval>> LoadCachedInterval(string folder)
+        private void RemoveInsertedTypeFrequencies()
         {
-            var retVal = new List<TypeInterval>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = TypeFrequencyList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeFrequencyId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                TypeFrequencyList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, x.Item.TypeFrequencyId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<TypeIntervalList> LoadCachedTypeIntervals()
+        {
+            var retVal = new TypeIntervalList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeInterval>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -517,17 +729,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+            
+            SetupIntervalData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<RecurrenceRule>> LoadCachedRecurrenceRule(string folder)
+        private void RemoveInsertedTypeIntervals()
         {
-            var retVal = new List<RecurrenceRule>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = IntervalList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeIntervalId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                IntervalList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, x.Item.TypeIntervalId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<RecurrenceRuleList> LoadCachedRecurrenceRules()
+        {
+            var retVal = new RecurrenceRuleList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_RECURRENCE_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -535,17 +761,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupRecurrenceRuleData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<BudgetThreshold>> LoadCachedBudgetThreshold(string folder)
+        private void RemoveInsertedRecurrenceRules()
         {
-            var retVal = new List<BudgetThreshold>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = RecurrenceRuleList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.RecurrenceRuleId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                RecurrenceRuleList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, x.Item.RecurrenceRuleId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<BudgetThresholdList> LoadCachedBudgetThresholds()
+        {
+            var retVal = new BudgetThresholdList();
+            foreach (var item in await StorageUtility.ListItems(STATIC_BUDGETTHRESHOLD_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<BudgetThreshold>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<BudgetThreshold>(STATIC_BUDGETTHRESHOLD_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -553,17 +793,31 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            SetupBudgetThresholdData(retVal, false);
+
             return retVal;
         }
 
-        private async Task<List<User>> LoadCachedUser(string folder)
+        private void RemoveInsertedBudgetThresholds()
+        {
+            //REMOVE all inserted records as they will be added with a new Id
+            var newItems = BudgetThresholdList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.BudgetThresholdId <= 0).OrderByDescending(x => x.Index).ToList();
+            foreach (var x in newItems)
+            {
+                BudgetThresholdList.RemoveAt(x.Index);
+                StorageUtility.DeleteItem<BudgetThreshold>(STATIC_BUDGETTHRESHOLD_FOLDER, x.Item.BudgetThresholdId.GetHashCode().ToString());
+            }
+        }
+
+        private async Task<List<User>> LoadCachedUser()
         {
             var retVal = new List<User>();
-            foreach (var item in await StorageUtility.ListItems(folder))
+            foreach (var item in await StorageUtility.ListItems(STATIC_USER_FOLDER))
             {
                 try
                 {
-                    var staticType = await StorageUtility.RestoreItem<User>(folder, item);
+                    var staticType = await StorageUtility.RestoreItem<User>(STATIC_USER_FOLDER, item);
                     retVal.Add(staticType);
                 }
                 catch (Exception ex)
@@ -571,35 +825,191 @@ namespace BMA_WP.Model
                     Debug.WriteLine(ex.ToString());
                 }
             }
+
+            //SetupUser(retVal, false);
+
             return retVal;
+        }
+
+        #endregion
+
+        #region Load Live Data
+        public async Task LoadLiveCategories()
+        {
+            var retVal = new CategoryList();
+
+            var client = new BMAStaticDataService.StaticClient();
+            try
+            {
+                latestState = Guid.NewGuid().ToString();
+                client.GetAllCategoriesAsync(App.Instance.User.UserId);
+                client.GetAllCategoriesCompleted += async (o, e) =>
+                {
+                    var result = e.Result;
+
+                    SetupTypeCategoryData(result, true);
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private async Task LoadLiveTypeTransactionReasons()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllTypeTransactionReasonsAsync(App.Instance.User.UserId);
+            client.GetAllTypeTransactionReasonsCompleted += (o, e) =>
+            {
+                SetupTypeTransactionReasonData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveTypeTransactions()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllTypeTransactionsAsync(App.Instance.User.UserId);
+            client.GetAllTypeTransactionsCompleted += (o, e) =>
+            {
+                SetupTypeTransactionData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveTypeSavingsDencities()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllTypeSavingsDencitiesAsync(App.Instance.User.UserId);
+            client.GetAllTypeSavingsDencitiesCompleted += (o, e) =>
+            {
+                SetupTypeSavingsDencityData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveNotifications()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllNotificationsAsync(App.Instance.User.UserId);
+            client.GetAllNotificationsCompleted += (o, e) =>
+            {
+                SetupNotificationData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveTypeFrequencies()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllTypeFrequenciesAsync(App.Instance.User.UserId);
+            client.GetAllTypeFrequenciesCompleted += (o, e) =>
+            {
+                SetupTypeFrequencyData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveTypeIntervals()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllTypeIntervalsAsync(App.Instance.User.UserId);
+            client.GetAllTypeIntervalsCompleted += (o, e) =>
+            {
+                SetupIntervalData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveRecurrenceRules()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllRecurrenceRulesAsync(App.Instance.User.UserId);
+            client.GetAllRecurrenceRulesCompleted += (o, e) =>
+            {
+                SetupRecurrenceRuleData(e.Result, true);
+            };
+        }
+
+        private async Task LoadLiveBudgetThresholds()
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new BMAStaticDataService.StaticClient();
+
+            client.GetAllBudgetThresholdsAsync(App.Instance.User.UserId);
+            client.GetAllBudgetThresholdsCompleted += (o, e) =>
+            {
+                SetupBudgetThresholdData(e.Result, true);
+            };
         }
         #endregion
 
         #region Save
-        public async Task SaveCategory(ObservableCollection<Category> categories)
+        public async Task SaveCategory(ObservableCollection<Category> categories, Action<Exception> callback)
         {
             try
             {
-                var result = this.CategoryList.ToObservableCollection();
-
-                if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
+                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
                 {
-                    result = result.Where(i => !i.IsDeleted).ToObservableCollection();
-                    //ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
+                    try
+                    {
+                        foreach (var item in categories)
+                            item.OptimizeOnTopLevel();
+
+                        foreach (var item in CategoryList.Where(x => x.HasChanges))
+                            item.HasChanges = false;
+
+                        SetupTypeCategoryData(categories, false);
+
+                        App.Instance.IsSync = false;
+
+                        callback(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        callback(ex);
+                    }
                 }
                 else
                 {
+                    foreach (var item in categories)
+                        item.OptimizeOnTopLevel();
+
                     var client = new BMAStaticDataService.StaticClient();
+                    
                     client.SaveCategoriesAsync(categories, App.Instance.User);
+                    
                     client.SaveCategoriesCompleted += async (sender, completedEventArgs) =>
                     {
                         if (completedEventArgs.Error == null)
                         {
-                            await LoadTypeTransactionReason();
+                            await LoadTypeTransactionReasons();
 
-                            await UpdateCacheCategory(completedEventArgs.Result);
-                            SetupTypeCategoryData(completedEventArgs.Result);
+                            SetupTypeCategoryData(completedEventArgs.Result, true);
+
+                            App.Instance.IsSync = true;
+
+                            callback(null);
                         }
+                        else
+                            callback(completedEventArgs.Error);
 
                     };
                 }
@@ -610,21 +1020,38 @@ namespace BMA_WP.Model
             }
         }
 
-        public async Task SaveTransactionReason(ObservableCollection<TypeTransactionReason> transactionReason)
+        public async Task SaveTransactionReason(ObservableCollection<TypeTransactionReason> transactionReasons, Action<Exception> callback)
         {
             try
             {
-                var result = this.TypeTransactionReasonList.ToObservableCollection();
-
                 if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
                 {
-                    result = result.Where(i => !i.IsDeleted).ToObservableCollection();
-                    ApplicationData.Current.LocalSettings.Values["IsSync"] = false;
+                    try
+                    {
+                        foreach (var item in transactionReasons)
+                            item.OptimizeOnTopLevel();
+
+                        foreach (var item in TypeTransactionReasonList.Where(x => x.HasChanges))
+                            item.HasChanges = false;
+
+                        SetupTypeTransactionReasonData(transactionReasons, false);
+
+                        App.Instance.IsSync = false;
+
+                        callback(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        callback(ex);
+                    }
                 }
                 else
                 {
+                    foreach (var item in transactionReasons)
+                        item.OptimizeOnTopLevel();
+
                     var client = new BMAStaticDataService.StaticClient();
-                    client.SaveTypeTransactionReasonsAsync(transactionReason);
+                    client.SaveTypeTransactionReasonsAsync(transactionReasons);
                     client.SaveTypeTransactionReasonsCompleted += async (sender, completedEventArgs) =>
                     {
                         if (completedEventArgs.Error == null)
@@ -632,8 +1059,14 @@ namespace BMA_WP.Model
                             await LoadCategories();
 
                             await UpdateCacheTypeTransactionReason(completedEventArgs.Result);
-                            SetupTypeTransactionReasonData(completedEventArgs.Result);
+                            SetupTypeTransactionReasonData(completedEventArgs.Result, true);
+
+                            App.Instance.IsSync = true;
+
+                            callback(null);
                         }
+                        else
+                            callback(completedEventArgs.Error);
 
                     };
                 }
@@ -664,7 +1097,7 @@ namespace BMA_WP.Model
                         if (completedEventArgs.Error == null)
                         {
                             await UpdateCacheTypeInterval(completedEventArgs.Result);
-                            SetupIntervalData(completedEventArgs.Result);
+                            SetupIntervalData(completedEventArgs.Result, true);
                         }
                     };
                 }
@@ -674,7 +1107,6 @@ namespace BMA_WP.Model
                 throw;
             }
         }
-
 
         public async Task RegisterUser(User user, Action<User, Exception> callback)
         {
@@ -782,24 +1214,16 @@ namespace BMA_WP.Model
       //     await StorageUtility.Clear(STATIC_USER_FOLDER);
             await StorageUtility.SaveItem(STATIC_USER_FOLDER, user, user.UserId);
 
-            var test = await StorageUtility.ListItems(STATIC_USER_FOLDER);
+            //var test = await StorageUtility.ListItems(STATIC_USER_FOLDER);
         }
 
         private async Task UpdateCacheStaticData(StaticTypeList staticDataList)
         {
-            //await StorageUtility.Clear(STATIC_CATEGORY_FOLDER);
             await StorageUtility.Clear(STATIC_TYPESAVINGFREQUENCY_FOLDER);
             await StorageUtility.Clear(STATIC_TYPETRANSACTION_FOLDER);
-            //await StorageUtility.Clear(STATIC_TYPETRANSACTIONREASON_FOLDER);
-
-            //foreach (var item in staticDataList.Categories)
-            //    await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
 
             foreach (var item in staticDataList.TypeTransactions)
                 await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
-
-            //foreach (var item in staticDataList.TypeTransactionReasons)
-            //    await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
 
             foreach (var item in staticDataList.TypeSavingsDencities)
                 await StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);
