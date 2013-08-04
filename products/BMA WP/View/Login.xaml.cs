@@ -15,6 +15,8 @@ using System.Threading;
 using System.Windows.Threading;
 using System.Threading.Tasks;
 using BMA_WP.ViewModel;
+using BMA_WP.Model;
+using System.Windows.Data;
 
 namespace BMA_WP.View
 {
@@ -44,12 +46,26 @@ namespace BMA_WP.View
             //Progress.Margin = new Thickness(0, -screenHeight/2, 0, 0);
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             //clear history
             while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
 
-            CheckOnlineStatus();
+            SetupLoadingBinding();
+
+            await CheckOnlineStatus();
+        }
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
         }
 
         private void SetUILanguage(string locale)
@@ -358,28 +374,21 @@ namespace BMA_WP.View
 
         async Task LoginSuccess()
         {
-            //if (App.Instance.IsOnline && !App.Instance.IsSync)
-            //{
-            //    txtMessage.Text = "Synchronizing Transactions...";
-            //    await App.Instance.ServiceData.SyncTransactions();
-
-            //    txtMessage.Text = "Synchronizing Budgets...";
-            //    await App.Instance.ServiceData.SyncBudgets();
-
-            //    txtMessage.Text = "Synchronizing Data...";
-            //    //await App.Instance.StaticServiceData.SyncData();
-            //}
-
-            txtMessage.Text = "Loading Transactions...";
-            await App.Instance.ServiceData.LoadTransactions();
-
-            txtMessage.Text = "Loading Budgets...";
-            await App.Instance.ServiceData.LoadBudgets();
             
-            txtMessage.Text = "Loading Data...";
-            await App.Instance.StaticServiceData.LoadStaticData();
-
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
+        }
+
+        private async Task LoadAllData(Action callback)
+        {
+            //txtMessage.Text = "Loading Transactions...";
+            await App.Instance.ServiceData.LoadTransactions(Action callback);
+
+            //txtMessage.Text = "Loading Budgets...";
+            await App.Instance.ServiceData.LoadBudgets(Action callback);
+
+            //txtMessage.Text = "Loading Data...";
+            await App.Instance.StaticServiceData.LoadStaticData(Action callback);
+
         }
 
         void ProgressShow(bool visible)
@@ -407,13 +416,13 @@ namespace BMA_WP.View
             piLoginPage.SelectedIndex = 1;
         }
 
-        private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            CheckOnlineStatus();
+            await CheckOnlineStatus();
         }
 
 
-        private async void CheckOnlineStatus()
+        private async Task CheckOnlineStatus()
         {
             App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
             {
@@ -421,10 +430,9 @@ namespace BMA_WP.View
                 vm.Status = status;
                 if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
                 {
-                    grdSync.Visibility = System.Windows.Visibility.Visible;
+                    vm.IsLoading = true;
 
-                    await App.Instance.Sync(() => grdSync.Visibility = System.Windows.Visibility.Collapsed);
-
+                    await App.Instance.Sync(() => vm.IsLoading = false);
                 }
             });
             vm.Status = App.Instance.StaticDataOnlineStatus;

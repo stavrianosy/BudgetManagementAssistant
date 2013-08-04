@@ -32,11 +32,15 @@ namespace BMA_WP.ViewModel
     /// </summary>
     public class MainPageViewModel : ViewModelBase
     {
+        #region Private Members
         StaticServiceData.ServerStatus status;
 
-        private RelayCommand<SelectionChangedEventArgs> _goToCommand_SelectionChanged = null;
-        private RelayCommand<string> _goToCommand_NavigateTo = null;
-        private RelayCommand<string> _goToCommand_SelectionChangedParam = null;
+        RelayCommand<SelectionChangedEventArgs> _goToCommand_SelectionChanged = null;
+        RelayCommand<string> _goToCommand_NavigateTo = null;
+        RelayCommand<string> _goToCommand_SelectionChangedParam = null;
+        #endregion
+
+        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
 
         public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
 

@@ -124,6 +124,10 @@ namespace BMA.BusinessLogic
 
             this.AcceptChanges();
         }
+
+        public static void GenerateIntervalTransactions(TypeIntervalList typeIntervalList, DateTime overwriteStartDate)
+        { 
+        }
     }
 
     //[DataContract]

@@ -14,6 +14,8 @@ using BMA_WP.Resources;
 using System.Windows.Markup;
 using BMA_WP.View;
 using BMA_WP.Model;
+using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace BMA_WP.View
 {
@@ -34,7 +36,7 @@ namespace BMA_WP.View
             SetupAppBar();
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (NavigationService != null)
             {
@@ -44,18 +46,37 @@ namespace BMA_WP.View
 
             }
 
-            CheckOnlineStatus();
+            SetupLoadingBinding();
+
+            await CheckOnlineStatus();
         }
 
-        private async void CheckOnlineStatus()
+        private async Task CheckOnlineStatus()
         {
-            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(status =>
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
             {
                 App.Instance.StaticDataOnlineStatus = status;
                 vm.Status = status;
-            });
+                if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
+                {
+                    vm.IsLoading = true;
 
+                    await App.Instance.Sync(() => vm.IsLoading = false);
+                }
+            });
             vm.Status = App.Instance.StaticDataOnlineStatus;
+        }
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
         }
 
         private void SetupAppBar()

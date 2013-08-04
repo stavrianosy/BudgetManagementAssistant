@@ -252,6 +252,12 @@ namespace BMA_WP.View.AdminView
         {
             var item = new BMA.BusinessLogic.Category(App.Instance.User);
 
+            if (vm.CategoryList.Count + 1 >= CategoryList.DEVICE_MAX_COUNT)
+            {
+                MessageBox.Show(string.Format(AppResources.MaxItemsCount, CategoryList.DEVICE_MAX_COUNT));
+                return;
+            }
+
             vm.PivotIndex = 0;
 
             svItem.ScrollToVerticalOffset(0d);

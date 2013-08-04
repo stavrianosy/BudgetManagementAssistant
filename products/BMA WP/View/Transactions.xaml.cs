@@ -49,49 +49,80 @@ namespace BMA_WP.View
         public Transactions()
         {
             InitializeComponent();
+
+            SetupLoadingBinding();
         }
         #endregion
 
         #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
+        }
+
         //workaround for the ListPicker issue when binding object becomes null
         private void SetBindings(bool isEnabled)
         {
             if (isEnabled)
             {
-                Binding bindTransType = new Binding("TransactionType");
-                bindTransType.Mode = BindingMode.TwoWay;
-                bindTransType.Source = vm.CurrTransaction;
-                if (vm.CurrTransaction.TransactionType != null &&
-                    ((ObservableCollection<TypeTransaction>)cmbType.ItemsSource)
-                                                .FirstOrDefault(x => x.TypeTransactionId == vm.CurrTransaction.TransactionType.TypeTransactionId)!=null)
-                    cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
-
-                Binding bindCategory = new Binding("Category");
-                bindCategory.Mode = BindingMode.TwoWay;
-                bindCategory.Source = vm.CurrTransaction;
-                
-                bindCategory.Converter = new StatusConverter();
-                bindCategory.ConverterParameter = "categoryCloneInstance";
-//                bindCategory.UpdateSourceTrigger(
-
-                if (vm.CurrTransaction.Category != null &&
-                    ((ObservableCollection<Category>)cmbCategory.ItemsSource)
-                        .FirstOrDefault(x => x.CategoryId == vm.CurrTransaction.Category.CategoryId) != null)
-                    cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
-
-                Binding bindTransReasonType = new Binding("TransactionReasonType");
-                bindTransReasonType.Mode = BindingMode.TwoWay;
-                bindTransReasonType.Source = vm.CurrTransaction;
-                if (vm.CurrTransaction.TransactionReasonType != null && 
-                    ((List<TypeTransactionReason>)cmbReason.ItemsSource)
-                        .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrTransaction.TransactionReasonType.TypeTransactionReasonId) != null)
-                    cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
+                if (vm.CurrTransaction != null)
+                {
+                    SetupTransactionTypeBinding();
+                    SetupCategoryBinding();
+                    SetupTransactionReasonBinding();
+                }
             }
             else
             {
                 if(cmbType.GetBindingExpression(ListPicker.SelectedIndexProperty) != null)
                     cmbType.ClearValue(ListPicker.SelectedItemProperty);
             }
+        }
+
+        private void SetupTransactionTypeBinding()
+        {
+            Binding bindTransType = new Binding("TransactionType");
+            bindTransType.Mode = BindingMode.TwoWay;
+            bindTransType.Source = vm.CurrTransaction;
+            if (vm.CurrTransaction.TransactionType != null &&
+                ((ObservableCollection<TypeTransaction>)cmbType.ItemsSource)
+                                            .FirstOrDefault(x => x.TypeTransactionId == vm.CurrTransaction.TransactionType.TypeTransactionId) != null)
+                cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
+
+        }
+
+        private void SetupCategoryBinding()
+        {
+            Binding bindCategory = new Binding("Category");
+            bindCategory.Mode = BindingMode.TwoWay;
+            bindCategory.Source = vm.CurrTransaction == null ? null : vm.CurrTransaction;
+
+            bindCategory.Converter = new StatusConverter();
+            bindCategory.ConverterParameter = "categoryCloneInstance";
+
+            if (vm.CurrTransaction.Category != null &&
+                ((ObservableCollection<Category>)cmbCategory.ItemsSource)
+                    .FirstOrDefault(x => x.CategoryId == vm.CurrTransaction.Category.CategoryId) != null)
+                cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
+        }
+
+        private void SetupTransactionReasonBinding()
+        {
+            Binding bindTransReasonType = new Binding("TransactionReasonType");
+            bindTransReasonType.Mode = BindingMode.TwoWay;
+            bindTransReasonType.Source = vm.CurrTransaction == null ? null : vm.CurrTransaction;
+            if (vm.CurrTransaction.TransactionReasonType != null &&
+                ((List<TypeTransactionReason>)cmbReason.ItemsSource)
+                    .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrTransaction.TransactionReasonType.TypeTransactionReasonId) != null)
+                cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
         }
         #endregion
 
@@ -124,12 +155,10 @@ namespace BMA_WP.View
         private async void ItemSelected()
         {
             var trans = (Transaction)TransactionMultiSelect.SelectedItem;
-            SetBindings(false);
+
+            SetBindings(trans != null);
 
             vm.CurrTransaction = trans;
-
-            if (trans != null)
-                SetBindings(true);
 
             if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
             {
@@ -137,24 +166,23 @@ namespace BMA_WP.View
             }
             else
             {
-                if (!vm.CurrTransaction.HasChanges)
+                if (vm.CurrTransaction.TransactionImages == null || vm.CurrTransaction.TransactionImages.Count == 0)
                 {
                     spProgressImages.Visibility = System.Windows.Visibility.Visible;
                     await App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
                     {
                         if (error == null)
-                        {
                             spProgressImages.Visibility = System.Windows.Visibility.Collapsed;
-                        }
 
-                        if(vm.CurrTransaction != null)
-                            vm.CurrTransaction.HasChanges = false;
+                        //why do i need this??????
+                        //if(vm.CurrTransaction != null)
+                        //    vm.CurrTransaction.HasChanges = false;
                     });
                 }
-                vm.CurrTransaction.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.IsLoading ? false : true;
+                vm.CurrTransaction.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.Transactions.HasItemsWithChanges();
 
-                vm.IsEnabled = vm.IsLoading ? false : true;
-                delete.IsEnabled = vm.IsLoading ? false : true;
+                vm.IsEnabled = !vm.IsLoading;
+                delete.IsEnabled = !vm.IsLoading;
             }
         }
 
@@ -253,29 +281,28 @@ namespace BMA_WP.View
 
         void Save_Click(object sender, EventArgs e)
         {
+            ManualUpdate();
+            if (!ValidateTransaction())
+                return;
+
             SaveTransaction();
         }
 
         private async void SaveTransaction()
         {
-            ManualUpdate();
-            if (!ValidateTransaction())
-                return;
-
             vm.IsLoading = true;
 
             var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
 
             await App.Instance.ServiceData.SaveTransaction(saveOC, (error) => 
             {
-                if(error == null)
-                    vm.IsLoading = false;
+                if (error != null)
+                    MessageBox.Show(AppResources.SaveFailed);
+
+                vm.IsLoading = false;
+
             });
             
-            //##Images WITH CHANGES will be saved with their transactions but wont be retruned again. 
-            //Only after you select specific transaction.
-            //await App.Instance.ServiceData.SaveTransactionImages(saveImg); //leave this as comment
-
             pivotContainer.SelectedIndex = 1;
             save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
 
@@ -327,11 +354,11 @@ namespace BMA_WP.View
             TransactionMultiSelect.SelectedItem = item;
             vm.CurrTransaction = item;
             
-            SetBindings(true);
+            //SetBindings(true);
 
             save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
-            delete.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
-            vm.IsEnabled = vm.IsLoading ? false : true;
+            delete.IsEnabled = !vm.IsLoading;
+            vm.IsEnabled = !vm.IsLoading;
         }
 
         private bool ValidateTransaction()

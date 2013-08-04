@@ -36,6 +36,17 @@ namespace BMA_WP.Model
         private const string STATIC_BUDGETTHRESHOLD_FOLDER = "Static_BudgetThreshold";
         private const string STATIC_USER_FOLDER = "Static_User";
 
+        private string folderFormat = "{0}_{1}";
+        private string User_Category_Folder { get { return string.Format("{0}_{1}", STATIC_CATEGORY_FOLDER, App.Instance.User.UserId); } }
+        private string User_TypeTransaction_Folder { get { return string.Format("{0}_{1}", STATIC_TYPETRANSACTION_FOLDER, App.Instance.User.UserId); } }
+        private string User_TypeTransactionReason_Folder { get { return string.Format("{0}_{1}", STATIC_TYPETRANSACTIONREASON_FOLDER, App.Instance.User.UserId); } }
+        private string User_TypeSavingsFrequency_Folder { get { return string.Format("{0}_{1}", STATIC_TYPESAVINGFREQUENCY_FOLDER, App.Instance.User.UserId); } }
+        private string User_Notification_Folder { get { return string.Format("{0}_{1}", STATIC_NOTIFICATION_FOLDER, App.Instance.User.UserId); } }
+        private string User_TypeFrequency_Folder { get { return string.Format("{0}_{1}", STATIC_TYPEFREQUENCY_FOLDER, App.Instance.User.UserId); } }
+        private string User_TypeInterval_Folder { get { return string.Format("{0}_{1}", STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserId); } }
+        private string User_Recurrence_Folder { get { return string.Format("{0}_{1}", STATIC_RECURRENCE_FOLDER, App.Instance.User.UserId); } }
+        private string User_BudgetThrushold_Folder { get { return string.Format("{0}_{1}", STATIC_BUDGETTHRESHOLD_FOLDER, App.Instance.User.UserId); } }
+        
         static readonly string Utf8ByteOrderMark =
             Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
 
@@ -246,8 +257,8 @@ namespace BMA_WP.Model
                     try
                     {
                         existing = eventargs.Result;
-                        await UpdateCacheUserData(existing);
                         UserFound(existing);
+                        await UpdateCacheUserData(existing);
 
                         callback(eventargs.Error);
                     }
@@ -304,7 +315,7 @@ namespace BMA_WP.Model
                 else
                     CategoryList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
+                StorageUtility.SaveItem(User_Category_Folder, item, item.CategoryId, App.Instance.User.UserId);
             }
             var ord = CategoryList.OrderBy(x => x.Name).ToList();
             CategoryList.Clear();
@@ -330,7 +341,7 @@ namespace BMA_WP.Model
                 else
                     TypeTransactionReasonList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
+                StorageUtility.SaveItem(User_TypeTransactionReason_Folder, item, item.TypeTransactionReasonId, App.Instance.User.UserId);
             }
             var ord = TypeTransactionReasonList.OrderBy(x => x.Name).ToList();
             TypeTransactionReasonList.Clear();
@@ -356,7 +367,7 @@ namespace BMA_WP.Model
                 else
                     TypeTransactionList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
+                StorageUtility.SaveItem(User_TypeTransaction_Folder, item, item.TypeTransactionId, App.Instance.User.UserId);
             }
             var ord = TypeTransactionList.OrderBy(x => x.Name).ToList();
             TypeTransactionList.Clear();
@@ -382,7 +393,7 @@ namespace BMA_WP.Model
                 else
                     TypeSavingsDencityList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);
+                StorageUtility.SaveItem(User_TypeSavingsFrequency_Folder, item, item.TypeSavingsDencityId, App.Instance.User.UserId);
             }
             var ord = TypeSavingsDencityList.OrderBy(x => x.Name).ToList();
             TypeSavingsDencityList.Clear();
@@ -408,7 +419,7 @@ namespace BMA_WP.Model
                 else
                     NotificationList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId);
+                StorageUtility.SaveItem(User_Notification_Folder, item, item.NotificationId, App.Instance.User.UserId);
             }
             var ord = NotificationList.OrderBy(x => x.Name).ToList();
             NotificationList.Clear();
@@ -434,7 +445,7 @@ namespace BMA_WP.Model
                 else
                     TypeFrequencyList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId);
+                StorageUtility.SaveItem(User_TypeFrequency_Folder, item, item.TypeFrequencyId, App.Instance.User.UserId);
             }
             var ord = TypeFrequencyList.OrderBy(x => x.Name).ToList();
             TypeFrequencyList.Clear();
@@ -460,7 +471,7 @@ namespace BMA_WP.Model
                 else
                     IntervalList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId);
+                StorageUtility.SaveItem(User_TypeInterval_Folder, item, item.TypeIntervalId, App.Instance.User.UserId);
             }
             var ord = IntervalList.OrderBy(x => x.Name).ToList();
             IntervalList.Clear();
@@ -486,7 +497,7 @@ namespace BMA_WP.Model
                 else
                     RecurrenceRuleList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId);
+                StorageUtility.SaveItem(User_Recurrence_Folder, item, item.RecurrenceRuleId, App.Instance.User.UserId);
             }
             var ord = RecurrenceRuleList.OrderBy(x => x.Name).ToList();
             RecurrenceRuleList.Clear();
@@ -512,7 +523,7 @@ namespace BMA_WP.Model
                 else
                     BudgetThresholdList[query.Index] = item;
 
-                StorageUtility.SaveItem(STATIC_BUDGETTHRESHOLD_FOLDER, item, item.BudgetThresholdId);
+                StorageUtility.SaveItem(User_BudgetThrushold_Folder, item, item.BudgetThresholdId, App.Instance.User.UserId);
             }
             var ord = BudgetThresholdList.OrderByDescending(x => x.Amount).ToList();
             BudgetThresholdList.Clear();
@@ -525,19 +536,20 @@ namespace BMA_WP.Model
         private async Task<CategoryList> LoadCachedCategories()
         {
             var retVal = new CategoryList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_CATEGORY_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_Category_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<Category>(STATIC_CATEGORY_FOLDER, item);
+
+                    var staticType = await StorageUtility.RestoreItem<Category>(User_Category_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-            }
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
             SetupTypeCategoryData(retVal, false);
 
             return retVal;
@@ -550,25 +562,27 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 CategoryList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<Transaction>(STATIC_CATEGORY_FOLDER, x.Item.CategoryId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<Category>(User_Category_Folder, x.Item, x.Item.CategoryId);
             }
         }
 
         private async Task<TypeTransactionReasonList> LoadCachedTypeTransactionReasons()
         {
             var retVal = new TypeTransactionReasonList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTIONREASON_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_TypeTransactionReason_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, item);
+
+                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(User_TypeTransactionReason_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            
 
             SetupTypeTransactionReasonData(retVal, false);
 
@@ -582,25 +596,26 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 TypeTransactionReasonList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, x.Item.TypeTransactionReasonId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<TypeTransactionReason>(User_TypeTransactionReason_Folder, x.Item, x.Item.TypeTransactionReasonId);
             }
         }
 
         private async Task<TypeTransactionList> LoadCachedTypeTransactions()
         {
             var retVal = new TypeTransactionList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTION_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_TypeTransaction_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(User_TypeTransaction_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            
             
             SetupTypeTransactionData(retVal, false);
 
@@ -614,25 +629,27 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 TypeTransactionList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, x.Item.TypeTransactionId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<TypeTransaction>(User_TypeTransaction_Folder, x.Item, x.Item.TypeTransactionId);
             }
         }
 
         private async Task<TypeSavingsDencityList> LoadCachedTypeSavingsDencities()
         {
             var retVal = new TypeSavingsDencityList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_TYPESAVINGFREQUENCY_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_TypeSavingsFrequency_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeSavingsDencity>(STATIC_TYPESAVINGFREQUENCY_FOLDER, item);
+
+                    var staticType = await StorageUtility.RestoreItem<TypeSavingsDencity>(User_TypeSavingsFrequency_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            
 
             SetupTypeSavingsDencityData(retVal, false);
 
@@ -646,26 +663,27 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 TypeSavingsDencityList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<TypeSavingsDencity>(STATIC_TYPESAVINGFREQUENCY_FOLDER, x.Item.TypeSavingsDencityId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<TypeSavingsDencity>(User_TypeSavingsFrequency_Folder, x.Item, x.Item.TypeSavingsDencityId);
             }
         }
 
         private async Task<NotificationList> LoadCachedNotifications()
         {
             var retVal = new NotificationList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_NOTIFICATION_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_Notification_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<Notification>(STATIC_NOTIFICATION_FOLDER, item);
+
+                    var staticType = await StorageUtility.RestoreItem<Notification>(User_Notification_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
-
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            
             SetupNotificationData(retVal, false);
 
             return retVal;
@@ -678,25 +696,27 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 NotificationList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<Notification>(STATIC_NOTIFICATION_FOLDER, x.Item.NotificationId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<Notification>(User_Notification_Folder, x.Item, x.Item.NotificationId);
             }
         }
 
         private async Task<TypeFrequencyList> LoadCachedTypeFrequencies()
         {
             var retVal = new TypeFrequencyList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_TYPEFREQUENCY_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_TypeFrequency_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, item);
+
+                    var staticType = await StorageUtility.RestoreItem<TypeFrequency>(User_TypeFrequency_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
 
             SetupTypeFrequencyData(retVal, false);
 
@@ -710,24 +730,24 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 TypeFrequencyList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, x.Item.TypeFrequencyId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<TypeFrequency>(User_TypeFrequency_Folder, x.Item, x.Item.TypeFrequencyId);
             }
         }
 
         private async Task<TypeIntervalList> LoadCachedTypeIntervals()
         {
             var retVal = new TypeIntervalList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_TypeInterval_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, item);
+                    var staticType = await StorageUtility.RestoreItem<TypeInterval>(User_TypeInterval_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
             
             SetupIntervalData(retVal, false);
@@ -742,24 +762,24 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 IntervalList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, x.Item.TypeIntervalId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<TypeInterval>(User_TypeInterval_Folder, x.Item, x.Item.TypeIntervalId);
             }
         }
 
         private async Task<RecurrenceRuleList> LoadCachedRecurrenceRules()
         {
             var retVal = new RecurrenceRuleList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_RECURRENCE_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_Recurrence_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, item);
+                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(User_Recurrence_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
 
             SetupRecurrenceRuleData(retVal, false);
@@ -774,24 +794,25 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 RecurrenceRuleList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, x.Item.RecurrenceRuleId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<RecurrenceRule>(User_Recurrence_Folder, x.Item, x.Item.RecurrenceRuleId);
             }
         }
 
         private async Task<BudgetThresholdList> LoadCachedBudgetThresholds()
         {
             var retVal = new BudgetThresholdList();
-            foreach (var item in await StorageUtility.ListItems(STATIC_BUDGETTHRESHOLD_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(User_BudgetThrushold_Folder, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<BudgetThreshold>(STATIC_BUDGETTHRESHOLD_FOLDER, item);
+
+                    var staticType = await StorageUtility.RestoreItem<BudgetThreshold>(User_BudgetThrushold_Folder, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
 
             SetupBudgetThresholdData(retVal, false);
@@ -806,25 +827,26 @@ namespace BMA_WP.Model
             foreach (var x in newItems)
             {
                 BudgetThresholdList.RemoveAt(x.Index);
-                StorageUtility.DeleteItem<BudgetThreshold>(STATIC_BUDGETTHRESHOLD_FOLDER, x.Item.BudgetThresholdId.GetHashCode().ToString());
+                StorageUtility.DeleteItem<BudgetThreshold>(User_BudgetThrushold_Folder, x.Item, x.Item.BudgetThresholdId);
             }
         }
 
         private async Task<List<User>> LoadCachedUser()
         {
             var retVal = new List<User>();
-            foreach (var item in await StorageUtility.ListItems(STATIC_USER_FOLDER))
+            try
             {
-                try
+                foreach (var item in await StorageUtility.ListItems(STATIC_USER_FOLDER, App.Instance.User.UserId))
                 {
-                    var staticType = await StorageUtility.RestoreItem<User>(STATIC_USER_FOLDER, item);
+                    var staticType = await StorageUtility.RestoreItem<User>(STATIC_USER_FOLDER, item, App.Instance.User.UserId);
                     retVal.Add(staticType);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
 
             //SetupUser(retVal, false);
 
@@ -1212,84 +1234,84 @@ namespace BMA_WP.Model
         private async Task UpdateCacheUserData(User user)
         {
       //     await StorageUtility.Clear(STATIC_USER_FOLDER);
-            await StorageUtility.SaveItem(STATIC_USER_FOLDER, user, user.UserId);
+            await StorageUtility.SaveItem(STATIC_USER_FOLDER, user, user.UserId, App.Instance.User.UserId);
 
             //var test = await StorageUtility.ListItems(STATIC_USER_FOLDER);
         }
 
         private async Task UpdateCacheStaticData(StaticTypeList staticDataList)
         {
-            await StorageUtility.Clear(STATIC_TYPESAVINGFREQUENCY_FOLDER);
-            await StorageUtility.Clear(STATIC_TYPETRANSACTION_FOLDER);
+            await StorageUtility.Clear(User_TypeSavingsFrequency_Folder);
+            await StorageUtility.Clear(User_TypeTransaction_Folder);
 
             foreach (var item in staticDataList.TypeTransactions)
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
+                await StorageUtility.SaveItem(User_TypeTransaction_Folder, item, item.TypeTransactionId, App.Instance.User.UserId);
 
             foreach (var item in staticDataList.TypeSavingsDencities)
-                await StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);
+                await StorageUtility.SaveItem(User_TypeSavingsFrequency_Folder, item, item.TypeSavingsDencityId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheBudgetThresholds(ICollection<BudgetThreshold> budgetThresholdList)
         {
-            await StorageUtility.Clear(STATIC_BUDGETTHRESHOLD_FOLDER);
+            await StorageUtility.Clear(User_BudgetThrushold_Folder);
             foreach (var item in budgetThresholdList)
-                await StorageUtility.SaveItem(STATIC_BUDGETTHRESHOLD_FOLDER, item, item.BudgetThresholdId);
+                await StorageUtility.SaveItem(User_BudgetThrushold_Folder, item, item.BudgetThresholdId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheCategory(ICollection<Category> categoryList)
         {
-            await StorageUtility.Clear(STATIC_CATEGORY_FOLDER);
+            await StorageUtility.Clear(User_Category_Folder);
             foreach (var item in categoryList)
-                await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId);
+                await StorageUtility.SaveItem(User_Category_Folder, item, item.CategoryId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheNotification(ICollection<Notification> notificationList)
         {
-            await StorageUtility.Clear(STATIC_NOTIFICATION_FOLDER);
+            await StorageUtility.Clear(User_Notification_Folder);
             foreach (var item in notificationList)
-                await StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId);
+                await StorageUtility.SaveItem(User_Notification_Folder, item, item.NotificationId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheTypeFrequency(ICollection<TypeFrequency> typeFrequencyList)
         {
-            await StorageUtility.Clear(STATIC_TYPEFREQUENCY_FOLDER);
+            await StorageUtility.Clear(User_TypeFrequency_Folder);
             foreach (var item in typeFrequencyList)
-                await StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId);
+                await StorageUtility.SaveItem(User_TypeFrequency_Folder, item, item.TypeFrequencyId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheTypeInterval(ICollection<TypeInterval> typeIntervalList)
         {
-            await StorageUtility.Clear(STATIC_TYPEINTERVAL_FOLDER);
+            await StorageUtility.Clear(User_TypeInterval_Folder);
             foreach (var item in typeIntervalList)
-                await StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId);
+                await StorageUtility.SaveItem(User_TypeInterval_Folder, item, item.TypeIntervalId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheRecurrenceRule(ICollection<RecurrenceRule> recurrenceRuleList)
         {
-            await StorageUtility.Clear(STATIC_RECURRENCE_FOLDER);
+            await StorageUtility.Clear(User_Recurrence_Folder);
             foreach (var item in RecurrenceRuleList)
-                await StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId);
+                await StorageUtility.SaveItem(User_Recurrence_Folder, item, item.RecurrenceRuleId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheTypeSavingsDencity(ICollection<TypeSavingsDencity> typeSavingsDencityList)
         {
-            await StorageUtility.Clear(STATIC_TYPESAVINGFREQUENCY_FOLDER);
+            await StorageUtility.Clear(User_TypeSavingsFrequency_Folder);
             foreach (var item in typeSavingsDencityList)
-                await StorageUtility.SaveItem(STATIC_TYPESAVINGFREQUENCY_FOLDER, item, item.TypeSavingsDencityId);
+                await StorageUtility.SaveItem(User_TypeSavingsFrequency_Folder, item, item.TypeSavingsDencityId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheTypeTransaction(ICollection<TypeTransaction> typeTransactionList)
         {
-            await StorageUtility.Clear(STATIC_TYPETRANSACTION_FOLDER);
+            await StorageUtility.Clear(User_TypeTransaction_Folder);
             foreach (var item in typeTransactionList)
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId);
+                await StorageUtility.SaveItem(User_TypeTransaction_Folder, item, item.TypeTransactionId, App.Instance.User.UserId);
         }
 
         private async Task UpdateCacheTypeTransactionReason(ICollection<TypeTransactionReason> typeTransactionReasonList)
         {
-            await StorageUtility.Clear(STATIC_TYPETRANSACTIONREASON_FOLDER);
+            await StorageUtility.Clear(User_TypeTransactionReason_Folder);
             foreach (var item in typeTransactionReasonList)
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId);
+                await StorageUtility.SaveItem(User_TypeTransactionReason_Folder, item, item.TypeTransactionReasonId, App.Instance.User.UserId);
         }
         #endregion
     }

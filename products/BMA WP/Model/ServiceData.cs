@@ -28,6 +28,11 @@ namespace BMA_WP.Model
             const string TRANSACTIONS_FOLDER = "Transactions";
             const string TRANSACTIONIMAGES_FOLDER = "TransactionImagess";
             const string BUDGETS_FOLDER = "Budgets";
+
+            private string folderFormat = "{0}_{1}";
+            private string User_Transactions_Folder { get { return string.Format("{0}_{1}", TRANSACTIONS_FOLDER, App.Instance.User.UserId); } }
+            private string User_TransactionImages_Folder { get { return string.Format("{0}_{1}", TRANSACTIONIMAGES_FOLDER, App.Instance.User.UserId); } }
+            private string User_Budgets_Folder { get { return string.Format("{0}_{1}", BUDGETS_FOLDER, App.Instance.User.UserId); } }
             #endregion
 
             #region Private Memebrs
@@ -137,7 +142,7 @@ namespace BMA_WP.Model
                     {
                         SetupTransactionImageList(completedEventArgs.Result, transactionId);
 
-                        UpdateCacheTransactionImages();
+                        //UpdateCacheTransactionImages();
                     };
                     client.GetImagesForTransactionAsync(transactionId, latestState);
                 }
@@ -154,17 +159,17 @@ namespace BMA_WP.Model
             public async Task<ICollection<Transaction>> LoadCachedTransactions()
             {
                 var retVal = new TransactionList();
-                foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER))
+                try
                 {
-                    try
+                    foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserId))
                     {
-                        var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item);
+                        var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item, App.Instance.User.UserId);
                         retVal.Add(trans);
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.ToString());
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
                 }
 
                 SetupTransactionList(retVal, false);
@@ -175,19 +180,19 @@ namespace BMA_WP.Model
             private async Task<ICollection<TransactionImage>> LoadCachedTransactionImages()
             {
                 var retVal = new TransactionImageList();
-                foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER))
+                try
                 {
-                    try
+                    foreach (var item in await StorageUtility.ListItems(User_TransactionImages_Folder, App.Instance.User.UserId))
                     {
-                        var trans = await StorageUtility.RestoreItem<TransactionImage>(TRANSACTIONIMAGES_FOLDER, item);
+                        var trans = await StorageUtility.RestoreItem<TransactionImage>(User_TransactionImages_Folder, item, App.Instance.User.UserId);
                         retVal.Add(trans);
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.ToString());
-                    }
                 }
-
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+                
                 //SetupTransactionImageList(retVal);
 
                 return retVal;
@@ -196,20 +201,20 @@ namespace BMA_WP.Model
             private async Task<ICollection<Budget>> LoadCachedBudgets()
             {
                 var retVal = new BudgetList();
-                foreach (var item in await StorageUtility.ListItems(BUDGETS_FOLDER))
+                try
                 {
-                    try
+                    foreach (var item in await StorageUtility.ListItems(User_Budgets_Folder, App.Instance.User.UserId))
                     {
-                        var budget = await StorageUtility.RestoreItem<Budget>(BUDGETS_FOLDER, item);
+                        var budget = await StorageUtility.RestoreItem<Budget>(User_Budgets_Folder, item, App.Instance.User.UserId);
                         retVal.Add(budget);
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.ToString());
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
                 }
 
-                SetupBudgetList(retVal, false); 
+                SetupBudgetList(retVal, false);
 
                 return retVal;
             }
@@ -234,7 +239,7 @@ namespace BMA_WP.Model
                     else
                         TransactionList[query.Index] = item;
 
-                    StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
+                    StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserId);
                 }
                 TransactionList.OrderByDescending(x => x.TransactionDate);
             }
@@ -252,7 +257,9 @@ namespace BMA_WP.Model
                 foreach (var item in existing)
                     trans.TransactionImages.Add(item);
 
-                StorageUtility.SaveItem<Transaction>(TRANSACTIONS_FOLDER, trans, trans.TransactionId);
+                trans.HasChanges = false;
+
+                StorageUtility.SaveItem<Transaction>(TRANSACTIONS_FOLDER, trans, trans.TransactionId, App.Instance.User.UserId);
             }
 
             private void SetupBudgetList(ICollection<Budget> existing, bool removeNew)
@@ -274,8 +281,9 @@ namespace BMA_WP.Model
                     else
                         BudgetList[query.Index] = item;
 
-                    StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.BudgetId);
+                    StorageUtility.SaveItem(User_Budgets_Folder, item, item.BudgetId, App.Instance.User.UserId);
                 }
+                BudgetList.OrderByDescending(x => x.Name);
             }
 
             private async void RemoveInsertedTransactions()
@@ -285,7 +293,7 @@ namespace BMA_WP.Model
                 foreach (var x in newItems)
                 {
                     TransactionList.RemoveAt(x.Index);
-                    StorageUtility.DeleteItem<Transaction>(TRANSACTIONS_FOLDER, x.Item.TransactionId.GetHashCode().ToString());
+                    StorageUtility.DeleteItem<Transaction>(TRANSACTIONS_FOLDER, x.Item, x.Item.TransactionId);
                 }
             }
 
@@ -481,16 +489,16 @@ namespace BMA_WP.Model
             #endregion
 
             #region Save
-            
+
             public async Task SaveTransaction(ObservableCollection<Transaction> transactions, Action<Exception> callback)
             {
-                try
+                await App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
-                    if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                    //continue with local if status is ok but is pending Sync
+                    if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
                         try
                         {
-
                             foreach (var item in transactions)
                                 item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.None);
 
@@ -531,18 +539,15 @@ namespace BMA_WP.Model
 
                         };
                     }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                });
             }
             
             public async Task SaveTransactionImages(ObservableCollection<TransactionImage> transactionImages)
             {
-                try
+                await App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
-                    if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                    //continue with local if status is ok but is pending Sync
+                    if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
                         foreach (var item in TransactionImageList.Where(x => x.HasChanges))
                             item.HasChanges = false;
@@ -565,18 +570,15 @@ namespace BMA_WP.Model
 
                         };
                     }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                });
             }
             
             public async Task SaveBudgets(ObservableCollection<Budget> budgets, Action<Exception> callback)
             {
-                try
+                await App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
-                    if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                    //continue with local if status is ok but is pending Sync
+                    if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
                         try
                         {
@@ -611,14 +613,10 @@ namespace BMA_WP.Model
                             else
                                 callback(completedEventArgs.Error);
                         };
-                    }                    
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                    }
+                });
             }
-            
+
             #endregion
 
             #region Sync
@@ -626,27 +624,7 @@ namespace BMA_WP.Model
             #endregion
 
             #region Update Cache
-            private async Task UpdateCacheBudgets(ICollection<Budget> budgetList)
-            {
-                await StorageUtility.Clear(BUDGETS_FOLDER);
-                foreach (var item in budgetList)
-                    await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId);
-            }
-
-            private async Task UpdateCacheTransactions()
-            {
-                await StorageUtility.Clear(TRANSACTIONS_FOLDER);
-
-                foreach (var item in TransactionList)
-                    await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId);
-            }
-
-            private async Task UpdateCacheTransactionImages()
-            {
-                await StorageUtility.Clear(TRANSACTIONIMAGES_FOLDER);
-                foreach (var item in TransactionImageList)
-                    await StorageUtility.SaveItem(TRANSACTIONIMAGES_FOLDER, item, item.TransactionImageId);
-            }
+            
             #endregion
         }
 

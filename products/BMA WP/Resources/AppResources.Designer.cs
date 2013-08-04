@@ -556,6 +556,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have reached the maximum allowed items [{0}]. You must delete before you add.
+        /// </summary>
+        public static string MaxItemsCount {
+            get {
+                return ResourceManager.GetString("MaxItemsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Budget will change its color to grab your attention when it reach the threshold.
         /// </summary>
         public static string MenuDescriptionBudgetThreshold {
@@ -894,6 +903,15 @@ namespace BMA_WP.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save failed. Please try again..
+        /// </summary>
+        public static string SaveFailed {
+            get {
+                return ResourceManager.GetString("SaveFailed", resourceCulture);
             }
         }
         

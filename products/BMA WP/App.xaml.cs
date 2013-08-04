@@ -19,10 +19,11 @@ using System.Collections;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BMA_WP
 {
-    public partial class App : Application
+    public partial class App : Application, INotifyPropertyChanged
     {
 
         /// <summary>
@@ -259,6 +260,17 @@ namespace BMA_WP
         public StaticServiceData.ServerStatus StaticDataOnlineStatus { get; set; }
         public ServiceData.ServerStatus OnlineStatus { get; set; }
 
+        public bool IsSyncing { get { return _isSyncing; } set { _isSyncing = value; OnPropertyChanged("IsSyncing"); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+
         public bool IsOnline
         {
             get
@@ -273,6 +285,7 @@ namespace BMA_WP
         }
 
         bool _isUserAuthenticated;
+        private bool _isSyncing;
         public bool IsUserAuthenticated
         {
             get{return _isUserAuthenticated;}
@@ -326,6 +339,8 @@ namespace BMA_WP
                 var staticRespont = false;
                 var staticSuccess = false;
 
+                App.Instance.IsSyncing = true;
+
                 SyncTransactions((isSuccess) => 
                 { 
                     transRespont = true;
@@ -372,12 +387,23 @@ namespace BMA_WP
         {
             var result = transSuccess && budgetSuccess && staticSuccess;
             if (result)
+            {
                 App.Instance.IsSync = true;
+            }
         }
 
+        /// <summary>
+        /// Return true only when all async calls return replied
+        /// </summary>
+        /// <param name="transRespont"></param>
+        /// <param name="catRespont"></param>
+        /// <param name="staticRespont"></param>
+        /// <returns></returns>
         private bool ReadyToCallback(bool transRespont, bool catRespont, bool staticRespont)
         {
-            return transRespont && catRespont && staticRespont;
+            var result = transRespont && catRespont && staticRespont;
+
+            return result;
         }
 
         public void SyncTransactions(Action<bool> callback)
@@ -387,7 +413,8 @@ namespace BMA_WP
 
         public void SyncBudgets(Action<bool> callback)
         {
-            App.Instance.ServiceData.SyncBudgets((transError) => callback(transError == null));
+            callback(true);
+            //App.Instance.ServiceData.SyncBudgets((transError) => callback(transError == null));
         }
 
         public void SyncStaticData(Action<bool> callback)

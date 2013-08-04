@@ -59,8 +59,7 @@
                        Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
-        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0"
-                    Visibility="{Binding IsLoading, Converter={StaticResource converters}, ConverterParameter=trueVisible}">
+        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0">
             <TextBlock Text="Synchronizing..."/>
             <ProgressBar IsIndeterminate="True" />
         </StackPanel>

@@ -260,6 +260,12 @@ namespace BMA_WP.View.AdminView
 
             var item = new BMA.BusinessLogic.TypeTransactionReason(App.Instance.User);
 
+            if (vm.TransactionReasonList.Count + 1 >= TypeTransactionReasonList.DEVICE_MAX_COUNT)
+            {
+                MessageBox.Show(string.Format(AppResources.MaxItemsCount, TypeTransactionReasonList.DEVICE_MAX_COUNT));
+                return;
+            }
+
             vm.PivotIndex = 0;
 
             svItem.ScrollToVerticalOffset(0d);

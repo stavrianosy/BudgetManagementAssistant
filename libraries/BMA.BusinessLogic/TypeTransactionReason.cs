@@ -9,6 +9,8 @@ namespace BMA.BusinessLogic
 {
     public class TypeTransactionReasonList : ObservableCollection<TypeTransactionReason>, IDataList
     {
+        public const int DEVICE_MAX_COUNT = 60;
+
         public void AcceptChanges()
         {
             foreach (var item in Items)

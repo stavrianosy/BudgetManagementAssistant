@@ -461,4 +461,10 @@
   <data name="FaildValidationSingle" xml:space="preserve">
     <value>There is another {0} that failed validation.\nUpdate it from the list and save again.</value>
   </data>
+  <data name="MaxItemsCount" xml:space="preserve">
+    <value>Εχετε φθασει στο ανωτατο επιτρεπτο οριο καταχορησεων [{0}]. Παρακαλω διαχραψτε καποιες για να μπορεσετε να προσθεσετε</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>Η αποθηκευση απετυχε. Παρακαλω δοκιμαστε ξανα.</value>
+  </data>
 </root>

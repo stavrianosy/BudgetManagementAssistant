@@ -10,6 +10,7 @@ namespace BMA.BusinessLogic
 {
     public class CategoryList : ObservableCollection<Category>, IDataList
     {
+        public const int DEVICE_MAX_COUNT = 40;
         public void AcceptChanges()
         {
             foreach (var item in Items)

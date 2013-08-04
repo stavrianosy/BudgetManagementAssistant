@@ -197,7 +197,21 @@ namespace BMAServiceLib
 
         public List<RecurrenceRule> GetAllRecurrenceRules(int userId)
         {
-            return GetDataGeneric<RecurrenceRule>(userId);
+            try
+            {
+                using (EntityContext context = new EntityContext())
+                {
+                    var recRule = (from i in context.RecurrenceRule
+                                        .Include(i => i.RuleParts)
+                                   select i).ToList();
+
+                    return recRule;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<TypeTransaction> GetAllTypeTransactions(int userId)
