@@ -401,6 +401,8 @@
     <Content Include="Assets\login_white.png" />
     <Content Include="Assets\outcome.png" />
     <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\wallet_in.png" />
+    <Content Include="Assets\wallet_out.png" />
     <Content Include="MVVMLight.Nuget.Readme.txt" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <None Include="Service References\BMAService\BMAService.xsd">
