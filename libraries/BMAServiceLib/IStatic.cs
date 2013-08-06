@@ -55,7 +55,7 @@ namespace BMAServiceLib
         List<BudgetThreshold> GetAllBudgetThresholds(int userId);
 
         [OperationContract]
-        List<RecurrenceRule> GetAllRecurrenceRules(int userId);
+        List<RecurrenceRule> GetAllRecurrenceRules();
 
         [OperationContract]
         List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId);

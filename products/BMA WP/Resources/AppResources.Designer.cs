@@ -952,7 +952,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synchronizing....
+        ///   Looks up a localized string similar to Loading data....
         /// </summary>
         public static string Synchronizing {
             get {

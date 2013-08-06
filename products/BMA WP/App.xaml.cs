@@ -278,7 +278,9 @@ namespace BMA_WP
                 var isOnline = false;
 
                 isOnline = DeviceNetworkInformation.IsNetworkAvailable;
-                //isOnline = StaticServiceData.LoadCategories();
+
+                //custom way to check. MS suggests to use the DeviceNetworkInformation.IsNetworkAvailable
+                //isOnline = App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok;
 
                 return isOnline;
             }

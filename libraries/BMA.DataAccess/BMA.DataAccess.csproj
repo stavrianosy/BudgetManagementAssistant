@@ -73,13 +73,9 @@
     <Compile Include="Migrations\201307161130362_thumnail.Designer.cs">
       <DependentUpon>201307161130362_thumnail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201308011821459_aa.cs" />
-    <Compile Include="Migrations\201308011821459_aa.Designer.cs">
-      <DependentUpon>201308011821459_aa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201308011823204_removeSync.cs" />
-    <Compile Include="Migrations\201308011823204_removeSync.Designer.cs">
-      <DependentUpon>201308011823204_removeSync.cs</DependentUpon>
+    <Compile Include="Migrations\201308060818242_aaa.cs" />
+    <Compile Include="Migrations\201308060818242_aaa.Designer.cs">
+      <DependentUpon>201308060818242_aaa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,11 +112,8 @@
     <EmbeddedResource Include="Migrations\201307161130362_thumnail.resx">
       <DependentUpon>201307161130362_thumnail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201308011821459_aa.resx">
-      <DependentUpon>201308011821459_aa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201308011823204_removeSync.resx">
-      <DependentUpon>201308011823204_removeSync.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201308060818242_aaa.resx">
+      <DependentUpon>201308060818242_aaa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

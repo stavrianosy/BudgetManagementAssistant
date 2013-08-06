@@ -69,22 +69,20 @@ namespace BMA_WP.View
         }
 
         //workaround for the ListPicker issue when binding object becomes null
-        private void SetBindings(bool isEnabled)
+        private void SetBindings()
         {
-            if (isEnabled)
-            {
-                if (vm.CurrTransaction != null)
-                {
-                    SetupTransactionTypeBinding();
-                    SetupCategoryBinding();
-                    SetupTransactionReasonBinding();
-                }
-            }
-            else
-            {
-                if(cmbType.GetBindingExpression(ListPicker.SelectedIndexProperty) != null)
-                    cmbType.ClearValue(ListPicker.SelectedItemProperty);
-            }
+            if (vm.CurrTransaction == null)
+                return;
+
+            SetupTransactionTypeBinding();
+            SetupCategoryBinding();
+            SetupTransactionReasonBinding();
+        }
+
+        private void ClearBindings()
+        {
+            if (cmbType.GetBindingExpression(ListPicker.SelectedIndexProperty) != null)
+                cmbType.ClearValue(ListPicker.SelectedItemProperty);
         }
 
         private void SetupTransactionTypeBinding()
@@ -152,13 +150,15 @@ namespace BMA_WP.View
             }
         }
 
-        private async void ItemSelected()
+        private void ItemSelected()
         {
             var trans = (Transaction)TransactionMultiSelect.SelectedItem;
 
-            SetBindings(trans != null);
+            ClearBindings();
 
             vm.CurrTransaction = trans;
+
+            SetBindings();
 
             if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
             {
@@ -169,7 +169,7 @@ namespace BMA_WP.View
                 if (vm.CurrTransaction.TransactionImages == null || vm.CurrTransaction.TransactionImages.Count == 0)
                 {
                     spProgressImages.Visibility = System.Windows.Visibility.Visible;
-                    await App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
+                    App.Instance.ServiceData.LoadAllTransactionImages(vm.CurrTransaction.TransactionId, (error) =>
                     {
                         if (error == null)
                             spProgressImages.Visibility = System.Windows.Visibility.Collapsed;
@@ -354,7 +354,7 @@ namespace BMA_WP.View
             TransactionMultiSelect.SelectedItem = item;
             vm.CurrTransaction = item;
             
-            //SetBindings(true);
+            SetBindings();
 
             save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
             delete.IsEnabled = !vm.IsLoading;

@@ -413,6 +413,23 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAService\Main.wsdl" />
+    <None Include="Service References\BMAService\BMAService.disco" />
+    <None Include="Service References\BMAService\configuration91.svcinfo" />
+    <None Include="Service References\BMAService\configuration.svcinfo" />
+    <None Include="Service References\BMAService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
+    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Service References\BMAStaticDataService\BMAStaticDataService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -423,23 +440,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAStaticDataService\Static.wsdl" />
-    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
-    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
-    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
-    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\BMAService\BMAService.disco" />
-    <None Include="Service References\BMAService\configuration91.svcinfo" />
-    <None Include="Service References\BMAService\configuration.svcinfo" />
-    <None Include="Service References\BMAService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <Content Include="ServiceReferences.ClientConfig">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />

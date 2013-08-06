@@ -45,38 +45,38 @@ namespace BMA.DataAccess
 
             modelBuilder.Entity<Budget>().Ignore(i => i.HasChanges);
             modelBuilder.Entity<Budget>().Ignore(i => i.Transactions);
-            modelBuilder.Entity<Budget>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<Budget>().Ignore(i => i.SyncDate);
             modelBuilder.Entity<Budget>().HasRequired(c => c.CreatedUser).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Budget>().HasRequired(c => c.ModifiedUser).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<BudgetThreshold>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<BudgetThreshold>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<BudgetThreshold>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<Category>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<Category>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<Category>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<TypeFrequency>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<TypeFrequency>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<TypeFrequency>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<TypeTransactionReason>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<TypeTransactionReason>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<TypeTransactionReason>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<Notification>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<Notification>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<Notification>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<Security>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<Security>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<Security>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<Transaction>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<Transaction>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<Transaction>().Ignore(i => i.SyncDate);
             ////modelBuilder.Entity<Transaction>().HasRequired(c => c.Category).WithMany(c => c.Transactions);
             ////modelBuilder.Entity<Transaction>().HasRequired(c => c.TransactionReason).WithRequiredDependent(c => c.Transaction);
 
             modelBuilder.Entity<TypeTransaction>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<TypeTransaction>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<TypeTransaction>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<User>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<User>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<User>().Ignore(i => i.SyncDate);
             modelBuilder.Entity<User>().HasRequired(c => c.CreatedUser).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<User>().HasRequired(c => c.ModifiedUser).WithMany().WillCascadeOnDelete(false);
 
@@ -85,16 +85,16 @@ namespace BMA.DataAccess
             //modelBuilder.Entity<Target>().HasRequired(c => c.ModifiedUser).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TypeInterval>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<TypeInterval>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<TypeInterval>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<TypeSavingsDencity>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<TypeSavingsDencity>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<TypeSavingsDencity>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<TransactionImage>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<TransactionImage>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<TransactionImage>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<RecurrenceRule>().Ignore(i => i.HasChanges);
-            modelBuilder.Entity<RecurrenceRule>().Ignore(i => i.SyncDate);
+            //modelBuilder.Entity<RecurrenceRule>().Ignore(i => i.SyncDate);
 
         }
 

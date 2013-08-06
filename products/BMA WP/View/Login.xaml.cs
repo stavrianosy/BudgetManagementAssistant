@@ -374,21 +374,47 @@ namespace BMA_WP.View
 
         async Task LoginSuccess()
         {
-            
+            App.Instance.IsSyncing = true;
+
+            LoadAllData(() => App.Instance.IsSyncing = false);
+
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
         }
 
-        private async Task LoadAllData(Action callback)
+        private async void LoadAllData(Action callback)
         {
-            //txtMessage.Text = "Loading Transactions...";
-            await App.Instance.ServiceData.LoadTransactions(Action callback);
+            var transaction = false;
+            var budget = false;
+            var staticData = false;
+            
+            App.Instance.ServiceData.LoadTransactions(error=>
+                {
+                    transaction = true;
+                    if (AllDataLoaded(transaction, budget, staticData))
+                        callback();
+                });
 
-            //txtMessage.Text = "Loading Budgets...";
-            await App.Instance.ServiceData.LoadBudgets(Action callback);
+            
+            App.Instance.ServiceData.LoadBudgets(error =>
+                {
+                    budget = true;
+                    if (AllDataLoaded(transaction, budget, staticData))
+                        callback();
+                });
 
-            //txtMessage.Text = "Loading Data...";
-            await App.Instance.StaticServiceData.LoadStaticData(Action callback);
+            App.Instance.StaticServiceData.LoadStaticData(error =>
+            {
+                staticData = true;
+                if (AllDataLoaded(transaction, budget, staticData))
+                    callback();
+            });
 
+        }
+
+        private bool AllDataLoaded(bool transaction, bool budget, bool staticData)
+        {
+            return transaction && budget && staticData;
+            //return transaction && budget;
         }
 
         void ProgressShow(bool visible)

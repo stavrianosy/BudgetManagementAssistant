@@ -195,7 +195,7 @@ namespace BMAServiceLib
             return GetDataGeneric<TypeSavingsDencity>(userId);
         }
 
-        public List<RecurrenceRule> GetAllRecurrenceRules(int userId)
+        public List<RecurrenceRule> GetAllRecurrenceRules()
         {
             try
             {

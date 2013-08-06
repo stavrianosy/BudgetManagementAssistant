@@ -22,6 +22,7 @@ namespace BMA_WP.ViewModel.Admin
     {
         TypeInterval currInterval;
         bool isEnabled;
+        bool isLoading;
         DateTime rangeRuleEnddate;
 
         RecurrenceRule ruleDailyEveryDays;
@@ -55,6 +56,7 @@ namespace BMA_WP.ViewModel.Admin
         bool isToggled_tglYearly;
 
         public bool IsEnabled { get { return isEnabled; } set { isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
+        public bool IsLoading { get { return isLoading; } set { isLoading = value; RaisePropertyChanged("IsLoading"); } }
         public TypeInterval CurrInterval { get { return currInterval; } set { currInterval = value; RaisePropertyChanged("CurrInterval"); } }
         public DateTime RangeRuleEndDate { get { return rangeRuleEnddate; } set { rangeRuleEnddate = value; RaisePropertyChanged("RangeRuleEnddate"); } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }

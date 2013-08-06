@@ -204,7 +204,14 @@ namespace BMA_WP.View.AdminView
                 return;
             }
 
-            await App.Instance.StaticServiceData.SaveTypeInterval(saveOC);
+            await App.Instance.StaticServiceData.SaveTypeInterval(saveOC, (error) =>
+            {
+                if (error != null)
+                    MessageBox.Show(AppResources.SaveFailed);
+
+                vm.IsLoading = false;
+
+            });
 
             pivotContainer.SelectedIndex = 1;
         }
