@@ -15,10 +15,15 @@ using System.IO.IsolatedStorage;
 using BMA.BusinessLogic;
 using BMA_WP.Common;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BMA_WP
 {
-    public partial class App : Application
+    public partial class App : Application, INotifyPropertyChanged
     {
 
         /// <summary>
@@ -252,6 +257,20 @@ namespace BMA_WP
         public StaticServiceData StaticServiceData { get; private set; }
         public User User { get; private set; }
 
+        public StaticServiceData.ServerStatus StaticDataOnlineStatus { get; set; }
+        public ServiceData.ServerStatus OnlineStatus { get; set; }
+
+        public bool IsSyncing { get { return _isSyncing; } set { _isSyncing = value; OnPropertyChanged("IsSyncing"); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+
         public bool IsOnline
         {
             get
@@ -259,12 +278,14 @@ namespace BMA_WP
                 var isOnline = false;
 
                 isOnline = DeviceNetworkInformation.IsNetworkAvailable;
+                //isOnline = StaticServiceData.LoadCategories();
 
                 return isOnline;
             }
         }
 
         bool _isUserAuthenticated;
+        private bool _isSyncing;
         public bool IsUserAuthenticated
         {
             get{return _isUserAuthenticated;}
@@ -285,7 +306,120 @@ namespace BMA_WP
             set 
             {
                 IsolatedStorageSettings.ApplicationSettings["IsSync"] = value;
+                if (value)
+                    LastSyncDate = DateTime.Now;
+                    
             }
+        }
+
+        public DateTime LastSyncDate
+        {
+            get {
+
+                DateTime result = DateTime.Now;
+
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("LastSyncDate"))
+                    IsolatedStorageSettings.ApplicationSettings.TryGetValue("LastSyncDate", out result);
+
+                return result;
+            }
+            private set { IsolatedStorageSettings.ApplicationSettings["LastSyncDate"] = value; }
+        }
+
+        public async Task Sync(Action callback)
+        {
+            try
+            {
+                var transRespont = false;
+                var transSuccess = false;
+
+                var budgetRespont = false;
+                var budgetSuccess = false;
+
+                var staticRespont = false;
+                var staticSuccess = false;
+
+                App.Instance.IsSyncing = true;
+
+                SyncTransactions((isSuccess) => 
+                { 
+                    transRespont = true;
+                    transSuccess = true;
+                    if (ReadyToCallback(transRespont, budgetRespont, staticRespont))
+                    {
+                        UpdateSyncStatus(transSuccess, budgetSuccess, staticSuccess);
+                        callback();
+                    }
+                });
+
+                SyncBudgets((isSuccess) =>
+                {
+                    budgetRespont = true;
+                    budgetSuccess = true;
+                    if (ReadyToCallback(transRespont, budgetRespont, staticRespont))
+                    {
+                        UpdateSyncStatus(transSuccess, budgetSuccess, staticSuccess);
+                        callback();
+                    }
+                });
+
+                SyncStaticData((isSuccess) =>
+                {
+                    staticRespont = true;
+                    staticSuccess = true;
+                    if (ReadyToCallback(transRespont, budgetRespont, staticRespont))
+                    {
+                        UpdateSyncStatus(transSuccess, budgetSuccess, staticSuccess);
+                        callback();
+                    }
+                });
+
+                //callback(true);
+            }
+            catch
+            {
+                //callback(false);
+            }
+
+        }
+
+        private void UpdateSyncStatus(bool transSuccess, bool budgetSuccess, bool staticSuccess)
+        {
+            var result = transSuccess && budgetSuccess && staticSuccess;
+            if (result)
+            {
+                App.Instance.IsSync = true;
+            }
+        }
+
+        /// <summary>
+        /// Return true only when all async calls return replied
+        /// </summary>
+        /// <param name="transRespont"></param>
+        /// <param name="catRespont"></param>
+        /// <param name="staticRespont"></param>
+        /// <returns></returns>
+        private bool ReadyToCallback(bool transRespont, bool catRespont, bool staticRespont)
+        {
+            var result = transRespont && catRespont && staticRespont;
+
+            return result;
+        }
+
+        public void SyncTransactions(Action<bool> callback)
+        {
+            App.Instance.ServiceData.SyncTransactions((transError) => callback(transError == null));
+        }
+
+        public void SyncBudgets(Action<bool> callback)
+        {
+            callback(true);
+            //App.Instance.ServiceData.SyncBudgets((transError) => callback(transError == null));
+        }
+
+        public void SyncStaticData(Action<bool> callback)
+        {
+            callback(true);
         }
     }
 }

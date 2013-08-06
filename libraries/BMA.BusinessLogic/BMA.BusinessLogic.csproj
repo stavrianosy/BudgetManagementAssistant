@@ -48,8 +48,10 @@
     <Compile Include="CollectionExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Configuration.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="FieldType.cs" />
+    <Compile Include="IDataList.cs" />
     <Compile Include="RecurrenceRule.cs" />
     <Compile Include="RecurrenceRulePart.cs" />
     <Compile Include="RuleParts.cs" />

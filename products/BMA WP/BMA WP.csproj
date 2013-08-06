@@ -105,13 +105,13 @@
     <Compile Include="Model\RuleSupportItems\Position.cs" />
     <Compile Include="Model\RuleSupportItems\Position12.cs" />
     <Compile Include="Model\RuleSupportItems\Position4.cs" />
+    <Compile Include="Model\RuleSupportItems\Month.cs" />
+    <Compile Include="Model\RuleSupportItems\WeekDay.cs" />
     <Compile Include="Service References\BMAService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Model\RuleSupportItems\Month.cs" />
-    <Compile Include="Model\RuleSupportItems\WeekDay.cs" />
     <Compile Include="Service References\BMAStaticDataService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -146,7 +146,7 @@
     <Compile Include="ViewModel\Reports\TransactionAmountViewModel.cs" />
     <Compile Include="ViewModel\Reports\TransactionBudgetViewModel.cs" />
     <Compile Include="ViewModel\Reports\TransactionCategoryViewModel.cs" />
-    <Compile Include="ViewModel\Reports\TransactionPeriodViewModel.cs" />
+    <Compile Include="ViewModel\Reports\TransactionReasonViewModel.cs" />
     <Compile Include="ViewModel\Reports\TransactionPlaceViewModel.cs" />
     <Compile Include="ViewModel\TransactionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -181,6 +181,9 @@
     <Compile Include="View\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ImageViewer.xaml.cs">
+      <DependentUpon>ImageViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ReportsView\TransactionAmount.xaml.cs">
       <DependentUpon>TransactionAmount.xaml</DependentUpon>
     </Compile>
@@ -190,8 +193,8 @@
     <Compile Include="View\ReportsView\TransactionCategory.xaml.cs">
       <DependentUpon>TransactionCategory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReportsView\TransactionPeriod.xaml.cs">
-      <DependentUpon>TransactionPeriod.xaml</DependentUpon>
+    <Compile Include="View\ReportsView\TransactionReason.xaml.cs">
+      <DependentUpon>TransactionReason.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReportsView\TransactionPlace.xaml.cs">
       <DependentUpon>TransactionPlace.xaml</DependentUpon>
@@ -211,10 +214,6 @@
     <Page Include="View\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ResourceDictionary1.xaml">
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Splash.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\ImageViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ReportsView\TransactionAmount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -272,7 +275,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ReportsView\TransactionPeriod.xaml">
+    <Page Include="View\ReportsView\TransactionReason.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -299,15 +302,18 @@
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Notification.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Notification1.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.RecurrenceRule.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Transaction.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TransactionImage.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeExpense.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval1.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeSavingsDencity.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />
@@ -397,13 +403,6 @@
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="MVVMLight.Nuget.Readme.txt" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
-    <None Include="Service References\BMAService\BMAService.disco" />
-    <None Include="Service References\BMAService\configuration91.svcinfo" />
-    <None Include="Service References\BMAService\configuration.svcinfo" />
-    <None Include="Service References\BMAService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <None Include="Service References\BMAService\BMAService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -431,7 +430,16 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="ServiceReferences.ClientConfig" />
+    <None Include="Service References\BMAService\BMAService.disco" />
+    <None Include="Service References\BMAService\configuration91.svcinfo" />
+    <None Include="Service References\BMAService\configuration.svcinfo" />
+    <None Include="Service References\BMAService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -480,6 +488,12 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.8.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhoneXnaDependant">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.8.0\lib\WindowsPhone8\WriteableBitmapExWinPhoneXnaDependant.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

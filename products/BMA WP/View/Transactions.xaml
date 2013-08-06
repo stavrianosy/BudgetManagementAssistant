@@ -23,7 +23,7 @@
     <UserControl.Resources>
         <dataModel:StatusConverter x:Key="converters" />
     </UserControl.Resources>
-    
+
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
@@ -49,24 +49,28 @@
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,12,0,12">
             <TextBlock x:Name="ApplicationTitle" 
                        Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
-
+        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0">
+            <TextBlock Text="Synchronizing..."/>
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
         <phone:Pivot x:Name="pivotContainer" 
-                     Grid.Row="1" 
+                     Grid.Row="2" 
                      SelectedIndex="{Binding PivotIndex, Mode=TwoWay}"
                      SelectionChanged="Transactions_SelectionChanged">
             <!--Panorama item one-->
             <phone:PivotItem x:Name="piTransaction"
                              Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
-                <ScrollViewer x:Name="svItem">
+                <ScrollViewer x:Name="svItem" Margin="0 0 0 0">
                     <StackPanel>
                         <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
@@ -90,9 +94,9 @@
                             <StackPanel Grid.Column="1">
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                    Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}" />
+                                    Margin="12 0 0 0" Foreground="{x:Null}" />
                                 <TextBox x:Name="txtAmount" Margin="0 -6 0 0"
-                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay}" 
+                                         Text="{Binding CurrTransaction.Amount, Mode=TwoWay, NotifyOnValidationError=True}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
@@ -124,13 +128,13 @@
                                           IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:ListPicker x:Name="cmbReason" 
                                             Header="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                          ItemsSource="{Binding ElementName=cmbCategory, Path=SelectedItem.TypeTransactionReasons}"
+                                          ItemsSource="{Binding ElementName=cmbCategory, Path=SelectedItem, Converter={StaticResource converters}, ConverterParameter=filterTransactioReasonbyCategory}"
                                           FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}"
                                           ItemTemplate="{StaticResource PickerItemTemplate}"
                                           ExpansionMode="FullScreenOnly"
                                           IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:DatePicker 
-                            Header="{Binding Path=LocalizedResources.Date, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
+                            Header="{Binding Path=LocalizedResources.Date, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:TimePicker
@@ -152,25 +156,40 @@
                                             VerticalAlignment="Top" 
                                             Height="140" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                        <Button x:Name="btnTest" Tap="btnTest_Tap" Content="receipt"></Button>
-                        <phone:LongListSelector LayoutMode="Grid" GridCellSize="100,100" x:Name="listSelectTransImages"
-                                       ItemsSource="{Binding CurrTransaction.TransactionImages, Converter={StaticResource converters}, ConverterParameter=nullTranImages}">
+                        <Button x:Name="btnTest" Tap="btnTest_Tap" Content="receipt" 
+                                IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+
+                        <StackPanel x:Name="spProgressImages" Visibility="Collapsed">
+                            <TextBlock Text="Loading Images" Margin="0 0 0 6" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            <ProgressBar x:Name="ProgressImages" IsIndeterminate="True"></ProgressBar>
+                        </StackPanel>
+                        <phone:LongListSelector LayoutMode="Grid" GridCellSize="150,150" x:Name="listSelectTransImages"
+                            ItemsSource="{Binding CurrTransaction.TransactionImages, Mode=TwoWay}"
+                            IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}">
                             <phone:LongListSelector.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel >
+                                    <StackPanel>
                                         <toolkit:ContextMenuService.ContextMenu>
                                             <toolkit:ContextMenu>
-                                                <toolkit:MenuItem Header="delete" x:Name="deletePhoto" Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
+                                                <toolkit:MenuItem x:Name="deletePhoto" Header="delete" 
+                                                                  Tap="deletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
+                                                <toolkit:MenuItem x:Name="undoDeletePhoto" Header="undo delete"
+                                                                  Tap="undoDeletePhoto_Tap" Command="{Binding ElementName=listSelectTransImages, Path=SelectedItem}" />
                                             </toolkit:ContextMenu>
                                         </toolkit:ContextMenuService.ContextMenu>
-                                        <Image Source="/Assets/login_white.png" Margin="5"/>
+                                        <Border BorderThickness="3" Padding="0" Margin="0" Opacity="1" 
+                                                Background="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}"
+                                                BorderBrush="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}">
+                                            <Image Margin="5" 
+                                                Source="{Binding Thumbnail, Converter={StaticResource converters}, ConverterParameter=bytesToImage}" 
+                                                   Tag="{Binding TransactionImageId}"
+                                                  Tap="btnImage_Tap" />
+                                        </Border>
                                     </StackPanel>
                                 </DataTemplate>
                             </phone:LongListSelector.ItemTemplate>
                         </phone:LongListSelector>
-                        <Image x:Name="imgReceipt" Source="/Assets/login_white.png" Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left"></Image>
                     </StackPanel>
-                    
                 </ScrollViewer>
             </phone:PivotItem>
 

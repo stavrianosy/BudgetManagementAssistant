@@ -13,6 +13,9 @@ using System.Threading;
 using BMA_WP.Resources;
 using System.Windows.Markup;
 using BMA_WP.View;
+using BMA_WP.Model;
+using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace BMA_WP.View
 {
@@ -31,6 +34,49 @@ namespace BMA_WP.View
             MainPageObject = this;
 
             SetupAppBar();
+        }
+
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService != null)
+            {
+                var login = NavigationService.BackStack.FirstOrDefault(x=>x.Source.OriginalString == "/View/Login.xaml");
+                if(login != null)
+                    NavigationService.RemoveBackEntry();
+
+            }
+
+            SetupLoadingBinding();
+
+            await CheckOnlineStatus();
+        }
+
+        private async Task CheckOnlineStatus()
+        {
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
+            {
+                App.Instance.StaticDataOnlineStatus = status;
+                vm.Status = status;
+                if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
+                {
+                    vm.IsLoading = true;
+
+                    await App.Instance.Sync(() => vm.IsLoading = false);
+                }
+            });
+            vm.Status = App.Instance.StaticDataOnlineStatus;
+        }
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
         }
 
         private void SetupAppBar()
@@ -63,12 +109,12 @@ namespace BMA_WP.View
             else return false;
         }
 
-        private void hTileTransactions_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void hTileTransactions_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Transactions.xaml", UriKind.Relative));
         }
 
-        private void hTileBudgets_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void hTileBudgets_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Budgets.xaml", UriKind.Relative));
         }
@@ -87,5 +133,11 @@ namespace BMA_WP.View
         {
             NavigationService.Navigate(new Uri("/View/Help.xaml", UriKind.Relative));
         }
+
+        private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            CheckOnlineStatus();
+        }
+
     }
 }

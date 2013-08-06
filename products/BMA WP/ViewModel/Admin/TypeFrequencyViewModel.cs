@@ -12,8 +12,8 @@ namespace BMA_WP.ViewModel.Admin
     /// </summary>
     public class TypeFrequencyViewModel : ViewModelBase
     {
-        public ObservableCollection<TypeFrequency> TypeIntervalList { get { return App.Instance.StaticServiceData.TypeFrequencyList; } }
-        public ObservableCollection<TypeTransaction> TypeTransactionList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
+        public TypeFrequencyList TypeIntervalList { get { return App.Instance.StaticServiceData.TypeFrequencyList; } }
+        public TypeTransactionList TypeTransactionList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
 
         /// <summary>
         /// Initializes a new instance of the TypeFrequencyViewModel class.

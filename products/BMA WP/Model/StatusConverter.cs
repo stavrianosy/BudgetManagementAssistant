@@ -2,12 +2,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using Windows.UI;
 
 namespace BMA_WP.Model
 {
@@ -50,8 +54,11 @@ namespace BMA_WP.Model
                     case "itemisdeleted":
                         return TrueCollapse(value);
 
-                    case "visibilityontipamount":
+                    case "truevisible":
                         return TrueVisible(value);
+
+                    case "visibilityontipamount":
+                        return TrueVisibleDouble(value);
 
                     case "intervalbool":
                         return TransTypeConverter(value);
@@ -67,6 +74,33 @@ namespace BMA_WP.Model
 
                     case "reasoncatlist":
                         return GetReasonCategoryList(value);
+
+                    case "changedcolor":
+                        return GetChangedColor(value);
+
+                    case "bytestoimage":
+                        return ConvertByteArrayToImage(value);
+
+                    case "categorycloneinstance":
+                        return CategoryCloneInstance(value);
+
+                    case "deletedimagecolor":
+                        return DeletedImageColor(value);
+                        
+                    case "onlinestatustotext":
+                        return OnlineStatusToText(value);
+                        
+                    case "onlinestatustovisibility":
+                        return OnlineStatusToVisibility(value);
+
+                    case "offlinetovisibility":
+                        return OfflineToVisibility(value);
+
+                    case "updatetovisibility":
+                        return UpdateToVisibility(value);
+                        
+                    case "filtertransactioreasonbycategory":
+                        return GetTypeTransactionReasonByCategory(value);
                 }
             }
 
@@ -100,6 +134,115 @@ namespace BMA_WP.Model
             return null;
         }
 
+        private object OfflineToVisibility(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status == StaticServiceData.ServerStatus.Error ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object UpdateToVisibility(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status == StaticServiceData.ServerStatus.Communicating ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object OnlineStatusToHeight(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status != StaticServiceData.ServerStatus.Ok ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object OnlineStatusToVisibility(object value)
+        {
+            var status = (StaticServiceData.ServerStatus)value;
+            var result = status != StaticServiceData.ServerStatus.Ok ? "Visible" : "Collapsed";
+
+            return result;
+        }
+
+        private object OnlineStatusToText(object value)
+        {
+            var result = "";
+            var status = (StaticServiceData.ServerStatus)value;
+
+            switch (status)
+            {
+                case StaticServiceData.ServerStatus.Error:
+                    result = "offline";
+                    break;
+                case StaticServiceData.ServerStatus.Communicating:
+                    result = "updating";
+                    break;
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        private object DeletedImageColor(object value)
+        {
+            var result = (bool)value ? "Red" : "Black";
+
+            return result;
+        }
+
+        private object CategoryCloneInstance(object value)
+        {
+            var category = value as Category;
+            return category.Clone();
+        }
+
+        private object GetTypeTransactionReasonByCategory(object value)
+        {
+            List<TypeTransactionReason> result = null;
+            var cat = value as Category;
+            var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
+
+            if(query != null)
+                result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToList();
+            
+            return result;
+        }
+
+        private object ConvertByteArrayToImage(object value)
+        {
+            BitmapImage image = null;
+            if (value != null && value is byte[])
+            {
+                byte[] bytes = value as byte[];
+                MemoryStream stream = new MemoryStream(bytes);
+                image = new BitmapImage();
+
+                image.SetSource(stream);
+
+                return image;
+            }
+
+            return image;
+
+        }
+
+        private object GetChangedColor(object value)
+        {
+            var color = (bool)value;
+            return color ? "Blue" :"White";
+        }
+
         private string GetReasonCategoryList(object value)
         {
             var delim = "";
@@ -127,7 +270,7 @@ namespace BMA_WP.Model
 
         private object GetNullTransImages(object value)
         {
-            var tranImgs = (List<TransactionImage>)value;
+            var tranImgs = (ObservableCollection<TransactionImage>)value;
             if (tranImgs == null || tranImgs.Count == 0)
                 return null;
             else
@@ -147,7 +290,7 @@ namespace BMA_WP.Model
             return isIncome ? "Income" : "Expense";
         }
 
-        private string TrueVisible(object value)
+        private string TrueVisibleDouble(object value)
         {
             var hasTipAmount = (double)value > 0;
             return hasTipAmount ? "Visible" : "Collapsed";
@@ -155,22 +298,14 @@ namespace BMA_WP.Model
 
         private string TrueCollapse(object value)
         {
-            var isDeleted = (bool)value;
-            return isDeleted ? "Collapsed" : "Visible";
+            var collapsed = (bool)value;
+            return collapsed ? "Collapsed" : "Visible";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        private string TrueVisible(object value)
         {
-            if (parameter != null)
-            {
-                string param = parameter.ToString().ToLower();
-                switch (param)
-                {
-                    default:
-                        break;
-                }
-            }
-            return null;
+            var visible = (bool)value;
+            return visible ? "Visible" : "Collapsed";
         }
 
         private string VisibilityConverter(object value)
@@ -249,6 +384,23 @@ namespace BMA_WP.Model
             double.TryParse(value.ToString(), out result);
             //no need of a break;
             return string.Format("{0:N0}", result);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter != null)
+            {
+                string param = parameter.ToString().ToLower();
+                switch (param)
+                {
+                    case "categorycloneinstance":
+                        return CategoryCloneInstance(value);
+
+                    default:
+                        break;
+                }
+            }
+            return null;
         }
     }
 }

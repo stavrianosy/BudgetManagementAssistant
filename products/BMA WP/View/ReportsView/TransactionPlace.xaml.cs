@@ -16,5 +16,10 @@ namespace BMA_WP.View.ReportsView
         {
             InitializeComponent();
         }
+
+        private void placeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

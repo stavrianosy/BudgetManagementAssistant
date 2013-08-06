@@ -16,12 +16,13 @@ namespace BMA_WP.ViewModel
 {
     public class MenuItem
     {
+
         public string Name{get;set;}
         public string SubName{get;set;}
         public string IconPath { get; set; }
         public string Description{get;set;}
         public string NavigateTo { get; set; }
- 
+
     }
     /// <summary>
     /// This class contains properties that a View can data bind to.
@@ -31,9 +32,17 @@ namespace BMA_WP.ViewModel
     /// </summary>
     public class MainPageViewModel : ViewModelBase
     {
-        private RelayCommand<SelectionChangedEventArgs> _goToCommand_SelectionChanged = null;
-        private RelayCommand<string> _goToCommand_NavigateTo = null;
-        private RelayCommand<string> _goToCommand_SelectionChangedParam = null;
+        #region Private Members
+        StaticServiceData.ServerStatus status;
+
+        RelayCommand<SelectionChangedEventArgs> _goToCommand_SelectionChanged = null;
+        RelayCommand<string> _goToCommand_NavigateTo = null;
+        RelayCommand<string> _goToCommand_SelectionChangedParam = null;
+        #endregion
+
+        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+
+        public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
 
         public RelayCommand<string> GoToCommand_NavigateTo
         {
@@ -94,7 +103,7 @@ namespace BMA_WP.ViewModel
                 new MenuItem{Name=AppResources.ReportsMenuTransactionAmount, SubName="a11", IconPath="/Assets/icons/Dark/delete.png", Description="a22", NavigateTo="/View/Transactions.xaml"},
                 new MenuItem{Name=AppResources.ReportsMenuTransactionBudget, SubName="b11", IconPath="/Assets/icons/Dark/delete.png", Description="b22", NavigateTo="/View/Budgets.xaml"},
                 new MenuItem{Name=AppResources.ReportsMenuTransactionCategory, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="3"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionPeriod, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="4"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionReason, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="4"},
                 new MenuItem{Name=AppResources.ReportsMenuTransactionPlace, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="5"},
             };
 

@@ -7,11 +7,23 @@
       <xsd:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IMain_GetStatus_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetStatus" />
+  <wsdl:message name="IMain_GetDBStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDBStatus" />
   </wsdl:message>
-  <wsdl:message name="IMain_GetStatus_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetStatusResponse" />
+  <wsdl:message name="IMain_GetDBStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDBStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDate" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDateDouble_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDateDouble" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionDateDouble_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionDateDoubleResponse" />
   </wsdl:message>
   <wsdl:message name="IMain_GetAllTransactions_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllTransactions" />
@@ -25,6 +37,12 @@
   <wsdl:message name="IMain_GetLatestTransactions_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetLatestTransactionsResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionsOnDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionsOnDate" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetLatestTransactionsOnDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLatestTransactionsOnDateResponse" />
+  </wsdl:message>
   <wsdl:message name="IMain_GetLatestTransactionsLimit_InputMessage">
     <wsdl:part name="parameters" element="tns:GetLatestTransactionsLimit" />
   </wsdl:message>
@@ -37,17 +55,17 @@
   <wsdl:message name="IMain_GetTransactionsForBudget_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetTransactionsForBudgetResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_GetImagesForTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetImagesForTransaction" />
+  </wsdl:message>
+  <wsdl:message name="IMain_GetImagesForTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetImagesForTransactionResponse" />
+  </wsdl:message>
   <wsdl:message name="IMain_GetAllBudgets_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllBudgets" />
   </wsdl:message>
   <wsdl:message name="IMain_GetAllBudgets_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllBudgetsResponse" />
-  </wsdl:message>
-  <wsdl:message name="IMain_GetAllTypeTransactions_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllTypeTransactions" />
-  </wsdl:message>
-  <wsdl:message name="IMain_GetAllTypeTransactions_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllTypeTransactionsResponse" />
   </wsdl:message>
   <wsdl:message name="IMain_LoadItemCounts_InputMessage">
     <wsdl:part name="parameters" element="tns:LoadItemCounts" />
@@ -55,23 +73,11 @@
   <wsdl:message name="IMain_LoadItemCounts_OutputMessage">
     <wsdl:part name="parameters" element="tns:LoadItemCountsResponse" />
   </wsdl:message>
-  <wsdl:message name="IMain_SaveTransactions_InputMessage">
-    <wsdl:part name="parameters" element="tns:SaveTransactions" />
-  </wsdl:message>
-  <wsdl:message name="IMain_SaveTransactions_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SaveTransactionsResponse" />
-  </wsdl:message>
   <wsdl:message name="IMain_SyncTransactions_InputMessage">
     <wsdl:part name="parameters" element="tns:SyncTransactions" />
   </wsdl:message>
   <wsdl:message name="IMain_SyncTransactions_OutputMessage">
     <wsdl:part name="parameters" element="tns:SyncTransactionsResponse" />
-  </wsdl:message>
-  <wsdl:message name="IMain_SaveBudgets_InputMessage">
-    <wsdl:part name="parameters" element="tns:SaveBudgets" />
-  </wsdl:message>
-  <wsdl:message name="IMain_SaveBudgets_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SaveBudgetsResponse" />
   </wsdl:message>
   <wsdl:message name="IMain_SyncBudgets_InputMessage">
     <wsdl:part name="parameters" element="tns:SyncBudgets" />
@@ -79,10 +85,36 @@
   <wsdl:message name="IMain_SyncBudgets_OutputMessage">
     <wsdl:part name="parameters" element="tns:SyncBudgetsResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_SaveTransactions_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTransactions" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SaveTransactions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTransactionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SaveBudgets_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBudgets" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SaveBudgets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBudgetsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SaveTransactionImages_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTransactionImages" />
+  </wsdl:message>
+  <wsdl:message name="IMain_SaveTransactionImages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTransactionImagesResponse" />
+  </wsdl:message>
   <wsdl:portType name="IMain">
-    <wsdl:operation name="GetStatus">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetStatus" message="tns:IMain_GetStatus_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetStatusResponse" message="tns:IMain_GetStatus_OutputMessage" />
+    <wsdl:operation name="GetDBStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetDBStatus" message="tns:IMain_GetDBStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetDBStatusResponse" message="tns:IMain_GetDBStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDate" message="tns:IMain_GetLatestTransactionDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDateResponse" message="tns:IMain_GetLatestTransactionDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDateDouble">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDateDouble" message="tns:IMain_GetLatestTransactionDateDouble_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionDateDoubleResponse" message="tns:IMain_GetLatestTransactionDateDouble_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetAllTransactions">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllTransactions" message="tns:IMain_GetAllTransactions_InputMessage" />
@@ -92,6 +124,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactions" message="tns:IMain_GetLatestTransactions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionsResponse" message="tns:IMain_GetLatestTransactions_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionsOnDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionsOnDate" message="tns:IMain_GetLatestTransactionsOnDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionsOnDateResponse" message="tns:IMain_GetLatestTransactionsOnDate_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetLatestTransactionsLimit">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionsLimit" message="tns:IMain_GetLatestTransactionsLimit_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetLatestTransactionsLimitResponse" message="tns:IMain_GetLatestTransactionsLimit_OutputMessage" />
@@ -100,39 +136,61 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetTransactionsForBudget" message="tns:IMain_GetTransactionsForBudget_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetTransactionsForBudgetResponse" message="tns:IMain_GetTransactionsForBudget_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetImagesForTransaction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetImagesForTransaction" message="tns:IMain_GetImagesForTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetImagesForTransactionResponse" message="tns:IMain_GetImagesForTransaction_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetAllBudgets">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllBudgets" message="tns:IMain_GetAllBudgets_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetAllBudgetsResponse" message="tns:IMain_GetAllBudgets_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllTypeTransactions">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetAllTypeTransactions" message="tns:IMain_GetAllTypeTransactions_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/GetAllTypeTransactionsResponse" message="tns:IMain_GetAllTypeTransactions_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="LoadItemCounts">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/LoadItemCounts" message="tns:IMain_LoadItemCounts_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/LoadItemCountsResponse" message="tns:IMain_LoadItemCounts_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SaveTransactions">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactions" message="tns:IMain_SaveTransactions_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionsResponse" message="tns:IMain_SaveTransactions_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="SyncTransactions">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SyncTransactions" message="tns:IMain_SyncTransactions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SyncTransactionsResponse" message="tns:IMain_SyncTransactions_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="SaveBudgets">
-      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveBudgets" message="tns:IMain_SaveBudgets_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveBudgetsResponse" message="tns:IMain_SaveBudgets_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SyncBudgets">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SyncBudgets" message="tns:IMain_SyncBudgets_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SyncBudgetsResponse" message="tns:IMain_SyncBudgets_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="SaveTransactions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactions" message="tns:IMain_SaveTransactions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionsResponse" message="tns:IMain_SaveTransactions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBudgets">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveBudgets" message="tns:IMain_SaveBudgets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveBudgetsResponse" message="tns:IMain_SaveBudgets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionImages">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactionImages" message="tns:IMain_SaveTransactionImages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionImagesResponse" message="tns:IMain_SaveTransactionImages_OutputMessage" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IMain" type="tns:IMain">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetStatus">
-      <soap:operation soapAction="http://tempuri.org/IMain/GetStatus" style="document" />
+    <wsdl:operation name="GetDBStatus">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetDBStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDate">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetLatestTransactionDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionDateDouble">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetLatestTransactionDateDouble" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -158,6 +216,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetLatestTransactionsOnDate">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetLatestTransactionsOnDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetLatestTransactionsLimit">
       <soap:operation soapAction="http://tempuri.org/IMain/GetLatestTransactionsLimit" style="document" />
       <wsdl:input>
@@ -176,8 +243,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllBudgets">
-      <soap:operation soapAction="http://tempuri.org/IMain/GetAllBudgets" style="document" />
+    <wsdl:operation name="GetImagesForTransaction">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetImagesForTransaction" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -185,8 +252,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllTypeTransactions">
-      <soap:operation soapAction="http://tempuri.org/IMain/GetAllTypeTransactions" style="document" />
+    <wsdl:operation name="GetAllBudgets">
+      <soap:operation soapAction="http://tempuri.org/IMain/GetAllBudgets" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -203,8 +270,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SaveTransactions">
-      <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactions" style="document" />
+    <wsdl:operation name="SyncTransactions">
+      <soap:operation soapAction="http://tempuri.org/IMain/SyncTransactions" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -212,8 +279,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SyncTransactions">
-      <soap:operation soapAction="http://tempuri.org/IMain/SyncTransactions" style="document" />
+    <wsdl:operation name="SyncBudgets">
+      <soap:operation soapAction="http://tempuri.org/IMain/SyncBudgets" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactions">
+      <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactions" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -230,8 +306,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SyncBudgets">
-      <soap:operation soapAction="http://tempuri.org/IMain/SyncBudgets" style="document" />
+    <wsdl:operation name="SaveTransactionImages">
+      <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactionImages" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -53,9 +53,43 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <phone:Pivot x:Name="pivotContainer" 
+                     Grid.Row="1" 
+                     SelectedIndex="{Binding PivotIndex, Mode=TwoWay}">
+            <!--Panorama item one-->
+            <phone:PivotItem x:Name="piCriteria"
+                             Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
+                <ScrollViewer x:Name="svItem">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                            <toolkit:DatePicker 
+                                        Header="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <toolkit:DatePicker 
+                                        Header="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
+                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <TextBlock 
+                                Text="{Binding Path=LocalizedResources.Category, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            <toolkit:LongListMultiSelector x:Name="categoryList" Margin="0 12 0 0"
+                                                       LayoutMode="List" 
+                                                       ItemsSource="{Binding CategoryList, Mode=TwoWay}"
+                                                       SelectionChanged="categoryList_SelectionChanged"
+                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"
+                                                       IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="aaaaa aaaaaa">
 
-        </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
-
 </phone:PhoneApplicationPage>

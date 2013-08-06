@@ -4,7 +4,10 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseItem">
         <xs:sequence>
+          <xs:element minOccurs="0" name="Birthdate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="UserId" type="xs:int" />
           <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
@@ -21,6 +24,7 @@
       <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
       <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="ModifiedUser" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="SyncDate" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseItem" nillable="true" type="tns:BaseItem" />
@@ -146,6 +150,7 @@
   <xs:element name="RulePart" nillable="true" type="tns:RulePart" />
   <xs:complexType name="FieldType">
     <xs:sequence>
+      <xs:element minOccurs="0" name="DefaultValue" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FieldTypeId" type="xs:int" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />

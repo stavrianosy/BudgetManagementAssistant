@@ -9,7 +9,7 @@ using System.ServiceModel;
 
 namespace BMA.BusinessLogic
 {
-    public class TransactionList : ObservableCollection<Transaction>
+    public class TransactionList : ObservableCollection<Transaction>, IDataList
     {
         public TransactionList()
         {
@@ -21,8 +21,19 @@ namespace BMA.BusinessLogic
 
             bool added = false;
 
+            //logic for new unueqe id 
+            if (item.TransactionId <= 0 && this.Contains(item))
+            {
+                var minIndex = (from i in this
+                                orderby i.TransactionId ascending
+                                select i).ToList();
+
+                item.TransactionId = minIndex[0].TransactionId - 1;
+            }
+
             for (int idx = 0; idx < Count; idx++)
             {
+                //immediate sorting !
                 if (item.TransactionDate > Items[idx].TransactionDate)
                 {
                     base.InsertItem(idx, item);
@@ -32,16 +43,10 @@ namespace BMA.BusinessLogic
             }
 
             if (!added)
-            {
                 base.InsertItem(index, item);
-            }
         }
 
-        //private void TransactionList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{
-        //    SortByCreatedDate();
-        //}
-
+        [Obsolete]
         public void SortByCreatedDate()
         {
             for (int z = 0; z < Items.Count; z++)
@@ -55,8 +60,6 @@ namespace BMA.BusinessLogic
 
                         if (Items[i].CreatedDate < Items[k].CreatedDate)
                         {
-                            //Items[i] = o;
-                            //Items[k] = n;
                             base.MoveItem(k, i);
                             break;
                         }
@@ -72,6 +75,15 @@ namespace BMA.BusinessLogic
             var query = this.Where(t => t.HasChanges).ToList();
             foreach (var item in query)
                 result.Add(item);
+
+            return result;
+        }
+
+        public bool HasItemsWithChanges()
+        {
+            bool result = false;
+
+            result = this.FirstOrDefault(x => x.HasChanges) != null;
 
             return result;
         }
@@ -95,15 +107,42 @@ namespace BMA.BusinessLogic
 
             return result;
         }
-        //create a method that accepts a budget for input and will give you all transactions for that budget
-        //apply the same 
-        //where i.CreatedDate >= context.Budget.Where(b => b.BudgetId == budgetId).Select(b => b.FromDate).FirstOrDefault()
-        //&& i.CreatedDate <= context.Budget.Where(b => b.BudgetId == budgetId).Select(b => b.ToDate).FirstOrDefault()
+        
+        public void OptimizeOnTopLevel(Transaction.ImageRemovalStatus removeImages)
+        {
+            foreach (var item in this)
+                item.OptimizeOnTopLevel(removeImages);   
+        }
+
+        public void PrepareForServiceSerialization()
+        {
+            //one way to handle circular referenceis to explicitly set the child to null
+            this.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.All);
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            foreach (var item in deletedIDs)
+                this.RemoveAt(item.index);
+
+            this.AcceptChanges();
+        }
+
+        public static void GenerateIntervalTransactions(TypeIntervalList typeIntervalList, DateTime overwriteStartDate)
+        { 
+        }
     }
 
     //[DataContract]
     public class Transaction : BaseItem
     {
+        #region Enumarators
+        public enum ImageRemovalStatus
+        {
+            None,
+            All,
+            Unchanged,
+            Changed
+        }
+        #endregion
+
         #region Private Members
         double amount;
         string nameOfPlace;
@@ -113,7 +152,7 @@ namespace BMA.BusinessLogic
         TypeTransactionReason typeTransactionReason;
         TypeTransaction typeTransaction;
         DateTime transactionDate;
-        List<TransactionImage> transactionImages;
+        TransactionImageList transactionImages;
         #endregion
 
         public class PlaceComparer : IEqualityComparer<Transaction>
@@ -134,41 +173,60 @@ namespace BMA.BusinessLogic
             #endregion
         }
 
+        public class IDComparer : IEqualityComparer<Transaction>
+        {
+            #region IEqualityComparer Members
+            public bool Equals(Transaction x, Transaction y)
+            {
+                if (x.TransactionId == y.TransactionId)
+                    return true;
+                else
+                    return false;
+            }
+
+            public int GetHashCode(Transaction obj)
+            {
+                return base.GetHashCode();
+            }
+            #endregion
+        }
+
         #region Public Properties
         //[DataMember]
         public int TransactionId { get; set; }
 
         //[DataMember]
-        public double Amount { get { return amount; } set { amount = value; OnPropertyChanged("Amount"); OnPropertyChanged("TotalAmount"); } }
+        public double Amount { get { return amount; } set { amount = value; OnPropertyChanged("Amount"); OnPropertyChanged("HasChanges"); OnPropertyChanged("TotalAmount"); } }
         
         //[DataMember]
-        public double TipAmount { get { return tipAmount; } set { tipAmount = value; OnPropertyChanged("TipAmount"); OnPropertyChanged("TotalAmount"); } }
+        public double TipAmount { get { return tipAmount; } set { tipAmount = value; OnPropertyChanged("TipAmount"); OnPropertyChanged("HasChanges"); OnPropertyChanged("TotalAmount"); } }
         
         //[DataMember]
         public double TotalAmount { get { return Amount + TipAmount; } }
         
         //[DataMember]
-        public string NameOfPlace { get { return nameOfPlace; } set { nameOfPlace = value; OnPropertyChanged("NameOfPlace"); } }
+        public string NameOfPlace { get { return nameOfPlace; } set { nameOfPlace = value; OnPropertyChanged("NameOfPlace"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
-        public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); } }
+        public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); OnPropertyChanged("HasChanges"); } }
 
         //[IgnoreDataMember]
         //[DataMember]
-        public Category Category { get { return category; } set { category = value; OnPropertyChanged("Category"); } }
+        public Category Category { get { return category; } set { category = value; OnPropertyChanged("Category"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
-        public TypeTransactionReason TransactionReasonType { get { return typeTransactionReason; } set { typeTransactionReason = value; OnPropertyChanged("TransactionReasonType"); } }
+        public TypeTransactionReason TransactionReasonType { get { return typeTransactionReason; } set { typeTransactionReason = value; OnPropertyChanged("TransactionReasonType"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
-        public TypeTransaction TransactionType { get { return typeTransaction; } set { typeTransaction = value; OnPropertyChanged("TransactionType"); } }
+        public TypeTransaction TransactionType { get { return typeTransaction; } set { typeTransaction = value; OnPropertyChanged("TransactionType"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
-        public DateTime TransactionDate { get { return transactionDate; } set { transactionDate = value; OnPropertyChanged("TransactionDate"); } }
+        public DateTime TransactionDate { get { return transactionDate; } set { transactionDate = value; OnPropertyChanged("TransactionDate"); OnPropertyChanged("HasChanges"); } }
 
         //[DataMember]
         //[IgnoreDataMember]
-        public List<TransactionImage> TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); } }
+        public TransactionImageList TransactionImages { get { return transactionImages; } set { transactionImages = value; OnPropertyChanged("TransactionImages"); OnPropertyChanged("HasChanges"); } }
+
         #endregion
 
         #region Contructors
@@ -180,10 +238,10 @@ namespace BMA.BusinessLogic
         { }
 
         //Simple contructor with rules applied
-        public Transaction(List<Category> categoryList, List<TypeTransaction> typeTransactionList, List<TypeTransactionReason> typeTransactionReasonList, User user)
+        public Transaction(CategoryList categoryList, TypeTransactionList typeTransactionList, TypeTransactionReasonList typeTransactionReasonList, User user)
             : base(user)
         {
-            TransactionId = -1;
+            TransactionId = 0;
             Amount = 0;
             
             Comments = "";
@@ -197,7 +255,8 @@ namespace BMA.BusinessLogic
             }
             else
             {
-                Category = categoryList.Where(
+                
+                var categoryTemp = categoryList.FirstOrDefault(
                     c =>
                     {
                         bool found = false;
@@ -210,25 +269,72 @@ namespace BMA.BusinessLogic
                                 (c.FromDate.Hour >= DateTime.Now.Hour && c.ToDate.Hour >= DateTime.Now.Hour);
                         }
                         return found ? found : c.Name == "Other";
-                    }
-                ).FirstOrDefault();
+                    });
+
+                Category = categoryTemp.Clone();
             }
 
             if (typeTransactionList == null)
                 TransactionType = new TypeTransaction(user);
             else
-                TransactionType = typeTransactionList.Single(t => t.Name == "Expense");
+            {
+                var typeTransactionTemp = typeTransactionList.Single(t => t.Name == "Expense");
+                TransactionType = typeTransactionTemp.Clone();
+            }
 
             if (typeTransactionReasonList == null)
                 TransactionReasonType = new TypeTransactionReason(user);
             else
-                TransactionReasonType = typeTransactionReasonList.Single(t => t.Name == "Other");
+            {
+                var typeTransReasonTemp = typeTransactionReasonList.Single(t => t.Name == "Other");
+                TransactionReasonType = typeTransReasonTemp.Clone();
+            }
 
-            TransactionImages = new List<TransactionImage>();
+            TransactionImages = new TransactionImageList();
         }
         #endregion
 
         #region Public Methods
+        public void OptimizeOnTopLevel(ImageRemovalStatus removeImages)
+        {
+            this.Category.TypeTransactionReasons = null;
+            this.TransactionReasonType.Categories = null;
+
+            if (this.TransactionImages != null)
+            {
+                switch (removeImages)
+                {
+                    case Transaction.ImageRemovalStatus.All:
+                        this.TransactionImages = null;
+                        break;
+                    case Transaction.ImageRemovalStatus.Changed:
+                        var transImagesNoChange = this.TransactionImages.Where(x => x.HasChanges == false).ToList();
+                        this.TransactionImages = new TransactionImageList();
+
+                        foreach (var img in transImagesNoChange)
+                            this.TransactionImages.Add(img);
+
+                        break;
+                    case Transaction.ImageRemovalStatus.Unchanged:
+                        var transImagesChange = this.TransactionImages.Where(x => x.HasChanges == true).ToList();
+                        this.TransactionImages = new TransactionImageList();
+
+                        foreach (var img in transImagesChange)
+                            this.TransactionImages.Add(img);
+
+                        break;
+                    case Transaction.ImageRemovalStatus.None:
+                        break;
+                }
+
+                if (this.TransactionImages != null)
+                {
+                    foreach (var transImage in this.TransactionImages)
+                        transImage.Transaction = null;
+                }
+            }
+        }
+
         public override bool Equals(Object obj)
         {
             Transaction transaction = obj as Transaction;

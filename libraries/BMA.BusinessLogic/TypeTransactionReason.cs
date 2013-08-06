@@ -1,11 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
 namespace BMA.BusinessLogic
 {
+    public class TypeTransactionReasonList : ObservableCollection<TypeTransactionReason>, IDataList
+    {
+        public const int DEVICE_MAX_COUNT = 60;
+
+        public void AcceptChanges()
+        {
+            foreach (var item in Items)
+                item.HasChanges = false;
+        }
+
+        public void PrepareForServiceSerialization()
+        {
+            this.OptimizeOnTopLevel();
+
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+
+            foreach (var item in deletedIDs)
+                this.RemoveAt(item.index);
+
+            this.AcceptChanges();
+        }
+
+        public void OptimizeOnTopLevel()
+        {
+            foreach (var item in this)
+                item.OptimizeOnTopLevel();
+        }
+
+        public bool HasItemsWithChanges()
+        {
+            bool result = false;
+
+            result = this.FirstOrDefault(x => x.HasChanges) != null;
+
+            return result;
+        }
+    }
     public class TypeTransactionReason : BaseItem
     {
         #region Private Members
@@ -27,6 +65,19 @@ namespace BMA.BusinessLogic
         {
             return this.TypeTransactionReasonId.GetHashCode();
         }
+
+        public TypeTransactionReason Clone()
+        {
+            return (TypeTransactionReason)this.MemberwiseClone();
+        }
+
+        public void OptimizeOnTopLevel()
+        {
+            if (this.Categories != null)
+                foreach (var item in this.Categories)
+                    item.TypeTransactionReasons = null;
+        }
+
         #endregion
 
         #region Public Properties

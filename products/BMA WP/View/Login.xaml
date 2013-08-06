@@ -13,7 +13,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding LoginViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding LoginViewModel, Source={StaticResource Locator}}" 
+    Loaded="PhoneApplicationPage_Loaded">
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -41,16 +42,48 @@
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,12,0,12">
-            <TextBlock x:Name="ApplicationTitle" 
-                       Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                       Style="{StaticResource PhoneTextNormalStyle}"/>
+        <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="ApplicationTitle" Margin="12 0 0 6"
+                           Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                           Style="{StaticResource PhoneTextNormalStyle}"/>
+            <Grid Grid.Row="1" Background="DarkRed">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel 
+                    Visibility="{Binding Status, Converter={StaticResource converters}, ConverterParameter=updateToVisibility}">
+                    <TextBlock Margin="12 0" HorizontalAlignment="Right" 
+                               Text="{Binding Path=LocalizedResources.Updating, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
+                    <ProgressBar IsIndeterminate="True" />
+                </StackPanel>
+                <Grid Grid.Row="1"
+                            Visibility="{Binding Status, Converter={StaticResource converters}, ConverterParameter=offlineToVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition  Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="txtTryAgain" Margin="12 0" HorizontalAlignment="Left" Tap="txtTryAgain_Tap"
+                               Text="{Binding Path=LocalizedResources.TryAgain, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
+                    <TextBlock Grid.Column="1" Margin="12 0" HorizontalAlignment="Right" 
+                               Text="{Binding Path=LocalizedResources.Offline, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
+                </Grid>
+            </Grid>
+        </Grid>
+        <StackPanel x:Name="spLoading" Grid.Row="1" Background="DarkCyan" Visibility="Collapsed">
+            <TextBlock Margin="12 0"  Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
+            <ProgressBar IsIndeterminate="True" />
         </StackPanel>
-            <Grid Grid.Row="1" Background="DarkCyan">
+        <Grid Grid.Row="2" Background="DarkCyan">
             <Grid.RowDefinitions>
                 <RowDefinition Height=".2*" />
                 <RowDefinition />
@@ -69,8 +102,8 @@
                     <StackPanel VerticalAlignment="Top" Margin="10" Grid.Column="1">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel>
                                 <TextBlock 
@@ -91,7 +124,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Name="txtMessage" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="txtMessage" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="Progress" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                         </Grid>
@@ -143,7 +176,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                    <TextBlock x:Name="txtMessageRegister" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtMessageRegister" TextWrapping="Wrap" Foreground="White" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="ProgressRegister" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                         </Grid>
@@ -179,7 +212,7 @@
                                     <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Name="txtMessageForgot" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtMessageForgot" TextWrapping="Wrap" Foreground="White" VerticalAlignment="Center"/>
                                 <ProgressBar Grid.Row="1" x:Name="ProgressForgot" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
                             </Grid>
                         </Grid>

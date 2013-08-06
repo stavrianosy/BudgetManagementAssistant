@@ -161,7 +161,11 @@ namespace BMA_WP.View
         {
             var saveOC = vm.Budgets.Where(t => t.HasChanges).ToObservableCollection();
 
-            await App.Instance.ServiceData.SaveBudgets(saveOC);
+            await App.Instance.ServiceData.SaveBudgets(saveOC, (error) => 
+            {
+                if(error == null)
+                    vm.IsLoading = false;
+            });
 
             pivotContainer.SelectedIndex = 1;
         }

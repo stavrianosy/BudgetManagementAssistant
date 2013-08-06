@@ -8,11 +8,41 @@ using System.Threading.Tasks;
 
 namespace BMA.BusinessLogic
 {
+    public class TransactionImageList : ObservableCollection<TransactionImage>
+    {
+        public TransactionImageList()
+        {
+            //CollectionChanged += TransactionList_CollectionChanged;
+        }
+
+        protected override void InsertItem(int index, TransactionImage item)
+        {
+            if (item.TransactionImageId <= 0 && this.Contains(item))
+            {
+                var minIndex = (from i in this
+                               orderby i.TransactionImageId ascending
+                               select i).ToList();
+
+                item.TransactionImageId = minIndex[0].TransactionImageId - 1;
+
+            }
+            base.InsertItem(index, item);
+        }
+
+        public void AcceptChanges()
+        {
+            foreach (var item in Items)
+                item.HasChanges = false;
+        }
+
+    }
+
     public class TransactionImage : BaseItem
     {
         #region Private Members
         string path;
         byte[] image;
+        byte[] thumbnail;
         string name;
         Transaction transaction;
         #endregion
@@ -42,7 +72,9 @@ namespace BMA.BusinessLogic
 
         public byte[] Image { get { return image; } set { image = value; OnPropertyChanged("Image"); } }
 
-    [IgnoreDataMember]
+        public byte[] Thumbnail { get { return thumbnail; } set { thumbnail = value; OnPropertyChanged("Thumbnail"); } }
+        
+        //[IgnoreDataMember]
         public Transaction Transaction { get; set; }
         #endregion
 

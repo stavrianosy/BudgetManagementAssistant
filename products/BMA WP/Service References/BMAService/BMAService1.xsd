@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" />
-  <xs:element name="GetStatus">
+  <xs:element name="GetDBStatus">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetStatusResponse">
+  <xs:element name="GetDBStatusResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="GetStatusResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="GetDBStatusResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLatestTransactionDate">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLatestTransactionDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetLatestTransactionDateResult" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLatestTransactionDateDouble">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLatestTransactionDateDoubleResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetLatestTransactionDateDoubleResult" type="xs:double" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAllTransactions">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAllTransactionsResponse">
@@ -27,7 +55,9 @@
   </xs:element>
   <xs:element name="GetLatestTransactions">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetLatestTransactionsResponse">
@@ -37,17 +67,32 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetLatestTransactionsOnDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLatestTransactionsOnDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetLatestTransactionsOnDateResult" nillable="true" type="q3:ArrayOfTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetLatestTransactionsLimit">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="latestRecs" type="xs:int" />
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetLatestTransactionsLimitResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetLatestTransactionsLimitResult" nillable="true" type="q3:ArrayOfTransaction" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetLatestTransactionsLimitResult" nillable="true" type="q4:ArrayOfTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -61,99 +106,119 @@
   <xs:element name="GetTransactionsForBudgetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetTransactionsForBudgetResult" nillable="true" type="q4:ArrayOfTransaction" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetTransactionsForBudgetResult" nillable="true" type="q5:ArrayOfTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetImagesForTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="transactionId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetImagesForTransactionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetImagesForTransactionResult" nillable="true" type="q6:ArrayOfTransactionImage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAllBudgets">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAllBudgetsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetAllBudgetsResult" nillable="true" type="q5:ArrayOfBudget" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetAllTypeTransactions">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetAllTypeTransactionsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetAllTypeTransactionsResult" nillable="true" type="q6:ArrayOfTypeTransaction" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="GetAllBudgetsResult" nillable="true" type="q7:ArrayOfBudget" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="LoadItemCounts">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="LoadItemCountsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="LoadItemCountsResult" nillable="true" type="q7:StartupInfo" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SaveTransactions">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="transactions" nillable="true" type="q8:ArrayOfTransaction" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SaveTransactionsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTransactionsResult" nillable="true" type="q9:ArrayOfTransaction" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="LoadItemCountsResult" nillable="true" type="q8:StartupInfo" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SyncTransactions">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="transactions" nillable="true" type="q10:ArrayOfTransaction" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="transactions" nillable="true" type="q9:ArrayOfTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SyncTransactionsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SyncTransactionsResult" nillable="true" type="q11:ArrayOfTransaction" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SaveBudgets">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="transactions" nillable="true" type="q12:ArrayOfBudget" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SaveBudgetsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveBudgetsResult" nillable="true" type="q13:ArrayOfBudget" />
+        <xs:element minOccurs="0" name="SyncTransactionsResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SyncBudgets">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="budgets" nillable="true" type="q14:ArrayOfBudget" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="budgets" nillable="true" type="q10:ArrayOfBudget" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SyncBudgetsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SyncBudgetsResult" nillable="true" type="q15:ArrayOfBudget" />
+        <xs:element minOccurs="0" name="SyncBudgetsResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTransactions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="transactions" nillable="true" type="q11:ArrayOfTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTransactionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTransactionsResult" nillable="true" type="q12:ArrayOfTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBudgets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="budgets" nillable="true" type="q13:ArrayOfBudget" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveBudgetsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveBudgetsResult" nillable="true" type="q14:ArrayOfBudget" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTransactionImages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="transactionImages" nillable="true" type="q15:ArrayOfTransactionImage" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveTransactionImagesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SaveTransactionImagesResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

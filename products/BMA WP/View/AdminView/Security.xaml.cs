@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using BMA_WP.Resources;
+using System.Text;
 
 namespace BMA_WP.View.AdminView
 {
@@ -48,12 +49,64 @@ namespace BMA_WP.View.AdminView
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ClearPass();
         }
 
-        private void ChangePass_Click(object sender, EventArgs e)
+        private void ClearPass()
         {
-            throw new NotImplementedException();
+            txtOldPass.Text = "";
+            txtNewPass.Text = "";
+            txtConfirmPass.Text = "";
+        }
+
+        private async void ChangePass_Click(object sender, EventArgs e)
+        {
+            var oldPass = txtOldPass.Text.Trim();
+            var newPass = txtNewPass.Text.Trim();
+            var confirmPass = txtConfirmPass.Text.Trim();
+
+            if (oldPass != App.Instance.User.Password)
+            {
+                MessageBox.Show("Old password is not correct");
+                ClearPass();
+                return;
+            }
+
+            if (newPass != confirmPass)
+            {
+                MessageBox.Show("New and confirm password do not match");
+                ClearPass();
+                return;
+            }
+
+            var errMsg = App.Instance.User.ValidatePassword(newPass);
+            StringBuilder sb = new StringBuilder();
+            string delim = "";
+            foreach (var item in App.Instance.User.ValidatePassword(newPass))
+            {
+                sb.AppendFormat("{0}{1}", delim, item);
+                delim = "\r";
+            }
+
+            if (sb.Length > 0)
+            {
+                MessageBox.Show(string.Format("{0}:\n\r{2}",
+                                            AppResources.PasswordValidationFailMessage,
+                                            sb.ToString()),
+                                            AppResources.LoginFail, MessageBoxButton.OK);
+                ClearPass();
+                return;
+            }
+
+            App.Instance.User.Password = newPass;
+
+            await App.Instance.StaticServiceData.ChangePassword(App.Instance.User, (result, error) =>
+                    {
+                        if (result != null && error == null)
+                        {
+
+                        }
+                    });
         }
     }
 }

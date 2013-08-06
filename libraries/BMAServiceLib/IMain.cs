@@ -12,41 +12,58 @@ namespace BMAServiceLib
     [ServiceContract]
     public interface IMain
     {
+        #region Read
         [OperationContract]
-        bool GetStatus();
+        bool GetDBStatus();
 
         [OperationContract]
-        TransactionList GetAllTransactions();
+        DateTime GetLatestTransactionDate();
 
         [OperationContract]
-        TransactionList GetLatestTransactions();
+        double GetLatestTransactionDateDouble(int userId);
 
         [OperationContract]
-        TransactionList GetLatestTransactionsLimit(int latestRecs);
+        TransactionList GetAllTransactions(int userId);
+
+        [OperationContract]
+        TransactionList GetLatestTransactions(int userId);
+
+        [OperationContract]
+        TransactionList GetLatestTransactionsOnDate(int userId);
+
+        [OperationContract]
+        TransactionList GetLatestTransactionsLimit(int latestRecs, int userId);
 
         [OperationContract]
         TransactionList GetTransactionsForBudget(int budgetId);
 
         [OperationContract]
-        BudgetList GetAllBudgets();
+        TransactionImageList GetImagesForTransaction(int transactionId);
 
         [OperationContract]
-        List<TypeTransaction> GetAllTypeTransactions();
+        BudgetList GetAllBudgets(int userId);
 
         [OperationContract]
-        StartupInfo LoadItemCounts();
+        StartupInfo LoadItemCounts(int userId);
 
+        [OperationContract]
+        bool SyncTransactions(TransactionList transactions);
+
+        [OperationContract]
+        bool SyncBudgets(BudgetList budgets);
+
+        #endregion
+
+        #region Update
         [OperationContract]
         TransactionList SaveTransactions(TransactionList transactions);
 
         [OperationContract]
-        TransactionList SyncTransactions(TransactionList transactions);
+        BudgetList SaveBudgets(BudgetList budgets);
 
         [OperationContract]
-        BudgetList SaveBudgets(BudgetList transactions);
+        bool SaveTransactionImages(TransactionImageList transactionImages);
 
-        [OperationContract]
-        BudgetList SyncBudgets(BudgetList budgets);
-
+        #endregion
     }
 }

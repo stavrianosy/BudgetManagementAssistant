@@ -68,12 +68,15 @@
     <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Notification.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.RecurrenceRule.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Transaction.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TransactionImage.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeExpense.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeSavingsDencity.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.User.datasource" />

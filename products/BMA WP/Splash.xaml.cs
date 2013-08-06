@@ -19,7 +19,7 @@ namespace BMA_WP
             InitializeComponent();
         }
 
-        private async void ExtendedSplashScreen_Loaded(object sender, RoutedEventArgs e)
+        private void ExtendedSplashScreen_Loaded(object sender, RoutedEventArgs e)
         {
             
             // Navigate to the new page

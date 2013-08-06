@@ -75,7 +75,8 @@
                                                        LayoutMode="List" 
                                                        ItemsSource="{Binding CategoryList, Mode=TwoWay}"
                                                        SelectionChanged="categoryList_SelectionChanged"
-                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"/>
+                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"
+                                                       IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>

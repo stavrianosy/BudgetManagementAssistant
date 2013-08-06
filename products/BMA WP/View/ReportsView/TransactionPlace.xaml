@@ -39,7 +39,7 @@
     </toolkit:TransitionService.NavigationOutTransition>
     
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -53,9 +53,45 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <phone:Pivot x:Name="pivotContainer" 
+                     Grid.Row="1" 
+                     SelectedIndex="{Binding PivotIndex, Mode=TwoWay}">
+            <!--Panorama item one-->
+            <phone:PivotItem x:Name="piCriteria"
+                             Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
+                <ScrollViewer x:Name="svItem">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                            <toolkit:DatePicker 
+                                        Header="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <toolkit:DatePicker 
+                                        Header="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
+                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <TextBlock 
+                                Text="{Binding Path=LocalizedResources.Place, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            <toolkit:LongListMultiSelector x:Name="placeList" Margin="0 12 0 0"
+                                                       LayoutMode="List" 
+                                                       ItemsSource="{Binding PlaceList, Mode=TwoWay}"
+                                                       SelectionChanged="placeList_SelectionChanged"
+                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"
+                                                       IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                        </StackPanel>
+                        <Button Grid.Row="1" Content="View Report" />
+                    </Grid>
+                </ScrollViewer>
+            </phone:PivotItem>
+            <phone:PivotItem Header="aaaaa aaaaaa">
 
-        </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 
 </phone:PhoneApplicationPage>

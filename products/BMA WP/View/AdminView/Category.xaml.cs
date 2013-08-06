@@ -11,6 +11,7 @@ using BMA_WP.ViewModel.Admin;
 using BMA_WP.Resources;
 using BMA.BusinessLogic;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace BMA_WP.View.AdminView
 {
@@ -193,16 +194,69 @@ namespace BMA_WP.View.AdminView
 
         private async void SaveCategory()
         {
+            if (!ValidateTransaction())
+                return;
+
+            vm.IsLoading = true;
+
             var saveOC = vm.CategoryList.Where(t => t.HasChanges).ToObservableCollection();
 
-            await App.Instance.StaticServiceData.SaveCategory(saveOC);
+            await App.Instance.StaticServiceData.SaveCategory(saveOC,(error) => 
+            {
+                if(error == null)
+                    vm.IsLoading = false;
+            });
 
             pivotContainer.SelectedIndex = 1;
+            save.IsEnabled = vm.CategoryList.HasItemsWithChanges() && vm.IsLoading == false;
+        }
+
+        private bool ValidateTransaction()
+        {
+            var result = true;
+            if (vm.CurrCategory == null)
+                return result;
+
+            SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });
+            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
+
+            txtName.Background = okColor;
+
+            if (vm.CurrCategory.Name == null || vm.CurrCategory.Name.Length == 0)
+            {
+                result = false;
+                txtName.Background = errColor;
+            }
+
+            if (!result)
+                svItem.ScrollToVerticalOffset(0);
+            else
+            {
+                var tempCategory = vm.CategoryList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Length == 0)).ToList();
+                if (tempCategory.Count > 0)
+                {
+                    result = false;
+                    //for more specific message
+                    if (tempCategory.Count == 1)
+                        MessageBox.Show(string.Format(AppResources.FaildValidationSingle, "category"));
+                    else
+                        MessageBox.Show(string.Format(AppResources.FaildValidation, tempCategory.Count, "categories"));
+                }
+            }
+
+            return result;
+
         }
 
         private void Add_Click(object sender, EventArgs e)
         {
             var item = new BMA.BusinessLogic.Category(App.Instance.User);
+
+            if (vm.CategoryList.Count + 1 >= CategoryList.DEVICE_MAX_COUNT)
+            {
+                MessageBox.Show(string.Format(AppResources.MaxItemsCount, CategoryList.DEVICE_MAX_COUNT));
+                return;
+            }
 
             vm.PivotIndex = 0;
 

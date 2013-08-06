@@ -11,6 +11,10 @@ namespace BMAServiceLib
     [ServiceContract]
     public interface IStatic
     {
+        #region Read
+        [OperationContract]
+        bool GetDBStatus();
+
         [OperationContract]
         User AuthenticateUser(User user);
 
@@ -24,49 +28,70 @@ namespace BMAServiceLib
         User ForgotPassword(User user);
 
         [OperationContract]
-        StaticTypeList GetAllStaticData();
+        StaticTypeList GetAllStaticData(int userId);
 
         [OperationContract]
-        List<Category> GetAllCategories();
+        List<Category> GetAllCategories(int userId);
 
         [OperationContract]
-        List<TypeTransactionReason> GetAllTypeTransactionReasons();
+        List<TypeTransactionReason> GetAllTypeTransactionReasons(int userId);
 
         [OperationContract]
-        List<TypeTransaction> GetAllTypeTransactions();
+        List<TypeTransaction> GetAllTypeTransactions(int userId);
 
         [OperationContract]
-        List<Notification> GetUpcomingNotifications(DateTime clientTime);
+        List<TypeSavingsDencity> GetAllTypeSavingsDencities(int userId);
 
         [OperationContract]
-        StaticTypeList SyncStaticData(StaticTypeList staticData, User user);
+        List<Notification> GetAllNotifications(int userId);
 
         [OperationContract]
-        List<Category> SyncCategories(List<Category> categories, User user);
+        List<TypeInterval> GetAllTypeIntervals(int userId);
 
         [OperationContract]
-        List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+        List<TypeFrequency> GetAllTypeFrequencies(int userId);
 
         [OperationContract]
-        List<Notification> SyncNotifications(List<Notification> notifications);
+        List<BudgetThreshold> GetAllBudgetThresholds(int userId);
 
         [OperationContract]
-        List<TypeTransaction> SyncTypeTransactions(List<TypeTransaction> typeTransactions);
+        List<RecurrenceRule> GetAllRecurrenceRules(int userId);
 
         [OperationContract]
-        List<TypeFrequency> SyncTypeFrequencies(List<TypeFrequency> typeFrequencies);
+        List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId);
+
+        #endregion
+
+        #region Update
+        //[OperationContract]
+        //StaticTypeList SyncStaticData(StaticTypeList staticData);
+
+        //[OperationContract]
+        //List<Category> SyncCategories(List<Category> categories);
+
+        //[OperationContract]
+        //List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+
+        //[OperationContract]
+        //List<Notification> SyncNotifications(List<Notification> notifications);
+
+        //[OperationContract]
+        //List<TypeTransaction> SyncTypeTransactions(List<TypeTransaction> typeTransactions);
+
+        //[OperationContract]
+        //List<TypeFrequency> SyncTypeFrequencies(List<TypeFrequency> typeFrequencies);
+
+        //[OperationContract]
+        //List<TypeInterval> SyncTypeIntervals(List<TypeInterval> interval);
+
+        //[OperationContract]
+        //List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThreshold);
 
         [OperationContract]
-        List<TypeInterval> SyncTypeIntervals(List<TypeInterval> interval);
+        CategoryList SaveCategories(CategoryList categories);
 
         [OperationContract]
-        List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThreshold);
-
-        [OperationContract]
-        List<Category> SaveCategories(List<Category> categories, User user);
-
-        [OperationContract]
-        List<TypeTransactionReason> SaveTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+        TypeTransactionReasonList SaveTypeTransactionReasons(TypeTransactionReasonList typeTransactionReason);
 
         [OperationContract]
         List<Notification> SaveNotifications(List<Notification> notifications);
@@ -82,6 +107,6 @@ namespace BMAServiceLib
 
         [OperationContract]
         List<BudgetThreshold> SaveBudgetThresholds(List<BudgetThreshold> budgetThreshold);
-
+        #endregion
     }
 }

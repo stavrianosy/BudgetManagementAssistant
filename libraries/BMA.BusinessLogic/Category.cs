@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,6 +8,43 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
+    public class CategoryList : ObservableCollection<Category>, IDataList
+    {
+        public const int DEVICE_MAX_COUNT = 40;
+        public void AcceptChanges()
+        {
+            foreach (var item in Items)
+                item.HasChanges = false;
+        }
+
+        public void PrepareForServiceSerialization()
+        {
+            this.OptimizeOnTopLevel();
+            
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            
+            foreach (var item in deletedIDs)
+                this.RemoveAt(item.index);
+
+            this.AcceptChanges();
+        }
+
+        public void OptimizeOnTopLevel()
+        {
+            foreach (var item in this)
+                item.OptimizeOnTopLevel();
+        }
+        
+        public bool HasItemsWithChanges()
+        {
+            bool result = false;
+
+            result = this.FirstOrDefault(x => x.HasChanges) != null;
+
+            return result;
+        }
+    }
+
     public class Category : BaseItem
     {
         #region Public Methods
@@ -23,6 +61,7 @@ namespace BMA.BusinessLogic
         {
             return this.CategoryId.GetHashCode();
         }
+
         #endregion
 
         #region Private Members
@@ -62,7 +101,25 @@ namespace BMA.BusinessLogic
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **//
             FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 0, 0);
             ToDate = FromDate.AddHours(1);
+
+        }
+
+        #endregion
+
+        #region Public Methods
+        public Category Clone()
+        {
+            return (Category)this.MemberwiseClone();
+        }
+
+        public void OptimizeOnTopLevel()
+        {
+            if(this.TypeTransactionReasons != null)
+                foreach (var item in this.TypeTransactionReasons)
+                    item.Categories = null;
         }
         #endregion
+
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BMA.BusinessLogic;
 using BMA.DataAccess;
+using System.Collections.ObjectModel;
 
 namespace ConsoleApplication1
 {
@@ -12,100 +13,187 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            //Transaction t1 = new Transaction();
-            //Transaction t2 = new Transaction();
-            //TransactionList tl = new TransactionList();
-            //tl.Add(t1);
-            //tl.Add(t2);
-
-            //t1.HasChanges = true;
-
-            //tl.GetChanges<TransactionList>();
-
-            User user = new User();
-            user.UserName = "asa";
-            user.Password = "asa";
-            user.Email = "asa@www.com";
+            //User user = new User();
+            //user.UserName = "asa";
+            //user.Password = "asa";
+            //user.Email = "asa@www.com";
 
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
-            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
+            var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
 
+            var newuser = CreateUser(b);
+            //var db = b.GetDBStatus();
+            //SyncTransactions(a, usr);
+            //a.GetLatestTransactionsLimit(10, 11);
+            //var tt = b.GetAllTypeTransactions(4);
+            //var cat = b.GetAllCategories(4);
             //GetAllBudgets(a);
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
-            SaveTypeInterval(a, b, usr);
+            //SaveTypeInterval(a, b, usr);
+            //b.GetAllTypeTransactionReasons();
+            //SaveCategories(b, usr);
+            //SaveTransactionImages(a, usr);
+            //UpdateTransaction(a, usr);
+            //UpdateBudget(a, usr);
+            //var dd = a.GetLatestTransactionDate(usr.UserId);
+        }
 
+        private static User CreateUser(ServiceReference2.StaticClient b)
+        {
+            User usr = new User();
 
+            usr.UserName = "aaaa";
+            usr.Password = "bbbb";
+            usr.Email = "bbbb@aaaa.com";
 
+            return b.RegisterUser(usr);
+        }
 
-
-            //var usr = new User() { UserId = 2, UserName = "stavrianosy", Password = "1234" };
-            var auth = b.AuthenticateUser(usr);
-            var usr11 = b.GetUpcomingNotifications(DateTime.Now);
-            //var bud = a.GetAllBudgets();
-
+        private static void SyncTransactions(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetLatestTransactions(usr.UserId);
             
+            transactions[0].TransactionId = 0;
+            
+            transactions[1].ModifiedDate = transactions[1].ModifiedDate.AddDays(-1);
+            
+            transactions[2].TipAmount = 0;
+            transactions[2].ModifiedDate = transactions[2].ModifiedDate.AddDays(1);
 
-            var trans = a.GetLatestTransactions();
-            var list = new TransactionList();
+            var onDate = a.SyncTransactions(transactions);
+        }
 
-            Transaction aaaa = trans[0];
-            aaaa.TransactionId = -1;
-            aaaa.CreatedUser = usr;
-            aaaa.ModifiedUser = usr;
-            //var transImg = new TransactionImage(usr) { Path = "111asas" };
-            var ss = "22 111asas";
-            aaaa.TransactionImages[0].Path = ss;
-            aaaa.TransactionImages[0].Name = "ss";
-            aaaa.TransactionImages[0].ModifiedUser = usr;
-            aaaa.TransactionImages.Add(new TransactionImage(usr) { Path = "111asas" });
-            list.Add(aaaa);
+        private static void UpdateBudget(ServiceReference1.MainClient a, User usr)
+        {
+            var budgets = a.GetAllBudgets(usr.UserId);
 
-            aaaa.Amount = 516d;
-            aaaa.ModifiedDate = DateTime.Now;
-            //var arr = trans.ToArray();
+            var budget = budgets[0];
+            budget.Comments = "remove this comment";
+            budget.ModifiedDate = DateTime.Now;
 
-            var newbudList = new List<Budget>();
-            var newbud = new Budget(usr);
-            newbud.Amount = 512;
-            newbud.Name = "qqaaww";
-            newbud.ModifiedDate = DateTime.Now;
+            var budget2 = budgets[1];
+            budget2.Comments = "delete";
+            budget2.ModifiedDate = DateTime.Now;
+            budget2.BudgetId = -1;
 
-            newbudList.Add(newbud);
+            var budget3 = budgets[2];
+            budget3.Comments = "remove from deleted";
+            budget3.IsDeleted = true;
+            budget3.ModifiedDate = DateTime.Now;
 
-            //var aa = a.SyncTransactions(list.ToList());
+            var budgetList = new ObservableCollection<Budget> { budget, budget2, budget3 };
 
-            var b1 = a.SaveTransactions(trans);
-            var b2 = a.SaveBudgets(newbudList);
+            var result = a.SaveBudgets(budgetList);
+        }
 
-            //st.Categories[7].Name = "asd";
-            //st.Categories[7].ModifiedDate = DateTime.Now;
+        private static void UpdateTransaction(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetLatestTransactions(usr.UserId);
+            
+            var trans = transactions[0];
+            trans.Comments = "";
+            trans.ModifiedDate = DateTime.Now;
 
-            //b.SaveCategories(st.Categories);
-            //var arrC = st.Categories.ToList();
+            var trans2 = transactions[1];
+            trans2.Comments = "delete";
+            trans2.ModifiedDate = DateTime.Now;
+            trans2.TransactionId = -1;
 
-           // var c = a.SaveCategories(st.Categories);
+            var trans3 = transactions[2];
+            trans3.Comments = "remove from deleted";
+            trans3.IsDeleted = true;
+            trans3.ModifiedDate = DateTime.Now;
+            //trans2.TransactionId = -1;
+
+            var transList = new ObservableCollection<Transaction> { trans, trans2, trans3 };
+            foreach (var item in transList)
+                item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
+
+            var result = a.SaveTransactions(transList);
+        }
+
+        private static void SaveTransactionImages(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetAllTransactions(usr.UserId);
+            var trans = transactions[0];
+            var transWithImages = transactions.FirstOrDefault(x => x.TransactionId == 11132);
+            var transImages = a.GetImagesForTransaction(transWithImages.TransactionId);
+            
+            var transImage = new TransactionImage(usr)
+            {
+                Transaction = trans,
+                Path = "/Assets/login_white.png",
+                Name = string.Format("{0} [{1}]", "aaaa", "bbbb"),
+                Image = transImages[0].Image,
+                Thumbnail = transImages[0].Image
+            };
+
+            var transImageList = new TransactionImageList();
+            transImageList.Add(transImage);
+
+            transImages.Add(transImage);
+            trans.TransactionImages = (TransactionImageList)transImages;
+            trans.ModifiedDate = DateTime.Now;
+            trans.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
+
+            a.SaveTransactions(new ObservableCollection<Transaction> { trans });
+//            a.SaveTransactionImages(transImages);
+        }
+
+        private static void SaveCategories(ServiceReference2.StaticClient b, User usr)
+        {
+            var allCat = b.GetAllCategories(usr.UserId);
+            var allReasons = b.GetAllTypeTransactionReasons(usr.UserId);
+
+            var catList = new CategoryList();
+            var newCat = new Category(usr);
+            newCat.Name = "CarTest";
+
+            if (newCat.TypeTransactionReasons == null)
+                newCat.TypeTransactionReasons = new List<TypeTransactionReason>();
+
+            newCat.TypeTransactionReasons.Add(allReasons[0]);
+            //newCat.TypeTransactionReasons.Add(allReasons[1]);
+
+            //var transReasonList = new List<TypeTransactionReason>();
+            //var transReason = new TypeTransactionReason(usr);
+            //transReason.Name = "CarTest";
+
+
+            catList.Add(newCat);
+
+            catList.OptimizeOnTopLevel();
+
+            var result = b.SaveCategories(catList.ToList());
+            //var arrC = st.ToList();
+
+            //var c = b.SaveCategories(st.Categories);
         }
 
         private static void SaveTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)
         {
-            var cat = b.GetAllCategories();
-            var staticData = b.GetAllStaticData();
+            var cat = b.GetAllCategories(usr.UserId);
+            var staticData = b.GetAllStaticData(usr.UserId);
 
             staticData.TypeIntervals[0].Amount = 9d;
             staticData.TypeIntervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "9123";
             staticData.TypeIntervals[0].ModifiedDate = DateTime.Now;
             //staticData.TypeIntervals[1].ModifiedDate = DateTime.Now;
 
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "33a11";
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20100202";
+            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "3";
             //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "b22";
             //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "c22";
 
-            var update = b.SaveTypeIntervals(staticData.TypeIntervals);
+            var k = new List<TypeInterval>();
+            k.Add(staticData.TypeIntervals[0]);
+
+            var update = b.SaveTypeIntervals(k);
 
 
             var intervals = new List<TypeInterval>{new TypeInterval(cat, staticData.TypeTransactions, usr)};
@@ -116,27 +204,20 @@ namespace ConsoleApplication1
             intervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "aaa";
             intervals[0].RecurrenceRuleValue.RulePartValueList[1].Value = "bbb";
 
-            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleRangeNoEndDate");
-            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "1111";
-            //intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "2222";
+            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20111111";
+            intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "234";
 
 
            var result = b.SaveTypeIntervals(intervals);
 
         }
-        private static void GetAllBudgets(ServiceReference1.MainClient client)
-        {
-            var bud = client.GetAllBudgets();
-
-            bud[0].Amount = 102;
-            bud[0].Name = "bbbbb";
-            bud[0].ModifiedDate = DateTime.Now;
-        }
-        private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User user)
+        
+        private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User usr)
         {
             //var stData = client.GetAllStaticData();
             //var stDataCat = client.GetAllCategories();
-            var stDataTR = client.GetAllTypeTransactionReasons();
+            var stDataTR = client.GetAllTypeTransactionReasons(usr.UserId);
 
             var reasons = new List<TypeTransactionReason>();
             stDataTR[11].Name = "abc";

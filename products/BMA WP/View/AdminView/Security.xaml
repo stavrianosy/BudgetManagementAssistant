@@ -62,22 +62,48 @@
                             Text="{Binding Path=LocalizedResources.OldPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtOldPass" 
-                                         Background="{StaticResource PhoneTextBoxBrush}"/>
+                                                 InputScope="Password"
+                                                 Background="{StaticResource PhoneTextBoxBrush}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.NewPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtNewPass" 
-                                         Background="{StaticResource PhoneTextBoxBrush}"/>
+                                                 InputScope="Password"
+                                                 Background="{StaticResource PhoneTextBoxBrush}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.ConfirmPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtConfirmPass" 
-                                         Background="{StaticResource PhoneTextBoxBrush}"/>
+                                                 InputScope="Password"
+                                                 Background="{StaticResource PhoneTextBoxBrush}"/>
                         </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
             <phone:PivotItem x:Name="piDetails" 
                              Header="{Binding Path=LocalizedResources.UserDetails, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="UserName" 
+                                   Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="UserName" Margin="0 -6 0 0" IsEnabled="False"
+                                                 Text="{Binding User.UserName, Mode=TwoWay}"/>
+                        <TextBlock Text="First Name"
+                                   Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="FirstName" Margin="0 -6 0 0" 
+                                                 Text="{Binding User.UserName, Mode=TwoWay}"/>
+                        <TextBlock Text="Last Name"
+                                   Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="LastName" Margin="0 -6 0 0" 
+                                                 Text="{Binding User.UserName, Mode=TwoWay}"/>
+                        <TextBlock Text="Email" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <toolkit:AutoCompleteBox x:Name="Email" Margin="0 -6 0 0" 
+                                                 Text="{Binding User.UserName, Mode=TwoWay}"
+                                                 InputScope="EmailUserName"/>
+                        <toolkit:DatePicker x:Name="Birthdate" Header="Birthdate"/>
+                        
+                        
+                    </StackPanel>
+                </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

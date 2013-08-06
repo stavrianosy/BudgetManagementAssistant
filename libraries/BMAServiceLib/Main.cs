@@ -15,14 +15,121 @@ namespace BMAServiceLib
     [Serializable]
     public class Main:IMain
     {
+        private const int SYSTEM_USER_ID = 2;
         #region Load
 
-        public bool GetStatus()
+        public bool GetDBStatus()
         {
+            var result = false;
+            using (var context = new EntityContext())
+            {
+                var user = context.User.Take(1);
+                result = user != null;
+            }
+            return result;
+        }
+
+        public bool SyncTransactions(TransactionList transactions)
+        {
+            try
+            {
+                var transList = new TransactionList();
+                var transIDs = transactions.Select(x => x.TransactionId).ToList();
+                using (EntityContext context = new EntityContext())
+                {
+                    var query = (from i in context.Transaction
+                                 where transIDs.Contains(i.TransactionId)
+                                 select i).ToList();
+
+                    //investigate if there is a better way to convert the generic list to ObservableCollection
+                    foreach (var item in query)
+                    {
+                        var tempItem = transactions.FirstOrDefault(x => x.TransactionId == item.TransactionId);
+                        if (tempItem.ModifiedDate < item.ModifiedDate)
+                            transactions.Remove(tempItem);
+                    }
+                }
+
+                SaveTransactions(transactions);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             return true;
         }
 
-        public TransactionList GetAllTransactions()
+        public bool SyncBudgets(BudgetList budgets)
+        {
+            try
+            {
+                var budgetsList = new BudgetList();
+                var budgetIDs = budgets.Select(x => x.BudgetId).ToList();
+                using (EntityContext context = new EntityContext())
+                {
+                    var query = (from i in context.Budget
+                                 where budgetIDs.Contains(i.BudgetId)
+                                 select i).ToList();
+
+                    //investigate if there is a better way to convert the generic list to ObservableCollection
+                    foreach (var item in query)
+                    {
+                        var tempItem = budgets.FirstOrDefault(x => x.BudgetId == item.BudgetId);
+                        if (tempItem.ModifiedDate < item.ModifiedDate)
+                            budgets.Remove(tempItem);
+                    }
+                }
+
+                SaveBudgets(budgets);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return true;
+        }
+
+
+        public DateTime GetLatestTransactionDate()
+        {
+            try
+            {
+                var date = DateTime.Now;
+                
+                using (EntityContext context = new EntityContext())
+                    date = context.Transaction.OrderByDescending(x => x.ModifiedDate).FirstOrDefault().ModifiedDate;
+
+
+                return date;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public double GetLatestTransactionDateDouble(int userId)
+        {
+            try
+            {
+                return double.Parse(DateToString(GetLatestTransactionDate()));
+            }
+            catch
+            {
+                throw new Exception("aaaaa ttttt");
+                throw;
+            }
+        }
+
+        private string DateToString(DateTime date)
+        {
+            var result = string.Format("{0:00}{1:00}{2:00}{3:00}{4:00}{5:00}", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+            return result;
+        }
+
+        public TransactionList GetAllTransactions(int userId)
         {
             try
             {
@@ -30,12 +137,12 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = from i in context.Transaction
-                                .Include(i => i.Category).Where(k => !k.IsDeleted)
+                                .Include(i => i.Category)
                                 .Include(i => i.CreatedUser)
-                                //.Include(i => i.ModifiedUser)
-                                .Include(i => i.TransactionReasonType).Where(k => !k.IsDeleted)
-                                .Include(i => i.TransactionType).Where(k => !k.IsDeleted)
-                                where !i.IsDeleted
+                                .Include(i => i.ModifiedUser)
+                                .Include(i => i.TransactionReasonType)
+                                .Include(i => i.TransactionType)
+                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                 select i;
 
                     foreach (var item in query.ToList())
@@ -52,12 +159,17 @@ namespace BMAServiceLib
             }
         }
 
-        public TransactionList GetLatestTransactions()
+        public TransactionList GetLatestTransactions(int userId)
         {
-            return GetLatestTransactionsLimit(20);
+            return GetLatestTransactionsLimit(50, userId);
         }
 
-        public TransactionList GetLatestTransactionsLimit(int latestRecs)
+        public TransactionList GetLatestTransactionsOnDate(int userId)
+        {
+            return GetLatestTransactionsLimit(50, userId);
+        }
+
+        public TransactionList GetLatestTransactionsLimit(int latestRecs, int userId)
         {
             try
             {
@@ -71,47 +183,19 @@ namespace BMAServiceLib
                                 .Include(i => i.TransactionReasonType)
                                 .Include(i => i.Category)
                                 .Include(i => i.Category.TypeTransactionReasons)
+                                .Include(i => i.ModifiedUser)
                                 .Include(i => i.CreatedUser)
-                                 where !i.IsDeleted
+                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                  orderby i.TransactionDate descending
                                  select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs);
 
                     //investigate if there is a better way to convert the generic list to ObservableCollection
                     foreach (var item in query)
-                    {
-                        //one way to handle circular referenceis to explicitly set the child to null
-                        item.Category.TypeTransactionReasons.ForEach(x => x.Categories = null);
-                        var transImg = (from k in context.TransactionImage
-                                        .Include(x => x.CreatedUser)
-                                        where k.Transaction.TransactionId == item.TransactionId && !k.IsDeleted
-                                        select k).ToList();
-                        item.TransactionImages = transImg;
                         transList.Add(item);
-                    }
 
-                    transList.AcceptChanges();
+                    transList.PrepareForServiceSerialization();
 
                     return transList;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public List<TypeTransaction> GetAllTypeTransactions()
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var query = from i in context.TypeTransaction
-                                //.Include(i => i.CreatedUser)
-                                where !i.IsDeleted
-                                select i;
-
-                    return query.ToList();
                 }
             }
             catch (Exception)
@@ -154,7 +238,30 @@ namespace BMAServiceLib
             }
         }
 
-        public BudgetList GetAllBudgets()
+        public TransactionImageList GetImagesForTransaction(int transactionId)
+        {
+            TransactionImageList result = new TransactionImageList();
+            using(EntityContext context = new EntityContext())
+            {
+                var query = context.TransactionImage
+                                    .Include(x => x.Transaction)
+                                    .Include(x => x.CreatedUser)
+                                    .Include(x => x.ModifiedUser)
+                                    .Where(x =>x.Transaction.TransactionId == transactionId && !x.IsDeleted);
+
+                query.ToList().ForEach(x=> 
+                {
+                    x.Transaction.TransactionImages = null;
+                    result.Add(x);
+                });
+                result.AcceptChanges();
+
+
+            }
+            return result;
+        }
+
+        public BudgetList GetAllBudgets(int userId)
         {
             try
             {
@@ -208,6 +315,8 @@ namespace BMAServiceLib
                     foreach (var item in query)
                         budgetList.Add(item);
 
+                    budgetList.PrepareForServiceSerialization();
+
                     return budgetList;
                 }
             }
@@ -217,15 +326,15 @@ namespace BMAServiceLib
             }
         }
 
-        public StartupInfo LoadItemCounts()
+        public StartupInfo LoadItemCounts(int userId)
         {
             try
             {
                 StartupInfo startupInfo = new StartupInfo();
                 using (EntityContext context = new EntityContext())
                 {
-                    startupInfo.BudgetCount = context.Budget.Where(k => !k.IsDeleted).Count();
-                    startupInfo.TransactionCount = context.Transaction.Where(k => !k.IsDeleted).Count();
+                    startupInfo.BudgetCount = context.Budget.Where(k => !k.IsDeleted && k.ModifiedUser.UserId == userId).Count();
+                    startupInfo.TransactionCount = context.Transaction.Where(k => !k.IsDeleted && k.ModifiedUser.UserId == userId).Count();
                     //startupInfo.TargetCount = context.Target.Where(k => !k.IsDeleted).Count();
                 }
                 return startupInfo;
@@ -240,37 +349,6 @@ namespace BMAServiceLib
         #endregion
 
         #region Save
-        public TransactionList SyncTransactions(TransactionList transactions)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var transList = new TransactionList();
-                    foreach (var item in GetAllTransactions())
-                    {
-                        if (transactions.Where(i => i.TransactionId == item.TransactionId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            transList.Add(item);
-                        }
-                    }
-                    foreach (var item in transactions.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        transList.Add(item);
-                    }
-
-                    return SaveTransactions(transList);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public TransactionList SaveTransactions(TransactionList transactions)
         {
             try
@@ -286,6 +364,7 @@ namespace BMAServiceLib
                             var original = context.Transaction
                                                             .Include(x => x.Category)
                                                             .Include(x => x.TransactionType)
+                                                            .Include(x => x.TransactionImages)
                                                             .Include(x => x.TransactionReasonType)
                                                             .Where(t => t.TransactionId == item.TransactionId && 
                                                             t.ModifiedDate < item.ModifiedDate &&
@@ -299,7 +378,7 @@ namespace BMAServiceLib
                                 //original.Category.CreatedUser = null;
                                 //original.Category.ModifiedUser = null;
 
-                                context.Entry(original).Collection(x => x.TransactionImages).Load();
+                                //context.Entry(original).Collection(x => x.TransactionImages).Load();
                                 
                                 original.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
                                 original.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
@@ -309,23 +388,23 @@ namespace BMAServiceLib
 
                                 if (item.TransactionImages != null)
                                 {
-                                    item.TransactionImages.ForEach(x =>
-                                        {
-                                            if (x.TransactionImageId > 0)
-                                                original.TransactionImages.Where(k => k.TransactionImageId == x.TransactionImageId).Select(k =>
-                                                {
-                                                    k.Name = x.Name; k.Path = x.Path; k.ModifiedDate = x.ModifiedDate; k.IsDeleted = x.IsDeleted;
-                                                    k.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
-                                                    return k;
-                                                }).ToList();
-                                            else
+                                    foreach (var x in item.TransactionImages)
+                                    {
+                                        if (x.TransactionImageId > 0)
+                                            original.TransactionImages.Where(k => k.TransactionImageId == x.TransactionImageId).Select(k =>
                                             {
-                                                x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
-                                                x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                                k.Name = x.Name; k.Path = x.Path; k.ModifiedDate = x.ModifiedDate; k.IsDeleted = x.IsDeleted;
+                                                k.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                                return k;
+                                            }).ToList();
+                                        else
+                                        {
+                                            x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                            x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
 
-                                                original.TransactionImages.Add(x);
-                                            }
-                                        });
+                                            original.TransactionImages.Add(x);
+                                        }
+                                    }
                                 }
 
                                 context.Entry(original).CurrentValues.SetValues(item);
@@ -344,13 +423,13 @@ namespace BMAServiceLib
 
                             if (item.TransactionImages != null)
                             {
-                                item.TransactionImages.ForEach(x =>
-                                    {
-                                        x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
-                                        x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
+                                foreach (var x in item.TransactionImages)
+                                {
+                                    x.CreatedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.CreatedUser.UserId);
+                                    x.ModifiedUser = context.User.Where(p => !p.IsDeleted).Single(p => p.UserId == x.ModifiedUser.UserId);
 
-                                        //item.TransactionImages.Add(x);
-                                    });
+                                    //item.TransactionImages.Add(x);
+                                }
                             }
 
                             context.Transaction.Add(item);
@@ -361,7 +440,11 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetLatestTransactions();
+
+                transactions.PrepareForServiceSerialization();
+
+                //return GetLatestTransactions();
+                return transactions;
             }
             catch (DbEntityValidationException e)
             {
@@ -379,37 +462,6 @@ namespace BMAServiceLib
                 }
 
                 throw new DbEntityValidationException(s.ToString());
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        public BudgetList SyncBudgets(BudgetList budgets)
-        {
-            try
-            {
-                using (EntityContext context = new EntityContext())
-                {
-                    var budgetList = new BudgetList();
-                    foreach (var item in GetAllBudgets())
-                    {
-                        if (budgets.Where(i => i.BudgetId == item.BudgetId).Count() == 0)
-                        {
-                            item.IsDeleted = true;
-                            item.ModifiedDate = DateTime.Now;
-                            budgetList.Add(item);
-                        }
-                    }
-                    foreach (var item in budgetList.Where(i => i.HasChanges))
-                    {
-                        item.ModifiedDate = DateTime.Now;
-                        budgetList.Add(item);
-                    }
-
-                    return SaveBudgets(budgetList);
-                }
             }
             catch (Exception)
             {
@@ -461,7 +513,10 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllBudgets();
+
+                budgets.PrepareForServiceSerialization();
+
+                return budgets;
             }
             catch (DbEntityValidationException e)
             {
@@ -487,6 +542,81 @@ namespace BMAServiceLib
             }
         }
 
+        public bool SaveTransactionImages(TransactionImageList transactionImages)
+        {
+            try
+            {
+                bool updateFound = false;
+                using (EntityContext context = new EntityContext())
+                {
+                    foreach (var item in transactionImages)
+                    {
+                        if (item.TransactionImageId > 0) //Update
+                        {
+                            var original = context.TransactionImage.Where(t =>
+                                                                t.TransactionImageId == item.TransactionImageId &&
+                                                                t.ModifiedDate < item.ModifiedDate &&
+                                                                !t.IsDeleted).FirstOrDefault();
+
+                            if (original != null)
+                            {
+                                item.HasChanges = false;
+
+                                original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                                original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                                context.Entry(original).CurrentValues.SetValues(item);
+                                updateFound = true;
+                            }
+                        }
+                        else //Insert
+                        {
+                            item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                            item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            item.Transaction.Category = null;
+                            item.Transaction.TransactionImages = null;
+                            item.Transaction.TransactionReasonType = null;
+                            item.Transaction.TransactionType = null;
+                            item.Transaction.ModifiedUser = null;
+                            item.Transaction.CreatedUser = null;
+
+                            context.Entry(item.Transaction).State = EntityState.Unchanged;
+
+                            context.TransactionImage.Add(item);
+
+                            updateFound = true;
+                        }
+                    }
+
+                    if (updateFound)
+                        context.SaveChanges();
+                }
+                return true;
+            }
+            catch (DbEntityValidationException e)
+            {
+                StringBuilder s = new StringBuilder();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                        s.Append(string.Format("{0} - {1}", ve.PropertyName, ve.ErrorMessage));
+                    }
+                }
+
+                throw new DbEntityValidationException(s.ToString());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         #endregion
 
     }

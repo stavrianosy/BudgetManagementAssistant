@@ -13,13 +13,21 @@ using System.Windows.Markup;
 using BMA_WP.Resources;
 using System.Threading;
 using System.Windows.Threading;
+using System.Threading.Tasks;
+using BMA_WP.ViewModel;
+using BMA_WP.Model;
+using System.Windows.Data;
 
 namespace BMA_WP.View
 {
     public partial class Login : PhoneApplicationPage
     {
-        //public delegate void LoginDelegate();
-        //public event LoginDelegate LoginSuccess;
+        #region Public Properties
+        public LoginViewModel vm
+        {
+            get { return (LoginViewModel)DataContext; }
+        }
+        #endregion
 
         public Login()
         {
@@ -27,6 +35,7 @@ namespace BMA_WP.View
             //SetUILanguage("el-GR");
 
             InitializeComponent();
+
             SetupAppBar_Signin();
 
 
@@ -35,6 +44,28 @@ namespace BMA_WP.View
             
             //Progress.Width = screenWidth - (cnvProgress.Margin.Left + (cnvProgress.Margin.Right * 2));
             //Progress.Margin = new Thickness(0, -screenHeight/2, 0, 0);
+        }
+
+        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            //clear history
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
+
+            SetupLoadingBinding();
+
+            await CheckOnlineStatus();
+        }
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
         }
 
         private void SetUILanguage(string locale)
@@ -155,9 +186,10 @@ namespace BMA_WP.View
             App.Instance.User.UserName = txtUsername.Text.Trim();
             App.Instance.User.Password = txtPassword.Password.Trim();
 
+            var errMsg = App.Instance.User.SelfValidation(false);
             StringBuilder sb = new StringBuilder();
             string delim = "";
-            foreach (var item in App.Instance.User.SelfValidation(false))
+            foreach (var item in errMsg)
             {
                 sb.AppendFormat("{0}{1}", delim, item);
                 delim = "\r";
@@ -167,7 +199,7 @@ namespace BMA_WP.View
             {
                 MessageBox.Show(string.Format("{0}{1}:\n\r{2}",
                                             AppResources.LoginFailMessage,
-                                            App.Instance.User.SelfValidation(false).Count > 1 ? "s" : "",
+                                            errMsg.Count > 1 ? "s" : "",
                                             sb.ToString()),
                                             AppResources.LoginFail, MessageBoxButton.OK);
 
@@ -186,12 +218,12 @@ namespace BMA_WP.View
                 //# waiting for a reply in stackoverflow !!
                 //await App.Instance.StaticServiceData.LoadUser(App.Instance.User);
 
-                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, (result, error) =>
+                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, async (error) =>
                     {
-                        if (result != null && error == null)
+                        if (error == null)
                         {
                             //everything is ok
-                            LoginSuccess();
+                            await LoginSuccess();
 
                             //Progress.IsActive = false;
                             txtMessage.Text = AppResources.LoginSuccess;
@@ -263,7 +295,7 @@ namespace BMA_WP.View
                         }
                         else
                         {
-                            throw new Exception(error.Message);
+                            txtMessageRegister.Text =  error.Message;
                         }
                         ProgressShow(false);
                     });
@@ -340,13 +372,23 @@ namespace BMA_WP.View
 
         }
 
-        async void LoginSuccess()
+        async Task LoginSuccess()
         {
-            await App.Instance.ServiceData.LoadTransactions();
-            await App.Instance.ServiceData.LoadBudgets();
-            await App.Instance.StaticServiceData.LoadStaticData();
-
+            
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
+        }
+
+        private async Task LoadAllData(Action callback)
+        {
+            //txtMessage.Text = "Loading Transactions...";
+            await App.Instance.ServiceData.LoadTransactions(Action callback);
+
+            //txtMessage.Text = "Loading Budgets...";
+            await App.Instance.ServiceData.LoadBudgets(Action callback);
+
+            //txtMessage.Text = "Loading Data...";
+            await App.Instance.StaticServiceData.LoadStaticData(Action callback);
+
         }
 
         void ProgressShow(bool visible)
@@ -373,5 +415,28 @@ namespace BMA_WP.View
         {
             piLoginPage.SelectedIndex = 1;
         }
+
+        private async void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            await CheckOnlineStatus();
+        }
+
+
+        private async Task CheckOnlineStatus()
+        {
+            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
+            {
+                App.Instance.StaticDataOnlineStatus = status;
+                vm.Status = status;
+                if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
+                {
+                    vm.IsLoading = true;
+
+                    await App.Instance.Sync(() => vm.IsLoading = false);
+                }
+            });
+            vm.Status = App.Instance.StaticDataOnlineStatus;
+        }
+        
     }
 }
