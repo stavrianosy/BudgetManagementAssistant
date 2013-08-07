@@ -307,7 +307,7 @@ namespace BMAServiceLib
                             item.Repeat = false;
                             context.Budget.Add(newBudget);
 
-                            context.SaveChanges();
+                            //context.SaveChanges();
                         }
                     }
 

@@ -112,10 +112,10 @@ namespace BMA_WP.Model
                 switch (transType.Name)
                 {
                     case "Income":
-                        path = "income.png";
+                        path = "wallet_in.png";
                         break;
                     case "Expense":
-                        path = "outcome.png";
+                        path = "wallet_out.png";
                         break;
                     default:
                         break;

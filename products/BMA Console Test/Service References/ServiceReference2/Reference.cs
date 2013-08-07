@@ -100,10 +100,10 @@ namespace ConsoleApplication1.ServiceReference2 {
         System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold>> GetAllBudgetThresholdsAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetAllRecurrenceRules", ReplyAction="http://tempuri.org/IStatic/GetAllRecurrenceRulesResponse")]
-        System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule> GetAllRecurrenceRules(int userId);
+        System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule> GetAllRecurrenceRules();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetAllRecurrenceRules", ReplyAction="http://tempuri.org/IStatic/GetAllRecurrenceRulesResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule>> GetAllRecurrenceRulesAsync(int userId);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule>> GetAllRecurrenceRulesAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetUpcomingNotifications", ReplyAction="http://tempuri.org/IStatic/GetUpcomingNotificationsResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.Notification> GetUpcomingNotifications(System.DateTime clientTime, int userId);
@@ -293,12 +293,12 @@ namespace ConsoleApplication1.ServiceReference2 {
             return base.Channel.GetAllBudgetThresholdsAsync(userId);
         }
         
-        public System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule> GetAllRecurrenceRules(int userId) {
-            return base.Channel.GetAllRecurrenceRules(userId);
+        public System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule> GetAllRecurrenceRules() {
+            return base.Channel.GetAllRecurrenceRules();
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule>> GetAllRecurrenceRulesAsync(int userId) {
-            return base.Channel.GetAllRecurrenceRulesAsync(userId);
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.RecurrenceRule>> GetAllRecurrenceRulesAsync() {
+            return base.Channel.GetAllRecurrenceRulesAsync();
         }
         
         public System.Collections.Generic.List<BMA.BusinessLogic.Notification> GetUpcomingNotifications(System.DateTime clientTime, int userId) {

@@ -63,12 +63,12 @@ namespace BMA_WP.Model
 
             #region Private Methods
             #region Load Live Data
-            private async Task LoadLiveTransactions()
+            private void LoadLiveTransactions(Action<Exception> callback)
             {
-                await LoadLiveTransactions(0);
+                LoadLiveTransactions(0, (error) => callback(error));
             }
 
-            private async Task LoadLiveTransactions(int budgetId)
+            private void LoadLiveTransactions(int budgetId, Action<Exception> callback)
             {
                 try
                 {
@@ -79,7 +79,13 @@ namespace BMA_WP.Model
 
                         client.GetLatestTransactionsCompleted += (sender, completedEventArgs) =>
                         {
-                            SetupTransactionList(completedEventArgs.Result, true);
+                            if (completedEventArgs.Error == null)
+                            {
+                                SetupTransactionList(completedEventArgs.Result, true);
+                                callback(null);
+                            }
+                            else
+                                callback(completedEventArgs.Error);
                         };
                         client.GetLatestTransactionsAsync(App.Instance.User.UserId, latestState);
                     }
@@ -96,14 +102,8 @@ namespace BMA_WP.Model
                 }
             }
 
-            private async Task<ICollection<Budget>> LoadLiveBudgets()
+            private void LoadLiveBudgets(Action<Exception> callback)
             {
-
-                var retVal = new BudgetList();
-
-                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                    return retVal;
-
                 try
                 {
                     latestState = Guid.NewGuid().ToString();
@@ -112,6 +112,8 @@ namespace BMA_WP.Model
                         {
                             if(e.Error == null)
                                 SetupBudgetList(e.Result, true);
+
+                            callback(e.Error);
                         };
                     client.GetAllBudgetsAsync(App.Instance.User.UserId);
                 }
@@ -120,19 +122,10 @@ namespace BMA_WP.Model
                     var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
                     throw;
                 }
-                return retVal;
             }
 
-            private async Task<ICollection<TransactionImage>> LoadLiveTransactionImages(int transactionId)
+            private void LoadLiveTransactionImages(int transactionId)
             {
-
-                var retVal = new TransactionImageList();
-
-                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                {
-                    return retVal;
-                }
-
                 try
                 {
                     var client = new BMAService.MainClient();
@@ -151,12 +144,11 @@ namespace BMA_WP.Model
                     var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
                     throw;
                 }
-                return retVal;
             }
             #endregion
 
             #region Load Cached Data
-            public async Task<ICollection<Transaction>> LoadCachedTransactions()
+            public async void LoadCachedTransactions(Action<TransactionList, Exception> callback)
             {
                 var retVal = new TransactionList();
                 try
@@ -164,20 +156,23 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserId))
                     {
                         var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item, App.Instance.User.UserId);
-                        retVal.Add(trans);
+                        //retVal.Add(trans);
+                        TransactionList.Add(trans);
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());
+                    //callback(null, ex);
                 }
 
-                SetupTransactionList(retVal, false);
+                TransactionList.OrderByDescending(x => x.TransactionDate);
+                //SetupTransactionList(retVal, false, false);
 
-                return retVal;
+                callback(TransactionList, null);
             }
 
-            private async Task<ICollection<TransactionImage>> LoadCachedTransactionImages()
+            private async void LoadCachedTransactionImages(Action<TransactionImageList, Exception> callback)
             {
                 var retVal = new TransactionImageList();
                 try
@@ -185,20 +180,22 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(User_TransactionImages_Folder, App.Instance.User.UserId))
                     {
                         var trans = await StorageUtility.RestoreItem<TransactionImage>(User_TransactionImages_Folder, item, App.Instance.User.UserId);
-                        retVal.Add(trans);
+                        //retVal.Add(trans);
+                        TransactionImageList.Add(trans);
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());
+                    //callback(null, ex);
                 }
                 
                 //SetupTransactionImageList(retVal);
 
-                return retVal;
+                callback(TransactionImageList, null);
             }
 
-            private async Task<ICollection<Budget>> LoadCachedBudgets()
+            private async void LoadCachedBudgets(Action<BudgetList, Exception> callback)
             {
                 var retVal = new BudgetList();
                 try
@@ -206,17 +203,20 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(User_Budgets_Folder, App.Instance.User.UserId))
                     {
                         var budget = await StorageUtility.RestoreItem<Budget>(User_Budgets_Folder, item, App.Instance.User.UserId);
-                        retVal.Add(budget);
+                        //retVal.Add(budget);
+                        BudgetList.Add(budget);
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());
+                    //callback(null, ex);
                 }
 
-                SetupBudgetList(retVal, false);
+                //SetupBudgetList(retVal, false);
+                BudgetList.OrderByDescending(x => x.Name);
 
-                return retVal;
+                callback(BudgetList, null);
             }
             #endregion
 
@@ -239,7 +239,8 @@ namespace BMA_WP.Model
                     else
                         TransactionList[query.Index] = item;
 
-                    StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserId);
+                    //if(updateCache)
+                        await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserId);
                 }
                 TransactionList.OrderByDescending(x => x.TransactionDate);
             }
@@ -328,80 +329,82 @@ namespace BMA_WP.Model
                 return result;
             }
 
-            public async Task LoadTransactions()
+            public void LoadTransactions(Action<Exception> callback)
             {
-                await LoadAllTransactions(0);
+                LoadAllTransactions(0, error => callback(error));
             }
 
-            public async Task LoadBudgets()
+            public void LoadBudgets(Action<Exception> callback)
             {
-                await LoadAllBudgets();
+                LoadAllBudgets(error => callback(error));
             }
 
-            public async Task LoadTransactionsForBudget(int budgetId)
+            public void LoadTransactionsForBudget(int budgetId, Action<Exception> callback)
             {
-                await LoadAllTransactions(budgetId);
+                LoadAllTransactions(budgetId, error => callback(error));
             }
 
-            public async Task LoadAllTransactions(int budgetId)
+            public async void LoadAllTransactions(int budgetId, Action<Exception> callback)
             {
-                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                    await LoadCachedTransactions();
-                else
-                    await LoadLiveTransactions(budgetId);
-            }
-
-            public async Task LoadAllTransactionImages(int transactionId, Action<Exception> callback)
-            {
-                ICollection<TransactionImage> existing = null;
-
-                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                await App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
-                    try
-                    {
-                        //## doesnt need to get anything from cache. Images is retrieved by the transaction
-                        //existing = await LoadCachedTransactionImages();
-                        callback(null);
-                    }
-                    catch (Exception) { throw new Exception("Username"); }
-                }
-                else
-                {
-                    try
-                    {
-                        var client = new BMAService.MainClient();
-                        latestState = Guid.NewGuid().ToString();
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                            LoadCachedTransactions((transactionList, error) => callback(error));
+                        else
+                            LoadLiveTransactions(budgetId, error => callback(error));
+                });
+            }
 
-                        client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
+            public async void LoadAllTransactionImages(int transactionId, Action<Exception> callback)
+            {
+                //ICollection<TransactionImage> existing = null;
+
+                await App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                    {
+                        try
                         {
-                            if (completedEventArgs.Error != null)
-                            {
-                                callback(completedEventArgs.Error);
-                                return;
-                            }
-                            SetupTransactionImageList(completedEventArgs.Result, transactionId);
-
-                            //UpdateCacheTransactionImages();
-
+                            //## doesnt need to get anything from cache. Images is retrieved by the transaction
+                            //existing = await LoadCachedTransactionImages();
                             callback(null);
-
-                        };
-                        client.GetImagesForTransactionAsync(transactionId, latestState);
+                        }
+                        catch (Exception) { throw new Exception("Username"); }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
-                        throw;
+                        try
+                        {
+                            var client = new BMAService.MainClient();
+                            latestState = Guid.NewGuid().ToString();
+
+                            client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
+                            {
+                                if (completedEventArgs.Error == null)
+                                    SetupTransactionImageList(completedEventArgs.Result, transactionId);
+
+                                callback(completedEventArgs.Error);
+                            };
+                            client.GetImagesForTransactionAsync(transactionId, latestState);
+                        }
+                        catch (Exception ex)
+                        {
+                            var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                            throw;
+                        }
                     }
-                }
+                });
             }
 
-            public async Task LoadAllBudgets()
+            public async void LoadAllBudgets(Action<Exception> callback)
             {
-                if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                    await LoadCachedBudgets();
-                else
-                    await LoadLiveBudgets();
+                await App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                        LoadCachedBudgets((budgetList, error) => callback(error));
+                    else
+                        LoadLiveBudgets(error => callback(error));
+                });
             }
 
             public async Task GetLatestTransactionDateDouble(Action<double, Exception> callback)
@@ -445,18 +448,20 @@ namespace BMA_WP.Model
                 }
             }
 
-            public async Task SyncTransactions(Action<Exception> callback)
+            public void SyncTransactions(Action<Exception> callback)
             {
                 try
                 {
-                    var cachedTransactions = await App.Instance.ServiceData.LoadCachedTransactions();
-                    var transList = cachedTransactions.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+                    App.Instance.ServiceData.LoadCachedTransactions((cachedTransactions, error) =>
+                        {
+                            var transList = cachedTransactions.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
 
-                    var client = new BMAService.MainClient();
+                            var client = new BMAService.MainClient();
 
-                    client.SyncTransactionsAsync(transList);
+                            client.SyncTransactionsAsync(transList);
 
-                    client.SyncTransactionsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                            client.SyncTransactionsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                        });
                 }
                 catch (Exception)
                 {
@@ -465,19 +470,20 @@ namespace BMA_WP.Model
                 }
             }
 
-            public async Task SyncBudgets(Action<Exception> callback)
+            public void SyncBudgets(Action<Exception> callback)
             {
                 try
                 {
-                    var cachedBudgets = await App.Instance.ServiceData.LoadCachedBudgets();
-                    var budgetList = cachedBudgets.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+                    App.Instance.ServiceData.LoadCachedBudgets((cachedBudgets, error) =>
+                        {
+                            var budgetList = cachedBudgets.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
 
-                    var client = new BMAService.MainClient();
+                            var client = new BMAService.MainClient();
 
-                    client.SyncBudgetsAsync(budgetList);
+                            client.SyncBudgetsAsync(budgetList);
 
-                    client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
-
+                            client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                        });
                 }
                 catch (Exception)
                 {

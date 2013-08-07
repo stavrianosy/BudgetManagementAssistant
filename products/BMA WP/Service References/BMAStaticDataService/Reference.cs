@@ -89,7 +89,7 @@ namespace BMA_WP.BMAStaticDataService {
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.BudgetThreshold> EndGetAllBudgetThresholds(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllRecurrenceRules", ReplyAction="http://tempuri.org/IStatic/GetAllRecurrenceRulesResponse")]
-        System.IAsyncResult BeginGetAllRecurrenceRules(int userId, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetAllRecurrenceRules(System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.RecurrenceRule> EndGetAllRecurrenceRules(System.IAsyncResult result);
         
@@ -1463,8 +1463,8 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllRecurrenceRules(int userId, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetAllRecurrenceRules(userId, callback, asyncState);
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllRecurrenceRules(System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetAllRecurrenceRules(callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1473,8 +1473,7 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         private System.IAsyncResult OnBeginGetAllRecurrenceRules(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            int userId = ((int)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllRecurrenceRules(userId, callback, asyncState);
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllRecurrenceRules(callback, asyncState);
         }
         
         private object[] OnEndGetAllRecurrenceRules(System.IAsyncResult result) {
@@ -1490,11 +1489,11 @@ namespace BMA_WP.BMAStaticDataService {
             }
         }
         
-        public void GetAllRecurrenceRulesAsync(int userId) {
-            this.GetAllRecurrenceRulesAsync(userId, null);
+        public void GetAllRecurrenceRulesAsync() {
+            this.GetAllRecurrenceRulesAsync(null);
         }
         
-        public void GetAllRecurrenceRulesAsync(int userId, object userState) {
+        public void GetAllRecurrenceRulesAsync(object userState) {
             if ((this.onBeginGetAllRecurrenceRulesDelegate == null)) {
                 this.onBeginGetAllRecurrenceRulesDelegate = new BeginOperationDelegate(this.OnBeginGetAllRecurrenceRules);
             }
@@ -1504,8 +1503,7 @@ namespace BMA_WP.BMAStaticDataService {
             if ((this.onGetAllRecurrenceRulesCompletedDelegate == null)) {
                 this.onGetAllRecurrenceRulesCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllRecurrenceRulesCompleted);
             }
-            base.InvokeAsync(this.onBeginGetAllRecurrenceRulesDelegate, new object[] {
-                        userId}, this.onEndGetAllRecurrenceRulesDelegate, this.onGetAllRecurrenceRulesCompletedDelegate, userState);
+            base.InvokeAsync(this.onBeginGetAllRecurrenceRulesDelegate, null, this.onEndGetAllRecurrenceRulesDelegate, this.onGetAllRecurrenceRulesCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2135,9 +2133,8 @@ namespace BMA_WP.BMAStaticDataService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginGetAllRecurrenceRules(int userId, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = userId;
+            public System.IAsyncResult BeginGetAllRecurrenceRules(System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[0];
                 System.IAsyncResult _result = base.BeginInvoke("GetAllRecurrenceRules", _args, callback, asyncState);
                 return _result;
             }

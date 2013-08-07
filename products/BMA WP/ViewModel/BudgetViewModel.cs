@@ -46,7 +46,7 @@ namespace BMA_WP.ViewModel
         /// </summary>
         public BudgetViewModel()
         {
-            App.Instance.ServiceData.LoadBudgets();
+            //App.Instance.ServiceData.LoadBudgets();
 
             //Display the list of budgets first
             PivotIndex = 1;

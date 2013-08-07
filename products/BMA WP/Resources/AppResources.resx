@@ -450,7 +450,7 @@
     <value>checking status</value>
   </data>
   <data name="Synchronizing" xml:space="preserve">
-    <value>Synchronizing...</value>
+    <value>Loading data...</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
     <value>try again</value>

@@ -450,7 +450,7 @@
     <value>ενημερονετε</value>
   </data>
   <data name="Synchronizing" xml:space="preserve">
-    <value>Ενημερονετε...</value>
+    <value>Φορτωση δεδομενων...</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
     <value>δοκιμαστε ξανα</value>

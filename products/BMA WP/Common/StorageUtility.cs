@@ -38,7 +38,9 @@ namespace BMA_WP.Common
                 var folderList = await folder.GetFoldersAsync();
 
                 foreach (var item in folderList)
+                {
                     files.AddRange((from file in await item.GetFilesAsync() select file.Name).ToList());
+                }
             }
             return files.ToArray();
         }
@@ -55,11 +57,23 @@ namespace BMA_WP.Common
             var folderUsersAll = await folder.GetFoldersAsync();
 
             //StorageFile file = await folder.GetFileAsync(hash);
-            //StorageFile file = null;
+            StorageFile file = null;
 
-            var folderUser = folderUsersAll.FirstOrDefault(x => x.Name == (userId > 0 ? userId.ToString() : hash));
-            var  file = await folderUser.GetFileAsync(hash);
-            
+            if (userId > 0)
+            {
+                var folderUser = folderUsersAll.FirstOrDefault(x => x.Name == (userId.ToString()));
+                file = await folderUser.GetFileAsync(hash);
+            }
+            else
+            {
+                foreach (var item in folderUsersAll)
+                {
+                    file = (await item.GetFilesAsync()).FirstOrDefault(x => x.Name == hash);
+                    if (file != null)
+                        break;
+                }
+            }
+
             //var inStream = await file.OpenSequentialReadAsync();
             var inStream = await file.OpenStreamForReadAsync();
             var serializer = new DataContractSerializer(typeof(T));

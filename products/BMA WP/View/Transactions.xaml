@@ -60,7 +60,7 @@
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
         <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0">
-            <TextBlock Text="Synchronizing..."/>
+            <TextBlock Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
             <ProgressBar IsIndeterminate="True" />
         </StackPanel>
         <phone:Pivot x:Name="pivotContainer" 

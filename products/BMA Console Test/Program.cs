@@ -23,8 +23,9 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
 
-            var newuser = CreateUser(b);
-            //var db = b.GetDBStatus();
+            //var rr = b.GetAllRecurrenceRules(usr.UserId);
+            //var newuser = CreateUser(b);
+            var db = b.GetDBStatus();
             //SyncTransactions(a, usr);
             //a.GetLatestTransactionsLimit(10, 11);
             //var tt = b.GetAllTypeTransactions(4);
