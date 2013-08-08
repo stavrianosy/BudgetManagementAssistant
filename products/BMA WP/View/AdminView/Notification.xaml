@@ -15,7 +15,12 @@
     shell:SystemTray.IsVisible="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP8"
-    DataContext="{Binding NotificationViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding NotificationViewModel, Source={StaticResource Locator}}"
+    xmlns:dataModel="clr-namespace:BMA_WP.Model">
+
+    <UserControl.Resources>
+        <dataModel:StatusConverter x:Key="converters" />
+    </UserControl.Resources>
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -42,19 +47,24 @@
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,24,0,0">
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,12,0,12">
             <TextBlock x:Name="ApplicationTitle" 
                        Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
+        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0">
+            <TextBlock Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
 
-        <phone:Pivot x:Name="pivotContainer" Grid.Row="1"  SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot x:Name="pivotContainer" Grid.Row="2"  SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
-            <phone:PivotItem x:Name="piNotification" 
+            <phone:PivotItem x:Name="piNotification"
                              Header="{Binding Path=LocalizedResources.Notification, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
                 <ScrollViewer x:Name="svItem">
                     <StackPanel>
@@ -62,37 +72,38 @@
                             Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtName" 
-                                         Text="{Binding ElementName=NotificationsMultiSelect, Path=SelectedItem.Name, Mode=TwoWay}"
+                                         Text="{Binding CurrNotification.Name, Mode=TwoWay}"
                                          InputScope="Number"
-                                         Background="{StaticResource PhoneTextBoxBrush}"/>
-                        <toolkit:TimePicker 
+                                         Background="{StaticResource PhoneTextBoxBrush}"
+                                                 IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                        <toolkit:TimePicker x:Name="cmbTime"
                             Header="{Binding Path=LocalizedResources.Time, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                            Value="{Binding ElementName=NotificationsMultiSelect, Path=SelectedItem.TransactionDate, Mode=TwoWay}"
-                            ValueChanged="TimePicker_ValueChanged"/>
+                            Value="{Binding CurrNotification.Time, Mode=TwoWay}"
+                            IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtComments"
-                                Text="{Binding ElementName=NotificationsMultiSelect, Path=SelectedItem.Comments, Mode=TwoWay}"
-                                            VerticalAlignment="Top" 
-                                            Height="140"/>
+                                Text="{Binding CurrNotification.Description, Mode=TwoWay}"
+                                                 VerticalAlignment="Top" Height="140" 
+                                                 IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem CacheMode="{x:Null}" x:Name="piNotificationList" 
+            <phone:PivotItem x:Name="piNotificationList" 
                              Header="{Binding Path=LocalizedResources.Notifications, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
                 <phone:LongListSelector x:Name="NotificationsMultiSelect"
                                         Margin="0,12,0,0"                                        
                                         LayoutMode="List"
                                         ItemsSource ="{Binding ReportsMenuList}"
-                                        ItemTemplate="{StaticResource BMA_Main_ItemTemplate}">
+                                        ItemTemplate="{StaticResource BMA_Notification_ItemTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <command:EventToCommand 
                                 PassEventArgsToCommand="True" 
-                                Command="{Binding GoToCommand_SelectionChanged, Mode=OneTime}" />
+                                Command="{Binding Notifications_SelectionChanged, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </phone:LongListSelector>

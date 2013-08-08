@@ -25,7 +25,6 @@ namespace BMA_WP.ViewModel.Admin
         bool isLoading;
         DateTime rangeRuleEnddate;
 
-        RecurrenceRule ruleDailyEveryDays;
         int pivotIndex;
 
         bool isEnabled_RuleDailyEveryDays;

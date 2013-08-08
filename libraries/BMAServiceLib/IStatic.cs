@@ -22,6 +22,9 @@ namespace BMAServiceLib
         User RegisterUser(User user);
 
         [OperationContract]
+        User UpdateUser(User user);
+
+        [OperationContract]
         User ChangePassword(User user);
 
         [OperationContract]

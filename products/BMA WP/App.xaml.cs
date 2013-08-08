@@ -328,7 +328,7 @@ namespace BMA_WP
             private set { IsolatedStorageSettings.ApplicationSettings["LastSyncDate"] = value; }
         }
 
-        public async Task Sync(Action callback)
+        public void Sync(Action callback)
         {
             try
             {

@@ -100,6 +100,7 @@
     <Compile Include="Common\NumberInputBox.cs" />
     <Compile Include="Common\StorageUtility.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Model\InitialData.cs" />
     <Compile Include="Model\IntervalRuleConverter.cs" />
     <Compile Include="Model\RuleSupportItems\BasicItem.cs" />
     <Compile Include="Model\RuleSupportItems\Position.cs" />
@@ -323,6 +324,8 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\category.png" />
+    <Content Include="Assets\category_80.png" />
     <Content Include="Assets\icons\Dark\add.png" />
     <Content Include="Assets\icons\Dark\back.png" />
     <Content Include="Assets\icons\Dark\basecircle.png" />
@@ -398,9 +401,15 @@
     <Content Include="Assets\icons\Light\transport.rew.png" />
     <Content Include="Assets\icons\Light\upload.png" />
     <Content Include="Assets\income.png" />
+    <Content Include="Assets\interval.png" />
     <Content Include="Assets\login_white.png" />
+    <Content Include="Assets\Notification.png" />
     <Content Include="Assets\outcome.png" />
     <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\TransReason_note.png" />
+    <Content Include="Assets\TypeTrans.png" />
+    <Content Include="Assets\wallet_in.png" />
+    <Content Include="Assets\wallet_out.png" />
     <Content Include="MVVMLight.Nuget.Readme.txt" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <None Include="Service References\BMAService\BMAService.xsd">
@@ -517,6 +526,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="MSAdvertising, Version=6.1">
+      <Name>Microsoft Advertising SDK for Windows Phone 8 %28XAML%29</Name>
+    </SDKReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

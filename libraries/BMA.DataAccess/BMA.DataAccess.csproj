@@ -49,33 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityContext.cs" />
-    <Compile Include="Migrations\201306291038181_rule.cs" />
-    <Compile Include="Migrations\201306291038181_rule.Designer.cs">
-      <DependentUpon>201306291038181_rule.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201307040852033_rule1.cs" />
-    <Compile Include="Migrations\201307040852033_rule1.Designer.cs">
-      <DependentUpon>201307040852033_rule1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201307040853324_rule2.cs" />
-    <Compile Include="Migrations\201307040853324_rule2.Designer.cs">
-      <DependentUpon>201307040853324_rule2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201307040929408_rule3.cs" />
-    <Compile Include="Migrations\201307040929408_rule3.Designer.cs">
-      <DependentUpon>201307040929408_rule3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201307091445542_user.cs" />
-    <Compile Include="Migrations\201307091445542_user.Designer.cs">
-      <DependentUpon>201307091445542_user.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201307161130362_thumnail.cs" />
-    <Compile Include="Migrations\201307161130362_thumnail.Designer.cs">
-      <DependentUpon>201307161130362_thumnail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201308060818242_aaa.cs" />
-    <Compile Include="Migrations\201308060818242_aaa.Designer.cs">
-      <DependentUpon>201308060818242_aaa.cs</DependentUpon>
+    <Compile Include="Migrations\201308080813578_newDB.cs" />
+    <Compile Include="Migrations\201308080813578_newDB.Designer.cs">
+      <DependentUpon>201308080813578_newDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,26 +70,8 @@
     <Content Include="Migrations\UsefulNuget Commands.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201306291038181_rule.resx">
-      <DependentUpon>201306291038181_rule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201307040852033_rule1.resx">
-      <DependentUpon>201307040852033_rule1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201307040853324_rule2.resx">
-      <DependentUpon>201307040853324_rule2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201307040929408_rule3.resx">
-      <DependentUpon>201307040929408_rule3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201307091445542_user.resx">
-      <DependentUpon>201307091445542_user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201307161130362_thumnail.resx">
-      <DependentUpon>201307161130362_thumnail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201308060818242_aaa.resx">
-      <DependentUpon>201308060818242_aaa.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201308080813578_newDB.resx">
+      <DependentUpon>201308080813578_newDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

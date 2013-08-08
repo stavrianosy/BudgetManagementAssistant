@@ -46,14 +46,14 @@ namespace BMA_WP.View
             //Progress.Margin = new Thickness(0, -screenHeight/2, 0, 0);
         }
 
-        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             //clear history
             while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
 
             SetupLoadingBinding();
 
-            await CheckOnlineStatus();
+            CheckOnlineStatus();
         }
 
         private void SetupLoadingBinding()
@@ -218,12 +218,12 @@ namespace BMA_WP.View
                 //# waiting for a reply in stackoverflow !!
                 //await App.Instance.StaticServiceData.LoadUser(App.Instance.User);
 
-                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, async (error) =>
+                await App.Instance.StaticServiceData.LoadUser(App.Instance.User, (error) =>
                     {
                         if (error == null)
                         {
                             //everything is ok
-                            await LoginSuccess();
+                            LoginSuccess();
 
                             //Progress.IsActive = false;
                             txtMessage.Text = AppResources.LoginSuccess;
@@ -250,7 +250,7 @@ namespace BMA_WP.View
             }
         }
 
-        private async void Register_Click(object sender, EventArgs e)
+        private void Register_Click(object sender, EventArgs e)
         {
             //close keyboard
             piLoginPage.Focus();
@@ -285,7 +285,7 @@ namespace BMA_WP.View
                 ProgressShow(true);
                 txtMessageRegister.Text = AppResources.Registering;
 
-                await App.Instance.StaticServiceData.RegisterUser(App.Instance.User, (result, error) =>
+                 App.Instance.StaticServiceData.RegisterUser(App.Instance.User, (result, error) =>
                     {
                         if (result != null && error == null)
                         {
@@ -310,7 +310,7 @@ namespace BMA_WP.View
             }
         }
 
-        private async void ForgotPass_Click(object sender, EventArgs e)
+        private void ForgotPass_Click(object sender, EventArgs e)
         {
             //close keyboard
             piLoginPage.Focus();
@@ -324,7 +324,7 @@ namespace BMA_WP.View
                 ProgressShow(true);
                 txtMessageForgot.Text = AppResources.PasswordSending;
 
-                await App.Instance.StaticServiceData.ForgotPassword(App.Instance.User, (result, error) =>
+                 App.Instance.StaticServiceData.ForgotPassword(App.Instance.User, (result, error) =>
                 {
                     if (result != null && error == null)
                     {
@@ -372,7 +372,7 @@ namespace BMA_WP.View
 
         }
 
-        async Task LoginSuccess()
+        void LoginSuccess()
         {
             App.Instance.IsSyncing = true;
 
@@ -381,7 +381,7 @@ namespace BMA_WP.View
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
         }
 
-        private async void LoadAllData(Action callback)
+        private void LoadAllData(Action callback)
         {
             var transaction = false;
             var budget = false;
@@ -442,15 +442,15 @@ namespace BMA_WP.View
             piLoginPage.SelectedIndex = 1;
         }
 
-        private async void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            await CheckOnlineStatus();
+            CheckOnlineStatus();
         }
 
 
-        private async Task CheckOnlineStatus()
+        private void CheckOnlineStatus()
         {
-            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
+            App.Instance.StaticDataOnlineStatus = App.Instance.StaticServiceData.SetServerStatus(status =>
             {
                 App.Instance.StaticDataOnlineStatus = status;
                 vm.Status = status;
@@ -458,7 +458,7 @@ namespace BMA_WP.View
                 {
                     vm.IsLoading = true;
 
-                    await App.Instance.Sync(() => vm.IsLoading = false);
+                    App.Instance.Sync(() => vm.IsLoading = false);
                 }
             });
             vm.Status = App.Instance.StaticDataOnlineStatus;

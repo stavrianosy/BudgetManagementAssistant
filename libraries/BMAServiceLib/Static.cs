@@ -1208,6 +1208,22 @@ namespace BMAServiceLib
             }
         }
 
+        public User UpdateUser(User user)
+        {
+            try
+            {
+                User result = UpdateRegisterUser(user);
+                //SendEmail(result, NoticeState.ResetPassword);
+
+                return new User();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public User RegisterUser(User user)
         {
             User result = UpdateRegisterUser(user);

@@ -23,7 +23,6 @@ namespace BMA_WP.ViewModel
         #region Private Members
         private bool _isEnabled;
         private Transaction _currTransaction;
-        private TransactionImageList _currTransactionImages;
         private int pivotIndex;
         #endregion
 
@@ -66,7 +65,7 @@ namespace BMA_WP.ViewModel
         {
             IsEnabled = false;
             
-            PivotIndex = 0;
+            PivotIndex = 1;
         }
 
     }

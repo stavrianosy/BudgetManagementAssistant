@@ -53,7 +53,11 @@ namespace BMA.BusinessLogic
             return this.TypeTransactionId.GetHashCode();
         }
 
-        public TypeTransaction Clone()
+        /// <summary>
+        /// Hiding Clone is intended since the overrideen one was returning a BaseItem
+        /// </summary>
+        /// <returns></returns>
+        public new TypeTransaction Clone()
         {
             return (TypeTransaction)this.MemberwiseClone();
         }

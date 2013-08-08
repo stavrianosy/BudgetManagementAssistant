@@ -35,19 +35,124 @@ namespace BMA.DataAccess.Migrations
                 ///context.Database.ExecuteSqlCommand("insert into category (categoryId) values (1)");
                 //context.User.SqlQuery("INSERT INTO [User] (UserId, UserName, ModifiedDate, CreatedDate,ModifiedUser_UserId, CreatedUser_UserId) VALUES (1, 'stavrianosy', GETDATE(), GETDATE(), 1, 1)");
 
+                #region Initial DB Setup
+                ////Must add the first user in a more T-Sql way since there are fields in User table that references its self.
+
+                //## User ##//
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON if not exists(select * from [User] where Username = {1}) BEGIN " +
+                    "INSERT INTO [User] (UserId, UserName, Password, Email, Birthdate, FirstName, LastName, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                    "({0}, {1}, {2}, {3}, GETDATE(), {4}, {5}, GETDATE(), GETDATE(), 1, 1, 0) " +
+                    "END ", 1, buildInAdmin, buildInAdminPass, buildInAdminEmail, "AdminName", "AdminSurname");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON if not exists(select * from [User] where Username = {1}) BEGIN " +
+                    "INSERT INTO [User] (UserId, UserName, Password, Email, Birthdate, FirstName, LastName, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                    "({0}, {1}, {2}, {3}, GETDATE(), {4}, {5}, GETDATE(), GETDATE(), 1, 1, 0) " +
+                    "END ", 2, "System", "system", "system@system.com", "SysName", "SysSurname");
+
+                //## Category ##//
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [Category] ON if not exists(select * from [Category] where Name = {1}) BEGIN " +
+                    "INSERT INTO [Category] (CategoryId, Name, FromDate, ToDate, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                    "({0}, {1}, {2}, {3}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                    "END ", 1, "Other", "2000-01-01", "2000-01-01");
+
+                //## TypeTransactionReason ##//
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransactionReason] ON if not exists(select * from [TypeTransactionReason] where Name = {1}) BEGIN " +
+                    "INSERT INTO [TypeTransactionReason] (TypeTransactionReasonId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                    "END ", 1, "Other");
+
+                //## Category - TypeTransactionReason ##//
+                context.Database.ExecuteSqlCommand("if not exists(select * from [TypeTransactionReasonCategory]  " +
+                     "where TypeTransactionReason_TypeTransactionReasonId = 1 AND Category_CategoryId = 1) BEGIN " +
+                     "INSERT INTO [TypeTransactionReasonCategory] (TypeTransactionReason_TypeTransactionReasonId, Category_CategoryId) VALUES (1,1) END ");
+
+                //## TypeTransaction ##//
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransaction] ON if not exists(select * from [TypeTransaction] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 1, "Income");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransaction] ON if not exists(select * from [TypeTransaction] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 2, "Expense");
+
+                //## TypeFrequency ##//
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeFrequency] (TypeFrequencyId, Name, Count, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 1, "Hourly", 1);
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeFrequency] (TypeFrequencyId, Name, Count, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 2, "Daily", 24);
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeFrequency] (TypeFrequencyId, Name, Count, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 3, "Weekly", 168);
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeFrequency] (TypeFrequencyId, Name, Count, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 4, "Monthly", 672);
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [TypeFrequency] (TypeFrequencyId, Name, Count, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) " +
+                                    "END ", 5, "Yearly", 8736);
+
+                //## FieldType ##//
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 1, "label", Const.FieldType.Label, "");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 2, "int", Const.FieldType.Int, "1");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 3, "dayNumber", Const.FieldType.DayNum, "");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 4, "date", Const.FieldType.DateInt, "20000101");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 5, "truefalse", Const.FieldType.Bit, "False");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 6, "text", Const.FieldType.String, "");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [FieldType] ON if not exists(select * from [FieldType] where Name = {1}) BEGIN " +
+                                    "INSERT INTO [FieldType] (FieldTypeId, Name, Type, DefaultValue) VALUES " +
+                                    "({0}, {1}, {2}, {3}) " +
+                                    "END ", 7, "position", Const.FieldType.Position, "1");
+
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [RulePart] ON if not exists(select * from [RulePart] where FieldName = {1}) BEGIN " +
+                                    "INSERT INTO [RulePart] (RulePartId, FieldName, FieldType_FieldTypeId) VALUES " +
+                                    "({0}, {1}, {2}) " +
+                                    "END ", 1, Const.RuleField.RangeStartDate.ToString(), 4);
+
+                xxxxx rulepart and relationships 
+                
+                #endregion
 
                 #region User
-                ////Must add the first user in a more T-Sql way since there are fields in User table that references its self.
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON " +
-                    "if not exists(select * from [User] where Username = {0}) BEGIN " +
-                    "INSERT INTO [User] (UserId, UserName, Password, Email, Birthdate, FirstName, LastName, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
-                    "(1, {0}, {1}, {2}, GETDATE(), GETDATE(),GETDATE(), 'Name', 'Surname', 1, 1, 0) " +
-                    "END " +
-                    "SET IDENTITY_INSERT [User] OFF", buildInAdmin, buildInAdminPass, buildInAdminEmail);
 
+                //** find the way to explicitely set the ID of the autonumber fields
                 context.User.AddOrUpdate(u => u.UserName, new User
                 {
-                    UserId = 2,
                     UserName = userName,
                     Email = buildInAdminEmail,
                     Birthdate = new DateTime(1979, 11, 5),
@@ -67,6 +172,12 @@ namespace BMA.DataAccess.Migrations
                                                 Name = "Work",
                                                 FromDate = new DateTime(2000, 1, 1, 8, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 17, 0, 0),
+                                            },
+                                            new Category(context.User.Local.Single(u => u.UserName == userName))
+                                            {
+                                                Name = "Other",
+                                                FromDate = new DateTime(2000, 1, 1, 0, 0, 0),
+                                                ToDate = new DateTime(2000, 1, 1, 0, 0, 0),
                                             },
                                             new Category(context.User.Local.Single(u => u.UserName == userName))
                                             {
@@ -97,12 +208,6 @@ namespace BMA.DataAccess.Migrations
                                                 Name = "Club",
                                                 FromDate = new DateTime(2000, 1, 1, 1, 0, 0),
                                                 ToDate = new DateTime(2000, 1, 1, 4, 0, 0),
-                                            },
-                                            new Category(context.User.Local.Single(u => u.UserName == userName))
-                                            {
-                                                Name = "Other",
-                                                FromDate = new DateTime(2000, 1, 1, 0, 0, 0),
-                                                ToDate = new DateTime(2000, 1, 1, 0, 0, 0),
                                             });
 
                 #endregion
@@ -291,7 +396,7 @@ namespace BMA.DataAccess.Migrations
 
                 #region RulePart
                 context.RulePart.AddOrUpdate(x => x.FieldName,
-                    new RulePart { FieldName = Const.RuleField.RangeStartDate.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DateInt.ToString()) },
+                    new RulePart{ FieldName = Const.RuleField.RangeStartDate.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DateInt.ToString()) },
                     new RulePart { FieldName = Const.RuleField.RangeNoEndDate.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Label.ToString()) },
                     new RulePart { FieldName = Const.RuleField.RangeTotalOcurrences.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.Int.ToString()) },
                     new RulePart { FieldName = Const.RuleField.RangeEndBy.ToString(), FieldType = context.FieldType.Local.Single(x => x.Type == Const.FieldType.DateInt.ToString()) },

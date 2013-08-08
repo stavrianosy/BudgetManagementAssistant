@@ -19,12 +19,13 @@ namespace BMA_WP.View.AdminView
 {
     public partial class Interval : PhoneApplicationPage
     {
+        #region Private Members
         ApplicationBarMenuItem mainMenu ;
         ApplicationBarIconButton add ;
         ApplicationBarIconButton delete;
-        ApplicationBarIconButton saveContinute;
         ApplicationBarIconButton save;
         ApplicationBarMenuItem transaction;
+        #endregion
 
         public IntervalViewModel vm
         {
@@ -37,32 +38,45 @@ namespace BMA_WP.View.AdminView
         }
 
         #region Binding
-        //workaround for the ListPicker issue when binding object becomes null
-        private void SetBindings(bool isEnabled)
-        {
-            if (isEnabled)
-            {
-                Binding bindTransType = new Binding("TransactionType");
-                bindTransType.Mode = BindingMode.TwoWay;
-                bindTransType.Source = vm.CurrInterval;
-                if (vm.CurrInterval.TransactionType != null &&
-                    ((ObservableCollection<TypeTransaction>)cmbType.ItemsSource)
-                                                .FirstOrDefault(x => x.TypeTransactionId == vm.CurrInterval.TransactionType.TypeTransactionId) != null)
-                    cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
 
-                Binding bindCategory = new Binding("Category");
-                bindCategory.Mode = BindingMode.TwoWay;
-                bindCategory.Source = vm.CurrInterval;
-                if (vm.CurrInterval.Category != null &&
-                    ((ObservableCollection<BMA.BusinessLogic.Category>)cmbCategory.ItemsSource)
-                        .FirstOrDefault(x => x.CategoryId == vm.CurrInterval.Category.CategoryId) != null)
-                    cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
-            }
-            else
-            {
-                if (cmbType.GetBindingExpression(ListPicker.SelectedIndexProperty) != null)
-                    cmbType.ClearValue(ListPicker.SelectedItemProperty);
-            }
+        //workaround for the ListPicker issue when binding object becomes null
+        private void SetBindings()
+        {
+            if (vm.CurrInterval == null)
+                return;
+
+            SetupTransactionTypeBinding();
+            SetupCategoryBinding();
+
+        }
+
+        private void SetupCategoryBinding()
+        {
+            Binding bindCategory = new Binding("Category");
+            bindCategory.Mode = BindingMode.TwoWay;
+            bindCategory.Source = vm.CurrInterval;
+            if (vm.CurrInterval.Category != null &&
+                ((ObservableCollection<BMA.BusinessLogic.Category>)cmbCategory.ItemsSource)
+                    .FirstOrDefault(x => x.CategoryId == vm.CurrInterval.Category.CategoryId) != null)
+                cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
+        }
+
+        private void SetupTransactionTypeBinding()
+        {
+            Binding bindTransType = new Binding("TransactionType");
+            bindTransType.Mode = BindingMode.TwoWay;
+            bindTransType.Source = vm.CurrInterval;
+            if (vm.CurrInterval.TransactionType != null &&
+                ((ObservableCollection<TypeTransaction>)cmbType.ItemsSource)
+                                            .FirstOrDefault(x => x.TypeTransactionId == vm.CurrInterval.TransactionType.TypeTransactionId) != null)
+                cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
+
+        }
+
+        private void ClearBindings()
+        {
+            if (cmbType.GetBindingExpression(ListPicker.SelectedIndexProperty) != null)
+                cmbType.ClearValue(ListPicker.SelectedItemProperty);
         }
         #endregion
 
@@ -73,14 +87,14 @@ namespace BMA_WP.View.AdminView
             switch (piName)
             {
                 case "piInterval":
-                    ItemSelected();                    
                     SetupAppBar_Interval();
+                    ItemSelected();
                     svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piIntervalList":
+                    SetupAppBar_IntervalList();
                     IntervalsMultiSelect.SelectedItem = null;
                     vm.CurrInterval = null;
-                    SetupAppBar_IntervalList();
                     break;
             }
         }
@@ -88,45 +102,33 @@ namespace BMA_WP.View.AdminView
         private void ItemSelected()
         {
             var item = (TypeInterval)IntervalsMultiSelect.SelectedItem;
-            SetBindings(false);
+
+            ClearBindings();
 
             vm.CurrInterval = item;
 
-            if (item != null)
-                SetBindings(true);
+            SetBindings();
 
             if (vm.CurrInterval == null || vm.CurrInterval.IsDeleted)
                 vm.IsEnabled = false;
-            else
-                vm.IsEnabled = true;
+
+            vm.CurrInterval.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.TypeIntervalList.HasItemsWithChanges();
+
+            vm.IsEnabled = !vm.IsLoading;
+            delete.IsEnabled = !vm.IsLoading;
         }
 
         private void SetupAppBar_IntervalList()
         {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsVisible = true;
-
-            add = new ApplicationBarIconButton();
-            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
-            add.Text = AppResources.AppBarButtonAdd;
-            add.IsEnabled = true;
-            ApplicationBar.Buttons.Add(add);
-            add.Click += new EventHandler(Add_Click);
-
-            mainMenu = new ApplicationBarMenuItem();
-            mainMenu.Text = AppResources.AppBarButtonMainMenu;
-            mainMenu.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(mainMenu);
-            mainMenu.Click += new EventHandler(MainMenu_Click);
-
-            transaction = new ApplicationBarMenuItem();
-            transaction.Text = AppResources.AppBarButtonTransaction;
-            transaction.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(transaction);
-            transaction.Click += new EventHandler(Transaction_Click);
+            SetupAppBar_Common(false);
         }
 
         private void SetupAppBar_Interval()
+        {
+            SetupAppBar_Common(true);
+        }
+
+        void SetupAppBar_Common(bool includeDelete)
         {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsVisible = true;
@@ -134,20 +136,19 @@ namespace BMA_WP.View.AdminView
             save = new ApplicationBarIconButton();
             save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
             save.Text = AppResources.AppBarButtonSave;
+            save.IsEnabled = vm.TypeIntervalList.HasItemsWithChanges() && vm.IsLoading == false;
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
 
-            saveContinute = new ApplicationBarIconButton();
-            saveContinute.IconUri = new Uri("/Assets/icons/Dark/refresh.png", UriKind.Relative);
-            saveContinute.Text = AppResources.AppBarButtonContinue;
-            ApplicationBar.Buttons.Add(saveContinute);
-            saveContinute.Click += new EventHandler(Continue_Click);
-
-            delete = new ApplicationBarIconButton();
-            delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
-            delete.Text = AppResources.AppBarButtonDelete;
-            ApplicationBar.Buttons.Add(delete);
-            delete.Click += new EventHandler(Delete_Click);
+            if (includeDelete)
+            {
+                delete = new ApplicationBarIconButton();
+                delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
+                delete.Text = AppResources.AppBarButtonDelete;
+                delete.IsEnabled = false;
+                ApplicationBar.Buttons.Add(delete);
+                delete.Click += new EventHandler(Delete_Click);
+            }
 
             add = new ApplicationBarIconButton();
             add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
@@ -160,6 +161,10 @@ namespace BMA_WP.View.AdminView
             ApplicationBar.MenuItems.Add(mainMenu);
             mainMenu.Click += new EventHandler(MainMenu_Click);
 
+            transaction = new ApplicationBarMenuItem();
+            transaction.Text = AppResources.AppBarButtonTransaction;
+            ApplicationBar.MenuItems.Add(transaction);
+            transaction.Click += new EventHandler(Transaction_Click);
         }
 
         private void MainMenu_Click(object sender, EventArgs e)
@@ -167,25 +172,20 @@ namespace BMA_WP.View.AdminView
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
         }
 
-        private void Continue_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void Transaction_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Transactions.xaml", UriKind.Relative));
         }
 
-        private async void Delete_Click(object sender, EventArgs e)
+        private void Delete_Click(object sender, EventArgs e)
         {
             vm.CurrInterval.IsDeleted = true;
 
-            await SaveTypeInterval();
+             SaveTypeInterval();
         }
 
 
-        private async Task SaveTypeInterval()
+        private void SaveTypeInterval()
         {
             //2. update record, then choose another one = error
             
@@ -204,7 +204,7 @@ namespace BMA_WP.View.AdminView
                 return;
             }
 
-            await App.Instance.StaticServiceData.SaveTypeInterval(saveOC, (error) =>
+            App.Instance.StaticServiceData.SaveTypeInterval(saveOC, (error) =>
             {
                 if (error != null)
                     MessageBox.Show(AppResources.SaveFailed);
@@ -216,29 +216,55 @@ namespace BMA_WP.View.AdminView
             pivotContainer.SelectedIndex = 1;
         }
 
-        private async void Save_Click(object sender, EventArgs e)
+        private  void Save_Click(object sender, EventArgs e)
         {
-            await SaveTypeInterval();
+             SaveTypeInterval();
         }
 
         private void Add_Click(object sender, EventArgs e)
         {
-            svItem.ScrollToVerticalOffset(0);
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
+
+            
+            ManualUpdate();
+
+            if (!ValidateTypeInterval())
+                return;
 
             var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList.ToList(), vm.TypeTransactionList.ToList(), App.Instance.User);
 
             ResetRules();
 
             vm.PivotIndex = 0;
+
+            svItem.ScrollToVerticalOffset(0d);
+
             vm.TypeIntervalList.Add(item);
             IntervalsMultiSelect.SelectedItem = item;
             vm.CurrInterval = item;
-            SetBindings(true);
+            
+            SetBindings();
 
-            save.IsEnabled = true;
-            vm.IsEnabled = true;
+            save.IsEnabled = vm.TypeIntervalList.HasItemsWithChanges() && vm.IsLoading == false;
+            delete.IsEnabled = !vm.IsLoading;
+            vm.IsEnabled = !vm.IsLoading;
+
             vm.IsToggled_tglDaily = true;
 
+        }
+
+        private bool ValidateTypeInterval()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ManualUpdate()
+        {
+            throw new NotImplementedException();
         }
 
         private void tglDaily_Checked(object sender, RoutedEventArgs e)

@@ -189,7 +189,11 @@ namespace BMA.BusinessLogic
             }
         }
 
-        public Budget Clone()
+        /// <summary>
+        /// Hiding Clone is intended since the overrideen one was returning a BaseItem
+        /// </summary>
+        /// <returns></returns>
+        public new Budget Clone()
         {
             var bud = new Budget(this.ModifiedUser);
             

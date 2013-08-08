@@ -33,6 +33,11 @@ namespace BMA_WP.BMAStaticDataService {
         
         BMA.BusinessLogic.User EndRegisterUser(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/UpdateUser", ReplyAction="http://tempuri.org/IStatic/UpdateUserResponse")]
+        System.IAsyncResult BeginUpdateUser(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
+        
+        BMA.BusinessLogic.User EndUpdateUser(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/ChangePassword", ReplyAction="http://tempuri.org/IStatic/ChangePasswordResponse")]
         System.IAsyncResult BeginChangePassword(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState);
         
@@ -183,6 +188,25 @@ namespace BMA_WP.BMAStaticDataService {
         private object[] results;
         
         public RegisterUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public BMA.BusinessLogic.User Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((BMA.BusinessLogic.User)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class UpdateUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public UpdateUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -597,6 +621,12 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.Threading.SendOrPostCallback onRegisterUserCompletedDelegate;
         
+        private BeginOperationDelegate onBeginUpdateUserDelegate;
+        
+        private EndOperationDelegate onEndUpdateUserDelegate;
+        
+        private System.Threading.SendOrPostCallback onUpdateUserCompletedDelegate;
+        
         private BeginOperationDelegate onBeginChangePasswordDelegate;
         
         private EndOperationDelegate onEndChangePasswordDelegate;
@@ -776,6 +806,8 @@ namespace BMA_WP.BMAStaticDataService {
         
         public event System.EventHandler<RegisterUserCompletedEventArgs> RegisterUserCompleted;
         
+        public event System.EventHandler<UpdateUserCompletedEventArgs> UpdateUserCompleted;
+        
         public event System.EventHandler<ChangePasswordCompletedEventArgs> ChangePasswordCompleted;
         
         public event System.EventHandler<ForgotPasswordCompletedEventArgs> ForgotPasswordCompleted;
@@ -954,6 +986,52 @@ namespace BMA_WP.BMAStaticDataService {
             }
             base.InvokeAsync(this.onBeginRegisterUserDelegate, new object[] {
                         user}, this.onEndRegisterUserDelegate, this.onRegisterUserCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginUpdateUser(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginUpdateUser(user, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        BMA.BusinessLogic.User BMA_WP.BMAStaticDataService.IStatic.EndUpdateUser(System.IAsyncResult result) {
+            return base.Channel.EndUpdateUser(result);
+        }
+        
+        private System.IAsyncResult OnBeginUpdateUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            BMA.BusinessLogic.User user = ((BMA.BusinessLogic.User)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginUpdateUser(user, callback, asyncState);
+        }
+        
+        private object[] OnEndUpdateUser(System.IAsyncResult result) {
+            BMA.BusinessLogic.User retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndUpdateUser(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnUpdateUserCompleted(object state) {
+            if ((this.UpdateUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.UpdateUserCompleted(this, new UpdateUserCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void UpdateUserAsync(BMA.BusinessLogic.User user) {
+            this.UpdateUserAsync(user, null);
+        }
+        
+        public void UpdateUserAsync(BMA.BusinessLogic.User user, object userState) {
+            if ((this.onBeginUpdateUserDelegate == null)) {
+                this.onBeginUpdateUserDelegate = new BeginOperationDelegate(this.OnBeginUpdateUser);
+            }
+            if ((this.onEndUpdateUserDelegate == null)) {
+                this.onEndUpdateUserDelegate = new EndOperationDelegate(this.OnEndUpdateUser);
+            }
+            if ((this.onUpdateUserCompletedDelegate == null)) {
+                this.onUpdateUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnUpdateUserCompleted);
+            }
+            base.InvokeAsync(this.onBeginUpdateUserDelegate, new object[] {
+                        user}, this.onEndUpdateUserDelegate, this.onUpdateUserCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1987,6 +2065,19 @@ namespace BMA_WP.BMAStaticDataService {
             public BMA.BusinessLogic.User EndRegisterUser(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 BMA.BusinessLogic.User _result = ((BMA.BusinessLogic.User)(base.EndInvoke("RegisterUser", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginUpdateUser(BMA.BusinessLogic.User user, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = user;
+                System.IAsyncResult _result = base.BeginInvoke("UpdateUser", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public BMA.BusinessLogic.User EndUpdateUser(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                BMA.BusinessLogic.User _result = ((BMA.BusinessLogic.User)(base.EndInvoke("UpdateUser", _args, result)));
                 return _result;
             }
             

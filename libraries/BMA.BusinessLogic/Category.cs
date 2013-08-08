@@ -93,21 +93,33 @@ namespace BMA.BusinessLogic
         #region Constructions
         //parameterless ctor in order to be used in generic as T
         public Category()
-            : base(null)
+            : this(null, null)
         {}
         public Category(User user)
+            : this(user, null)
+        {
+            
+        }
+        public Category(User user, TypeTransactionReasonList typeTransactionList)
             : base(user)
         {
+
+            if (typeTransactionList != null) 
+                TypeTransactionReasons = typeTransactionList.Where(x => x.Name == "Other").ToList();
+
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **//
             FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 0, 0);
             ToDate = FromDate.AddHours(1);
-
         }
 
         #endregion
 
         #region Public Methods
-        public Category Clone()
+        /// <summary>
+        /// Hiding Clone is intended since the overrideen one was returning a BaseItem
+        /// </summary>
+        /// <returns></returns>
+        public new Category Clone()
         {
             return (Category)this.MemberwiseClone();
         }
