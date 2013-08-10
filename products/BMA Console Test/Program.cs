@@ -23,9 +23,10 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
 
-            //var rr = b.GetAllRecurrenceRules(usr.UserId);
+
+            var rr = b.GetAllRecurrenceRules();
             //var newuser = CreateUser(b);
-            var db = b.GetDBStatus();
+            //var db = b.GetDBStatus();
             //SyncTransactions(a, usr);
             //a.GetLatestTransactionsLimit(10, 11);
             //var tt = b.GetAllTypeTransactions(4);
@@ -178,34 +179,36 @@ namespace ConsoleApplication1
         private static void SaveTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)
         {
             var cat = b.GetAllCategories(usr.UserId);
-            var staticData = b.GetAllStaticData(usr.UserId);
+            var typeIntervals = b.GetAllTypeIntervals(usr.UserId);
+            var recurrenceRules = b.GetAllRecurrenceRules();
+            var typeTransactions = b.GetAllTypeTransactions(usr.UserId);
 
-            staticData.TypeIntervals[0].Amount = 9d;
-            staticData.TypeIntervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "9123";
-            staticData.TypeIntervals[0].ModifiedDate = DateTime.Now;
+            typeIntervals[0].Amount = 9d;
+            typeIntervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "9123";
+            typeIntervals[0].ModifiedDate = DateTime.Now;
             //staticData.TypeIntervals[1].ModifiedDate = DateTime.Now;
 
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20100202";
-            staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "3";
+            typeIntervals[0].RecurrenceRangeRuleValue.RecurrenceRule = recurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+            typeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20100202";
+            typeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "3";
             //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "b22";
             //staticData.TypeIntervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "c22";
 
             var k = new List<TypeInterval>();
-            k.Add(staticData.TypeIntervals[0]);
+            k.Add(typeIntervals[0]);
 
             var update = b.SaveTypeIntervals(k);
 
 
-            var intervals = new List<TypeInterval>{new TypeInterval(cat, staticData.TypeTransactions, usr)};
+            var intervals = new List<TypeInterval>{new TypeInterval(cat, typeTransactions, usr)};
             //intervals[0].RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays");
 
 
-            intervals[0].RecurrenceRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays") ;
+            intervals[0].RecurrenceRuleValue.RecurrenceRule = recurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays") ;
             intervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "aaa";
             intervals[0].RecurrenceRuleValue.RulePartValueList[1].Value = "bbb";
 
-            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
+            intervals[0].RecurrenceRangeRuleValue.RecurrenceRule = recurrenceRules.FirstOrDefault(x => x.Name == Const.Rule.RuleRangeTotalOcurrences.ToString());
             intervals[0].RecurrenceRangeRuleValue.RulePartValueList[0].Value = "20111111";
             intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "234";
 

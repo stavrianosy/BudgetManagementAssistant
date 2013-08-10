@@ -33,12 +33,6 @@ namespace ConsoleApplication1.ServiceReference1 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetLatestTransactionDateDouble", ReplyAction="http://tempuri.org/IMain/GetLatestTransactionDateDoubleResponse")]
         System.Threading.Tasks.Task<double> GetLatestTransactionDateDoubleAsync(int userId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
-        bool SyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
-        System.Threading.Tasks.Task<bool> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/GetAllTransactions", ReplyAction="http://tempuri.org/IMain/GetAllTransactionsResponse")]
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetAllTransactions(int userId);
         
@@ -86,6 +80,18 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/LoadItemCounts", ReplyAction="http://tempuri.org/IMain/LoadItemCountsResponse")]
         System.Threading.Tasks.Task<BMA.BusinessLogic.StartupInfo> LoadItemCountsAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
+        bool SyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
+        System.Threading.Tasks.Task<bool> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncBudgets", ReplyAction="http://tempuri.org/IMain/SyncBudgetsResponse")]
+        bool SyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SyncBudgets", ReplyAction="http://tempuri.org/IMain/SyncBudgetsResponse")]
+        System.Threading.Tasks.Task<bool> SyncBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SaveTransactions", ReplyAction="http://tempuri.org/IMain/SaveTransactionsResponse")]
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> SaveTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions);
@@ -157,14 +163,6 @@ namespace ConsoleApplication1.ServiceReference1 {
             return base.Channel.GetLatestTransactionDateDoubleAsync(userId);
         }
         
-        public bool SyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
-            return base.Channel.SyncTransactions(transactions);
-        }
-        
-        public System.Threading.Tasks.Task<bool> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
-            return base.Channel.SyncTransactionsAsync(transactions);
-        }
-        
         public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> GetAllTransactions(int userId) {
             return base.Channel.GetAllTransactions(userId);
         }
@@ -227,6 +225,22 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         public System.Threading.Tasks.Task<BMA.BusinessLogic.StartupInfo> LoadItemCountsAsync(int userId) {
             return base.Channel.LoadItemCountsAsync(userId);
+        }
+        
+        public bool SyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
+            return base.Channel.SyncTransactions(transactions);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SyncTransactionsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {
+            return base.Channel.SyncTransactionsAsync(transactions);
+        }
+        
+        public bool SyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets) {
+            return base.Channel.SyncBudgets(budgets);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SyncBudgetsAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets) {
+            return base.Channel.SyncBudgetsAsync(budgets);
         }
         
         public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> SaveTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions) {

@@ -48,11 +48,6 @@ namespace BMA_WP.BMAStaticDataService {
         
         BMA.BusinessLogic.User EndForgotPassword(System.IAsyncResult result);
         
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllStaticData", ReplyAction="http://tempuri.org/IStatic/GetAllStaticDataResponse")]
-        System.IAsyncResult BeginGetAllStaticData(int userId, System.AsyncCallback callback, object asyncState);
-        
-        BMA.BusinessLogic.StaticTypeList EndGetAllStaticData(System.IAsyncResult result);
-        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetAllCategories", ReplyAction="http://tempuri.org/IStatic/GetAllCategoriesResponse")]
         System.IAsyncResult BeginGetAllCategories(int userId, System.AsyncCallback callback, object asyncState);
         
@@ -253,25 +248,6 @@ namespace BMA_WP.BMAStaticDataService {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((BMA.BusinessLogic.User)(this.results[0]));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class GetAllStaticDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        public GetAllStaticDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        public BMA.BusinessLogic.StaticTypeList Result {
-            get {
-                base.RaiseExceptionIfNecessary();
-                return ((BMA.BusinessLogic.StaticTypeList)(this.results[0]));
             }
         }
     }
@@ -639,12 +615,6 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.Threading.SendOrPostCallback onForgotPasswordCompletedDelegate;
         
-        private BeginOperationDelegate onBeginGetAllStaticDataDelegate;
-        
-        private EndOperationDelegate onEndGetAllStaticDataDelegate;
-        
-        private System.Threading.SendOrPostCallback onGetAllStaticDataCompletedDelegate;
-        
         private BeginOperationDelegate onBeginGetAllCategoriesDelegate;
         
         private EndOperationDelegate onEndGetAllCategoriesDelegate;
@@ -811,8 +781,6 @@ namespace BMA_WP.BMAStaticDataService {
         public event System.EventHandler<ChangePasswordCompletedEventArgs> ChangePasswordCompleted;
         
         public event System.EventHandler<ForgotPasswordCompletedEventArgs> ForgotPasswordCompleted;
-        
-        public event System.EventHandler<GetAllStaticDataCompletedEventArgs> GetAllStaticDataCompleted;
         
         public event System.EventHandler<GetAllCategoriesCompletedEventArgs> GetAllCategoriesCompleted;
         
@@ -1124,52 +1092,6 @@ namespace BMA_WP.BMAStaticDataService {
             }
             base.InvokeAsync(this.onBeginForgotPasswordDelegate, new object[] {
                         user}, this.onEndForgotPasswordDelegate, this.onForgotPasswordCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetAllStaticData(int userId, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetAllStaticData(userId, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        BMA.BusinessLogic.StaticTypeList BMA_WP.BMAStaticDataService.IStatic.EndGetAllStaticData(System.IAsyncResult result) {
-            return base.Channel.EndGetAllStaticData(result);
-        }
-        
-        private System.IAsyncResult OnBeginGetAllStaticData(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            int userId = ((int)(inValues[0]));
-            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetAllStaticData(userId, callback, asyncState);
-        }
-        
-        private object[] OnEndGetAllStaticData(System.IAsyncResult result) {
-            BMA.BusinessLogic.StaticTypeList retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetAllStaticData(result);
-            return new object[] {
-                    retVal};
-        }
-        
-        private void OnGetAllStaticDataCompleted(object state) {
-            if ((this.GetAllStaticDataCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.GetAllStaticDataCompleted(this, new GetAllStaticDataCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void GetAllStaticDataAsync(int userId) {
-            this.GetAllStaticDataAsync(userId, null);
-        }
-        
-        public void GetAllStaticDataAsync(int userId, object userState) {
-            if ((this.onBeginGetAllStaticDataDelegate == null)) {
-                this.onBeginGetAllStaticDataDelegate = new BeginOperationDelegate(this.OnBeginGetAllStaticData);
-            }
-            if ((this.onEndGetAllStaticDataDelegate == null)) {
-                this.onEndGetAllStaticDataDelegate = new EndOperationDelegate(this.OnEndGetAllStaticData);
-            }
-            if ((this.onGetAllStaticDataCompletedDelegate == null)) {
-                this.onGetAllStaticDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetAllStaticDataCompleted);
-            }
-            base.InvokeAsync(this.onBeginGetAllStaticDataDelegate, new object[] {
-                        userId}, this.onEndGetAllStaticDataDelegate, this.onGetAllStaticDataCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2104,19 +2026,6 @@ namespace BMA_WP.BMAStaticDataService {
             public BMA.BusinessLogic.User EndForgotPassword(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 BMA.BusinessLogic.User _result = ((BMA.BusinessLogic.User)(base.EndInvoke("ForgotPassword", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginGetAllStaticData(int userId, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = userId;
-                System.IAsyncResult _result = base.BeginInvoke("GetAllStaticData", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public BMA.BusinessLogic.StaticTypeList EndGetAllStaticData(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                BMA.BusinessLogic.StaticTypeList _result = ((BMA.BusinessLogic.StaticTypeList)(base.EndInvoke("GetAllStaticData", _args, result)));
                 return _result;
             }
             

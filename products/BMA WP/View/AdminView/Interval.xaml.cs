@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace BMA_WP.View.AdminView
 {
@@ -111,11 +112,13 @@ namespace BMA_WP.View.AdminView
 
             if (vm.CurrInterval == null || vm.CurrInterval.IsDeleted)
                 vm.IsEnabled = false;
+            else
+            {
+                vm.CurrInterval.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.TypeIntervalList.HasItemsWithChanges();
 
-            vm.CurrInterval.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.TypeIntervalList.HasItemsWithChanges();
-
-            vm.IsEnabled = !vm.IsLoading;
-            delete.IsEnabled = !vm.IsLoading;
+                vm.IsEnabled = !vm.IsLoading;
+                delete.IsEnabled = !vm.IsLoading;
+            }
         }
 
         private void SetupAppBar_IntervalList()
@@ -259,12 +262,67 @@ namespace BMA_WP.View.AdminView
 
         private bool ValidateTypeInterval()
         {
-            throw new NotImplementedException();
+            var result = true;
+            if (vm.CurrInterval == null)
+                return result;
+
+            SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });
+            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
+
+            txtAmount.Background = okColor;
+            
+            txtDailyEvery.Background = okColor;
+            txtWeeklyEvery.Background = okColor;
+            txtMonthlyEveryMonth.Background = okColor;
+            txtMonthlyTypeEvery.Background = okColor;
+            txtYearlyEvery.Background = okColor;
+            
+            txtEndAfterOccurences.Background = okColor;
+
+            var ruleDailyEveryDay = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x=>x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString());
+
+            if (vm.CurrInterval.Amount <= 0 )
+            {
+                result = false;
+                txtAmount.Background = errColor;
+            }
+
+            if (ruleDailyEveryDay != null && ruleDailyEveryDay.Value.Length == 0)
+            {
+                result = false;
+                txtDailyEvery.Background = errColor;
+            }
+
+            return result;
+
         }
 
         private void ManualUpdate()
         {
-            throw new NotImplementedException();
+            //manually update model. textbox dont work well with numeric bindings
+            var amount = 0d;
+            
+            var dailyEvery = 0;
+            var weeklyEvery = 0;
+            var monthlyEveryMonth = 0;
+            var monthlyTypeEvery = 0;
+            var yearlyEvery = 0;
+            
+            var endAfterOccurences = 0;
+
+            double.TryParse(txtAmount.Text, out amount);
+            int.TryParse(txtDailyEvery.Text, out dailyEvery);
+            int.TryParse(txtWeeklyEvery.Text, out weeklyEvery);
+            int.TryParse(txtMonthlyEveryMonth.Text, out monthlyEveryMonth);
+            int.TryParse(txtMonthlyTypeEvery.Text, out monthlyTypeEvery);
+            int.TryParse(txtYearlyEvery.Text, out yearlyEvery);
+            int.TryParse(txtEndAfterOccurences.Text, out endAfterOccurences);
+
+            if (vm.CurrInterval != null)
+            {
+                vm.CurrInterval.Amount = amount;
+                //vm.CurrInterval.RecurrenceRuleValue.RulePartValueList = tipAmount;
+            }
         }
 
         private void tglDaily_Checked(object sender, RoutedEventArgs e)

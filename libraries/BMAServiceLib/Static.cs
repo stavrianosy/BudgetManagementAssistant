@@ -90,7 +90,7 @@ namespace BMAServiceLib
                     typeData.TypeSavingsDencities = typeSD;
                     typeData.Notifications = notice;
                     typeData.TypeFrequencies = typeF;
-                    typeData.TypeIntervals = inter;
+                    //typeData.TypeIntervals = inter;
                     typeData.BudgetThresholds = budgetTH;
                     typeData.RecurrenceRules = recRule;
 
@@ -103,11 +103,11 @@ namespace BMAServiceLib
             }
         }
 
-        public List<Category> GetAllCategories(int userId)
+        public CategoryList GetAllCategories(int userId)
         {
             try
             {
-                var result = new List<Category>();
+                var result = new CategoryList();
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.Category
@@ -136,6 +136,8 @@ namespace BMAServiceLib
                         result.Add(x.Category);
                     });
 
+                    result.PrepareForServiceSerialization();
+
                     return result;
                 }
             }
@@ -145,11 +147,11 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeTransactionReason> GetAllTypeTransactionReasons(int userId)
+        public TypeTransactionReasonList GetAllTypeTransactionReasons(int userId)
         {
             try
             {
-                var result = new List<TypeTransactionReason>();
+                var result = new TypeTransactionReasonList();
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TransactionReason
@@ -176,6 +178,8 @@ namespace BMAServiceLib
                             result.Add(x.TransReason);
                         });
 
+                    result.PrepareForServiceSerialization();
+
                     return result;
                 }
             }
@@ -195,17 +199,30 @@ namespace BMAServiceLib
             return GetDataGeneric<TypeSavingsDencity>(userId);
         }
 
-        public List<RecurrenceRule> GetAllRecurrenceRules()
+        public RecurrenceRuleList GetAllRecurrenceRules()
         {
             try
             {
+                var result = new RecurrenceRuleList();
                 using (EntityContext context = new EntityContext())
                 {
                     var recRule = (from i in context.RecurrenceRule
                                         .Include(i => i.RuleParts)
                                    select i).ToList();
 
-                    return recRule;
+                    var fields = (from i in context.FieldType select i).ToList();
+                    //recRule.ForEach(x=>x.ruleParts.ForEach(
+                    //recRule.ForEach(x => x.RuleParts.ForEach(z =>
+                    //    {
+                    //        z.FieldType = context.FieldType.FirstOrDefault(k=>k.RulePartId == z.RulePartId);
+                    //    }));
+
+                    recRule.ForEach(x=>result.Add(x));
+
+                    result.PrepareForServiceSerialization();
+
+                    return result;
+
                 }
             }
             catch (Exception)
@@ -229,10 +246,12 @@ namespace BMAServiceLib
             return GetDataGeneric<BudgetThreshold>(userId);
         }
 
-        public List<TypeInterval> GetAllTypeIntervals(int userId)
+        public TypeIntervalList GetAllTypeIntervals(int userId)
         {
             try
             {
+                var result = new TypeIntervalList();
+
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TypeInterval
@@ -273,9 +292,12 @@ namespace BMAServiceLib
 
                             });
                         }
+                        result.Add(x);
                     });
 
-                    return query;
+                    result.PrepareForServiceSerialization();
+
+                    return result;
                 }
             }
             catch (Exception)
@@ -953,7 +975,7 @@ namespace BMAServiceLib
             }
         }
 
-        public List<TypeInterval> SaveTypeIntervals(List<TypeInterval> typeIntervals)
+        public TypeIntervalList SaveTypeIntervals(TypeIntervalList typeIntervals)
         {
             try
             {
@@ -1093,7 +1115,10 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllTypeIntervals(0);
+
+                typeIntervals.PrepareForServiceSerialization();
+
+                return typeIntervals;
             }
             catch (DbEntityValidationException e)
             {
@@ -1180,7 +1205,7 @@ namespace BMAServiceLib
             try
             {
                 User result = UpdateRegisterUser(user);
-                SendEmail(result, NoticeState.ResetPassword);
+                SendEmail(result, NoticeState.ResetPassword, error => { var a = ""; });
 
                 return new User();
             }
@@ -1227,9 +1252,12 @@ namespace BMAServiceLib
         public User RegisterUser(User user)
         {
             User result = UpdateRegisterUser(user);
-            SendEmail(result, NoticeState.NewAccount);
+
+            //Task threads = new Task[1];
+            SendEmail(result, NoticeState.NewAccount, error => { var a = ""; });
 
             return result;
+
         }
 
         public User ForgotPassword(User user)
@@ -1247,7 +1275,7 @@ namespace BMAServiceLib
                     result = query;
                 }
 
-                SendEmail(result, NoticeState.SendPassword);
+                SendEmail(result, NoticeState.SendPassword, error => { var a = ""; });
 
                 return result;
             }
@@ -1332,7 +1360,7 @@ namespace BMAServiceLib
             SendPassword
         }
 
-        private void SendEmail(User user, NoticeState state)
+        private void SendEmail(User user, NoticeState state, Action<Exception> callback)
         {
             try
             {
@@ -1369,10 +1397,12 @@ namespace BMAServiceLib
                 }
 
                 client.Send(message);
+
+                callback(null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                callback(ex);
             }
         }
         #endregion

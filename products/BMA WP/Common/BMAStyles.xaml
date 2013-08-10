@@ -249,18 +249,18 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BMA_Interval_ItemTemplate">
-        <Grid Margin="0 0 0 12" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
+        <Grid Margin="0" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Width="50" Margin="0 12 0 0">
-                <Image Source="/Assets/interval.png" Stretch="UniformToFill" />
+                <Image Source="{Binding IsIncome, Converter={StaticResource converters}, ConverterParameter=intervalimage}" Stretch="UniformToFill" Opacity="1.0"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
                 <StackPanel>
                     <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                    <TextBlock Text="{Binding IsIncome, Converter={StaticResource converters}, ConverterParameter=intervalBool}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                    <TextBlock Text="{Binding Purpose}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

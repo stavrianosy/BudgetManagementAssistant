@@ -1,6 +1,7 @@
 ﻿using BMA.BusinessLogic;
 using BMA_WP.BMAStaticDataService;
 using BMA_WP.Common;
+using BMA_WP.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -112,7 +113,7 @@ namespace BMA_WP.Model
             var typeTrans= false;
             var notifications = false;
             var typeFrequencies= false;
-            var typeIntervals= false;
+            var typeIntervals= true;
             var recurrenceRules= false;
 
             LoadCategories(error => 
@@ -145,12 +146,14 @@ namespace BMA_WP.Model
                 if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
                     callback(error);
             });
-            LoadTypeIntervals(error =>
-            {
-                typeIntervals = true;
-                if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
-                    callback(error);
-            });
+            
+            //LoadTypeIntervals(error =>
+            //{
+            //    typeIntervals = true;
+            //    if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
+            //        callback(error);
+            //});
+
             LoadRecurrenceRules(error =>
             {
                 recurrenceRules = true;
@@ -159,7 +162,7 @@ namespace BMA_WP.Model
             });
         }
 
-        private bool LoadStaticDataDone(bool categories, bool typeTransReasons, bool typeTrans, bool notifications, bool typeFrequencies, 
+        private bool LoadStaticDataDone(bool categories, bool typeTransReasons, bool typeTrans, bool notifications, bool typeFrequencies,
                                     bool typeIntervals, bool recurrenceRules)
         {
             return categories && typeTrans && typeTransReasons && notifications && typeFrequencies && typeIntervals && recurrenceRules;
@@ -243,9 +246,12 @@ namespace BMA_WP.Model
                 client.AuthenticateUserCompleted += async (sender,eventargs) => {
                     try
                     {
-                        existing = eventargs.Result;
-                        UserFound(existing);
-                        await UpdateCacheUserData(existing);
+                        if (eventargs.Error == null)
+                        {
+                            existing = eventargs.Result;
+                            UserFound(existing);
+                            await UpdateCacheUserData(existing);
+                        }
 
                         callback(eventargs.Error);
                     }
@@ -256,7 +262,7 @@ namespace BMA_WP.Model
 
         private void UserFound(User existing)
         {
-            if (existing.UserId > 0)
+            if (existing.UserName != null && existing.UserName.Length > 0)
             {
                 App.Instance.User.Update(existing);
 
@@ -300,7 +306,7 @@ namespace BMA_WP.Model
                 else
                     CategoryList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId, App.Instance.User.UserName);
             }
             var ord = CategoryList.OrderBy(x => x.Name).ToList();
             CategoryList.Clear();
@@ -326,7 +332,7 @@ namespace BMA_WP.Model
                 else
                     TypeTransactionReasonList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId, App.Instance.User.UserName);
             }
             var ord = TypeTransactionReasonList.OrderBy(x => x.Name).ToList();
             TypeTransactionReasonList.Clear();
@@ -352,7 +358,7 @@ namespace BMA_WP.Model
                 else
                     TypeTransactionList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId, App.Instance.User.UserName);
             }
             var ord = TypeTransactionList.OrderBy(x => x.Name).ToList();
             TypeTransactionList.Clear();
@@ -378,7 +384,7 @@ namespace BMA_WP.Model
                 else
                     NotificationList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId, App.Instance.User.UserName);
             }
             var ord = NotificationList.OrderBy(x => x.Name).ToList();
             NotificationList.Clear();
@@ -404,7 +410,7 @@ namespace BMA_WP.Model
                 else
                     TypeFrequencyList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId, App.Instance.User.UserName);
             }
             var ord = TypeFrequencyList.OrderBy(x => x.Name).ToList();
             TypeFrequencyList.Clear();
@@ -430,7 +436,7 @@ namespace BMA_WP.Model
                 else
                     IntervalList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId, App.Instance.User.UserName);
             }
             var ord = IntervalList.OrderBy(x => x.Name).ToList();
             IntervalList.Clear();
@@ -456,7 +462,7 @@ namespace BMA_WP.Model
                 else
                     RecurrenceRuleList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId, App.Instance.User.UserName);
             }
             var ord = RecurrenceRuleList.OrderBy(x => x.Name).ToList();
             RecurrenceRuleList.Clear();
@@ -472,10 +478,10 @@ namespace BMA_WP.Model
             var retVal = new CategoryList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_CATEGORY_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_CATEGORY_FOLDER, App.Instance.User.UserName))
                 {
 
-                    var staticType = await StorageUtility.RestoreItem<Category>(STATIC_CATEGORY_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<Category>(STATIC_CATEGORY_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     CategoryList.Add(staticType);
                 }
@@ -507,10 +513,10 @@ namespace BMA_WP.Model
             var retVal = new TypeTransactionReasonList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTIONREASON_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTIONREASON_FOLDER, App.Instance.User.UserName))
                 {
 
-                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     TypeTransactionReasonList.Add(staticType);
                 }
@@ -542,9 +548,9 @@ namespace BMA_WP.Model
             var retVal = new TypeTransactionList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTION_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTION_FOLDER, App.Instance.User.UserName))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     TypeTransactionList.Add(staticType);
                 }
@@ -576,10 +582,10 @@ namespace BMA_WP.Model
             var retVal = new NotificationList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_NOTIFICATION_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_NOTIFICATION_FOLDER, App.Instance.User.UserName))
                 {
 
-                    var staticType = await StorageUtility.RestoreItem<Notification>(STATIC_NOTIFICATION_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<Notification>(STATIC_NOTIFICATION_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     NotificationList.Add(staticType);
                 }
@@ -611,10 +617,10 @@ namespace BMA_WP.Model
             var retVal = new TypeFrequencyList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_TYPEFREQUENCY_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_TYPEFREQUENCY_FOLDER, App.Instance.User.UserName))
                 {
 
-                    var staticType = await StorageUtility.RestoreItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     TypeFrequencyList.Add(staticType);
                 }
@@ -646,9 +652,9 @@ namespace BMA_WP.Model
             var retVal = new TypeIntervalList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName))
                 {
-                    var staticType = await StorageUtility.RestoreItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     IntervalList.Add(staticType);
                 }
@@ -680,9 +686,9 @@ namespace BMA_WP.Model
             var retVal = new RecurrenceRuleList();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_RECURRENCE_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_RECURRENCE_FOLDER, App.Instance.User.UserName))
                 {
-                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, item, App.Instance.User.UserName);
                     //retVal.Add(staticType);
                     RecurrenceRuleList.Add(staticType);
                 }
@@ -714,9 +720,9 @@ namespace BMA_WP.Model
             var retVal = new List<User>();
             try
             {
-                foreach (var item in await StorageUtility.ListItems(STATIC_USER_FOLDER, App.Instance.User.UserId))
+                foreach (var item in await StorageUtility.ListItems(STATIC_USER_FOLDER, App.Instance.User.UserName))
                 {
-                    var staticType = await StorageUtility.RestoreItem<User>(STATIC_USER_FOLDER, item, App.Instance.User.UserId);
+                    var staticType = await StorageUtility.RestoreItem<User>(STATIC_USER_FOLDER, item, App.Instance.User.UserName);
                     retVal.Add(staticType);
                 }
             }
@@ -855,6 +861,64 @@ namespace BMA_WP.Model
         #endregion
 
         #region Save
+
+        public void SaveCachedTypeTransaction(ObservableCollection<TypeTransaction> typeTransactions, Action<Exception> callback)
+        {
+            try
+            {
+                foreach (var item in TypeTransactionList.Where(x => x.HasChanges))
+                    item.HasChanges = false;
+
+                SetupTypeTransactionData(typeTransactions, false);
+
+                App.Instance.IsSync = false;
+
+                callback(null);
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
+        public void SaveCachedTypeFrequency(ObservableCollection<TypeFrequency> typeFrequencies, Action<Exception> callback)
+        {
+            try
+            {
+                foreach (var item in TypeFrequencyList.Where(x => x.HasChanges))
+                    item.HasChanges = false;
+
+                SetupTypeFrequencyData(typeFrequencies, false);
+
+                App.Instance.IsSync = false;
+
+                callback(null);
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
+        public void SaveCachedRecurrenceRule(ObservableCollection<RecurrenceRule> recurrenceRules, Action<Exception> callback)
+        {
+            try
+            {
+                foreach (var item in RecurrenceRuleList.Where(x => x.HasChanges))
+                    item.HasChanges = false;
+
+                SetupRecurrenceRuleData(recurrenceRules, false);
+
+                App.Instance.IsSync = false;
+
+                callback(null);
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+        
         public void SaveCategory(ObservableCollection<Category> categories, Action<Exception> callback)
         {
             try
@@ -864,24 +928,7 @@ namespace BMA_WP.Model
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
-                        try
-                        {
-                            foreach (var item in categories)
-                                item.OptimizeOnTopLevel();
-
-                            foreach (var item in CategoryList.Where(x => x.HasChanges))
-                                item.HasChanges = false;
-
-                            SetupTypeCategoryData(categories, false);
-
-                            App.Instance.IsSync = false;
-
-                            callback(null);
-                        }
-                        catch (Exception ex)
-                        {
-                            callback(ex);
-                        }
+                        SaveCachedCategory(categories, callback);
                     }
                     else
                     {
@@ -916,6 +963,28 @@ namespace BMA_WP.Model
             }
         }
 
+        public void SaveCachedCategory(ObservableCollection<Category> categories, Action<Exception> callback)
+        {
+            try
+            {
+                foreach (var item in categories)
+                    item.OptimizeOnTopLevel();
+
+                foreach (var item in CategoryList.Where(x => x.HasChanges))
+                    item.HasChanges = false;
+
+                SetupTypeCategoryData(categories, false);
+
+                App.Instance.IsSync = false;
+
+                callback(null);
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
         public void SaveTransactionReason(ObservableCollection<TypeTransactionReason> transactionReasons, Action<Exception> callback)
         {
             try
@@ -925,24 +994,7 @@ namespace BMA_WP.Model
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
-                        try
-                        {
-                            foreach (var item in transactionReasons)
-                                item.OptimizeOnTopLevel();
-
-                            foreach (var item in TypeTransactionReasonList.Where(x => x.HasChanges))
-                                item.HasChanges = false;
-
-                            SetupTypeTransactionReasonData(transactionReasons, false);
-
-                            App.Instance.IsSync = false;
-
-                            callback(null);
-                        }
-                        catch (Exception ex)
-                        {
-                            callback(ex);
-                        }
+                        SaveCachedTransactionReason(transactionReasons, callback);
                     }
                     else
                     {
@@ -977,12 +1029,32 @@ namespace BMA_WP.Model
             }
         }
 
+        private void SaveCachedTransactionReason(ObservableCollection<TypeTransactionReason> transactionReasons, Action<Exception> callback)
+        {
+            try
+            {
+                foreach (var item in transactionReasons)
+                    item.OptimizeOnTopLevel();
+
+                foreach (var item in TypeTransactionReasonList.Where(x => x.HasChanges))
+                    item.HasChanges = false;
+
+                SetupTypeTransactionReasonData(transactionReasons, false);
+
+                App.Instance.IsSync = false;
+
+                callback(null);
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
         public void SaveTypeInterval(ObservableCollection<TypeInterval> typeInterval, Action<Exception> callback)
         {
             try
             {
-                var result = this.IntervalList.ToObservableCollection();
-
                  App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
                     //continue with local if status is ok but is pending Sync
@@ -1093,34 +1165,103 @@ namespace BMA_WP.Model
         {
             try
             {
-                var client = new BMAStaticDataService.StaticClient();
-                client.RegisterUserAsync(user, callback);
-                client.RegisterUserCompleted += (sender, eventArgs) =>
+                App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
-                    try
+                    //continue with local if status is ok but is pending Sync
+                    if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
-                        var userCallback = eventArgs.UserState as Action<User, Exception>;
-                        if (userCallback == null)
-                            return;
-
-                        if (eventArgs.Error != null)
+                        try
                         {
-                            userCallback(null, eventArgs.Error);
+                            Exception networkError = new Exception(AppResources.NetworkError);
+                            callback(null, networkError);
                             return;
+
+                            await UpdateCacheUserData(user);
+
+                            App.Instance.IsSync = false;
+
+                            var isCatDone = false;
+                            var isTransReasonDone = false;
+                            var isTypeTransDone = false;
+                            var isTypeFreqDone = false;
+                            var isRecRuleDone = false;
+
+
+                            SaveCachedCategory(InitialData.InitializeCategories(), error =>
+                            {
+                                isCatDone = true;
+                                if (CheckIfDone(isCatDone, isTransReasonDone, isTypeTransDone, isTypeFreqDone, isRecRuleDone))
+                                    callback(user, null);
+                            });
+                            SaveCachedTransactionReason(InitialData.InitializeTypeTransactionReasons(), error =>
+                            {
+                                isTransReasonDone = true;
+                                if (CheckIfDone(isCatDone, isTransReasonDone, isTypeTransDone, isTypeFreqDone, isRecRuleDone))
+                                    callback(user, null);
+                            });
+                            SaveCachedTypeTransaction(InitialData.InitializeTypeTransactions(), error =>
+                            {
+                                isTypeTransDone = true;
+                                if (CheckIfDone(isCatDone, isTransReasonDone, isTypeTransDone, isTypeFreqDone, isRecRuleDone))
+                                    callback(user, null);
+                            });
+                            SaveCachedTypeFrequency(InitialData.InitializeTypeFrequencies(), error =>
+                            {
+                                isTypeFreqDone = true;
+                                if (CheckIfDone(isCatDone, isTransReasonDone, isTypeTransDone, isTypeFreqDone, isRecRuleDone))
+                                    callback(user, null);
+                            });
+                            SaveCachedRecurrenceRule(InitialData.InitializeRecurrenceRule(), error =>
+                            {
+                                isRecRuleDone = true;
+                                if (CheckIfDone(isCatDone, isTransReasonDone, isTypeTransDone, isTypeFreqDone, isRecRuleDone))
+                                    callback(user, null);
+                            });
+
+                            
                         }
-
-                        user.HasChanges = false;
-                        user.UserId = eventArgs.Result.UserId;
-
-                        userCallback(eventArgs.Result, null);
+                        catch (Exception ex)
+                        {
+                            callback(null, ex);
+                        }
                     }
-                    catch (Exception) { throw; }
-                };
+                    else
+                    {
+                        var client = new BMAStaticDataService.StaticClient();
+                        client.RegisterUserAsync(user, callback);
+                        client.RegisterUserCompleted += (sender, eventArgs) =>
+                        {
+                            try
+                            {
+                                var userCallback = eventArgs.UserState as Action<User, Exception>;
+                                if (userCallback == null)
+                                    return;
+
+                                if (eventArgs.Error != null)
+                                {
+                                    userCallback(null, eventArgs.Error);
+                                    return;
+                                }
+
+                                user.HasChanges = false;
+                                user.UserId = eventArgs.Result.UserId;
+
+                                userCallback(eventArgs.Result, null);
+                            }
+                            catch (Exception) { throw; }
+                        };
+                    }
+                });
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private bool CheckIfDone(bool isCatDone, bool isTransReasonDone, bool isTypeTransDone, bool isTypeFreqDone, bool isRecRuleDone)
+        {
+            return isCatDone && isTransReasonDone && isTypeTransDone && isTypeFreqDone && isRecRuleDone;
         }
 
         public void UpdateUser(User user, Action<Exception> callback)
@@ -1273,7 +1414,7 @@ namespace BMA_WP.Model
         private async Task UpdateCacheUserData(User user)
         {
       //     await StorageUtility.Clear(STATIC_USER_FOLDER);
-            await StorageUtility.SaveItem(STATIC_USER_FOLDER, user, user.UserId, App.Instance.User.UserId);
+            await StorageUtility.SaveItem(STATIC_USER_FOLDER, user, user.UserId, App.Instance.User.UserName);
 
             //var test = await StorageUtility.ListItems(STATIC_USER_FOLDER);
         }

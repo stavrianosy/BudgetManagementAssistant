@@ -148,9 +148,9 @@ namespace BMA_WP.Model
                 var retVal = new TransactionList();
                 try
                 {
-                    foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserId))
+                    foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserName))
                     {
-                        var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item, App.Instance.User.UserId);
+                        var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item, App.Instance.User.UserName);
                         //retVal.Add(trans);
                         TransactionList.Add(trans);
                     }
@@ -172,9 +172,9 @@ namespace BMA_WP.Model
                 var retVal = new TransactionImageList();
                 try
                 {
-                    foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER, App.Instance.User.UserId))
+                    foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER, App.Instance.User.UserName))
                     {
-                        var trans = await StorageUtility.RestoreItem<TransactionImage>(TRANSACTIONIMAGES_FOLDER, item, App.Instance.User.UserId);
+                        var trans = await StorageUtility.RestoreItem<TransactionImage>(TRANSACTIONIMAGES_FOLDER, item, App.Instance.User.UserName);
                         //retVal.Add(trans);
                         TransactionImageList.Add(trans);
                     }
@@ -195,9 +195,9 @@ namespace BMA_WP.Model
                 var retVal = new BudgetList();
                 try
                 {
-                    foreach (var item in await StorageUtility.ListItems(BUDGETS_FOLDER, App.Instance.User.UserId))
+                    foreach (var item in await StorageUtility.ListItems(BUDGETS_FOLDER, App.Instance.User.UserName))
                     {
-                        var budget = await StorageUtility.RestoreItem<Budget>(BUDGETS_FOLDER, item, App.Instance.User.UserId);
+                        var budget = await StorageUtility.RestoreItem<Budget>(BUDGETS_FOLDER, item, App.Instance.User.UserName);
                         //retVal.Add(budget);
                         BudgetList.Add(budget);
                     }
@@ -235,7 +235,7 @@ namespace BMA_WP.Model
                         TransactionList[query.Index] = item;
 
                     //if(updateCache)
-                        await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserId);
+                        await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserName);
                 }
                 TransactionList.OrderByDescending(x => x.TransactionDate);
             }
@@ -255,7 +255,7 @@ namespace BMA_WP.Model
 
                 trans.HasChanges = false;
 
-                await StorageUtility.SaveItem<Transaction>(TRANSACTIONS_FOLDER, trans, trans.TransactionId, App.Instance.User.UserId);
+                await StorageUtility.SaveItem<Transaction>(TRANSACTIONS_FOLDER, trans, trans.TransactionId, App.Instance.User.UserName);
             }
 
             private async void SetupBudgetList(ICollection<Budget> existing, bool removeNew)
@@ -277,7 +277,7 @@ namespace BMA_WP.Model
                     else
                         BudgetList[query.Index] = item;
 
-                    await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId, App.Instance.User.UserId);
+                    await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId, App.Instance.User.UserName);
                 }
                 BudgetList.OrderByDescending(x => x.Name);
             }

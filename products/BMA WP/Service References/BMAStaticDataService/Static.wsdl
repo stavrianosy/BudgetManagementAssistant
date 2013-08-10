@@ -43,12 +43,6 @@
   <wsdl:message name="IStatic_ForgotPassword_OutputMessage">
     <wsdl:part name="parameters" element="tns:ForgotPasswordResponse" />
   </wsdl:message>
-  <wsdl:message name="IStatic_GetAllStaticData_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllStaticData" />
-  </wsdl:message>
-  <wsdl:message name="IStatic_GetAllStaticData_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllStaticDataResponse" />
-  </wsdl:message>
   <wsdl:message name="IStatic_GetAllCategories_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllCategories" />
   </wsdl:message>
@@ -176,10 +170,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/ForgotPassword" message="tns:IStatic_ForgotPassword_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStatic/ForgotPasswordResponse" message="tns:IStatic_ForgotPassword_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllStaticData">
-      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/GetAllStaticData" message="tns:IStatic_GetAllStaticData_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/GetAllStaticDataResponse" message="tns:IStatic_GetAllStaticData_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="GetAllCategories">
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/GetAllCategories" message="tns:IStatic_GetAllCategories_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStatic/GetAllCategoriesResponse" message="tns:IStatic_GetAllCategories_OutputMessage" />
@@ -298,15 +288,6 @@
     </wsdl:operation>
     <wsdl:operation name="ForgotPassword">
       <soap:operation soapAction="http://tempuri.org/IStatic/ForgotPassword" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllStaticData">
-      <soap:operation soapAction="http://tempuri.org/IStatic/GetAllStaticData" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

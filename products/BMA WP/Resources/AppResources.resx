@@ -470,4 +470,7 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="NetworkError" xml:space="preserve">
+    <value>Network error. Please check your internet connection.</value>
+  </data>
 </root>

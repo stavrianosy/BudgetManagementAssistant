@@ -470,4 +470,7 @@
   <data name="Color" xml:space="preserve">
     <value>Χρωμα</value>
   </data>
+  <data name="NetworkError" xml:space="preserve">
+    <value>Σφαλμα δυκτιου. Παρακαλω ελεξτε τη διαδικτιακη σας συνδεση.</value>
+  </data>
 </root>

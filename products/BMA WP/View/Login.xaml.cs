@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using BMA_WP.ViewModel;
 using BMA_WP.Model;
 using System.Windows.Data;
+using BMA.BusinessLogic;
 
 namespace BMA_WP.View
 {
@@ -38,7 +39,13 @@ namespace BMA_WP.View
 
             SetupAppBar_Signin();
 
-
+            if (!App.Instance.IsInitialized)
+            {
+                //App.Instance.StaticServiceData.SaveCachedCategories(InitialData.InitializeCategories(new BMA.BusinessLogic.User { UserId=4}), error =>
+                //    { var a = true; });
+                
+                //App.Instance.StaticServiceData.SaveCategory();
+            }
             //var screenWidth = System.Windows.Application.Current.Host.Content.ActualWidth;
             //var screenHeight = System.Windows.Application.Current.Host.Content.ActualHeight;
             
@@ -295,7 +302,8 @@ namespace BMA_WP.View
                         }
                         else
                         {
-                            txtMessageRegister.Text =  error.Message;
+                            MessageBox.Show(string.Format("{0}", error.Message, AppResources.RegistrationFailed));
+                            txtMessageRegister.Text = AppResources.RegisterFail;
                         }
                         ProgressShow(false);
                     });
@@ -386,11 +394,12 @@ namespace BMA_WP.View
             var transaction = false;
             var budget = false;
             var staticData = false;
+            var typeInterval = false;
             
             App.Instance.ServiceData.LoadTransactions(error=>
                 {
                     transaction = true;
-                    if (AllDataLoaded(transaction, budget, staticData))
+                    if (AllDataLoaded(transaction, budget, staticData, typeInterval))
                         callback();
                 });
 
@@ -398,22 +407,36 @@ namespace BMA_WP.View
             App.Instance.ServiceData.LoadBudgets(error =>
                 {
                     budget = true;
-                    if (AllDataLoaded(transaction, budget, staticData))
+                    if (AllDataLoaded(transaction, budget, staticData, typeInterval))
                         callback();
                 });
 
             App.Instance.StaticServiceData.LoadStaticData(error =>
             {
                 staticData = true;
-                if (AllDataLoaded(transaction, budget, staticData))
+                if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                {
                     callback();
+                }
+            });
+
+            App.Instance.StaticServiceData.LoadTypeIntervals(error =>
+            {
+                typeInterval = true;
+
+                var generatedTransactions = new TransactionList(App.Instance.StaticServiceData.IntervalList);
+
+                if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                {
+                    callback();
+                }
             });
 
         }
 
-        private bool AllDataLoaded(bool transaction, bool budget, bool staticData)
+        private bool AllDataLoaded(bool transaction, bool budget, bool staticData, bool recurrenceRule)
         {
-            return transaction && budget && staticData;
+            return transaction && budget && staticData && recurrenceRule;
             //return transaction && budget;
         }
 

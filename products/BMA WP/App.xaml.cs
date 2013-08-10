@@ -288,6 +288,24 @@ namespace BMA_WP
 
         bool _isUserAuthenticated;
         private bool _isSyncing;
+
+        public bool IsInitialized
+        {
+            get
+            {
+                bool result = false;
+
+                if (IsolatedStorageSettings.ApplicationSettings.Contains("IsInitialized"))
+                    IsolatedStorageSettings.ApplicationSettings.TryGetValue("IsInitialized", out result);
+
+                return result;
+            }
+            set
+            {
+                IsolatedStorageSettings.ApplicationSettings["IsInitialized"] = value;
+            }
+        }
+
         public bool IsUserAuthenticated
         {
             get{return _isUserAuthenticated;}

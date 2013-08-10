@@ -655,6 +655,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Network error. Please check your internet connection..
+        /// </summary>
+        public static string NetworkError {
+            get {
+                return ResourceManager.GetString("NetworkError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Password.
         /// </summary>
         public static string NewPass {
