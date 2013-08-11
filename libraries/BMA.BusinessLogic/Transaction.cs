@@ -16,19 +16,84 @@ namespace BMA.BusinessLogic
             //CollectionChanged += TransactionList_CollectionChanged;
         }
 
-        public TransactionList(TypeIntervalList typeIntervalList)
+        public TransactionList(TypeIntervalList typeIntervalList, User user)
         {
             foreach (var interval in typeIntervalList)
             {
-                //## RecurrenceRule
-                foreach (var item in interval.RecurrenceRuleValue.RulePartValueList)
-                {
-                }
+                //## setup all range elements
+                var intervalStartDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
+                var intervalStartDate = Helper.ConvertStringToDate(intervalStartDateStr);
 
-                //## RecurrenceRuleRange
-                foreach (var item in interval.RecurrenceRangeRuleValue.RulePartValueList)
+                var intervalEndDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeEndBy.ToString());
+                var intervalEndDate = intervalEndDateStr != null ? Helper.ConvertStringToDate(intervalEndDateStr.Value) : DateTime.Now.AddYears(1);
+
+                var intervalTotalOccStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString());
+                var intervalTotalOcc = intervalTotalOccStr != null ? int.Parse(intervalTotalOccStr.Value) : -1;
+                    
+
+                var recRule = (Const.Rule)Enum.Parse(typeof(Const.Rule), interval.RecurrenceRuleValue.RecurrenceRule.Name);
+                var recRuleRange = (Const.Rule)Enum.Parse(typeof(Const.Rule), interval.RecurrenceRangeRuleValue.RecurrenceRule.Name);
+
+                //## setup recurrence transactions
+                if (intervalStartDate <= DateTime.Now)
                 {
+                    switch (recRule)
+                    {
+                        case Const.Rule.RuleDailyEveryDays:
+                            ApplyRuleDailyEveryDays(interval, intervalStartDate, intervalEndDate, intervalTotalOcc, interval.RecurrenceRuleValue, interval.RecurrenceRangeRuleValue, user);
+                            break;
+                        case Const.Rule.RuleWeeklyEveryWeek:
+                            ApplyRuleWeeklyEveryWeek(interval, intervalStartDate, intervalEndDate, intervalTotalOcc, interval.RecurrenceRuleValue, interval.RecurrenceRangeRuleValue, user);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+            }
+        }
+
+        private void ApplyRuleWeeklyEveryWeek(TypeInterval interval, DateTime intervalStartDate, DateTime intervalEndDate, int intervalTotalOcc, RecurrenceRulePart recurrenceRulePart1, RecurrenceRulePart recurrenceRulePart2, User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ApplyRuleDailyEveryDays(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEnDate, int ruleTotalOccurences, RecurrenceRulePart recRule, RecurrenceRulePart recRuleRange, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            TimeSpan daysSpan = new TimeSpan();
+
+            var onlyWeekDaysStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x=>x.RulePart.FieldName == Const.RuleField.DailyOnlyWeekdays.ToString());
+            var onlyWeekDays = onlyWeekDaysStr != null ? bool.Parse(onlyWeekDaysStr.Value) : false;
+
+            //find the ending from the range
+            if (ruleTotalOccurences > 0)
+            {
+                for (double d = 0d; d < ruleTotalOccurences; d++)
+                    totalOccurenceDates.Add(ruleStartDate.AddDays(d));
+            }
+            else
+            {
+                if (ruleEnDate > DateTime.Now)
+                    daysSpan = DateTime.Now.Subtract(ruleStartDate);
+                else
+                    daysSpan = ruleEnDate.Subtract(ruleStartDate);
+
+                var frequency = int.Parse(recRule.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString()).Value);
+                var calc = daysSpan.Days / frequency;
+
+                for (double d = 0d; d < calc; d++)
+                    totalOccurenceDates.Add(ruleStartDate.AddDays(d));
+            }
+
+
+            foreach (var item in totalOccurenceDates)
+            {
+                if (onlyWeekDays && (item.DayOfWeek == DayOfWeek.Saturday || item.DayOfWeek == DayOfWeek.Sunday))
+                    continue;
+
+                //gen transactions
+                var trans = new Transaction(interval.Amount, interval.Category, interval.Comments, interval.Purpose, item, interval.TransactionType, user);
+                this.Add(trans);
             }
         }
 
@@ -307,6 +372,18 @@ namespace BMA.BusinessLogic
             }
 
             TransactionImages = new TransactionImageList();
+        }
+
+        public Transaction(double amount, Category category, string comments, string nameOfPlace, DateTime transactionDate, TypeTransaction transactionType, User user)
+            : base(user)
+        {
+            Amount = amount;
+            Category = category;
+            Comments = comments;
+            HasChanges = false;
+            NameOfPlace = nameOfPlace;
+            TransactionDate = transactionDate;
+            TransactionType = transactionType;
         }
         #endregion
 
