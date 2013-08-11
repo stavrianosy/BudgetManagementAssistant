@@ -21,5 +21,25 @@ namespace BMA.BusinessLogic
 
             return result;
         }
+
+        public static int MonthRange(DateTime dateFrom, DateTime dateTo)
+        {
+            var result = 0;
+            
+            if (dateTo > dateFrom)
+            {
+                int months = dateTo.Month - dateFrom.Month;
+
+                if (months > 0 && dateTo.Day < dateFrom.Day)
+                    months--;
+
+                int years = dateTo.Year - dateFrom.Year;
+                months += years * 12;
+
+                result = months;
+            }
+
+            return result;
+        }
     }
 }

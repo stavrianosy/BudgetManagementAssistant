@@ -436,7 +436,7 @@ namespace BMA_WP.Model
                 else
                     IntervalList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId, App.Instance.User.UserName);
             }
             var ord = IntervalList.OrderBy(x => x.Name).ToList();
             IntervalList.Clear();
