@@ -61,14 +61,14 @@ namespace BMA.DataAccess.Migrations
 
                 //## TypeTransaction ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransaction] ON if not exists(select * from [TypeTransaction] where Name = {1}) BEGIN " +
-                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
-                                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
-                                    1, "Income");
+                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, IsIncome, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
+                                    1, "Income", true);
 
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransaction] ON if not exists(select * from [TypeTransaction] where Name = {1}) BEGIN " +
-                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
-                                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
-                                    2, "Expense");
+                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, IsIncome, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
+                                    2, "Expense", false);
 
                 //## TypeFrequency ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
@@ -277,7 +277,6 @@ namespace BMA.DataAccess.Migrations
                 context.Database.ExecuteSqlCommand("INSERT INTO [RecurrenceRuleRulePart] (RecurrenceRule_RecurrenceRuleId, RulePart_RulePartId) VALUES " +
                                     "((SELECT RecurrenceRuleId FROM RecurrenceRule WHERE Name = {0}), (SELECT RulePartId FROM RulePart WHERE FieldName = {1})) ",
                                     Const.Rule.RuleRangeNoEndDate.ToString(), Const.RuleField.RangeStartDate.ToString());
-
 
                 context.Database.ExecuteSqlCommand("INSERT INTO [RecurrenceRuleRulePart] (RecurrenceRule_RecurrenceRuleId, RulePart_RulePartId) VALUES " +
                                     "((SELECT RecurrenceRuleId FROM RecurrenceRule WHERE Name = {0}), (SELECT RulePartId FROM RulePart WHERE FieldName = {1})) ",

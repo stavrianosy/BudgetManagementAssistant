@@ -46,7 +46,6 @@ namespace BMA.BusinessLogic
         TypeTransaction transactionType;
         Category category;
         Double amount;
-        bool isIncome;
         string comments;
         RecurrenceRulePart recurrenceRuleValue;
         RecurrenceRulePart recurrenceRangeRuleValue;
@@ -64,8 +63,6 @@ namespace BMA.BusinessLogic
         public Category Category { get { return category; } set { category = value; OnPropertyChanged("Category"); } }
 
         public double Amount { get { return amount; } set { amount = value; OnPropertyChanged("Amount"); } }
-
-        public bool IsIncome { get { return isIncome; } set { isIncome = value; OnPropertyChanged("IsIncome"); } }
 
         public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); } }
 

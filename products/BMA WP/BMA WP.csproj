@@ -402,6 +402,8 @@
     <Content Include="Assets\icons\Light\upload.png" />
     <Content Include="Assets\income.png" />
     <Content Include="Assets\interval.png" />
+    <Content Include="Assets\interval_expense.png" />
+    <Content Include="Assets\interval_income.png" />
     <Content Include="Assets\login_white.png" />
     <Content Include="Assets\Notification.png" />
     <Content Include="Assets\outcome.png" />

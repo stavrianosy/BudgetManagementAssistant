@@ -139,7 +139,8 @@ namespace BMA_WP.Model
 
         private object IntervalImage(object value)
         {
-            var isIncome = (bool)value;
+            var typeTrans = (TypeTransaction)value;
+            var isIncome = typeTrans.IsIncome;
 
             string path = isIncome ? "interval_income.png" : "interval_expense.png";
 
