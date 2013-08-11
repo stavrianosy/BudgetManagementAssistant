@@ -57,7 +57,12 @@
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
-        <Image Grid.Row="1" x:Name="transImage" Stretch="UniformToFill" />
+        <Image Grid.Row="1" x:Name="transImage" Stretch="UniformToFill" 
+               ManipulationDelta="Image_ManipulationDelta">
+            <Image.RenderTransform>
+                <CompositeTransform />
+            </Image.RenderTransform>
+        </Image>
     </Grid>
 
 </phone:PhoneApplicationPage>

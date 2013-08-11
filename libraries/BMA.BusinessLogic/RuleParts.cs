@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -8,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace BMA.BusinessLogic
 {
+    public class RulePartList : ObservableCollection<RulePart>
+    { }
+
     public class RulePart:INotifyPropertyChanged
     {
         public int RulePartId { get; set; }

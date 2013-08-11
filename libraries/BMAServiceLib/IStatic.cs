@@ -19,7 +19,10 @@ namespace BMAServiceLib
         User AuthenticateUser(User user);
 
         [OperationContract]
-        User RegisterUser(User user);
+            User RegisterUser(User user);
+
+        [OperationContract]
+        User UpdateUser(User user);
 
         [OperationContract]
         User ChangePassword(User user);
@@ -27,14 +30,14 @@ namespace BMAServiceLib
         [OperationContract]
         User ForgotPassword(User user);
 
-        [OperationContract]
-        StaticTypeList GetAllStaticData(int userId);
+        //[OperationContract]
+        //StaticTypeList GetAllStaticData(int userId);
 
         [OperationContract]
-        List<Category> GetAllCategories(int userId);
+        CategoryList GetAllCategories(int userId);
 
         [OperationContract]
-        List<TypeTransactionReason> GetAllTypeTransactionReasons(int userId);
+        TypeTransactionReasonList GetAllTypeTransactionReasons(int userId);
 
         [OperationContract]
         List<TypeTransaction> GetAllTypeTransactions(int userId);
@@ -46,7 +49,7 @@ namespace BMAServiceLib
         List<Notification> GetAllNotifications(int userId);
 
         [OperationContract]
-        List<TypeInterval> GetAllTypeIntervals(int userId);
+        TypeIntervalList GetAllTypeIntervals(int userId);
 
         [OperationContract]
         List<TypeFrequency> GetAllTypeFrequencies(int userId);
@@ -55,7 +58,7 @@ namespace BMAServiceLib
         List<BudgetThreshold> GetAllBudgetThresholds(int userId);
 
         [OperationContract]
-        List<RecurrenceRule> GetAllRecurrenceRules();
+        RecurrenceRuleList GetAllRecurrenceRules();
 
         [OperationContract]
         List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId);
@@ -103,7 +106,7 @@ namespace BMAServiceLib
         List<TypeFrequency> SaveTypeFrequencies(List<TypeFrequency> typeFrequencies);
 
         [OperationContract]
-        List<TypeInterval> SaveTypeIntervals(List<TypeInterval> interval);
+        TypeIntervalList SaveTypeIntervals(TypeIntervalList interval);
 
         [OperationContract]
         List<BudgetThreshold> SaveBudgetThresholds(List<BudgetThreshold> budgetThreshold);

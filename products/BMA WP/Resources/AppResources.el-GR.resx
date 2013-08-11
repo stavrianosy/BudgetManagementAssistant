@@ -467,4 +467,10 @@
   <data name="SaveFailed" xml:space="preserve">
     <value>Η αποθηκευση απετυχε. Παρακαλω δοκιμαστε ξανα.</value>
   </data>
+  <data name="Color" xml:space="preserve">
+    <value>Χρωμα</value>
+  </data>
+  <data name="NetworkError" xml:space="preserve">
+    <value>Σφαλμα δυκτιου. Παρακαλω ελεξτε τη διαδικτιακη σας συνδεση.</value>
+  </data>
 </root>

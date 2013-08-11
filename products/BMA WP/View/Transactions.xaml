@@ -70,7 +70,7 @@
             <!--Panorama item one-->
             <phone:PivotItem x:Name="piTransaction"
                              Header="{Binding Path=LocalizedResources.Transaction, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
-                <ScrollViewer x:Name="svItem" Margin="0 0 0 0">
+                <ScrollViewer x:Name="svItem" Margin="0 -000 0 0">
                     <StackPanel>
                         <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
@@ -180,7 +180,7 @@
                                         <Border BorderThickness="3" Padding="0" Margin="0" Opacity="1" 
                                                 Background="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}"
                                                 BorderBrush="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=deletedImageColor}">
-                                            <Image Margin="5" 
+                                            <Image Margin="5"
                                                 Source="{Binding Thumbnail, Converter={StaticResource converters}, ConverterParameter=bytesToImage}" 
                                                    Tag="{Binding TransactionImageId}"
                                                   Tap="btnImage_Tap" />
@@ -197,7 +197,7 @@
             <phone:PivotItem x:Name="piTransactionList" 
                              Header="{Binding Path=LocalizedResources.Transactions, Source={StaticResource LocalizedStrings}, Mode=OneTime}" Margin="12,12,12,0">
                 <phone:LongListSelector x:Name="TransactionMultiSelect" 
-                                        Margin="0,12,-12,0"                                        
+                                        Margin="0 12 0 0"                                        
                                         LayoutMode="List"
                                         ItemsSource ="{Binding Transactions}"
                                         ItemTemplate="{StaticResource BMA_Transaction_ItemTemplate}">

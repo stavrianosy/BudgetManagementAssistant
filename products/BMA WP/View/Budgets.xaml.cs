@@ -75,30 +75,15 @@ namespace BMA_WP.View
 
         private void SetupAppBar_BudgetList()
         {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsVisible = true;
-
-            add = new ApplicationBarIconButton();
-            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
-            add.Text = AppResources.AppBarButtonAdd;
-            add.IsEnabled = true;
-            ApplicationBar.Buttons.Add(add);
-            add.Click += new EventHandler(Add_Click);
-
-            mainMenu = new ApplicationBarMenuItem();
-            mainMenu.Text = AppResources.AppBarButtonMainMenu;
-            mainMenu.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(mainMenu);
-            mainMenu.Click += new EventHandler(MainMenu_Click);
-
-            transaction = new ApplicationBarMenuItem();
-            transaction.Text = AppResources.AppBarButtonTransaction;
-            transaction.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(transaction);
-            transaction.Click += new EventHandler(Transaction_Click);
+            SetupAppBar_Common(false);
         }
 
         private void SetupAppBar_Budget()
+        {
+            SetupAppBar_Common(true);
+        }
+
+        void SetupAppBar_Common(bool includeDelete)
         {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsVisible = true;
@@ -110,12 +95,15 @@ namespace BMA_WP.View
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
 
-            delete = new ApplicationBarIconButton();
-            delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
-            delete.Text = AppResources.AppBarButtonDelete;
-            delete.IsEnabled = false;
-            ApplicationBar.Buttons.Add(delete);
-            delete.Click += new EventHandler(Delete_Click);
+            if (includeDelete)
+            {
+                delete = new ApplicationBarIconButton();
+                delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
+                delete.Text = AppResources.AppBarButtonDelete;
+                delete.IsEnabled = false;
+                ApplicationBar.Buttons.Add(delete);
+                delete.Click += new EventHandler(Delete_Click);
+            }
 
             add = new ApplicationBarIconButton();
             add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
@@ -157,11 +145,11 @@ namespace BMA_WP.View
             SaveBudget();
         }
 
-        private async void SaveBudget()
+        private void SaveBudget()
         {
             var saveOC = vm.Budgets.Where(t => t.HasChanges).ToObservableCollection();
 
-            await App.Instance.ServiceData.SaveBudgets(saveOC, (error) => 
+             App.Instance.ServiceData.SaveBudgets(saveOC, (error) => 
             {
                 if(error == null)
                     vm.IsLoading = false;

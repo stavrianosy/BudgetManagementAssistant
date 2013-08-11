@@ -16,6 +16,22 @@ namespace BMA.BusinessLogic
             //CollectionChanged += TransactionList_CollectionChanged;
         }
 
+        public TransactionList(TypeIntervalList typeIntervalList)
+        {
+            foreach (var interval in typeIntervalList)
+            {
+                //## RecurrenceRule
+                foreach (var item in interval.RecurrenceRuleValue.RulePartValueList)
+                {
+                }
+
+                //## RecurrenceRuleRange
+                foreach (var item in interval.RecurrenceRangeRuleValue.RulePartValueList)
+                {
+                }
+            }
+        }
+
         protected override void InsertItem(int index, Transaction item)
         {
 

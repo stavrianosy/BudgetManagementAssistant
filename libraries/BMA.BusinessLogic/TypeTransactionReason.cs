@@ -66,7 +66,11 @@ namespace BMA.BusinessLogic
             return this.TypeTransactionReasonId.GetHashCode();
         }
 
-        public TypeTransactionReason Clone()
+        /// <summary>
+        /// Hiding Clone is intended since the overrideen one was returning a BaseItem
+        /// </summary>
+        /// <returns></returns>
+        public new TypeTransactionReason Clone()
         {
             return (TypeTransactionReason)this.MemberwiseClone();
         }
@@ -90,11 +94,17 @@ namespace BMA.BusinessLogic
 
         #region Constructors
         //parameterless ctor in order to be used in generic as T
-        public TypeTransactionReason(): base(null)
+        public TypeTransactionReason(): this(null)
         {}
-        public TypeTransactionReason(User user): base(user)
+        public TypeTransactionReason(User user): this(user, null)
         {
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **// 
+        }
+        public TypeTransactionReason(User user, CategoryList categoryList)
+            : base(user)
+        {
+            if(categoryList!=null)
+                Categories = categoryList.Where(x => x.Name == "Other").ToList();
         }
         #endregion
     }

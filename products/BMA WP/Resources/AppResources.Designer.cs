@@ -331,6 +331,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Color.
+        /// </summary>
+        public static string Color {
+            get {
+                return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
@@ -642,6 +651,15 @@ namespace BMA_WP.Resources {
         public static string NameOfPlace {
             get {
                 return ResourceManager.GetString("NameOfPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network error. Please check your internet connection..
+        /// </summary>
+        public static string NetworkError {
+            get {
+                return ResourceManager.GetString("NetworkError", resourceCulture);
             }
         }
         

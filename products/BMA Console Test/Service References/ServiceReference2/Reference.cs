@@ -33,6 +33,12 @@ namespace ConsoleApplication1.ServiceReference2 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/RegisterUser", ReplyAction="http://tempuri.org/IStatic/RegisterUserResponse")]
         System.Threading.Tasks.Task<BMA.BusinessLogic.User> RegisterUserAsync(BMA.BusinessLogic.User user);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/UpdateUser", ReplyAction="http://tempuri.org/IStatic/UpdateUserResponse")]
+        BMA.BusinessLogic.User UpdateUser(BMA.BusinessLogic.User user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/UpdateUser", ReplyAction="http://tempuri.org/IStatic/UpdateUserResponse")]
+        System.Threading.Tasks.Task<BMA.BusinessLogic.User> UpdateUserAsync(BMA.BusinessLogic.User user);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/ChangePassword", ReplyAction="http://tempuri.org/IStatic/ChangePasswordResponse")]
         BMA.BusinessLogic.User ChangePassword(BMA.BusinessLogic.User user);
         
@@ -44,12 +50,6 @@ namespace ConsoleApplication1.ServiceReference2 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/ForgotPassword", ReplyAction="http://tempuri.org/IStatic/ForgotPasswordResponse")]
         System.Threading.Tasks.Task<BMA.BusinessLogic.User> ForgotPasswordAsync(BMA.BusinessLogic.User user);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetAllStaticData", ReplyAction="http://tempuri.org/IStatic/GetAllStaticDataResponse")]
-        BMA.BusinessLogic.StaticTypeList GetAllStaticData(int userId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetAllStaticData", ReplyAction="http://tempuri.org/IStatic/GetAllStaticDataResponse")]
-        System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> GetAllStaticDataAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetAllCategories", ReplyAction="http://tempuri.org/IStatic/GetAllCategoriesResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.Category> GetAllCategories(int userId);
@@ -205,6 +205,14 @@ namespace ConsoleApplication1.ServiceReference2 {
             return base.Channel.RegisterUserAsync(user);
         }
         
+        public BMA.BusinessLogic.User UpdateUser(BMA.BusinessLogic.User user) {
+            return base.Channel.UpdateUser(user);
+        }
+        
+        public System.Threading.Tasks.Task<BMA.BusinessLogic.User> UpdateUserAsync(BMA.BusinessLogic.User user) {
+            return base.Channel.UpdateUserAsync(user);
+        }
+        
         public BMA.BusinessLogic.User ChangePassword(BMA.BusinessLogic.User user) {
             return base.Channel.ChangePassword(user);
         }
@@ -219,14 +227,6 @@ namespace ConsoleApplication1.ServiceReference2 {
         
         public System.Threading.Tasks.Task<BMA.BusinessLogic.User> ForgotPasswordAsync(BMA.BusinessLogic.User user) {
             return base.Channel.ForgotPasswordAsync(user);
-        }
-        
-        public BMA.BusinessLogic.StaticTypeList GetAllStaticData(int userId) {
-            return base.Channel.GetAllStaticData(userId);
-        }
-        
-        public System.Threading.Tasks.Task<BMA.BusinessLogic.StaticTypeList> GetAllStaticDataAsync(int userId) {
-            return base.Channel.GetAllStaticDataAsync(userId);
         }
         
         public System.Collections.Generic.List<BMA.BusinessLogic.Category> GetAllCategories(int userId) {

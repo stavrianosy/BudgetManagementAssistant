@@ -140,7 +140,7 @@
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock Text="Every" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:AutoCompleteBox x:Name="txtDailyEvery" Width="100"
+                                <TextBox x:Name="txtDailyEvery" Width="100"
                                          Text="{Binding DailyEveryDay, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
@@ -168,7 +168,7 @@
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <TextBlock Text="Recur every" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:AutoCompleteBox x:Name="txtWeeklyEvery" Width="100"
+                                <TextBox x:Name="txtWeeklyEvery" Width="100"
                                          Text="{Binding WeeklyEveryWeek, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
@@ -212,7 +212,7 @@
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Text="of every " Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:AutoCompleteBox x:Name="txtMonthlyEveryMonth" Width="120" 
+                                <TextBox x:Name="txtMonthlyEveryMonth" Width="120" 
                                                          Text="{Binding MonthlyEveryMonth, Mode=TwoWay}"
                                                          InputScope="Number"
                                                          Background="{StaticResource PhoneTextBoxBrush}"
@@ -241,7 +241,7 @@
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
                                 <TextBlock Text="of every " Margin="0 32 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:AutoCompleteBox x:Name="txtMonthlyTypeEvery" Width="100"
+                                <TextBox x:Name="txtMonthlyTypeEvery" Width="100"
                                          Text="{Binding MonthlyCountOfMonth, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
@@ -263,7 +263,7 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <TextBlock Text="Recur every" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                            <toolkit:AutoCompleteBox x:Name="txtYearlyEvery" Width="100"
+                            <TextBox x:Name="txtYearlyEvery" Width="100"
                                          Text="{Binding YearlyEveryYear, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
@@ -351,7 +351,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
                                 <TextBlock Text="End after" Margin="0 24 0 0" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
-                                <toolkit:AutoCompleteBox x:Name="txtEndAfterOccurences"  Width="100"
+                                <TextBox x:Name="txtEndAfterOccurences"  Width="100"
                                          Text="{Binding RangeTotalOcurrences, Mode=TwoWay}" 
                                          InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"

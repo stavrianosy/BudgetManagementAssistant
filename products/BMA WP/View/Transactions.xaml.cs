@@ -140,7 +140,7 @@ namespace BMA_WP.View
                 case "piTransaction":
                     SetupAppBar_Transaction();
                     ItemSelected();
-                   svItem.ScrollToVerticalOffset(0d);
+                    svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piTransactionList":
                     SetupAppBar_TransactionList();
@@ -186,40 +186,18 @@ namespace BMA_WP.View
             }
         }
 
-        private void SetupAppBar_TransactionList()
+        void SetupAppBar_TransactionList()
         {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsVisible = true;
-
-            save = new ApplicationBarIconButton();
-            save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
-            save.Text = AppResources.AppBarButtonSave;
-            save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
-            ApplicationBar.Buttons.Add(save);
-            save.Click += new EventHandler(Save_Click);
-
-            add = new ApplicationBarIconButton();
-            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
-            add.Text = AppResources.AppBarButtonAdd;
-            add.IsEnabled = true;
-            ApplicationBar.Buttons.Add(add);
-            add.Click += new EventHandler(Add_Click);
-
-            mainMenu = new ApplicationBarMenuItem();
-            mainMenu.Text = AppResources.AppBarButtonMainMenu;
-            mainMenu.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(mainMenu);
-            mainMenu.Click += new EventHandler(MainMenu_Click);
-
-            budget = new ApplicationBarMenuItem();
-            budget.Text = AppResources.AppBarButtonBudget;
-            budget.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(budget);
-            budget.Click += new EventHandler(Budget_Click);
+            SetupAppBar_Common(false);
         }
 
         void SetupAppBar_Transaction()
         {
+            SetupAppBar_Common(true);
+        }
+
+        void SetupAppBar_Common(bool includeDelete)
+        {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsVisible = true;
 
@@ -230,33 +208,32 @@ namespace BMA_WP.View
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
 
-            delete = new ApplicationBarIconButton();
-            delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
-            delete.Text = AppResources.AppBarButtonDelete;
-            delete.IsEnabled = false;
-            ApplicationBar.Buttons.Add(delete);
-            delete.Click += new EventHandler(Delete_Click);
+            if (includeDelete)
+            {
+                delete = new ApplicationBarIconButton();
+                delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
+                delete.Text = AppResources.AppBarButtonDelete;
+                delete.IsEnabled = false;
+                ApplicationBar.Buttons.Add(delete);
+                delete.Click += new EventHandler(Delete_Click);
+            }
 
             add = new ApplicationBarIconButton();
             add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
             add.Text = AppResources.AppBarButtonAdd;
-            add.IsEnabled = true;
             ApplicationBar.Buttons.Add(add);
             add.Click += new EventHandler(Add_Click);
 
             mainMenu = new ApplicationBarMenuItem();
             mainMenu.Text = AppResources.AppBarButtonMainMenu;
-            mainMenu.IsEnabled = true;
             ApplicationBar.MenuItems.Add(mainMenu);
             mainMenu.Click += new EventHandler(MainMenu_Click);
 
             budget = new ApplicationBarMenuItem();
             budget.Text = AppResources.AppBarButtonBudget;
-            budget.IsEnabled = true;
             ApplicationBar.MenuItems.Add(budget);
             budget.Click += new EventHandler(Budget_Click);
         }
-
         void MainMenu_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
@@ -288,13 +265,13 @@ namespace BMA_WP.View
             SaveTransaction();
         }
 
-        private async void SaveTransaction()
+        private void SaveTransaction()
         {
             vm.IsLoading = true;
 
             var saveOC = vm.Transactions.Where(t => t.HasChanges).ToObservableCollection();
 
-            await App.Instance.ServiceData.SaveTransaction(saveOC, (error) => 
+            App.Instance.ServiceData.SaveTransaction(saveOC, (error) => 
             {
                 if (error != null)
                     MessageBox.Show(AppResources.SaveFailed);
@@ -456,8 +433,8 @@ namespace BMA_WP.View
 
                 WriteableBitmap wBitmap = new WriteableBitmap(bitmap);
                 
-                double factorThumb = 1l;
-                double factorImage = 1l;
+                double factorThumb = 1L;
+                double factorImage = 1L;
 
                 if (wBitmap.PixelHeight > wBitmap.PixelWidth)
                 {
@@ -537,6 +514,7 @@ namespace BMA_WP.View
 
             //save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
         }
+        
         private byte[] ReadImageBytes(BinaryReader brImage)
         {
             byte[] imgByteArray = brImage.ReadBytes((int)(brImage.BaseStream.Length));

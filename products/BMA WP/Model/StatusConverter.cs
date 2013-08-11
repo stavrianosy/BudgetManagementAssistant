@@ -101,6 +101,9 @@ namespace BMA_WP.Model
                         
                     case "filtertransactioreasonbycategory":
                         return GetTypeTransactionReasonByCategory(value);
+
+                    case "intervalimage":
+                        return IntervalImage(value);
                 }
             }
 
@@ -132,6 +135,16 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object IntervalImage(object value)
+        {
+            var isIncome = (bool)value;
+
+            string path = isIncome ? "interval.png" : "interval.png";
+
+            Uri uri = new Uri(string.Format("/Assets/{0}", path), UriKind.Relative);
+            return new BitmapImage(uri);
         }
 
         private object OfflineToVisibility(object value)

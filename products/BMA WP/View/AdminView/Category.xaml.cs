@@ -19,7 +19,6 @@ namespace BMA_WP.View.AdminView
     {
         #region Private Members
         ApplicationBarIconButton save;
-        ApplicationBarIconButton saveContinue;
         ApplicationBarIconButton delete;
         ApplicationBarIconButton add;
         ApplicationBarMenuItem transactions;
@@ -43,42 +42,29 @@ namespace BMA_WP.View.AdminView
             switch (piName)
             {
                 case "piCategory":
-                    vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;                    
-                    CategoryItem();
                     SetupAppBar_Category();
-                   svItem.ScrollToVerticalOffset(0d);
+                    ItemSelected();
+                    svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piCategoryList":
-                    CategoriesMultiSelect.SelectedItem = null;
-                    vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;
-
-                    transactionReasonList.SelectedItems.Clear();
                     SetupAppBar_CategoryList();
+                    CategoriesMultiSelect.SelectedItem = null;
+                    
+                    vm.CurrCategory = null;
+                    transactionReasonList.SelectedItems.Clear();
+                    
                     break;
-            }
-
-            if (vm.CurrCategory != null)
-            {
-                vm.CurrCategory.PropertyChanged += (o, changedEventArgs) =>
-                {
-                    var items = vm.CategoryList.Where(t => t.HasChanges).ToList();
-                    if (items.Count > 0)
-                    {
-                        save.IsEnabled = true;
-                        delete.IsEnabled = true;
-                    }
-                };
-                delete.IsEnabled = true;
             }
         }
 
-        private void CategoryItem()
+        private void ItemSelected()
         {
+            vm.CurrCategory = (BMA.BusinessLogic.Category)CategoriesMultiSelect.SelectedItem;
+
             if (vm.CurrCategory == null || vm.CurrCategory.IsDeleted)
                 vm.IsEnabled = false;
             else
             {
-                vm.IsEnabled = true;
                 var items = (ObservableCollection<TypeTransactionReason>)transactionReasonList.ItemsSource;
                 foreach (var item in items)
                 {
@@ -93,34 +79,25 @@ namespace BMA_WP.View.AdminView
                     if (container != null)
                         container.IsSelected = true;
                 }
+
+                vm.CurrCategory.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.CategoryList.HasItemsWithChanges();
+
+                vm.IsEnabled = !vm.IsLoading;
+                delete.IsEnabled = !vm.IsLoading;
             }
         }
 
         private void SetupAppBar_CategoryList()
         {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsVisible = true;
-
-            add = new ApplicationBarIconButton();
-            add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
-            add.Text = AppResources.AppBarButtonAdd;
-            add.IsEnabled = true;
-            ApplicationBar.Buttons.Add(add);
-            add.Click += new EventHandler(Add_Click);
-
-            mainMenu = new ApplicationBarMenuItem();
-            mainMenu.Text = AppResources.AppBarButtonMainMenu;
-            mainMenu.IsEnabled = true;
-            ApplicationBar.MenuItems.Add(mainMenu);
-            mainMenu.Click += new EventHandler(MainMenu_Click);
-
-            transactions = new ApplicationBarMenuItem();
-            transactions.Text = AppResources.AppBarButtonTransaction;
-            ApplicationBar.MenuItems.Add(transactions);
-            transactions.Click += new EventHandler(Transactions_Click);
+            SetupAppBar_Common(false);
         }
 
         private void SetupAppBar_Category()
+        {
+            SetupAppBar_Common(true);
+        }
+
+        void SetupAppBar_Common(bool includeDelete)
         {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.IsVisible = true;
@@ -128,20 +105,19 @@ namespace BMA_WP.View.AdminView
             save = new ApplicationBarIconButton();
             save.IconUri = new Uri("/Assets/icons/Dark/save.png", UriKind.Relative);
             save.Text = AppResources.AppBarButtonSave;
+            save.IsEnabled = vm.CategoryList.HasItemsWithChanges() && vm.IsLoading == false;
             ApplicationBar.Buttons.Add(save);
             save.Click += new EventHandler(Save_Click);
 
-            saveContinue = new ApplicationBarIconButton();
-            saveContinue.IconUri = new Uri("/Assets/icons/Dark/refresh.png", UriKind.Relative);
-            saveContinue.Text = AppResources.AppBarButtonContinue;
-            ApplicationBar.Buttons.Add(saveContinue);
-            saveContinue.Click += new EventHandler(Continue_Click);
-
-            delete = new ApplicationBarIconButton();
-            delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
-            delete.Text = AppResources.AppBarButtonDelete;
-            ApplicationBar.Buttons.Add(delete);
-            delete.Click += new EventHandler(Delete_Click);
+            if (includeDelete)
+            {
+                delete = new ApplicationBarIconButton();
+                delete.IconUri = new Uri("/Assets/icons/Dark/delete.png", UriKind.Relative);
+                delete.Text = AppResources.AppBarButtonDelete;
+                delete.IsEnabled = false;
+                ApplicationBar.Buttons.Add(delete);
+                delete.Click += new EventHandler(Delete_Click);
+            }
 
             add = new ApplicationBarIconButton();
             add.IconUri = new Uri("/Assets/icons/Dark/add.png", UriKind.Relative);
@@ -158,7 +134,6 @@ namespace BMA_WP.View.AdminView
             transactions.Text = AppResources.AppBarButtonTransaction;
             ApplicationBar.MenuItems.Add(transactions);
             transactions.Click += new EventHandler(Transactions_Click);
-
         }
 
         private void Transactions_Click(object sender, EventArgs e)
@@ -169,11 +144,6 @@ namespace BMA_WP.View.AdminView
         private void MainMenu_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
-        }
-
-        private void Continue_Click(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -192,16 +162,16 @@ namespace BMA_WP.View.AdminView
             SaveCategory();
         }
 
-        private async void SaveCategory()
+        private  void SaveCategory()
         {
-            if (!ValidateTransaction())
+            if (!ValidateCaregory())
                 return;
 
             vm.IsLoading = true;
 
             var saveOC = vm.CategoryList.Where(t => t.HasChanges).ToObservableCollection();
 
-            await App.Instance.StaticServiceData.SaveCategory(saveOC,(error) => 
+            App.Instance.StaticServiceData.SaveCategory(saveOC,(error) => 
             {
                 if(error == null)
                     vm.IsLoading = false;
@@ -211,7 +181,7 @@ namespace BMA_WP.View.AdminView
             save.IsEnabled = vm.CategoryList.HasItemsWithChanges() && vm.IsLoading == false;
         }
 
-        private bool ValidateTransaction()
+        private bool ValidateCaregory()
         {
             var result = true;
             if (vm.CurrCategory == null)
@@ -250,7 +220,17 @@ namespace BMA_WP.View.AdminView
 
         private void Add_Click(object sender, EventArgs e)
         {
-            var item = new BMA.BusinessLogic.Category(App.Instance.User);
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
+
+            if (!ValidateCaregory())
+                return;
+
+
+            var item = new BMA.BusinessLogic.Category(App.Instance.User, App.Instance.StaticServiceData.TypeTransactionReasonList);
 
             if (vm.CategoryList.Count + 1 >= CategoryList.DEVICE_MAX_COUNT)
             {
@@ -266,8 +246,9 @@ namespace BMA_WP.View.AdminView
             CategoriesMultiSelect.SelectedItem = item;
             vm.CurrCategory = item;
 
-            save.IsEnabled = true;
-            vm.IsEnabled = true;
+            save.IsEnabled = vm.CategoryList.HasItemsWithChanges() && vm.IsLoading == false;
+            delete.IsEnabled = !vm.IsLoading;
+            vm.IsEnabled = !vm.IsLoading;
         }
 
         private void transactionReasonList_SelectionChanged(object sender, SelectionChangedEventArgs e)

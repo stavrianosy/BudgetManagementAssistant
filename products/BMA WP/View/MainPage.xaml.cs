@@ -16,6 +16,7 @@ using BMA_WP.View;
 using BMA_WP.Model;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Microsoft.Advertising.Mobile.UI;
 
 namespace BMA_WP.View
 {
@@ -36,7 +37,7 @@ namespace BMA_WP.View
             SetupAppBar();
         }
 
-        private async void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (NavigationService != null)
             {
@@ -48,12 +49,12 @@ namespace BMA_WP.View
 
             SetupLoadingBinding();
 
-            await CheckOnlineStatus();
+            CheckOnlineStatus();
         }
 
-        private async Task CheckOnlineStatus()
+        private void CheckOnlineStatus()
         {
-            App.Instance.StaticDataOnlineStatus = await App.Instance.StaticServiceData.SetServerStatus(async status =>
+            App.Instance.StaticDataOnlineStatus = App.Instance.StaticServiceData.SetServerStatus(status =>
             {
                 App.Instance.StaticDataOnlineStatus = status;
                 vm.Status = status;
@@ -61,7 +62,7 @@ namespace BMA_WP.View
                 {
                     vm.IsLoading = true;
 
-                    await App.Instance.Sync(() => vm.IsLoading = false);
+                    App.Instance.Sync(() => vm.IsLoading = false);
                 }
             });
             vm.Status = App.Instance.StaticDataOnlineStatus;
@@ -109,12 +110,12 @@ namespace BMA_WP.View
             else return false;
         }
 
-        private async void hTileTransactions_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void hTileTransactions_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Transactions.xaml", UriKind.Relative));
         }
 
-        private async void hTileBudgets_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void hTileBudgets_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/Budgets.xaml", UriKind.Relative));
         }
@@ -137,6 +138,11 @@ namespace BMA_WP.View
         private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             CheckOnlineStatus();
+        }
+
+        private void OnAdError(object sender, Microsoft.Advertising.AdErrorEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("AdControl error (" + ((AdControl)sender).Name + "): " + e.Error + " ErrorCode: " + e.ErrorCode.ToString());
         }
 
     }

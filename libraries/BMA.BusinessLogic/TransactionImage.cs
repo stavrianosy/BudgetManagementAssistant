@@ -44,7 +44,6 @@ namespace BMA.BusinessLogic
         byte[] image;
         byte[] thumbnail;
         string name;
-        Transaction transaction;
         #endregion
 
         #region Public Methods

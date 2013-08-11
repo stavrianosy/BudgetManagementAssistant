@@ -37,7 +37,6 @@ namespace BMA_WP.ViewModel
 
         RelayCommand<SelectionChangedEventArgs> _goToCommand_SelectionChanged = null;
         RelayCommand<string> _goToCommand_NavigateTo = null;
-        RelayCommand<string> _goToCommand_SelectionChangedParam = null;
         #endregion
 
         public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
@@ -108,10 +107,10 @@ namespace BMA_WP.ViewModel
             };
 
             AdminMenuList = new ObservableCollection<MenuItem> { 
-                new MenuItem{Name=AppResources.AdminMenuBudgetThreshold, SubName=AppResources.MenuDescriptionBudgetThreshold, Description=AppResources.MenuDescriptionBudgetThreshold, IconPath="/Assets/icons/Dark/edit.png", NavigateTo="/View/AdminView/BudgetThreshold.xaml"},
+                //new MenuItem{Name=AppResources.AdminMenuBudgetThreshold, SubName=AppResources.MenuDescriptionBudgetThreshold, Description=AppResources.MenuDescriptionBudgetThreshold, IconPath="/Assets/icons/Dark/edit.png", NavigateTo="/View/AdminView/BudgetThreshold.xaml"},
                 new MenuItem{Name=AppResources.AdminMenuCategories, SubName=AppResources.MenuDescriptionCategory, Description=AppResources.MenuDescriptionCategory, IconPath="/Assets/icons/Dark/edit.png",NavigateTo="/View/AdminView/Category.xaml"},
                 new MenuItem{Name=AppResources.AdminMenuInterval, SubName=AppResources.MenuDescriptionInterval, Description=AppResources.MenuDescriptionInterval, IconPath="/Assets/icons/Dark/edit.png",NavigateTo="/View/AdminView/Interval.xaml"},
-                new MenuItem{Name=AppResources.AdminMenuFrequencies, SubName=AppResources.MenuDescriptionFrequency, Description=AppResources.MenuDescriptionFrequency, IconPath="/Assets/icons/Dark/edit.png", NavigateTo="/View/AdminView/TypeFrequency.xaml"},
+                //new MenuItem{Name=AppResources.AdminMenuFrequencies, SubName=AppResources.MenuDescriptionFrequency, Description=AppResources.MenuDescriptionFrequency, IconPath="/Assets/icons/Dark/edit.png", NavigateTo="/View/AdminView/TypeFrequency.xaml"},
                 new MenuItem{Name=AppResources.AdminMenuNotifications, SubName=AppResources.MenuDescriptionNotification, Description=AppResources.MenuDescriptionNotification, IconPath="/Assets/icons/Dark/edit.png",NavigateTo="/View/AdminView/Notification.xaml"},
                 new MenuItem{Name=AppResources.AdminMenuTransactionReasons, SubName=AppResources.MenuDescriptionTransactionReason, Description=AppResources.MenuDescriptionTransactionReason, IconPath="/Assets/icons/Dark/edit.png", NavigateTo="/View/AdminView/Reason.xaml"},
                 new MenuItem{Name=AppResources.AdminMenuSecurity, SubName=AppResources.MenuDescriptionSecurity, Description=AppResources.MenuDescriptionSecurity, IconPath="/Assets/icons/Dark/edit.png", NavigateTo="/View/AdminView/Security.xaml"},

@@ -9,18 +9,6 @@ namespace BMA_WP.ViewModel.Admin
 {
     public class PasswordChange : ViewModelBase
     {
-        string oldPass;
-        string newPass;
-        string confirmPass;
-        string serverResponse;
-        User user;
-
-        public string OldPass { get { return oldPass; } set { oldPass = value; RaisePropertyChanged("OldPass"); } }
-        public string NewPass { get { return oldPass; } set { oldPass = value; RaisePropertyChanged("NewPass"); } }
-        public string ConfirmPass { get { return oldPass; } set { oldPass = value; RaisePropertyChanged("ConfirmPass"); } }
-        public string ServerResponse { get { return serverResponse; } set { serverResponse = value; RaisePropertyChanged("ServerResponse"); } }
-
-        public User User { get { return user; } set { user = value; RaisePropertyChanged("User"); } }
 
     }
     /// <summary>
@@ -35,8 +23,26 @@ namespace BMA_WP.ViewModel.Admin
         /// <summary>
         /// Initializes a new instance of the SecurityViewModel class.
         /// </summary>
+        string oldPass;
+        string newPass;
+        string confirmPass;
+        string serverResponse;
+        User user;
+        int pivotIndex;
+
+        public string OldPass { get { return oldPass; } set { oldPass = value; RaisePropertyChanged("OldPass"); } }
+        public string NewPass { get { return newPass; } set { newPass = value; User.Password = value; RaisePropertyChanged("NewPass"); } }
+        public string ConfirmPass { get { return confirmPass; } set { confirmPass = value; RaisePropertyChanged("ConfirmPass"); } }
+        public string ServerResponse { get { return serverResponse; } set { serverResponse = value; RaisePropertyChanged("ServerResponse"); } }
+
+        public User User { get { return user; } set { user = value; RaisePropertyChanged("User"); } }
+        public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
+
         public SecurityViewModel()
         {
+            PivotIndex = 0;
+            User = new BMA.BusinessLogic.User();
+            User.Update(App.Instance.User);
         }
     }
 }

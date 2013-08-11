@@ -171,65 +171,21 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="BMA_Reason_ItemTemplate">
-        <Grid Margin="0,-12,0,24">
+    <DataTemplate x:Key="BMA_Main_ItemTemplate">
+        <Grid Margin="0,0,0,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Width="50" Height="50">
-                <Image Source="{Binding IconPath}" Stretch="None" />
-            </StackPanel>
-            <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                <StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                        <TextBlock Text="{Binding Categories, Converter={StaticResource converters}, ConverterParameter=ReasonCatList}" 
-                                   Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Height="55"
-                                   FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="BMA_Main_ItemTemplate">
-        <Grid Margin="0,-12,0,24">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Width="40" Height="40">
                 <Image Source="{Binding IconPath}" Stretch="UniformToFill" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
                 <StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                        <TextBlock Text="{Binding Description}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="BMA_Categories_ItemTemplate">
-        <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Width="50" Height="50">
-                <Image Source="{Binding IconPath}" Stretch="None" />
-            </StackPanel>
-            <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                <StackPanel>
-                    <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Time: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
-                        <TextBlock Text="{Binding FromDate, StringFormat=\{0:t\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
-                        <TextBlock Text=" - " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
-                        <TextBlock Text="{Binding ToDate, StringFormat=\{0:t\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -246,20 +202,82 @@
             </StackPanel>
         </Grid>
     </DataTemplate>
-
-    <DataTemplate x:Key="BMA_Interval_ItemTemplate">
-        <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
+    
+    <DataTemplate x:Key="BMA_Categories_ItemTemplate">
+        <Grid Margin="0 0 0 12" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Width="80" Height="80">
-                <Image Source="{Binding IconPath}" Stretch="None" />
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="/Assets/category.png" Stretch="UniformToFill" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
                 <StackPanel>
                     <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
-                    <TextBlock Text="{Binding IsIncome, Converter={StaticResource converters}, ConverterParameter=intervalBool}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Time: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        <TextBlock Text="{Binding FromDate, StringFormat=\{0:t\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        <TextBlock Text=" - " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        <TextBlock Text="{Binding ToDate, StringFormat=\{0:t\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BMA_Reason_ItemTemplate">
+        <Grid Margin="0 0 0 12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="/Assets/TransReason_note.png" Stretch="UniformToFill" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                <StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                        <TextBlock Text="{Binding Categories, Converter={StaticResource converters}, ConverterParameter=ReasonCatList}" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Height="55"
+                                   FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BMA_Interval_ItemTemplate">
+        <Grid Margin="0" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="{Binding IsIncome, Converter={StaticResource converters}, ConverterParameter=intervalimage}" Stretch="UniformToFill" Opacity="1.0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                <StackPanel>
+                    <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                    <TextBlock Text="{Binding Purpose}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BMA_Notification_ItemTemplate">
+        <Grid Margin="0 0 0 12" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                <StackPanel>
+                    <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
