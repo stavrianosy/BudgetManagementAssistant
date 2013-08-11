@@ -424,7 +424,7 @@ namespace BMA_WP.View
             {
                 typeInterval = true;
 
-                var generatedTransactions = new TransactionList(App.Instance.StaticServiceData.IntervalList);
+                var generatedTransactions = new TransactionList(App.Instance.StaticServiceData.IntervalList, App.Instance.User);
 
                 if (AllDataLoaded(transaction, budget, staticData, typeInterval))
                 {
