@@ -49,9 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityContext.cs" />
-    <Compile Include="Migrations\201308110948273_newDB.cs" />
-    <Compile Include="Migrations\201308110948273_newDB.Designer.cs">
-      <DependentUpon>201308110948273_newDB.cs</DependentUpon>
+    <Compile Include="Migrations\201308112136228_aaa.cs" />
+    <Compile Include="Migrations\201308112136228_aaa.Designer.cs">
+      <DependentUpon>201308112136228_aaa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,8 +70,8 @@
     <Content Include="Migrations\UsefulNuget Commands.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201308110948273_newDB.resx">
-      <DependentUpon>201308110948273_newDB.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201308112136228_aaa.resx">
+      <DependentUpon>201308112136228_aaa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -72,5 +72,40 @@ namespace BMA.BusinessLogic
 
             return result;
         }
+
+        public static DateTime AdjustYearStatDay(DateTime startDay, int monthOfYear, int dayPosOfYear)
+        {
+            if (startDay.Year % 4 != 0 && monthOfYear == 2 && dayPosOfYear == 29)
+                dayPosOfYear--;
+
+            var result = new DateTime(startDay.Year, monthOfYear, dayPosOfYear);
+
+            if (result < DateTime.Now)
+            {
+                if (startDay.AddYears(1).Year % 4 != 0 && monthOfYear == 2 && dayPosOfYear == 29)
+                    dayPosOfYear--;
+                
+                result = new DateTime(startDay.AddYears(1).Year, monthOfYear, dayPosOfYear);
+            }
+
+            return result;
+        }
+
+        public static int YearRange(DateTime dateFrom, DateTime dateTo)
+        {
+            var result = 0;
+
+            if (dateTo > dateFrom)
+            {
+                int years = dateTo.Year - dateFrom.Year;
+
+                if (years > 0 && dateTo.DayOfYear < dateFrom.DayOfYear)
+                    years--;
+
+                result = years;
+            }
+
+            return result;
+        }
     }
 }

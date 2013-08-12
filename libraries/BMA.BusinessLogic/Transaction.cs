@@ -64,10 +64,89 @@ namespace BMA.BusinessLogic
 
         private void ApplyRuleYearlyOnTheWeekDay(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, int ruleTotalOccurences, User user)
         {
+            var totalOccurenceDates = new List<DateTime>();
+            TimeSpan daysSpan = new TimeSpan();
+            int calcTotalOccurences = 0;
+
+            aaa var dayPosOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyOnDayPos.ToString());
+            bbb var dayPosOfYear = dayPosOfYearStr != null ? int.Parse(dayPosOfYearStr.Value) : 1;
+
+            var monthOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthName.ToString());
+            var monthOfYear = monthOfYearStr != null ? int.Parse(monthOfYearStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value);
+
+            var startDay = ruleStartDate;
+
+
+            startDay = Helper.AdjustYearStatDay(startDay, monthOfYear, dayPosOfYear);
+
+
+            //find the ending from the range
+            if (ruleTotalOccurences > 0)
+            {
+                //??? what is this clause for ?????
+                calcTotalOccurences = ruleTotalOccurences;
+            }
+            else
+            {
+                calcTotalOccurences = Helper.YearRange(startDay, ruleEndDate) / frequency + 1;
+            }
+
+            var tempStartDay = new DateTime(startDay.Year, startDay.Month, 1);
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.AdjustYearStatDay(tempStartDay.AddYears(i * frequency), monthOfYear, dayPosOfYear));
+
+            foreach (var item in totalOccurenceDates)
+            {
+                //gen transactions
+                var trans = new Transaction(interval.Amount, interval.Category, interval.Comments, interval.Purpose, item, interval.TransactionType, user);
+                this.Add(trans);
+            }
         }
 
         private void ApplyRuleYearlyOnMonth(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, int ruleTotalOccurences, User user)
         {
+            var totalOccurenceDates = new List<DateTime>();
+            TimeSpan daysSpan = new TimeSpan();
+            int calcTotalOccurences = 0;
+
+            var dayPosOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyOnDayPos.ToString());
+            var dayPosOfYear = dayPosOfYearStr != null ? int.Parse(dayPosOfYearStr.Value) : 1;
+
+            var monthOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthName.ToString());
+            var monthOfYear = monthOfYearStr != null ? int.Parse(monthOfYearStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value);
+
+            var startDay = ruleStartDate;
+
+
+            startDay = Helper.AdjustYearStatDay(startDay, monthOfYear, dayPosOfYear);
+
+
+            //find the ending from the range
+            if (ruleTotalOccurences > 0)
+            {
+                //??? what is this clause for ?????
+                calcTotalOccurences = ruleTotalOccurences;
+            }
+            else
+            {
+                calcTotalOccurences = Helper.YearRange(startDay, ruleEndDate) / frequency + 1;
+            }
+
+            var tempStartDay = new DateTime(startDay.Year, startDay.Month, 1);
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.AdjustYearStatDay(tempStartDay.AddYears(i * frequency), monthOfYear, dayPosOfYear));
+
+            foreach (var item in totalOccurenceDates)
+            {
+                //gen transactions
+                var trans = new Transaction(interval.Amount, interval.Category, interval.Comments, interval.Purpose, item, interval.TransactionType, user);
+                this.Add(trans);
+            }
+
         }
 
         private void ApplyRuleMonthlyPrecise(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, int ruleTotalOccurences, User user)
@@ -89,22 +168,22 @@ namespace BMA.BusinessLogic
             startDay = Helper.GetDayOcurrenceOfMonth(startDay, dayOfTheWeek, countOfWeekDay);
 
 
-                //find the ending from the range
-                if (ruleTotalOccurences > 0)
-                {
-                    calcTotalOccurences = ruleTotalOccurences;
-                }
+            //find the ending from the range
+            if (ruleTotalOccurences > 0)
+            {
+                calcTotalOccurences = ruleTotalOccurences;
+            }
+            else
+            {
+                if (ruleEndDate > DateTime.Now)
+                    daysSpan = DateTime.Now.Subtract(startDay);
                 else
-                {
-                    if (ruleEndDate < DateTime.Now)
-                        daysSpan = DateTime.Now.Subtract(startDay);
-                    else
-                        daysSpan = ruleEndDate.Subtract(startDay);
+                    daysSpan = ruleEndDate.Subtract(startDay);
 
-                    calcTotalOccurences = Helper.MonthRange(startDay, ruleEndDate) / frequency + 1;
-                }
+                calcTotalOccurences = Helper.MonthRange(startDay, ruleEndDate) / frequency + 1;
+            }
 
-                var tempStartDay = new DateTime(startDay.Year, startDay.Month, 1);
+            var tempStartDay = new DateTime(startDay.Year, startDay.Month, 1);
             for (int i = 0; i < calcTotalOccurences; i++)
                 totalOccurenceDates.Add(Helper.GetDayOcurrenceOfMonth(tempStartDay.AddMonths(i * frequency), dayOfTheWeek, countOfWeekDay));
 
