@@ -375,6 +375,12 @@ namespace BMAServiceLib
                                 .Where("IsDeleted == false AND (ModifiedUser.UserId = @0 OR ModifiedUser.UserId = @1)", SYSTEM_USER_ID, userId)
                                  select i).ToList();
 
+                    query.ForEach(x =>
+                        {
+                            var temp = (x as BaseItem);
+                            temp.HasChanges = false;
+                        });
+
                     return query;
                 }
             }
@@ -807,7 +813,7 @@ namespace BMAServiceLib
             }
         }
 
-        public List<Notification> SaveNotifications(List<Notification> notifications)
+        public NotificationList SaveNotifications(NotificationList notifications)
         {
             try
             {
@@ -829,6 +835,11 @@ namespace BMAServiceLib
                         }
                         else //Insert
                         {
+
+                            item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                            item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+
                             context.Notification.Add(item);
                             updateFound = true;
                         }
@@ -837,7 +848,10 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllNotifications(0);
+
+                notifications.PrepareForServiceSerialization();
+
+                return notifications;
             }
             catch (DbEntityValidationException e)
             {

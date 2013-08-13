@@ -424,7 +424,10 @@ namespace BMA_WP.View
             {
                 typeInterval = true;
 
-                var generatedTransactions = new TransactionList(App.Instance.StaticServiceData.IntervalList, App.Instance.User);
+                //App.Instance.ServiceData.IntervalTransactionList = new TransactionList(App.Instance.StaticServiceData.IntervalList, App.Instance.User);
+
+                if (App.Instance.ServiceData.IntervalTransactionList != null && App.Instance.ServiceData.IntervalTransactionList.Count > 0)
+                    NavigationService.Navigate(new Uri("/View/TransactionsInterval.xaml", UriKind.Relative));
 
                 if (AllDataLoaded(transaction, budget, staticData, typeInterval))
                 {

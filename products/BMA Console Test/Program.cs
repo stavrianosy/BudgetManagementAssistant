@@ -24,7 +24,7 @@ namespace ConsoleApplication1
             var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
 
 
-            var rr = b.GetAllRecurrenceRules();
+            SaveNotifications(b, usr);
             //var newuser = CreateUser(b);
             //var db = b.GetDBStatus();
             //SyncTransactions(a, usr);
@@ -42,6 +42,19 @@ namespace ConsoleApplication1
             //UpdateTransaction(a, usr);
             //UpdateBudget(a, usr);
             //var dd = a.GetLatestTransactionDate(usr.UserId);
+        }
+
+        private static void SaveNotifications(ServiceReference2.StaticClient b, User usr)
+        {
+            var notes = b.GetAllNotifications(usr.UserId);
+
+            var newNote1 = notes[0];
+
+            newNote1.NotificationId= -1;
+            newNote1.Name = "eee";
+            newNote1.ModifiedDate = DateTime.Now;
+
+            notes = b.SaveNotifications(new List<Notification>{newNote1});
         }
 
         private static User CreateUser(ServiceReference2.StaticClient b)

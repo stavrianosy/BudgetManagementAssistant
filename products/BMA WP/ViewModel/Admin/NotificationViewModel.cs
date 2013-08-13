@@ -30,6 +30,7 @@ namespace BMA_WP.ViewModel.Admin
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         
         #endregion
+
         #region Event To Commands
         public ICommand Notifications_SelectionChanged
         {

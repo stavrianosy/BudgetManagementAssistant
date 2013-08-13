@@ -44,7 +44,17 @@ namespace BMA.BusinessLogic
 
         public static DateTime GetDayOcurrenceOfMonth(DateTime date, int dayNum, int count)
         {
-            DateTime result = new DateTime(date.Year, date.Month, 1);
+            return GetDayOcurrenceOfMonth(date, dayNum, count, -1);
+        }
+
+        public static DateTime GetDayOcurrenceOfMonth(DateTime date, int dayNum, int count, int monthNum)
+        {
+            DateTime result = new DateTime();
+
+            if (monthNum > 0 && date.Month > monthNum)
+                result = new DateTime(date.AddYears(1).Year, monthNum, 1);
+            else
+                result = new DateTime(date.Year, monthNum, 1);
 
             Dictionary<string, int> dayOfTheWeekNumber = new Dictionary<string, int>();
             dayOfTheWeekNumber.Add("Monday", 1);
@@ -55,7 +65,7 @@ namespace BMA.BusinessLogic
             dayOfTheWeekNumber.Add("Saturday", 6);
             dayOfTheWeekNumber.Add("Sunday", 7);
 
-            var firstDayOfMonth = dayOfTheWeekNumber[date.AddDays(-date.Day + 1).DayOfWeek.ToString()];
+            var firstDayOfMonth = dayOfTheWeekNumber[result.AddDays(-result.Day + 1).DayOfWeek.ToString()];
             firstDayOfMonth = dayNum - firstDayOfMonth;
 
             if (firstDayOfMonth < 0)
@@ -67,7 +77,7 @@ namespace BMA.BusinessLogic
 
             if (result < date)
             {
-                result = GetDayOcurrenceOfMonth(new DateTime(result.Year, result.AddMonths(1).Month, 1), dayNum, count);
+                result = GetDayOcurrenceOfMonth(new DateTime(result.Year, result.AddMonths(1).Month, 1), dayNum, monthNum, count);
             }
 
             return result;

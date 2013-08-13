@@ -97,7 +97,7 @@ namespace BMAServiceLib
         TypeTransactionReasonList SaveTypeTransactionReasons(TypeTransactionReasonList typeTransactionReason);
 
         [OperationContract]
-        List<Notification> SaveNotifications(List<Notification> notifications);
+        NotificationList SaveNotifications(NotificationList notifications);
 
         [OperationContract]
         List<TypeTransaction> SaveTypeTransactions(List<TypeTransaction> typeTransactions);

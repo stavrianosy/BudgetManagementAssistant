@@ -12,6 +12,8 @@ using BMA_WP.ViewModel.Admin;
 using BMA_WP.Resources;
 using BMA.BusinessLogic;
 using System.Windows.Media;
+using System.Windows.Data;
+using BMA_WP.Model;
 
 namespace BMA_WP.View.AdminView
 {
@@ -36,6 +38,22 @@ namespace BMA_WP.View.AdminView
         public Notification()
         {
             InitializeComponent();
+
+            SetupLoadingBinding();
+        }
+        #endregion
+
+        #region Binding
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
         }
         #endregion
 

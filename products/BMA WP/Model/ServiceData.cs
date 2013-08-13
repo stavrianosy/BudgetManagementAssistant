@@ -40,6 +40,7 @@ namespace BMA_WP.Model
             #region Public Proeprties
             public TransactionImageList TransactionImageList { get; set; }
             public TransactionList TransactionList { get; set; }
+            public TransactionList IntervalTransactionList { get; set; }
             public BudgetList BudgetList { get; set; }
             #endregion
 

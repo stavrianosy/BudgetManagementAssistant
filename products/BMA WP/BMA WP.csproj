@@ -118,6 +118,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\TransactionsIntervalViewModel.cs" />
+    <Compile Include="View\TransactionsInterval.xaml.cs">
+      <DependentUpon>TransactionsInterval.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -209,6 +213,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Common\BMAStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TransactionsInterval.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

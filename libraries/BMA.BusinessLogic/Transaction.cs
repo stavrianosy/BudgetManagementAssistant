@@ -68,19 +68,20 @@ namespace BMA.BusinessLogic
             TimeSpan daysSpan = new TimeSpan();
             int calcTotalOccurences = 0;
 
-            aaa var dayPosOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyOnDayPos.ToString());
-            bbb var dayPosOfYear = dayPosOfYearStr != null ? int.Parse(dayPosOfYearStr.Value) : 1;
+            var dayPosOfMonthStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyPositions.ToString());
+            var dayPosOfMonth = dayPosOfMonthStr != null ? int.Parse(dayPosOfMonthStr.Value) : 1;
 
-            var monthOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthName.ToString());
+            var dayOfTheWeekStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyDayName.ToString());
+            var dayOfTheWeek = dayOfTheWeekStr != null ? int.Parse(dayOfTheWeekStr.Value) : 1;
+
+            var monthOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthNameSec.ToString());
             var monthOfYear = monthOfYearStr != null ? int.Parse(monthOfYearStr.Value) : 1;
 
             var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value);
 
             var startDay = ruleStartDate;
 
-
-            startDay = Helper.AdjustYearStatDay(startDay, monthOfYear, dayPosOfYear);
-
+            startDay = Helper.GetDayOcurrenceOfMonth(startDay, dayOfTheWeek, dayPosOfMonth, monthOfYear);
 
             //find the ending from the range
             if (ruleTotalOccurences > 0)
@@ -95,7 +96,7 @@ namespace BMA.BusinessLogic
 
             var tempStartDay = new DateTime(startDay.Year, startDay.Month, 1);
             for (int i = 0; i < calcTotalOccurences; i++)
-                totalOccurenceDates.Add(Helper.AdjustYearStatDay(tempStartDay.AddYears(i * frequency), monthOfYear, dayPosOfYear));
+                totalOccurenceDates.Add(Helper.GetDayOcurrenceOfMonth(tempStartDay.AddYears(i * frequency), dayOfTheWeek, dayPosOfMonth, monthOfYear));
 
             foreach (var item in totalOccurenceDates)
             {
