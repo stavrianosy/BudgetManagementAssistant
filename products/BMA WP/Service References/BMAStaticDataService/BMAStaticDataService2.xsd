@@ -238,4 +238,15 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfRecurrenceRule" nillable="true" type="tns:ArrayOfRecurrenceRule" />
+  <xs:complexType name="TypeIntervalConfiguration">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="GeneratedDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="TypeIntervalConfigurationId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TypeIntervalConfiguration" nillable="true" type="tns:TypeIntervalConfiguration" />
 </xs:schema>

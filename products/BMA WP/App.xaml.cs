@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define DEBUG_AGENT
+
+using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Windows;
@@ -20,11 +22,14 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Microsoft.Phone.Scheduler;
 
 namespace BMA_WP
 {
     public partial class App : Application, INotifyPropertyChanged
     {
+        PeriodicTask notificationTask;
+        string notificationTaskName = "BMA_NotificationReminderAgent";
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -51,6 +56,8 @@ namespace BMA_WP
             // Language display initialization
             InitializeLanguage();
 
+            InitializeAgentNotification();
+
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
             {
@@ -72,10 +79,57 @@ namespace BMA_WP
             }
 
             Instance.ServiceData = new ServiceData();
+            
             Instance.StaticServiceData = new StaticServiceData();
 
             Instance.User = new User();
 
+        }
+
+        private void InitializeAgentNotification()
+        {
+            // Obtain a reference to the period task, if one exists
+            notificationTask = ScheduledActionService.Find(notificationTaskName) as PeriodicTask;
+
+            if (notificationTask != null)
+                ScheduledActionService.Remove(notificationTaskName);
+
+            notificationTask = new PeriodicTask(notificationTaskName);
+
+            // The description is required for periodic agents. This is the string that the user
+            // will see in the background services Settings page on the device.
+            notificationTask.Description = "This demonstrates a periodic task.";
+
+
+            // Place the call to Add in a try block in case the user has disabled agents.
+            try
+            {
+                //ScheduledActionService.Add(notificationTask);
+
+                // If debugging is enabled, use LaunchForTest to launch the agent in one minute.
+#if(DEBUG_AGENT)
+                //ScheduledActionService.LaunchForTest(notificationTaskName, TimeSpan.FromSeconds(10));
+#endif
+            }
+            catch (InvalidOperationException exception)
+            {
+                if (exception.Message.Contains("BNS Error: The action is disabled"))
+                {
+                    MessageBox.Show("Background agents for this application have been disabled by the user.");
+                }
+
+                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
+                {
+                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
+
+                }
+
+            }
+            catch (SchedulerServiceException)
+            {
+                // No user action required.  
+            }
+ 
         }
 
         // Code to execute when the application is launching (eg, from Start)

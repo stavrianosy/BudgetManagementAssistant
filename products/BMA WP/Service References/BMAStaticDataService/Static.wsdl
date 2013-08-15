@@ -103,6 +103,12 @@
   <wsdl:message name="IStatic_GetUpcomingNotifications_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUpcomingNotificationsResponse" />
   </wsdl:message>
+  <wsdl:message name="IStatic_GetTypeIntervalConfiguration_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTypeIntervalConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_GetTypeIntervalConfiguration_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTypeIntervalConfigurationResponse" />
+  </wsdl:message>
   <wsdl:message name="IStatic_SaveCategories_InputMessage">
     <wsdl:part name="parameters" element="tns:SaveCategories" />
   </wsdl:message>
@@ -209,6 +215,10 @@
     <wsdl:operation name="GetUpcomingNotifications">
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/GetUpcomingNotifications" message="tns:IStatic_GetUpcomingNotifications_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStatic/GetUpcomingNotificationsResponse" message="tns:IStatic_GetUpcomingNotifications_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeIntervalConfiguration">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/GetTypeIntervalConfiguration" message="tns:IStatic_GetTypeIntervalConfiguration_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/GetTypeIntervalConfigurationResponse" message="tns:IStatic_GetTypeIntervalConfiguration_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SaveCategories">
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/SaveCategories" message="tns:IStatic_SaveCategories_InputMessage" />
@@ -378,6 +388,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetUpcomingNotifications">
       <soap:operation soapAction="http://tempuri.org/IStatic/GetUpcomingNotifications" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeIntervalConfiguration">
+      <soap:operation soapAction="http://tempuri.org/IStatic/GetTypeIntervalConfiguration" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

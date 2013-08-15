@@ -63,6 +63,9 @@ namespace BMAServiceLib
         [OperationContract]
         List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId);
 
+        [OperationContract]
+        TypeIntervalConfiguration GetTypeIntervalConfiguration(int userId);
+
         #endregion
 
         #region Update

@@ -64,6 +64,7 @@
     <Compile Include="StaticTypeList.cs" />
     <Compile Include="TypeExpense.cs" />
     <Compile Include="TypeInterval.cs" />
+    <Compile Include="TypeIntervalConfiguration.cs" />
     <Compile Include="TypeTransactionReason.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

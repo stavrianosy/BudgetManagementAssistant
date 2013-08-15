@@ -30,7 +30,7 @@ namespace BMA.DataAccess.Migrations
                 ////Must add the first user in a more T-Sql way since there are fields in User table that references its self.
 
                 //## User ##//
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User1] ON if not exists(select * from [User] where Username = {1}) BEGIN " +
+                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON if not exists(select * from [User] where Username = {1}) BEGIN " +
                     "INSERT INTO [User] (UserId, UserName, Password, Email, Birthdate, FirstName, LastName, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
                     "({0}, {1}, {2}, {3}, GETDATE(), {4}, {5}, GETDATE(), GETDATE(), 1, 1, 0) END ", 
                     1, buildInAdmin, buildInAdminPass, buildInAdminEmail, "AdminName", "AdminSurname");

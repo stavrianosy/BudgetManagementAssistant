@@ -12,7 +12,7 @@ namespace BMA.BusinessLogic
         public int ConfigurationId { get; set; }
         public int MaxCategories { get; set; }
         public int MaxTransactionReasons { get; set; }
-        public DateTime TypeIntervalLastRun { get; set; }
+        //public DateTime TypeIntervalLastRun { get; set; }
         #endregion
 
         #region Constructors

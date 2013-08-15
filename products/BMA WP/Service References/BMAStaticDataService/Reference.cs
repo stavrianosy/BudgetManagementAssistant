@@ -98,6 +98,11 @@ namespace BMA_WP.BMAStaticDataService {
         
         System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndGetUpcomingNotifications(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/GetTypeIntervalConfiguration", ReplyAction="http://tempuri.org/IStatic/GetTypeIntervalConfigurationResponse")]
+        System.IAsyncResult BeginGetTypeIntervalConfiguration(int userId, System.AsyncCallback callback, object asyncState);
+        
+        BMA.BusinessLogic.TypeIntervalConfiguration EndGetTypeIntervalConfiguration(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
         System.IAsyncResult BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState);
         
@@ -444,6 +449,25 @@ namespace BMA_WP.BMAStaticDataService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetTypeIntervalConfigurationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetTypeIntervalConfigurationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public BMA.BusinessLogic.TypeIntervalConfiguration Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((BMA.BusinessLogic.TypeIntervalConfiguration)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class SaveCategoriesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
@@ -675,6 +699,12 @@ namespace BMA_WP.BMAStaticDataService {
         
         private System.Threading.SendOrPostCallback onGetUpcomingNotificationsCompletedDelegate;
         
+        private BeginOperationDelegate onBeginGetTypeIntervalConfigurationDelegate;
+        
+        private EndOperationDelegate onEndGetTypeIntervalConfigurationDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetTypeIntervalConfigurationCompletedDelegate;
+        
         private BeginOperationDelegate onBeginSaveCategoriesDelegate;
         
         private EndOperationDelegate onEndSaveCategoriesDelegate;
@@ -801,6 +831,8 @@ namespace BMA_WP.BMAStaticDataService {
         public event System.EventHandler<GetAllRecurrenceRulesCompletedEventArgs> GetAllRecurrenceRulesCompleted;
         
         public event System.EventHandler<GetUpcomingNotificationsCompletedEventArgs> GetUpcomingNotificationsCompleted;
+        
+        public event System.EventHandler<GetTypeIntervalConfigurationCompletedEventArgs> GetTypeIntervalConfigurationCompleted;
         
         public event System.EventHandler<SaveCategoriesCompletedEventArgs> SaveCategoriesCompleted;
         
@@ -1555,6 +1587,52 @@ namespace BMA_WP.BMAStaticDataService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginGetTypeIntervalConfiguration(int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetTypeIntervalConfiguration(userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        BMA.BusinessLogic.TypeIntervalConfiguration BMA_WP.BMAStaticDataService.IStatic.EndGetTypeIntervalConfiguration(System.IAsyncResult result) {
+            return base.Channel.EndGetTypeIntervalConfiguration(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetTypeIntervalConfiguration(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userId = ((int)(inValues[0]));
+            return ((BMA_WP.BMAStaticDataService.IStatic)(this)).BeginGetTypeIntervalConfiguration(userId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetTypeIntervalConfiguration(System.IAsyncResult result) {
+            BMA.BusinessLogic.TypeIntervalConfiguration retVal = ((BMA_WP.BMAStaticDataService.IStatic)(this)).EndGetTypeIntervalConfiguration(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetTypeIntervalConfigurationCompleted(object state) {
+            if ((this.GetTypeIntervalConfigurationCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetTypeIntervalConfigurationCompleted(this, new GetTypeIntervalConfigurationCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetTypeIntervalConfigurationAsync(int userId) {
+            this.GetTypeIntervalConfigurationAsync(userId, null);
+        }
+        
+        public void GetTypeIntervalConfigurationAsync(int userId, object userState) {
+            if ((this.onBeginGetTypeIntervalConfigurationDelegate == null)) {
+                this.onBeginGetTypeIntervalConfigurationDelegate = new BeginOperationDelegate(this.OnBeginGetTypeIntervalConfiguration);
+            }
+            if ((this.onEndGetTypeIntervalConfigurationDelegate == null)) {
+                this.onEndGetTypeIntervalConfigurationDelegate = new EndOperationDelegate(this.OnEndGetTypeIntervalConfiguration);
+            }
+            if ((this.onGetTypeIntervalConfigurationCompletedDelegate == null)) {
+                this.onGetTypeIntervalConfigurationCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetTypeIntervalConfigurationCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetTypeIntervalConfigurationDelegate, new object[] {
+                        userId}, this.onEndGetTypeIntervalConfigurationDelegate, this.onGetTypeIntervalConfigurationCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult BMA_WP.BMAStaticDataService.IStatic.BeginSaveCategories(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Category> categories, System.AsyncCallback callback, object asyncState) {
             return base.Channel.BeginSaveCategories(categories, callback, asyncState);
         }
@@ -2156,6 +2234,19 @@ namespace BMA_WP.BMAStaticDataService {
             public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> EndGetUpcomingNotifications(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Notification>)(base.EndInvoke("GetUpcomingNotifications", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetTypeIntervalConfiguration(int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("GetTypeIntervalConfiguration", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public BMA.BusinessLogic.TypeIntervalConfiguration EndGetTypeIntervalConfiguration(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                BMA.BusinessLogic.TypeIntervalConfiguration _result = ((BMA.BusinessLogic.TypeIntervalConfiguration)(base.EndInvoke("GetTypeIntervalConfiguration", _args, result)));
                 return _result;
             }
             

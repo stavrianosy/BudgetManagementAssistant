@@ -1,7 +1,8 @@
 ﻿using BMA.BusinessLogic;
-using BMA_WP.BMAStaticDataService;
 using BMA_WP.Common;
 using BMA_WP.Resources;
+//using BMA.Proxy.BMAStaticDataService;
+using BMA_WP.BMAStaticDataService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,6 +33,7 @@ namespace BMA_WP.Model
         private const string STATIC_NOTIFICATION_FOLDER = "Static_Notification";
         private const string STATIC_TYPEFREQUENCY_FOLDER = "Static_TypeFrequency";
         private const string STATIC_TYPEINTERVAL_FOLDER = "Static_TypeInterval";
+        private const string STATIC_TYPEINTERVALCONFIG_FOLDER = "Static_TypeIntervalConfiguration";
         private const string STATIC_RECURRENCE_FOLDER = "Static_Recurrence";
         private const string STATIC_BUDGETTHRESHOLD_FOLDER = "Static_BudgetThreshold";
         private const string STATIC_USER_FOLDER = "Static_User";
@@ -49,6 +51,7 @@ namespace BMA_WP.Model
         public TypeTransactionReasonList TypeTransactionReasonList { get; set; }
         public TypeFrequencyList TypeFrequencyList { get; set; }
         public TypeIntervalList IntervalList { get; set; }
+        public TypeIntervalConfiguration IntervalConfiguration { get; set; }
         public RecurrenceRuleList RecurrenceRuleList { get; set; }
         public NotificationList NotificationList { get; set; }
         #endregion
@@ -80,7 +83,7 @@ namespace BMA_WP.Model
             {
                 if (App.Instance.IsOnline)
                 {
-                    var client = new BMAStaticDataService.StaticClient();
+                    var client = new StaticClient();
                     client.GetDBStatusAsync();
                     client.GetDBStatusCompleted += (sender, e) =>
                     {
@@ -216,6 +219,14 @@ namespace BMA_WP.Model
                 LoadLiveTypeIntervals(error => callback(error));
         }
 
+        public void LoadTypeIntervalConfiguration(Action<Exception> callback)
+        {
+            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
+                LoadCachedTypeIntervalConfiguration((typeIntervalsConfiguration, error) => callback(error));
+            else
+                LoadLiveTypeIntervalConfiguration(error => callback(error));
+        }
+
         public void LoadRecurrenceRules(Action<Exception> callback)
         {
             if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
@@ -241,7 +252,7 @@ namespace BMA_WP.Model
             }
             else
             {
-                var client = new BMAStaticDataService.StaticClient();
+                var client = new StaticClient();
                 client.AuthenticateUserAsync(user, callback);
                 client.AuthenticateUserCompleted += async (sender,eventargs) => {
                     try
@@ -441,6 +452,17 @@ namespace BMA_WP.Model
             var ord = IntervalList.OrderBy(x => x.Name).ToList();
             IntervalList.Clear();
             ord.ForEach(x => IntervalList.Add(x));
+        }
+
+        private async void SetupIntervalConfigurationData(BMA.BusinessLogic.TypeIntervalConfiguration existing, bool removeNew)
+        {
+            //existing = existing ?? new BMA.BusinessLogic.TypeIntervalConfiguration();
+
+            if(existing != null)
+                StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, existing, existing.TypeIntervalConfigurationId, App.Instance.User.UserName);
+
+            IntervalConfiguration = existing;
+            
         }
 
         private async void SetupRecurrenceRuleData(ICollection<RecurrenceRule> existing, bool removeNew)
@@ -664,10 +686,33 @@ namespace BMA_WP.Model
                 Debug.WriteLine(ex.ToString());
                 //callback(null, ex);
             }
-            
+
             //SetupIntervalData(retVal, false);
 
             callback(IntervalList, null);
+        }
+
+        private async void LoadCachedTypeIntervalConfiguration(Action<BMA.BusinessLogic.TypeIntervalConfiguration, Exception> callback)
+        {
+            //var retVal = new BMA.BusinessLogic.TypeIntervalConfiguration();
+            try
+            {
+                foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName))
+                {
+                    var staticType = await StorageUtility.RestoreItem<BMA.BusinessLogic.TypeIntervalConfiguration>(STATIC_TYPEINTERVALCONFIG_FOLDER, item, App.Instance.User.UserName);
+                    //retVal.Add(staticType);
+                    IntervalConfiguration = staticType;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                //callback(null, ex);
+            }
+
+            //SetupIntervalData(retVal, false);
+
+            callback(IntervalConfiguration, null);
         }
 
         private async void RemoveInsertedTypeIntervals()
@@ -744,7 +789,7 @@ namespace BMA_WP.Model
         {
             var retVal = new CategoryList();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
             try
             {
                 latestState = Guid.NewGuid().ToString();
@@ -767,7 +812,7 @@ namespace BMA_WP.Model
         {
             latestState = Guid.NewGuid().ToString();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
 
             client.GetAllTypeTransactionReasonsAsync(App.Instance.User.UserId);
             client.GetAllTypeTransactionReasonsCompleted += (o, e) =>
@@ -783,7 +828,7 @@ namespace BMA_WP.Model
         {
             latestState = Guid.NewGuid().ToString();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
 
             client.GetAllTypeTransactionsAsync(App.Instance.User.UserId);
             client.GetAllTypeTransactionsCompleted += (o, e) =>
@@ -799,7 +844,7 @@ namespace BMA_WP.Model
         {
             latestState = Guid.NewGuid().ToString();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
 
             client.GetAllNotificationsAsync(App.Instance.User.UserId);
             client.GetAllNotificationsCompleted += (o, e) =>
@@ -815,7 +860,7 @@ namespace BMA_WP.Model
         {
             latestState = Guid.NewGuid().ToString();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
 
             client.GetAllTypeFrequenciesAsync(App.Instance.User.UserId);
             client.GetAllTypeFrequenciesCompleted += (o, e) =>
@@ -831,7 +876,7 @@ namespace BMA_WP.Model
         {
             latestState = Guid.NewGuid().ToString();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
 
             client.GetAllTypeIntervalsAsync(App.Instance.User.UserId);
             client.GetAllTypeIntervalsCompleted += (o, e) =>
@@ -843,11 +888,27 @@ namespace BMA_WP.Model
             };
         }
 
+        private void LoadLiveTypeIntervalConfiguration(Action<Exception> callback)
+        {
+            latestState = Guid.NewGuid().ToString();
+
+            var client = new StaticClient();
+
+            client.GetTypeIntervalConfigurationAsync(App.Instance.User.UserId);
+            client.GetTypeIntervalConfigurationCompleted += (o, e) =>
+            {
+                if (e.Error == null)
+                    SetupIntervalConfigurationData(e.Result, true);
+
+                callback(e.Error);
+            };
+        }
+
         private void LoadLiveRecurrenceRules(Action<Exception> callback)
         {
             latestState = Guid.NewGuid().ToString();
 
-            var client = new BMAStaticDataService.StaticClient();
+            var client = new StaticClient();
 
             client.GetAllRecurrenceRulesAsync();
             client.GetAllRecurrenceRulesCompleted += (o, e) =>
@@ -935,7 +996,7 @@ namespace BMA_WP.Model
                         foreach (var item in categories)
                             item.OptimizeOnTopLevel();
 
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
 
                         client.SaveCategoriesAsync(categories, App.Instance.User);
 
@@ -1001,7 +1062,7 @@ namespace BMA_WP.Model
                         foreach (var item in transactionReasons)
                             item.OptimizeOnTopLevel();
 
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
                         client.SaveTypeTransactionReasonsAsync(transactionReasons);
                         client.SaveTypeTransactionReasonsCompleted +=  (sender, completedEventArgs) =>
                         {
@@ -1078,7 +1139,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
                         client.SaveTypeIntervalsAsync(typeInterval, App.Instance.User);
                         client.SaveTypeIntervalsCompleted += (sender, completedEventArgs) =>
                         {
@@ -1129,7 +1190,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
 
                         client.SaveNotificationsAsync(notifications, App.Instance.User);
 
@@ -1227,7 +1288,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
                         client.RegisterUserAsync(user, callback);
                         client.RegisterUserCompleted += (sender, eventArgs) =>
                         {
@@ -1291,7 +1352,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
                         client.UpdateUserAsync(user, callback);
                         client.UpdateUserCompleted += async (sender, eventArgs) =>
                         {
@@ -1325,7 +1386,7 @@ namespace BMA_WP.Model
         {
             try
             {
-                var client = new BMAStaticDataService.StaticClient();
+                var client = new StaticClient();
                 client.ForgotPasswordAsync(user, callback);
                 client.ForgotPasswordCompleted += (sender, eventArgs) =>
                 {
@@ -1379,7 +1440,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAStaticDataService.StaticClient();
+                        var client = new StaticClient();
                         client.ChangePasswordAsync(user, callback);
                         client.ChangePasswordCompleted += async (sender, eventArgs) =>
                         {

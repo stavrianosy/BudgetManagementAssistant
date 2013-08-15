@@ -111,6 +111,12 @@ namespace ConsoleApplication1.ServiceReference2 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetUpcomingNotifications", ReplyAction="http://tempuri.org/IStatic/GetUpcomingNotificationsResponse")]
         System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Notification>> GetUpcomingNotificationsAsync(System.DateTime clientTime, int userId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetTypeIntervalConfiguration", ReplyAction="http://tempuri.org/IStatic/GetTypeIntervalConfigurationResponse")]
+        BMA.BusinessLogic.TypeIntervalConfiguration GetTypeIntervalConfiguration(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetTypeIntervalConfiguration", ReplyAction="http://tempuri.org/IStatic/GetTypeIntervalConfigurationResponse")]
+        System.Threading.Tasks.Task<BMA.BusinessLogic.TypeIntervalConfiguration> GetTypeIntervalConfigurationAsync(int userId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
         
@@ -307,6 +313,14 @@ namespace ConsoleApplication1.ServiceReference2 {
         
         public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Notification>> GetUpcomingNotificationsAsync(System.DateTime clientTime, int userId) {
             return base.Channel.GetUpcomingNotificationsAsync(clientTime, userId);
+        }
+        
+        public BMA.BusinessLogic.TypeIntervalConfiguration GetTypeIntervalConfiguration(int userId) {
+            return base.Channel.GetTypeIntervalConfiguration(userId);
+        }
+        
+        public System.Threading.Tasks.Task<BMA.BusinessLogic.TypeIntervalConfiguration> GetTypeIntervalConfigurationAsync(int userId) {
+            return base.Channel.GetTypeIntervalConfigurationAsync(userId);
         }
         
         public System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {

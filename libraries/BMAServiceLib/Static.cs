@@ -255,6 +255,7 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TypeInterval
+                                 .Include(i => i.TransactionType)
                                  .Include(i => i.Category)
                                  .Include(i => i.RecurrenceRuleValue.RecurrenceRule)
                                  .Include(i => i.RecurrenceRuleValue.RulePartValueList)
@@ -361,6 +362,24 @@ namespace BMAServiceLib
             }
         }
 
+        public TypeIntervalConfiguration GetTypeIntervalConfiguration(int userId)
+        {
+            try
+            {
+                using (EntityContext context = new EntityContext())
+                {
+                    var result = context.TypeIntervalConfiguration
+                                            .FirstOrDefault(x => x.ModifiedUser.UserId == userId && !x.IsDeleted);
+
+
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public List<T> GetDataGeneric<T>(int userId) where T : class
         {
@@ -1034,7 +1053,6 @@ namespace BMAServiceLib
                                         context.Entry(original.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
                                         for (int x = original.RecurrenceRuleValue.RulePartValueList.Count - 1; x >= 0; x--)
                                         {
-
                                             var i = original.RecurrenceRuleValue.RulePartValueList[x].RulePartValueId;
                                             var temp = context.RulePartValue.FirstOrDefault(z => z.RulePartValueId == i);
                                             context.RulePartValue.Remove(temp);
@@ -1064,7 +1082,6 @@ namespace BMAServiceLib
                                         context.Entry(original.RecurrenceRangeRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
                                         for (int x = original.RecurrenceRangeRuleValue.RulePartValueList.Count - 1; x >= 0; x--)
                                         {
-
                                             var i = original.RecurrenceRangeRuleValue.RulePartValueList[x].RulePartValueId;
                                             var temp = context.RulePartValue.FirstOrDefault(z => z.RulePartValueId == i);
                                             context.RulePartValue.Remove(temp);
@@ -1102,22 +1119,22 @@ namespace BMAServiceLib
                             item.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
                             item.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
                             
-                            //item.RecurrenceRule = null;
-                            //item.RecurrenceRangeRuleValue = null;
                             item.Category.TypeTransactionReasons = null;
 
-                            //context.Entry(item.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
-                            item.RecurrenceRuleValue.RecurrenceRule = context.RecurrenceRule.Where(k => !k.IsDeleted).Single(p => p.RecurrenceRuleId == item.RecurrenceRuleValue.RecurrenceRule.RecurrenceRuleId);
-                            item.RecurrenceRangeRuleValue.RecurrenceRule = context.RecurrenceRule.Where(k => !k.IsDeleted).Single(p => p.RecurrenceRuleId == item.RecurrenceRangeRuleValue.RecurrenceRule.RecurrenceRuleId);
+                            ////// \\\\\
+                            item.RecurrenceRuleValue.SetPrivateRecurrenceRuleForSave(context.RecurrenceRule.FirstOrDefault(x => x.RecurrenceRuleId == item.RecurrenceRuleValue.RecurrenceRule.RecurrenceRuleId));
+                            item.RecurrenceRangeRuleValue.SetPrivateRecurrenceRuleForSave(context.RecurrenceRule.FirstOrDefault(x => x.RecurrenceRuleId == item.RecurrenceRangeRuleValue.RecurrenceRule.RecurrenceRuleId));
 
                             item.RecurrenceRuleValue.RulePartValueList.ForEach(x =>
                             {
-                                x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart = context.RulePart.Include(i => i.FieldType).Include(i => i.RecurrenceRules).FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart.FieldType = context.FieldType.FirstOrDefault(z=>z.FieldTypeId == x.RulePart.FieldType.FieldTypeId);
                             });
 
                             item.RecurrenceRangeRuleValue.RulePartValueList.ForEach(x =>
                             {
-                                x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart = context.RulePart.Include(i => i.FieldType).Include(i => i.RecurrenceRules).FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart.FieldType = context.FieldType.FirstOrDefault(z => z.FieldTypeId == x.RulePart.FieldType.FieldTypeId);
                             });
 
                             context.TypeInterval.Add(item);

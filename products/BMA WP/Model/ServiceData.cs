@@ -1,5 +1,7 @@
 ﻿using BMA.BusinessLogic;
 using BMA_WP.Common;
+//using BMA.Proxy.BMAService;
+using BMA_WP.BMAService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,7 +70,7 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    var client = new BMAService.MainClient();
+                    var client = new MainClient();
                     if (budgetId == 0)
                     {
                         latestState = Guid.NewGuid().ToString();
@@ -87,7 +89,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        //client.GetTransactionsForBudgetCompleted += new EventHandler<BMAService.GetTransactionsForBudgetCompletedEventArgs>(client_GetTransactionsForBudgetCompleted);
+                        //client.GetTransactionsForBudgetCompleted += new EventHandler<GetTransactionsForBudgetCompletedEventArgs>(client_GetTransactionsForBudgetCompleted);
                         client.GetTransactionsForBudgetAsync(budgetId);
                     }
                 }
@@ -103,7 +105,7 @@ namespace BMA_WP.Model
                 try
                 {
                     latestState = Guid.NewGuid().ToString();
-                    var client = new BMAService.MainClient();
+                    var client = new MainClient();
                     client.GetAllBudgetsCompleted += (sender, e) =>
                         {
                             if(e.Error == null)
@@ -124,7 +126,7 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    var client = new BMAService.MainClient();
+                    var client = new MainClient();
                     latestState = Guid.NewGuid().ToString();
 
                     client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
@@ -303,7 +305,7 @@ namespace BMA_WP.Model
                 var result = ServerStatus.Communicating;
                 try
                 {
-                    var client = new BMAService.MainClient();
+                    var client = new MainClient();
                     client.GetDBStatusAsync();
                     client.GetDBStatusCompleted += (sender, e) =>
                     {
@@ -371,7 +373,7 @@ namespace BMA_WP.Model
                     {
                         try
                         {
-                            var client = new BMAService.MainClient();
+                            var client = new MainClient();
                             latestState = Guid.NewGuid().ToString();
 
                             client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
@@ -407,7 +409,7 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    var client = new BMAService.MainClient();
+                    var client = new MainClient();
                     client.GetLatestTransactionDateDoubleAsync(App.Instance.User.UserId);
 
                     client.GetLatestTransactionDateDoubleCompleted += (sender, e) =>
@@ -426,7 +428,7 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    var client = new BMAService.MainClient();
+                    var client = new MainClient();
                     client.GetLatestTransactionDateAsync();
 
                     client.GetLatestTransactionDateCompleted += (sender, e) =>
@@ -452,7 +454,7 @@ namespace BMA_WP.Model
                         {
                             var transList = cachedTransactions.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
 
-                            var client = new BMAService.MainClient();
+                            var client = new MainClient();
 
                             client.SyncTransactionsAsync(transList);
 
@@ -474,7 +476,7 @@ namespace BMA_WP.Model
                         {
                             var budgetList = cachedBudgets.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
 
-                            var client = new BMAService.MainClient();
+                            var client = new MainClient();
 
                             client.SyncBudgetsAsync(budgetList);
 
@@ -520,7 +522,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAService.MainClient();
+                        var client = new MainClient();
 
                         foreach (var item in transactions)
                             item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
@@ -560,7 +562,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAService.MainClient();
+                        var client = new MainClient();
                         client.SaveTransactionImagesAsync(transactionImages);
                         client.SaveTransactionImagesCompleted += (sender, completedEventArgs) =>
                         {
@@ -600,7 +602,7 @@ namespace BMA_WP.Model
                     }
                     else
                     {
-                        var client = new BMAService.MainClient();
+                        var client = new MainClient();
                         client.SaveBudgetsAsync(budgets);
                         client.SaveBudgetsCompleted +=  (sender, completedEventArgs) =>
                         {

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{28DD2826-E0E5-40F9-9DE1-1BD4F81C55D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BMA.Proxy</RootNamespace>
+    <AssemblyName>BMA.Proxy</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\BMAService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\BMAStaticDataService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\BMA.BusinessLogic.Budget.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.Notification.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.RecurrenceRule.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.Transaction.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TransactionImage.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeSavingsDencity.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.User.datasource" />
+    <None Include="Properties\ServiceReferences.Designer.ClientConfig" />
+    <None Include="Service References\BMAService\BMAService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAService\BMAService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAService\BMAService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAService\Main.wsdl" />
+    <None Include="Service References\BMAStaticDataService\BMA.Proxy.BMAStaticDataService.TypeIntervalConfiguration.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BMAStaticDataService\Static.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\BMAService\" />
+    <WCFMetadataStorage Include="Service References\BMAStaticDataService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAService\BMAService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libraries\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
+      <Project>{36525b21-e773-403b-8882-18c4dbf996b4}</Project>
+      <Name>BMA.BusinessLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

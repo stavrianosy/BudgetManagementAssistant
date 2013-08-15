@@ -76,6 +76,7 @@
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeExpense.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeIntervalConfiguration.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeSavingsDencity.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />
