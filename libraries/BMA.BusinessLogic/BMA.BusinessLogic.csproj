@@ -51,6 +51,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="FieldType.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="IDataList.cs" />
     <Compile Include="RecurrenceRule.cs" />
     <Compile Include="RecurrenceRulePart.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="StaticTypeList.cs" />
     <Compile Include="TypeExpense.cs" />
     <Compile Include="TypeInterval.cs" />
+    <Compile Include="TypeIntervalConfiguration.cs" />
     <Compile Include="TypeTransactionReason.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -62,7 +62,10 @@
             <ProgressBar IsIndeterminate="True" />
         </StackPanel>
 
-        <phone:Pivot x:Name="pivotContainer" Grid.Row="2"  SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot x:Name="pivotContainer" 
+                     Grid.Row="2"  
+                     SelectedIndex="{Binding PivotIndex, Mode=TwoWay}"
+                     SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem x:Name="piNotification"
                              Header="{Binding Path=LocalizedResources.Notification, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
@@ -73,7 +76,6 @@
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtName" 
                                          Text="{Binding CurrNotification.Name, Mode=TwoWay}"
-                                         InputScope="Number"
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                                  IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <toolkit:TimePicker x:Name="cmbTime"
@@ -97,7 +99,7 @@
                 <phone:LongListSelector x:Name="NotificationsMultiSelect"
                                         Margin="0,12,0,0"                                        
                                         LayoutMode="List"
-                                        ItemsSource ="{Binding ReportsMenuList}"
+                                        ItemsSource ="{Binding Notifications}"
                                         ItemTemplate="{StaticResource BMA_Notification_ItemTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">

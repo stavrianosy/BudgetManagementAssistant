@@ -420,17 +420,26 @@ namespace BMA_WP.View
                 }
             });
 
-            App.Instance.StaticServiceData.LoadTypeIntervals(error =>
-            {
-                typeInterval = true;
-
-                var generatedTransactions = new TransactionList(App.Instance.StaticServiceData.IntervalList);
-
-                if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+            App.Instance.StaticServiceData.LoadTypeIntervalConfiguration(errorCall =>
                 {
-                    callback();
-                }
-            });
+                    if (errorCall != null)
+                        callback();
+
+                    App.Instance.StaticServiceData.LoadTypeIntervals(error =>
+                    {
+                        typeInterval = true;
+
+                        App.Instance.ServiceData.IntervalTransactionList = new TransactionList(App.Instance.StaticServiceData.IntervalList, App.Instance.StaticServiceData.IntervalConfiguration, App.Instance.User);
+
+                        if (App.Instance.ServiceData.IntervalTransactionList != null && App.Instance.ServiceData.IntervalTransactionList.Count > 0)
+                            NavigationService.Navigate(new Uri("/View/TransactionsInterval.xaml", UriKind.Relative));
+
+                        if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                        {
+                            callback();
+                        }
+                    });
+                });
 
         }
 

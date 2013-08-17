@@ -48,6 +48,7 @@ namespace BMA_WP.View.AdminView
 
             SetupTransactionTypeBinding();
             SetupCategoryBinding();
+            SetupTransactionReasonBinding();
 
         }
 
@@ -72,6 +73,17 @@ namespace BMA_WP.View.AdminView
                                             .FirstOrDefault(x => x.TypeTransactionId == vm.CurrInterval.TransactionType.TypeTransactionId) != null)
                 cmbType.SetBinding(ListPicker.SelectedItemProperty, bindTransType);
 
+        }
+
+        private void SetupTransactionReasonBinding()
+        {
+            Binding bindTransReasonType = new Binding("TransactionReasonType");
+            bindTransReasonType.Mode = BindingMode.TwoWay;
+            bindTransReasonType.Source = vm.CurrInterval == null ? null : vm.CurrInterval;
+            if (vm.CurrInterval.TransactionReasonType != null &&
+                ((List<TypeTransactionReason>)cmbReason.ItemsSource)
+                    .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrInterval.TransactionReasonType.TypeTransactionReasonId) != null)
+                cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
         }
 
         private void ClearBindings()
@@ -238,7 +250,7 @@ namespace BMA_WP.View.AdminView
             if (!ValidateTypeInterval())
                 return;
 
-            var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList.ToList(), vm.TypeTransactionList.ToList(), App.Instance.User);
+            var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList, vm.TransactionReasonTypeList, vm.TypeTransactionList, App.Instance.User);
 
             ResetRules();
 
@@ -379,6 +391,11 @@ namespace BMA_WP.View.AdminView
 
                 vm.DailyEveryDay = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString()).Value;
                 vm.DailyOnlyWeekdays = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyOnlyWeekdays.ToString()).Value;
+                
+                //## Default values
+                vm.DailyEveryDay = "1";
+                vm.DailyOnlyWeekdays = "1";
+                
             }
         }
 
@@ -393,6 +410,10 @@ namespace BMA_WP.View.AdminView
 
                 vm.WeeklyEveryWeek = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyEveryWeek.ToString()).Value;
                 vm.WeeklyDayName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyDayName.ToString()).Value;
+
+                //## Default values
+                vm.WeeklyEveryWeek = "1";
+                vm.WeeklyDayName = "1";
             }
         }
 
@@ -407,6 +428,10 @@ namespace BMA_WP.View.AdminView
 
                 vm.MonthlyDayNumber = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyDayNumber.ToString()).Value;
                 vm.MonthlyEveryMonth = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyEveryMonth.ToString()).Value;
+
+                //## Default values
+                vm.MonthlyDayNumber = "1";
+                vm.MonthlyEveryMonth ="1";
             }
         }
 
@@ -421,6 +446,11 @@ namespace BMA_WP.View.AdminView
                 vm.MonthlyCountOfWeekDay = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfWeekDay.ToString()).Value;
                 vm.MonthlyDayName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyDayName.ToString()).Value;
                 vm.MonthlyCountOfMonth = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfMonth.ToString()).Value;
+
+                //## Default values
+                vm.MonthlyCountOfWeekDay = "1";
+                vm.MonthlyDayName = "1";
+                vm.MonthlyCountOfMonth = "1";
             }
         }
 
@@ -436,6 +466,11 @@ namespace BMA_WP.View.AdminView
                 vm.YearlyEveryYear = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value;
                 vm.YearlyOnDayPos = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyOnDayPos.ToString()).Value;
                 vm.YearlyMonthName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthName.ToString()).Value;
+
+                //## Default values
+                vm.YearlyEveryYear = "1";
+                vm.YearlyOnDayPos="1";
+                vm.YearlyMonthName="1";
             }
         }
 
@@ -452,6 +487,12 @@ namespace BMA_WP.View.AdminView
                 vm.YearlyPositions = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyPositions.ToString()).Value;
                 vm.YearlyDayName = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyDayName.ToString()).Value;
                 vm.YearlyMonthNameSec = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthNameSec.ToString()).Value;
+
+                //## Default values
+                vm.YearlyEveryYear = "1";
+                vm.YearlyPositions = "1";
+                vm.YearlyDayName = "1";
+                vm.YearlyMonthNameSec = "1";
             }
         }
 
@@ -467,6 +508,8 @@ namespace BMA_WP.View.AdminView
 
                 vm.RangeStartDate = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
 
+                //## Default values
+                vm.RangeStartDate = DateTime.Now.ToString("yyyyMMdd");
             }
 
         }
@@ -485,6 +528,9 @@ namespace BMA_WP.View.AdminView
                 vm.RangeStartDate = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
                 vm.RangeTotalOcurrences = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString()).Value;
 
+                //## Default values
+                vm.RangeStartDate = DateTime.Now.ToString("yyyyMMdd");
+                vm.RangeTotalOcurrences = "1";
             }
 
         }
@@ -503,6 +549,27 @@ namespace BMA_WP.View.AdminView
                 vm.RangeStartDate = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
                 vm.RangeEndBy = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeEndBy.ToString()).Value;
 
+                //## Default values
+                vm.RangeStartDate = DateTime.Now.ToString("yyyyMMdd");
+
+                var recEnum = (Const.Rule)Enum.Parse(typeof(Const.Rule), vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule.Name);
+                switch (recEnum)
+                {
+                    case Const.Rule.RuleDailyEveryDays:
+                        vm.RangeEndBy = DateTime.Now.AddDays(7).ToString("yyyyMMdd");
+                        break;
+                    case Const.Rule.RuleWeeklyEveryWeek:
+                        vm.RangeEndBy = DateTime.Now.AddDays(14).ToString("yyyyMMdd");
+                        break;
+                    case Const.Rule.RuleMonthlyPrecise:
+                    case Const.Rule.RuleMonthlyDayNum:
+                        vm.RangeEndBy = DateTime.Now.AddMonths(2).ToString("yyyyMMdd");
+                        break;
+                    case Const.Rule.RuleYearlyOnTheWeekDay:
+                    case Const.Rule.RuleYearlyOnMonth:
+                        vm.RangeEndBy = DateTime.Now.AddYears(2).ToString("yyyyMMdd");
+                        break;
+                }
             }
 
         }

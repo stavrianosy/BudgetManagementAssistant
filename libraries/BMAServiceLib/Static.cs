@@ -255,6 +255,8 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.TypeInterval
+                                 .Include(i => i.TransactionType)
+                                 .Include(i => i.TransactionReasonType)
                                  .Include(i => i.Category)
                                  .Include(i => i.RecurrenceRuleValue.RecurrenceRule)
                                  .Include(i => i.RecurrenceRuleValue.RulePartValueList)
@@ -361,6 +363,10 @@ namespace BMAServiceLib
             }
         }
 
+        public TypeIntervalConfiguration GetTypeIntervalConfiguration(int userId)
+        {
+            return GetDataGeneric<TypeIntervalConfiguration>(userId).FirstOrDefault();
+        }
 
         public List<T> GetDataGeneric<T>(int userId) where T : class
         {
@@ -374,6 +380,12 @@ namespace BMAServiceLib
                                 .Include("CreatedUser")
                                 .Where("IsDeleted == false AND (ModifiedUser.UserId = @0 OR ModifiedUser.UserId = @1)", SYSTEM_USER_ID, userId)
                                  select i).ToList();
+
+                    query.ForEach(x =>
+                        {
+                            var temp = (x as BaseItem);
+                            temp.HasChanges = false;
+                        });
 
                     return query;
                 }
@@ -807,7 +819,7 @@ namespace BMAServiceLib
             }
         }
 
-        public List<Notification> SaveNotifications(List<Notification> notifications)
+        public NotificationList SaveNotifications(NotificationList notifications)
         {
             try
             {
@@ -829,6 +841,11 @@ namespace BMAServiceLib
                         }
                         else //Insert
                         {
+
+                            item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
+                            item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+
                             context.Notification.Add(item);
                             updateFound = true;
                         }
@@ -837,7 +854,10 @@ namespace BMAServiceLib
                     if (updateFound)
                         context.SaveChanges();
                 }
-                return GetAllNotifications(0);
+
+                notifications.PrepareForServiceSerialization();
+
+                return notifications;
             }
             catch (DbEntityValidationException e)
             {
@@ -991,6 +1011,7 @@ namespace BMAServiceLib
                             var original = context.TypeInterval
                                                     .Include(i => i.CreatedUser)
                                                     .Include(i => i.Category)
+                                                    .Include(i => i.TransactionReasonType)
                                                     .Include(i => i.TransactionType)
                                                     .Include(i => i.RecurrenceRuleValue.RecurrenceRule)
                                                     .Include(i => i.RecurrenceRuleValue.RulePartValueList)
@@ -1006,7 +1027,6 @@ namespace BMAServiceLib
                             if (original == null)
                                 throw new Exception("No TypeInterval found to update");
 
-
                             item.HasChanges = false;
 
                             if (original.ModifiedDate < item.ModifiedDate)
@@ -1020,7 +1040,6 @@ namespace BMAServiceLib
                                         context.Entry(original.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
                                         for (int x = original.RecurrenceRuleValue.RulePartValueList.Count - 1; x >= 0; x--)
                                         {
-
                                             var i = original.RecurrenceRuleValue.RulePartValueList[x].RulePartValueId;
                                             var temp = context.RulePartValue.FirstOrDefault(z => z.RulePartValueId == i);
                                             context.RulePartValue.Remove(temp);
@@ -1050,7 +1069,6 @@ namespace BMAServiceLib
                                         context.Entry(original.RecurrenceRangeRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
                                         for (int x = original.RecurrenceRangeRuleValue.RulePartValueList.Count - 1; x >= 0; x--)
                                         {
-
                                             var i = original.RecurrenceRangeRuleValue.RulePartValueList[x].RulePartValueId;
                                             var temp = context.RulePartValue.FirstOrDefault(z => z.RulePartValueId == i);
                                             context.RulePartValue.Remove(temp);
@@ -1071,8 +1089,9 @@ namespace BMAServiceLib
                                     });
                                 }
 
-                                //item.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
-                                //item.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
+                                original.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
+                                original.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
+                                original.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
 
                                 context.Entry(original).CurrentValues.SetValues(item);
 
@@ -1086,24 +1105,25 @@ namespace BMAServiceLib
                             item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
 
                             item.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
+                            item.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
                             item.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
                             
-                            //item.RecurrenceRule = null;
-                            //item.RecurrenceRangeRuleValue = null;
                             item.Category.TypeTransactionReasons = null;
 
-                            //context.Entry(item.RecurrenceRuleValue.RecurrenceRule).State = System.Data.EntityState.Unchanged;
-                            item.RecurrenceRuleValue.RecurrenceRule = context.RecurrenceRule.Where(k => !k.IsDeleted).Single(p => p.RecurrenceRuleId == item.RecurrenceRuleValue.RecurrenceRule.RecurrenceRuleId);
-                            item.RecurrenceRangeRuleValue.RecurrenceRule = context.RecurrenceRule.Where(k => !k.IsDeleted).Single(p => p.RecurrenceRuleId == item.RecurrenceRangeRuleValue.RecurrenceRule.RecurrenceRuleId);
+                            ////// \\\\\
+                            item.RecurrenceRuleValue.SetPrivateRecurrenceRuleForSave(context.RecurrenceRule.FirstOrDefault(x => x.RecurrenceRuleId == item.RecurrenceRuleValue.RecurrenceRule.RecurrenceRuleId));
+                            item.RecurrenceRangeRuleValue.SetPrivateRecurrenceRuleForSave(context.RecurrenceRule.FirstOrDefault(x => x.RecurrenceRuleId == item.RecurrenceRangeRuleValue.RecurrenceRule.RecurrenceRuleId));
 
                             item.RecurrenceRuleValue.RulePartValueList.ForEach(x =>
                             {
-                                x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart = context.RulePart.Include(i => i.FieldType).Include(i => i.RecurrenceRules).FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart.FieldType = context.FieldType.FirstOrDefault(z=>z.FieldTypeId == x.RulePart.FieldType.FieldTypeId);
                             });
 
                             item.RecurrenceRangeRuleValue.RulePartValueList.ForEach(x =>
                             {
-                                x.RulePart = context.RulePart.FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart = context.RulePart.Include(i => i.FieldType).Include(i => i.RecurrenceRules).FirstOrDefault(z => z.RulePartId == x.RulePart.RulePartId);
+                                x.RulePart.FieldType = context.FieldType.FirstOrDefault(z => z.FieldTypeId == x.RulePart.FieldType.FieldTypeId);
                             });
 
                             context.TypeInterval.Add(item);
@@ -1140,6 +1160,47 @@ namespace BMAServiceLib
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public TypeIntervalConfiguration SaveTypeIntervalConfig(TypeIntervalConfiguration typeIntervalConfig)
+        {
+            try
+            {
+                bool updateFound = false;
+                using (EntityContext context = new EntityContext())
+                {
+                    if (typeIntervalConfig.TypeIntervalConfigurationId > 0) //Update
+                    {
+                        typeIntervalConfig.HasChanges = false;
+                        var original = context.TypeIntervalConfiguration.Where(t => t.TypeIntervalConfigurationId == typeIntervalConfig.TypeIntervalConfigurationId && !t.IsDeleted).FirstOrDefault();
+
+                        if (original.ModifiedDate < typeIntervalConfig.ModifiedDate)
+                        {
+                            context.Entry(original).CurrentValues.SetValues(typeIntervalConfig);
+                            updateFound = true;
+                        }
+                    }
+                    else //Insert
+                    {
+                        typeIntervalConfig.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == typeIntervalConfig.CreatedUser.UserId);
+                        typeIntervalConfig.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == typeIntervalConfig.ModifiedUser.UserId);
+
+                        context.TypeIntervalConfiguration.Add(typeIntervalConfig);
+                        updateFound = true;
+                    }
+
+                    if (updateFound)
+                        context.SaveChanges();
+                }
+
+                //typeIntervalConfig.PrepareForServiceSerialization();
+
+                return typeIntervalConfig;
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

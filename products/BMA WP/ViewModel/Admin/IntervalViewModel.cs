@@ -64,6 +64,7 @@ namespace BMA_WP.ViewModel.Admin
         public RecurrenceRuleList RecurrenceRuleList { get { return App.Instance.StaticServiceData.RecurrenceRuleList; } }
         public TypeTransactionList TypeTransactionList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public CategoryList CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
+        public TypeTransactionReasonList TransactionReasonTypeList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
 
 
         public List<BasicItem> Months {get {return MonthList.GetMonths();}}

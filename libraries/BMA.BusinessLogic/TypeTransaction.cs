@@ -68,6 +68,8 @@ namespace BMA.BusinessLogic
         public int TypeTransactionId { get; set; }
 
         public string Name { get; set; }
+
+        public bool IsIncome { get; set; }
         #endregion
 
         #region Constructors

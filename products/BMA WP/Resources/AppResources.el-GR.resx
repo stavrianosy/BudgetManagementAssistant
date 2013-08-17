@@ -396,7 +396,7 @@
     <value>Τελευτεα</value>
   </data>
   <data name="Purpose" xml:space="preserve">
-    <value>Αιτια</value>
+    <value>Αιτια / Ονομα τοποθεσιας</value>
   </data>
   <data name="RangeOfOccurence" xml:space="preserve">
     <value>Ευρος Επαναλυψεων</value>
@@ -456,10 +456,12 @@
     <value>δοκιμαστε ξανα</value>
   </data>
   <data name="FaildValidation" xml:space="preserve">
-    <value>There are another {0} {1} that failed validation.\nUpdate them from the list and save again.</value>
+    <value>There are another {0} {1} that failed validation.
+Update them from the list and save again.</value>
   </data>
   <data name="FaildValidationSingle" xml:space="preserve">
-    <value>There is another {0} that failed validation.\nUpdate it from the list and save again.</value>
+    <value>There is another {0} that failed validation.
+Update it from the list and save again.</value>
   </data>
   <data name="MaxItemsCount" xml:space="preserve">
     <value>Εχετε φθασει στο ανωτατο επιτρεπτο οριο καταχορησεων [{0}]. Παρακαλω διαχραψτε καποιες για να μπορεσετε να προσθεσετε</value>
@@ -472,5 +474,24 @@
   </data>
   <data name="NetworkError" xml:space="preserve">
     <value>Σφαλμα δυκτιου. Παρακαλω ελεξτε τη διαδικτιακη σας συνδεση.</value>
+  </data>
+  <data name="IntervalTransactions" xml:space="preserve">
+    <value>Επαν. Συναλλαγες</value>
+  </data>
+  <data name="IntervalTransactionsNotice" xml:space="preserve">
+    <value>Εδω παρουσιαζονται συναλλαγες που προεκυψαν αυτοματα απο τις επαναλαμβανομενες εντολες.
+Διαλεξτε τις συναλλαγες που εχουν διεκπερεωθει</value>
+  </data>
+  <data name="IntervalTransactionsMsgCommon" xml:space="preserve">
+    <value>Παρακαλω επιλεξτε τις διεκπερεωμενες συναλλαγες προσεκτικα. Οι συγκεκριμενες δεν τθα εμφανιστουν ξανα.</value>
+  </data>
+  <data name="IntervalTransactionsMsgAll" xml:space="preserve">
+    <value>Εχετε επιλεξει ολες τις συναλλαγες.</value>
+  </data>
+  <data name="IntervalTransactionsMsgNone" xml:space="preserve">
+    <value>Δεν εχετε επιλεξει καμια συναλλαγη.</value>
+  </data>
+  <data name="IntervalTransactionsMsgPartial" xml:space="preserve">
+    <value>Εχετε επιλεξει {0} απο τις {1} συναλλαγες.</value>
   </data>
 </root>

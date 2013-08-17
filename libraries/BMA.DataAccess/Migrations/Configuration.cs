@@ -29,6 +29,8 @@ namespace BMA.DataAccess.Migrations
                 #region Initial DB Setup
                 ////Must add the first user in a more T-Sql way since there are fields in User table that references its self.
 
+                return;
+
                 //## User ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON if not exists(select * from [User] where Username = {1}) BEGIN " +
                     "INSERT INTO [User] (UserId, UserName, Password, Email, Birthdate, FirstName, LastName, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
@@ -61,14 +63,14 @@ namespace BMA.DataAccess.Migrations
 
                 //## TypeTransaction ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransaction] ON if not exists(select * from [TypeTransaction] where Name = {1}) BEGIN " +
-                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
-                                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
-                                    1, "Income");
+                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, IsIncome, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
+                                    1, "Income", true);
 
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeTransaction] ON if not exists(select * from [TypeTransaction] where Name = {1}) BEGIN " +
-                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
-                                    "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
-                                    2, "Expense");
+                                    "INSERT INTO [TypeTransaction] (TypeTransactionId, Name, IsIncome, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
+                                    "({0}, {1}, {2}, GETDATE(), GETDATE(), 2, 2, 0) END ", 
+                                    2, "Expense", false);
 
                 //## TypeFrequency ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [TypeFrequency] ON if not exists(select * from [TypeFrequency] where Name = {1}) BEGIN " +
@@ -229,6 +231,8 @@ namespace BMA.DataAccess.Migrations
                                     "({0}, {1}, (SELECT FieldTypeId FROM FieldType WHERE Type = {2})) END ",
                                     19, Const.RuleField.YearlyMonthNameSec.ToString(), Const.FieldType.String.ToString());
 
+
+                //## RecurrenceRule ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [RecurrenceRule] ON if not exists(select * from [RecurrenceRule] where Name = {1}) BEGIN " +
                                     "INSERT INTO [RecurrenceRule] (RecurrenceRuleId, Name, ModifiedDate, CreatedDate, ModifiedUser_UserId, CreatedUser_UserId, IsDeleted) VALUES " +
                                     "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) END ",
@@ -274,10 +278,11 @@ namespace BMA.DataAccess.Migrations
                                     "({0}, {1}, GETDATE(), GETDATE(), 2, 2, 0) END ",
                                     9, Const.Rule.RuleYearlyOnTheWeekDay.ToString());
 
+
+                //## RecurrenceRuleRulePart ##//
                 context.Database.ExecuteSqlCommand("INSERT INTO [RecurrenceRuleRulePart] (RecurrenceRule_RecurrenceRuleId, RulePart_RulePartId) VALUES " +
                                     "((SELECT RecurrenceRuleId FROM RecurrenceRule WHERE Name = {0}), (SELECT RulePartId FROM RulePart WHERE FieldName = {1})) ",
                                     Const.Rule.RuleRangeNoEndDate.ToString(), Const.RuleField.RangeStartDate.ToString());
-
 
                 context.Database.ExecuteSqlCommand("INSERT INTO [RecurrenceRuleRulePart] (RecurrenceRule_RecurrenceRuleId, RulePart_RulePartId) VALUES " +
                                     "((SELECT RecurrenceRuleId FROM RecurrenceRule WHERE Name = {0}), (SELECT RulePartId FROM RulePart WHERE FieldName = {1})) ",
@@ -358,7 +363,7 @@ namespace BMA.DataAccess.Migrations
                 context.Database.ExecuteSqlCommand("INSERT INTO [RecurrenceRuleRulePart] (RecurrenceRule_RecurrenceRuleId, RulePart_RulePartId) VALUES " +
                                     "((SELECT RecurrenceRuleId FROM RecurrenceRule WHERE Name = {0}), (SELECT RulePartId FROM RulePart WHERE FieldName = {1})) ",
                                     Const.Rule.RuleYearlyOnTheWeekDay.ToString(), Const.RuleField.YearlyMonthNameSec.ToString());
-
+                
 
                 
                 #endregion

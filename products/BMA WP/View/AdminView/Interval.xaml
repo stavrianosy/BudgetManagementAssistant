@@ -87,6 +87,13 @@
                                           ItemTemplate="{StaticResource PickerItemTemplate}"
                                           ExpansionMode="FullScreenOnly"
                                           IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                        <toolkit:ListPicker x:Name="cmbReason" 
+                                          Header="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                          ItemsSource="{Binding ElementName=cmbCategory, Path=SelectedItem, Converter={StaticResource converters}, ConverterParameter=filterTransactioReasonbyCategory}"
+                                          FullModeItemTemplate="{StaticResource PickerFullModeReasonTemplate}"
+                                          ItemTemplate="{StaticResource PickerItemTemplate}"
+                                          ExpansionMode="FullScreenOnly"
+                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}" 
                                    Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
                         <TextBox x:Name="txtAmount" Margin="0 -6 0 0"

@@ -63,6 +63,9 @@ namespace BMAServiceLib
         [OperationContract]
         List<Notification> GetUpcomingNotifications(DateTime clientTime, int userId);
 
+        [OperationContract]
+        TypeIntervalConfiguration GetTypeIntervalConfiguration(int userId);
+
         #endregion
 
         #region Update
@@ -97,7 +100,7 @@ namespace BMAServiceLib
         TypeTransactionReasonList SaveTypeTransactionReasons(TypeTransactionReasonList typeTransactionReason);
 
         [OperationContract]
-        List<Notification> SaveNotifications(List<Notification> notifications);
+        NotificationList SaveNotifications(NotificationList notifications);
 
         [OperationContract]
         List<TypeTransaction> SaveTypeTransactions(List<TypeTransaction> typeTransactions);
@@ -107,6 +110,9 @@ namespace BMAServiceLib
 
         [OperationContract]
         TypeIntervalList SaveTypeIntervals(TypeIntervalList interval);
+
+        [OperationContract]
+        TypeIntervalConfiguration SaveTypeIntervalConfig(TypeIntervalConfiguration typeIntervalConfig);
 
         [OperationContract]
         List<BudgetThreshold> SaveBudgetThresholds(List<BudgetThreshold> budgetThreshold);

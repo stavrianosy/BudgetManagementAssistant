@@ -43,6 +43,7 @@ namespace BMA_WP.ViewModel
             SimpleIoc.Default.Register<BudgetViewModel>();
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<TransactionsIntervalViewModel>();
 
             #region Admin
             //## Admin ##//
@@ -97,6 +98,14 @@ namespace BMA_WP.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<LoginViewModel>();
+            }
+        }
+        
+        public TransactionsIntervalViewModel TransactionsIntervalViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<TransactionsIntervalViewModel>();
             }
         }
 
@@ -192,6 +201,7 @@ namespace BMA_WP.ViewModel
                 return ServiceLocator.Current.GetInstance<TransactionPlaceViewModel>();
             }
         }
+
         #endregion
     }
 }

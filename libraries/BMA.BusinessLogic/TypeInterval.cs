@@ -45,8 +45,8 @@ namespace BMA.BusinessLogic
         string purpose;
         TypeTransaction transactionType;
         Category category;
+        TypeTransactionReason transactionReasonType;
         Double amount;
-        bool isIncome;
         string comments;
         RecurrenceRulePart recurrenceRuleValue;
         RecurrenceRulePart recurrenceRangeRuleValue;
@@ -63,9 +63,9 @@ namespace BMA.BusinessLogic
 
         public Category Category { get { return category; } set { category = value; OnPropertyChanged("Category"); } }
 
-        public double Amount { get { return amount; } set { amount = value; OnPropertyChanged("Amount"); } }
+        public TypeTransactionReason TransactionReasonType { get { return transactionReasonType; } set { transactionReasonType = value; OnPropertyChanged("TransactionReasonType"); } }
 
-        public bool IsIncome { get { return isIncome; } set { isIncome = value; OnPropertyChanged("IsIncome"); } }
+        public double Amount { get { return amount; } set { amount = value; OnPropertyChanged("Amount"); } }
 
         public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); } }
 
@@ -77,12 +77,12 @@ namespace BMA.BusinessLogic
         #region Constructors
         //parameterless ctor in order to be used in generic as T
         public TypeInterval()
-            : this(null,null,null)
+            : this(null,null,null, null)
         {}
         public TypeInterval(User user)
-            : this(null, null, user)
+            : this(null, null, null, user)
         { }
-        public TypeInterval(List<Category> categoryList, List<TypeTransaction> typeTransactionList, User user)
+        public TypeInterval(CategoryList categoryList, TypeTransactionReasonList transactionReasonTypeList, TypeTransactionList typeTransactionList, User user)
             : base(user)
         {
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **// 
@@ -90,6 +90,11 @@ namespace BMA.BusinessLogic
                 Category = new Category(user);
             else
                 Category = categoryList.Single(t => t.Name == "Other");
+
+            if (transactionReasonTypeList == null)
+                transactionReasonType = new TypeTransactionReason(user);
+            else
+                transactionReasonType = transactionReasonTypeList.Single(t => t.Name == "Other");
 
             if (typeTransactionList == null)
                 TransactionType = new TypeTransaction(user);

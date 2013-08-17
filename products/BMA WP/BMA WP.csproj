@@ -15,7 +15,8 @@
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>el-GR</SupportedCultures>
+    <SupportedCultures>
+    </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>BMA_WP_$(Configuration)_$(Platform).xap</XapFilename>
@@ -103,11 +104,21 @@
     <Compile Include="Model\InitialData.cs" />
     <Compile Include="Model\IntervalRuleConverter.cs" />
     <Compile Include="Model\RuleSupportItems\BasicItem.cs" />
+    <Compile Include="Model\RuleSupportItems\Month.cs" />
     <Compile Include="Model\RuleSupportItems\Position.cs" />
     <Compile Include="Model\RuleSupportItems\Position12.cs" />
     <Compile Include="Model\RuleSupportItems\Position4.cs" />
-    <Compile Include="Model\RuleSupportItems\Month.cs" />
     <Compile Include="Model\RuleSupportItems\WeekDay.cs" />
+    <Compile Include="Resources\AppResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\AppResources.el-GR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.el-GR.resx</DependentUpon>
+    </Compile>
     <Compile Include="Service References\BMAService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,6 +129,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\TransactionsIntervalViewModel.cs" />
+    <Compile Include="View\TransactionsInterval.xaml.cs">
+      <DependentUpon>TransactionsInterval.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -126,11 +141,6 @@
     <Compile Include="Model\StatusConverter.cs" />
     <Compile Include="Model\ServiceData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\AppResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
@@ -209,6 +219,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Common\BMAStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TransactionsInterval.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -298,29 +312,19 @@
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Budget.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.Category1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Notification.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.Notification1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.RecurrenceRule.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.StartupInfo.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.StaticTypeList1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Transaction.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TransactionImage.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeExpense.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeFrequency1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeInterval1.datasource" />
+    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeIntervalConfiguration.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeSavingsDencity.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransaction1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.TypeTransactionReason1.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.User.datasource" />
-    <None Include="Properties\DataSources\BMA.BusinessLogic.User1.datasource" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
@@ -402,6 +406,8 @@
     <Content Include="Assets\icons\Light\upload.png" />
     <Content Include="Assets\income.png" />
     <Content Include="Assets\interval.png" />
+    <Content Include="Assets\interval_expense.png" />
+    <Content Include="Assets\interval_income.png" />
     <Content Include="Assets\login_white.png" />
     <Content Include="Assets\Notification.png" />
     <Content Include="Assets\outcome.png" />
@@ -422,13 +428,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAService\Main.wsdl" />
-    <None Include="Service References\BMAService\BMAService.disco" />
-    <None Include="Service References\BMAService\configuration91.svcinfo" />
-    <None Include="Service References\BMAService\configuration.svcinfo" />
-    <None Include="Service References\BMAService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
     <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
     <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
@@ -471,13 +470,23 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README_FIRST.txt" />
+    <None Include="Service References\BMAService\BMAService.disco" />
+    <None Include="Service References\BMAService\configuration91.svcinfo" />
+    <None Include="Service References\BMAService\configuration.svcinfo" />
+    <None Include="Service References\BMAService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AppResources.el-GR.resx" />
+    <EmbeddedResource Include="Resources\AppResources.el-GR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResources.el-GR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
@@ -485,16 +494,18 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.Extras.WP8">
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\GalaSoft.MvvmLight.Extras.WP8.dll</HintPath>
+      <HintPath>..\..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\GalaSoft.MvvmLight.Extras.WP8.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.WP8">
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\GalaSoft.MvvmLight.WP8.dll</HintPath>
+      <HintPath>..\..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\GalaSoft.MvvmLight.WP8.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
-      <HintPath>..\packages\WPtoolkit.4.2012.10.30\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+      <HintPath>..\..\packages\WPtoolkit.4.2012.10.30\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\WindowsPhone8\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -506,17 +517,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\BMAService\" />
-    <WCFMetadataStorage Include="Service References\BMAStaticDataService\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libraries\BMA.BusinessLogic\BMA.BusinessLogic.csproj">
@@ -531,6 +535,13 @@
     <SDKReference Include="MSAdvertising, Version=6.1">
       <Name>Microsoft Advertising SDK for Windows Phone 8 %28XAML%29</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\BMAService\" />
+    <WCFMetadataStorage Include="Service References\BMAStaticDataService\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

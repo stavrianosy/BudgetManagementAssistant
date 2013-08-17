@@ -156,8 +156,5 @@
                 </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
-        <ad:AdControl Grid.Row="3" ErrorOccurred="OnAdError" Width="480" Height="80"
-                      HorizontalAlignment="Center" VerticalAlignment="Bottom" x:Name="adName"
-                      ApplicationId="72d54647-b635-4129-bdc4-70078814656b" AdUnitId="138584"/>
     </Grid>
 </phone:PhoneApplicationPage>

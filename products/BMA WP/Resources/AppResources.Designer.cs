@@ -421,7 +421,8 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are another {0} {1} that failed validation.\nUpdate them from the list and save again..
+        ///   Looks up a localized string similar to There are another {0} {1} that failed validation.
+        ///Update them from the list and save again..
         /// </summary>
         public static string FaildValidation {
             get {
@@ -430,7 +431,8 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is another {0} that failed validation.\nUpdate it from the list and save again..
+        ///   Looks up a localized string similar to There is another {0} that failed validation.
+        ///Update it from the list and save again..
         /// </summary>
         public static string FaildValidationSingle {
             get {
@@ -480,6 +482,61 @@ namespace BMA_WP.Resources {
         public static string FromTime {
             get {
                 return ResourceManager.GetString("FromTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interv. Transactions.
+        /// </summary>
+        public static string IntervalTransactions {
+            get {
+                return ResourceManager.GetString("IntervalTransactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have selected all transactions..
+        /// </summary>
+        public static string IntervalTransactionsMsgAll {
+            get {
+                return ResourceManager.GetString("IntervalTransactionsMsgAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose the executed transactions carefully. The specific ones will not appear again..
+        /// </summary>
+        public static string IntervalTransactionsMsgCommon {
+            get {
+                return ResourceManager.GetString("IntervalTransactionsMsgCommon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have not selected any transactions..
+        /// </summary>
+        public static string IntervalTransactionsMsgNone {
+            get {
+                return ResourceManager.GetString("IntervalTransactionsMsgNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have selected {0} out of {1} transactions..
+        /// </summary>
+        public static string IntervalTransactionsMsgPartial {
+            get {
+                return ResourceManager.GetString("IntervalTransactionsMsgPartial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of all auto generated transactions as per interval commands.
+        ///Choose the transactions that are completed.
+        /// </summary>
+        public static string IntervalTransactionsNotice {
+            get {
+                return ResourceManager.GetString("IntervalTransactionsNotice", resourceCulture);
             }
         }
         
@@ -957,6 +1014,15 @@ namespace BMA_WP.Resources {
         public static string Start {
             get {
                 return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

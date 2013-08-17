@@ -25,11 +25,11 @@ namespace BMA.BusinessLogic
                 if (value == null)
                 {
                     recurrenceRule = value;
-                    RulePartValueList = new List<RulePartValue>();
+                    //RulePartValueList = new List<RulePartValue>();
                 }
                 else
                 {
-                    if (recurrenceRule == null || value.Name != recurrenceRule.Name)
+                    if (RecurrenceRule == null || value.Name != RecurrenceRule.Name)
                     {
                         recurrenceRule = value;
                         RulePartValueList = new List<RulePartValue>();
@@ -47,6 +47,16 @@ namespace BMA.BusinessLogic
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Crazy hack because i had issue with save and the rules applied on setter of RecurrenceRule
+        /// Use this method only for saving.
+        /// </summary>
+        /// <param name="recRule"></param>
+        public void SetPrivateRecurrenceRuleForSave(RecurrenceRule recRule)
+        {
+            recurrenceRule = recRule;
         }
     }
 }

@@ -161,7 +161,7 @@ namespace BMAServiceLib
 
         public TransactionList GetLatestTransactions(int userId)
         {
-            return GetLatestTransactionsLimit(50, userId);
+            return GetLatestTransactionsLimit(100, userId);
         }
 
         public TransactionList GetLatestTransactionsOnDate(int userId)
@@ -416,7 +416,9 @@ namespace BMAServiceLib
                         {
                             item.Category = context.Category.Where(k => !k.IsDeleted).Single(p => p.CategoryId == item.Category.CategoryId);
                             item.TransactionType = context.TypeTransaction.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionId == item.TransactionType.TypeTransactionId);
-                            item.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
+
+                            if (item.TransactionReasonType != null)
+                                item.TransactionReasonType = context.TransactionReason.Where(k => !k.IsDeleted).Single(p => p.TypeTransactionReasonId == item.TransactionReasonType.TypeTransactionReasonId);
 
                             item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                             item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);

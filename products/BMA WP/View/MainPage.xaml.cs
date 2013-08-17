@@ -139,11 +139,5 @@ namespace BMA_WP.View
         {
             CheckOnlineStatus();
         }
-
-        private void OnAdError(object sender, Microsoft.Advertising.AdErrorEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("AdControl error (" + ((AdControl)sender).Name + "): " + e.Error + " ErrorCode: " + e.ErrorCode.ToString());
-        }
-
     }
 }

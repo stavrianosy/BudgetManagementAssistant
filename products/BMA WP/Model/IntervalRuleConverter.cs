@@ -1,4 +1,5 @@
-﻿using BMA_WP.Model.RuleSupportItems;
+﻿using BMA.BusinessLogic;
+using BMA_WP.Model.RuleSupportItems;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,41 +23,48 @@ namespace BMA_WP.Model
                     case "ruledateint":
                         string dateInt = value as string;
                         DateTime startDate = DateTime.Now;
+                        
                         if (dateInt != null && dateInt.Length > 0)
-                        {
-                            string yearString = dateInt.Substring(0, 4);
-                            string monthString = dateInt.Substring(4, 2);
-                            string dayString = dateInt.Substring(6, 2);
-                            startDate = new DateTime(int.Parse(yearString), int.Parse(monthString), int.Parse(dayString));
-                        }
-                        return startDate;
+                            startDate = Helper.ConvertStringToDate(dateInt);
+                        
+                            return startDate;
                     case "weekdays":
                         BasicItem weekDay = null;
-                        if (value != null)
+                        if (value == "")
+                            weekDay = WeekDayList.GetWeekDays()[0];
+                        else if (value != null)
                             weekDay = WeekDayList.GetWeekDays().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return weekDay;
                     case "months":
                         BasicItem month = null;
-                        if (value != null)
+                        if (value == "")
+                            month = MonthList.GetMonths()[0];
+                        else if (value != null)
                             month = MonthList.GetMonths().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return month;
                     case "positionall":
                         BasicItem posAll = null;
-                        if (value != null)
+                        if (value == "")
+                            posAll = PositionList.GetPositions()[0];
+                        else if (value != null)
                             posAll = PositionList.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return posAll;
                     case "position4":
                         BasicItem pos4 = null;
-                        if (value != null)
+                        if (value == "")
+                            pos4 = Position4List.GetPositions()[0];
+                        else if (value != null)
                             pos4 = Position4List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return pos4;
                     case "position12":
                         BasicItem pos12 = null;
-                        if (value != null)
+                        if (value == "")
+                            pos12 = Position12List.GetPositions()[0];
+                        else if (value != null)
                             pos12 = Position12List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return pos12;

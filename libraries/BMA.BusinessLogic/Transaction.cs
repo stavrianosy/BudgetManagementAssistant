@@ -16,20 +16,272 @@ namespace BMA.BusinessLogic
             //CollectionChanged += TransactionList_CollectionChanged;
         }
 
-        public TransactionList(TypeIntervalList typeIntervalList)
+        public TransactionList(TypeIntervalList typeIntervalList, TypeIntervalConfiguration typeIntervalConfiguration, User user)
         {
             foreach (var interval in typeIntervalList)
             {
-                //## RecurrenceRule
-                foreach (var item in interval.RecurrenceRuleValue.RulePartValueList)
-                {
-                }
+                //## setup all range elements
+                var intervalStartDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
+                var intervalStartDate = Helper.ConvertStringToDate(intervalStartDateStr);
 
-                //## RecurrenceRuleRange
-                foreach (var item in interval.RecurrenceRangeRuleValue.RulePartValueList)
+                var intervalEndDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeEndBy.ToString());
+                var intervalEndDate = intervalEndDateStr != null ? Helper.ConvertStringToDate(intervalEndDateStr.Value) : DateTime.Now.AddYears(1);
+
+                var intervalTotalOccStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString());
+                var intervalTotalOcc = intervalTotalOccStr != null ? int.Parse(intervalTotalOccStr.Value) : -1;
+
+                var lastGeneratedDate = intervalStartDate;
+                if (typeIntervalConfiguration != null)
+                    lastGeneratedDate = typeIntervalConfiguration.GeneratedDate;
+
+                var recRule = (Const.Rule)Enum.Parse(typeof(Const.Rule), interval.RecurrenceRuleValue.RecurrenceRule.Name);
+
+                //## setup recurrence transactions
+                if (intervalStartDate <= DateTime.Now)
                 {
+                    switch (recRule)
+                    {
+                        case Const.Rule.RuleDailyEveryDays:
+                            ApplyRuleDailyEveryDays(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                            break;
+                        case Const.Rule.RuleWeeklyEveryWeek:
+                            ApplyRuleWeeklyEveryWeek(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                            break;
+                        case Const.Rule.RuleMonthlyDayNum:
+                            ApplyRuleMonthlyDayNum(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                            break;
+                        case Const.Rule.RuleMonthlyPrecise:
+                            ApplyRuleMonthlyPrecise(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                            break;
+                        case Const.Rule.RuleYearlyOnMonth:
+                            ApplyRuleYearlyOnMonth(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                            break;
+                        case Const.Rule.RuleYearlyOnTheWeekDay:
+                            ApplyRuleYearlyOnTheWeekDay(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+        }
+
+        private void ApplyRuleYearlyOnTheWeekDay(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            int calcTotalOccurences = 0;
+            int calcTotalOccurencesSinceBeginning = 0;
+
+            var dayPosOfMonthStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyPositions.ToString());
+            var dayPosOfMonth = dayPosOfMonthStr != null ? int.Parse(dayPosOfMonthStr.Value) : 1;
+
+            var dayOfTheWeekStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyDayName.ToString());
+            var dayOfTheWeek = dayOfTheWeekStr != null ? int.Parse(dayOfTheWeekStr.Value) : 1;
+
+            var monthOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthNameSec.ToString());
+            var monthOfYear = monthOfYearStr != null ? int.Parse(monthOfYearStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value);
+
+            var startDay = Helper.GetDayOcurrenceOfMonth(ruleStartDate, dayOfTheWeek, dayPosOfMonth, monthOfYear);
+
+            if (ruleEndDate > DateTime.Now)
+                ruleEndDate = DateTime.Now;
+
+            ////### TESING ADJ ###///
+            //ruleEndDate = ruleEndDate.AddYears(13);
+            //lastGenerateDate = startDay;
+            //////////////////////
+
+            calcTotalOccurencesSinceBeginning = Helper.YearRange(startDay, ruleEndDate) / frequency;
+            calcTotalOccurences = Helper.YearRange(lastGenerateDate, ruleEndDate) / frequency;
+
+            calcTotalOccurences = Helper.CalculateTotalOcurrences(calcTotalOccurencesSinceBeginning, calcTotalOccurences, ruleTotalOccurences);
+
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.GetDayOcurrenceOfMonth(startDay.AddYears(i * frequency), dayOfTheWeek, dayPosOfMonth, monthOfYear));
+
+            GenerateIntervalTransactions(interval, totalOccurenceDates, user);
+
+        }
+
+        private void ApplyRuleYearlyOnMonth(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            int calcTotalOccurences = 0;
+            int calcTotalOccurencesSinceBeginning = 0;
+
+            var dayPosOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyOnDayPos.ToString());
+            var dayPosOfYear = dayPosOfYearStr != null ? int.Parse(dayPosOfYearStr.Value) : 1;
+
+            var monthOfYearStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyMonthName.ToString());
+            var monthOfYear = monthOfYearStr != null ? int.Parse(monthOfYearStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString()).Value);
+
+            var startDay = Helper.AdjustYearStatDay(ruleStartDate, monthOfYear, dayPosOfYear);
+
+            if (ruleEndDate > DateTime.Now)
+                ruleEndDate = DateTime.Now;
+
+            ////### TESING ADJ ###///
+            //ruleEndDate = ruleEndDate.AddYears(13);
+            //lastGenerateDate = startDay;
+            //////////////////////
+
+            calcTotalOccurencesSinceBeginning = Helper.YearRange(startDay, ruleEndDate) / frequency;
+            calcTotalOccurences = Helper.YearRange(lastGenerateDate, ruleEndDate) / frequency;
+
+            calcTotalOccurences = Helper.CalculateTotalOcurrences(calcTotalOccurencesSinceBeginning, calcTotalOccurences, ruleTotalOccurences);
+
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.AdjustYearStatDay(startDay.AddYears(i * frequency), monthOfYear, dayPosOfYear));
+
+            GenerateIntervalTransactions(interval, totalOccurenceDates, user);
+        }
+
+        private void ApplyRuleMonthlyPrecise(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            int calcTotalOccurences = 0;
+            int calcTotalOccurencesSinceBeginning = 0;
+
+            var countOfWeekDayStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfWeekDay.ToString());
+            var countOfWeekDay = countOfWeekDayStr != null ? int.Parse(countOfWeekDayStr.Value) : 1;
+
+            var dayOfTheWeekStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyDayName.ToString());
+            var dayOfTheWeek = dayOfTheWeekStr != null ? int.Parse(dayOfTheWeekStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfMonth.ToString()).Value);
+
+            var startDay = Helper.GetDayOcurrenceOfMonth(ruleStartDate, dayOfTheWeek, countOfWeekDay);
+
+            if (ruleEndDate > DateTime.Now)
+                ruleEndDate = DateTime.Now;
+
+            ////### TESING ADJ ###///
+            //ruleEndDate = ruleEndDate.AddYears(3);
+            //lastGenerateDate = startDay;
+            //////////////////////
+
+            calcTotalOccurencesSinceBeginning = Helper.MonthRange(startDay, ruleEndDate) / frequency;
+            calcTotalOccurences = Helper.MonthRange(lastGenerateDate, ruleEndDate) / frequency;
+
+            calcTotalOccurences = Helper.CalculateTotalOcurrences(calcTotalOccurencesSinceBeginning, calcTotalOccurences, ruleTotalOccurences);
+
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.GetDayOcurrenceOfMonth(startDay.AddMonths(i * frequency), dayOfTheWeek, countOfWeekDay));
+
+            GenerateIntervalTransactions(interval, totalOccurenceDates, user);
+        }
+
+        private void ApplyRuleMonthlyDayNum(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            int calcTotalOccurencesSinceBeginning = 0;
+            int calcTotalOccurences = 0;
+
+            var dayNumStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyDayNumber.ToString());
+            var dayNum = dayNumStr != null ? int.Parse(dayNumStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyEveryMonth.ToString()).Value);
+
+            var startDay = Helper.AdjustDayOcurrenceMonthly(ruleStartDate, dayNum);
+
+            if (ruleEndDate > DateTime.Now)
+                ruleEndDate = DateTime.Now;
+
+            //### TESING ADJ ###///
+            //ruleEndDate = ruleEndDate.AddYears(3);
+            //lastGenerateDate = startDay;
+            ////////////////////
+
+            calcTotalOccurencesSinceBeginning = Helper.MonthRange(startDay, ruleEndDate) / frequency;
+            calcTotalOccurences = Helper.MonthRange(lastGenerateDate, ruleEndDate) / frequency;
+
+            calcTotalOccurences = Helper.CalculateTotalOcurrences(calcTotalOccurencesSinceBeginning, calcTotalOccurences, ruleTotalOccurences);
+
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.AdjustDayOcurrenceMonthly(startDay.AddMonths(i * frequency),dayNum));
+
+            GenerateIntervalTransactions(interval, totalOccurenceDates, user);
+        }
+
+        private void ApplyRuleWeeklyEveryWeek(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            int calcPastOccurences = 0;
+            int calcTotalOccurencesSinceBeginning = 0;
+            int newTotalOccurences = 0;
+            int calcTotalOccurences = 0;
+
+            var dayOfTheWeekStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyDayName.ToString());
+            var dayOfTheWeek = dayOfTheWeekStr != null ? int.Parse(dayOfTheWeekStr.Value) : 1;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyEveryWeek.ToString()).Value);
+
+            var startDay = Helper.AdjustDayOcurrenceWeekly(ruleStartDate, dayOfTheWeek);
+
+            if (ruleEndDate > DateTime.Now)
+                ruleEndDate = DateTime.Now;
+
+            ////### TESING ADJ ###///
+            //ruleEndDate = ruleEndDate.AddMonths(4);
+            //lastGenerateDate = startDay;
+            //////////////////////
+
+            calcTotalOccurencesSinceBeginning = Helper.WeekRange(startDay, ruleEndDate) / frequency;
+            calcTotalOccurences = Helper.WeekRange(lastGenerateDate, ruleEndDate) / frequency;
+
+            calcPastOccurences = calcTotalOccurencesSinceBeginning - calcTotalOccurences;
+            newTotalOccurences = ruleTotalOccurences - calcPastOccurences;
+
+            if (ruleTotalOccurences > 0 && newTotalOccurences < calcTotalOccurences)
+                calcTotalOccurences = newTotalOccurences;
+
+            //No need to call the adjustment method, since it will always be the same day of the week
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(startDay.AddDays(i * frequency * 7));
+
+            GenerateIntervalTransactions(interval, totalOccurenceDates, user);
+        }
+
+        private void ApplyRuleDailyEveryDays(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
+        {
+            var totalOccurenceDates = new List<DateTime>();
+            int calcTotalOccurences = 0;
+            int calcPastOccurences = 0;
+            int calcTotalOccurencesSinceBeginning = 0;
+            int newTotalOccurences = 0;
+
+            var onlyWeekDaysStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyOnlyWeekdays.ToString());
+            var onlyWeekDays = onlyWeekDaysStr != null ? bool.Parse(onlyWeekDaysStr.Value) : false;
+
+            var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString()).Value);
+
+            var startDay = Helper.AdjustDayOcurrenceDaily(ruleStartDate, onlyWeekDays);
+
+            if (ruleEndDate > DateTime.Now)
+                ruleEndDate = DateTime.Now;
+
+            ////### TESING ADJ ###///
+            //ruleEndDate = ruleEndDate.AddDays(28);
+            //lastGenerateDate = startDay;
+            //////////////////////
+
+            calcTotalOccurencesSinceBeginning = Helper.DayRange(startDay, ruleEndDate) / frequency;
+            calcTotalOccurences = Helper.DayRange(lastGenerateDate, ruleEndDate) / frequency;
+
+            calcPastOccurences = calcTotalOccurencesSinceBeginning - calcTotalOccurences;
+            newTotalOccurences = ruleTotalOccurences - calcPastOccurences;
+
+            if (ruleTotalOccurences > 0 && newTotalOccurences < calcTotalOccurences)
+                calcTotalOccurences = newTotalOccurences;
+
+            for (int i = 0; i < calcTotalOccurences; i++)
+                totalOccurenceDates.Add(Helper.AdjustDayOcurrenceDaily(startDay.AddDays(i * frequency), onlyWeekDays));
+
+            GenerateIntervalTransactions(interval, totalOccurenceDates, user);
         }
 
         protected override void InsertItem(int index, Transaction item)
@@ -141,8 +393,13 @@ namespace BMA.BusinessLogic
             this.AcceptChanges();
         }
 
-        public static void GenerateIntervalTransactions(TypeIntervalList typeIntervalList, DateTime overwriteStartDate)
-        { 
+        public void GenerateIntervalTransactions(TypeInterval typeInterval, List<DateTime> occurenceDates, User user)
+        {
+            foreach (var item in occurenceDates)
+            {
+                var trans = new Transaction(typeInterval.Amount, typeInterval.Category, typeInterval.TransactionReasonType, typeInterval.Comments, typeInterval.Purpose, item, typeInterval.TransactionType, user);
+                this.Add(trans);
+            }
         }
     }
 
@@ -307,6 +564,19 @@ namespace BMA.BusinessLogic
             }
 
             TransactionImages = new TransactionImageList();
+        }
+
+        public Transaction(double amount, Category category, TypeTransactionReason transactionReasonType, string comments, string nameOfPlace, DateTime transactionDate, TypeTransaction transactionType, User user)
+            : base(user)
+        {
+            Amount = amount;
+            Category = category;
+            TransactionReasonType = transactionReasonType;
+            Comments = comments;
+            HasChanges = false;
+            NameOfPlace = nameOfPlace;
+            TransactionDate = transactionDate;
+            TransactionType = transactionType;
         }
         #endregion
 

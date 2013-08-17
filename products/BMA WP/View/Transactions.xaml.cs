@@ -234,6 +234,7 @@ namespace BMA_WP.View
             ApplicationBar.MenuItems.Add(budget);
             budget.Click += new EventHandler(Budget_Click);
         }
+        
         void MainMenu_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));

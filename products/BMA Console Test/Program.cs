@@ -21,10 +21,11 @@ namespace ConsoleApplication1
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
-            var usr = new User() { UserId = 11, UserName = "qqqq", Password = "wwww" };
+            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
 
 
-            var rr = b.GetAllRecurrenceRules();
+            //var tic = b.GetAllTypeIntervals(usr.UserId);
+            //SaveNotifications(b, usr);
             //var newuser = CreateUser(b);
             //var db = b.GetDBStatus();
             //SyncTransactions(a, usr);
@@ -35,13 +36,26 @@ namespace ConsoleApplication1
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
-            //SaveTypeInterval(a, b, usr);
+            UpdateTypeInterval(a, b, usr);
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);
             //UpdateBudget(a, usr);
             //var dd = a.GetLatestTransactionDate(usr.UserId);
+        }
+
+        private static void SaveNotifications(ServiceReference2.StaticClient b, User usr)
+        {
+            var notes = b.GetAllNotifications(usr.UserId);
+
+            var newNote1 = notes[0];
+
+            newNote1.NotificationId= -1;
+            newNote1.Name = "eee";
+            newNote1.ModifiedDate = DateTime.Now;
+
+            notes = b.SaveNotifications(new List<Notification>{newNote1});
         }
 
         private static User CreateUser(ServiceReference2.StaticClient b)
@@ -176,14 +190,16 @@ namespace ConsoleApplication1
             //var c = b.SaveCategories(st.Categories);
         }
 
-        private static void SaveTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)
+        private static void UpdateTypeInterval(ServiceReference1.MainClient a, ServiceReference2.StaticClient b, User usr)
         {
             var cat = b.GetAllCategories(usr.UserId);
             var typeIntervals = b.GetAllTypeIntervals(usr.UserId);
             var recurrenceRules = b.GetAllRecurrenceRules();
             var typeTransactions = b.GetAllTypeTransactions(usr.UserId);
 
-            typeIntervals[0].Amount = 9d;
+            // UPDATE //
+            typeIntervals[0].Amount = 19d;
+            typeIntervals[0].TransactionType = typeTransactions[1];
             typeIntervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "9123";
             typeIntervals[0].ModifiedDate = DateTime.Now;
             //staticData.TypeIntervals[1].ModifiedDate = DateTime.Now;
@@ -199,12 +215,33 @@ namespace ConsoleApplication1
 
             var update = b.SaveTypeIntervals(k);
 
+        }
 
-            var intervals = new List<TypeInterval>{new TypeInterval(cat, typeTransactions, usr)};
+        private static void InsertTypeInterval(ServiceReference1.MainClient a,ServiceReference2.StaticClient b, User usr)
+        {
+            var cat = b.GetAllCategories(usr.UserId);
+            var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
+            var typeIntervals = b.GetAllTypeIntervals(usr.UserId);
+            var recurrenceRules = b.GetAllRecurrenceRules();
+            var typeTransactions = b.GetAllTypeTransactions(usr.UserId);
+
+            var catList = new CategoryList();
+            cat.ForEach(x => catList.Add(x));
+
+            var typeTransReasonList = new TypeTransactionReasonList();
+            typeTransReason.ForEach(x => typeTransReasonList.Add(x));
+
+            var typeTransactionsList = new TypeTransactionList();
+            typeTransactions.ForEach(x => typeTransactionsList.Add(x));
+
+
+            // INSERT //
+            var intervals = new TypeIntervalList { new TypeInterval(catList, typeTransReasonList, typeTransactionsList, usr) };
             //intervals[0].RecurrenceRule = staticData.RecurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays");
 
 
-            intervals[0].RecurrenceRuleValue.RecurrenceRule = recurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays") ;
+            var found = recurrenceRules.FirstOrDefault(x => x.Name == "RuleDailyEveryDays");
+            intervals[0].RecurrenceRuleValue.RecurrenceRule = found;
             intervals[0].RecurrenceRuleValue.RulePartValueList[0].Value = "aaa";
             intervals[0].RecurrenceRuleValue.RulePartValueList[1].Value = "bbb";
 
@@ -213,7 +250,7 @@ namespace ConsoleApplication1
             intervals[0].RecurrenceRangeRuleValue.RulePartValueList[1].Value = "234";
 
 
-           var result = b.SaveTypeIntervals(intervals);
+            var result = b.SaveTypeIntervals(intervals.ToList());
 
         }
         

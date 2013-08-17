@@ -29,6 +29,7 @@ namespace BMA.DataAccess
         public DbSet<RulePart> RulePart { get; set; }
         public DbSet<FieldType> FieldType { get; set; }
         public DbSet<RulePartValue> RulePartValue { get; set; }
+        public DbSet<TypeIntervalConfiguration> TypeIntervalConfiguration { get; set; }
 
         public EntityContext()
             : base("name=primaryConn")
@@ -95,6 +96,8 @@ namespace BMA.DataAccess
 
             modelBuilder.Entity<RecurrenceRule>().Ignore(i => i.HasChanges);
             //modelBuilder.Entity<RecurrenceRule>().Ignore(i => i.SyncDate);
+
+            modelBuilder.Entity<TypeIntervalConfiguration>().Ignore(i => i.HasChanges);
 
         }
 

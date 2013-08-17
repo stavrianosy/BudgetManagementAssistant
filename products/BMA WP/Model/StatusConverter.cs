@@ -139,9 +139,10 @@ namespace BMA_WP.Model
 
         private object IntervalImage(object value)
         {
-            var isIncome = (bool)value;
+            var typeTrans = (TypeTransaction)value;
+            var isIncome = typeTrans.IsIncome;
 
-            string path = isIncome ? "interval.png" : "interval.png";
+            string path = isIncome ? "interval_income.png" : "interval_expense.png";
 
             Uri uri = new Uri(string.Format("/Assets/{0}", path), UriKind.Relative);
             return new BitmapImage(uri);
