@@ -248,14 +248,7 @@ namespace BMA_WP.Model
                 });
         }
 
-        public void LoadTypeIntervalConfiguration(Action<Exception> callback)
-        {
-            if (App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok)
-                LoadCachedTypeIntervalConfiguration((typeIntervalsConfiguration, error) => callback(error));
-            else
-                LoadLiveTypeIntervalConfiguration(error => callback(error));
-        }
-
+        
         public void LoadRecurrenceRules(Action<Exception> callback)
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>

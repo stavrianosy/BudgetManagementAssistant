@@ -33,7 +33,25 @@ namespace BMA_WP.View
         public TransactionsInterval()
         {
             InitializeComponent();
+
+            SetupLoadingBinding();
+
             SetupAppBar_TransactionList();
+        }
+        #endregion
+
+        #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
         }
         #endregion
 
@@ -60,7 +78,7 @@ namespace BMA_WP.View
             mainMenu.Click += new EventHandler(MainMenu_Click);
 
             transaction = new ApplicationBarMenuItem();
-            transaction.Text = AppResources.AppBarButtonBudget;
+            transaction.Text = AppResources.AppBarButtonTransaction;
             ApplicationBar.MenuItems.Add(transaction);
             transaction.Click += new EventHandler(Transaction_Click);
         }
@@ -90,7 +108,7 @@ namespace BMA_WP.View
 
             if (saveOC.Count == 0)
             {
-                var result = MessageBox.Show(AppResources.IntervalTransactionsMsgCommon,
+                var result = MessageBox.Show(string.Format("{0}\n{1}",AppResources.IntervalTransactionsMsgNone, AppResources.IntervalTransactionsMsgCommon),
                     "", MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.Cancel)
@@ -102,7 +120,7 @@ namespace BMA_WP.View
 
             if (saveOC.Count == all.Count)
             {
-                var result = MessageBox.Show(AppResources.IntervalTransactionsMsgCommon,
+                var result = MessageBox.Show(string.Format("{0}\n{1}", AppResources.IntervalTransactionsMsgAll, AppResources.IntervalTransactionsMsgCommon),
                     "", MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.Cancel)
@@ -114,7 +132,7 @@ namespace BMA_WP.View
 
             if (saveOC.Count < all.Count)
             {
-                var result = MessageBox.Show(AppResources.IntervalTransactionsMsgCommon,
+                var result = MessageBox.Show(string.Format("{0}\n{1}", string.Format(AppResources.IntervalTransactionsMsgPartial.ToString(), saveOC.Count, all.Count), AppResources.IntervalTransactionsMsgCommon),
                     "", MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.Cancel)

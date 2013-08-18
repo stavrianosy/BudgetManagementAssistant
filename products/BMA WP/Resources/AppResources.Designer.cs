@@ -504,7 +504,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose the executed transactions carefully. The specific ones will not appear again..
+        ///   Looks up a localized string similar to Please choose the completed transactions carefully. The specific ones will not appear again..
         /// </summary>
         public static string IntervalTransactionsMsgCommon {
             get {

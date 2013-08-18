@@ -486,7 +486,7 @@ Choose the transactions that are completed</value>
     <value />
   </data>
   <data name="IntervalTransactionsMsgCommon" xml:space="preserve">
-    <value>Please choose the executed transactions carefully. The specific ones will not appear again.</value>
+    <value>Please choose the completed transactions carefully. The specific ones will not appear again.</value>
   </data>
   <data name="IntervalTransactionsMsgAll" xml:space="preserve">
     <value>You have selected all transactions.</value>
