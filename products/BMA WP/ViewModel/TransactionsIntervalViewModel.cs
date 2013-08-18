@@ -16,7 +16,6 @@ namespace BMA_WP.ViewModel
     {
         #region Private Members
         bool _isEnabled;
-        int pivotIndex;
         TransactionList transactionsIntervalSelectedList;
         #endregion
 

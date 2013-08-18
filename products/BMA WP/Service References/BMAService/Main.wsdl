@@ -103,6 +103,12 @@
   <wsdl:message name="IMain_SaveTransactionImages_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveTransactionImagesResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionAmount_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionAmount" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionAmount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionAmountResponse" />
+  </wsdl:message>
   <wsdl:portType name="IMain">
     <wsdl:operation name="GetDBStatus">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetDBStatus" message="tns:IMain_GetDBStatus_InputMessage" />
@@ -167,6 +173,10 @@
     <wsdl:operation name="SaveTransactionImages">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactionImages" message="tns:IMain_SaveTransactionImages_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionImagesResponse" message="tns:IMain_SaveTransactionImages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionAmount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionAmount" message="tns:IMain_ReportTransactionAmount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionAmountResponse" message="tns:IMain_ReportTransactionAmount_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IMain" type="tns:IMain">
@@ -308,6 +318,15 @@
     </wsdl:operation>
     <wsdl:operation name="SaveTransactionImages">
       <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactionImages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionAmount">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionAmount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

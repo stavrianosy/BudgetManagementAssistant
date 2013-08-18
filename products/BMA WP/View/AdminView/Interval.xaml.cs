@@ -202,22 +202,12 @@ namespace BMA_WP.View.AdminView
 
         private void SaveTypeInterval()
         {
-            //2. update record, then choose another one = error
-            
+            ManualUpdate();
+
             var saveOC = vm.TypeIntervalList.Where(t => t.HasChanges).ToObservableCollection();
-            //var hasError = false;
-            var errorMessage = new StringBuilder();
 
-            saveOC.ToList().ForEach(x =>
-            {
-                errorMessage.Append(x.SelfValidation());
-            });
-
-            if (errorMessage.ToString().Length > 0)
-            {
-                MessageBox.Show(errorMessage.ToString());
+            if (!IsValid(saveOC))
                 return;
-            }
 
             App.Instance.StaticServiceData.SaveTypeInterval(saveOC, (error) =>
             {
@@ -229,6 +219,25 @@ namespace BMA_WP.View.AdminView
             });
 
             pivotContainer.SelectedIndex = 1;
+        }
+
+        private bool IsValid(ObservableCollection<TypeInterval> typeIntervalList)
+        {
+            var result = true;
+            var errorMessage = new StringBuilder();
+
+            typeIntervalList.ToList().ForEach(x =>
+            {
+                errorMessage.Append(x.SelfValidation());
+            });
+
+            if (errorMessage.ToString().Length > 0)
+            {
+                result = false;
+                MessageBox.Show(errorMessage.ToString());
+            }
+
+            return result;
         }
 
         private  void Save_Click(object sender, EventArgs e)
@@ -244,11 +253,7 @@ namespace BMA_WP.View.AdminView
                 return;
             }
 
-            
             ManualUpdate();
-
-            if (!ValidateTypeInterval())
-                return;
 
             var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList, vm.TransactionReasonTypeList, vm.TypeTransactionList, App.Instance.User);
 
@@ -282,6 +287,7 @@ namespace BMA_WP.View.AdminView
             SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
 
             txtAmount.Background = okColor;
+            txtName.Background = okColor;
             
             txtDailyEvery.Background = okColor;
             txtWeeklyEvery.Background = okColor;
@@ -293,10 +299,15 @@ namespace BMA_WP.View.AdminView
 
             var ruleDailyEveryDay = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x=>x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString());
 
-            if (vm.CurrInterval.Amount <= 0 )
+            if (vm.CurrInterval.Amount <= 0)
             {
                 result = false;
                 txtAmount.Background = errColor;
+            }
+            if (vm.CurrInterval.Name == null || vm.CurrInterval.Name.Trim().Length == 0)
+            {
+                result = false;
+                txtName.Background = errColor;
             }
 
             if (ruleDailyEveryDay != null && ruleDailyEveryDay.Value.Length == 0)
@@ -333,8 +344,57 @@ namespace BMA_WP.View.AdminView
             if (vm.CurrInterval != null)
             {
                 vm.CurrInterval.Amount = amount;
-                //vm.CurrInterval.RecurrenceRuleValue.RulePartValueList = tipAmount;
+
+                if (vm.CurrInterval.RecurrenceRuleValue != null && vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule != null)
+                {
+                    var rule = (Const.Rule)Enum.Parse(typeof(Const.Rule), vm.CurrInterval.RecurrenceRuleValue.RecurrenceRule.Name);
+                    RulePartValue rulePart = null;
+
+                    switch (rule)
+                    {
+                        case Const.Rule.RuleDailyEveryDays:
+                            rulePart = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString());
+                            if (rulePart != null)
+                                rulePart.Value = txtDailyEvery.Text.Trim().Length == 0 ? "" : dailyEvery.ToString();
+                            break;
+                        case Const.Rule.RuleWeeklyEveryWeek:
+                            rulePart = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.WeeklyEveryWeek.ToString());
+                            if (rulePart != null)
+                                rulePart.Value = txtWeeklyEvery.Text.Trim().Length == 0 ? "" : weeklyEvery.ToString();
+                            break;
+                        case Const.Rule.RuleMonthlyDayNum:
+                            rulePart = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyEveryMonth.ToString());
+                            if (rulePart != null)
+                                rulePart.Value = txtMonthlyEveryMonth.Text.Trim().Length == 0 ? "" : monthlyEveryMonth.ToString();
+                            break;
+                        case Const.Rule.RuleMonthlyPrecise:
+                            rulePart = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.MonthlyCountOfMonth.ToString());
+                            if (rulePart != null)
+                                rulePart.Value = txtMonthlyTypeEvery.Text.Trim().Length == 0 ? "" : monthlyTypeEvery.ToString();
+                            break;
+                        case Const.Rule.RuleYearlyOnMonth:
+                        case Const.Rule.RuleYearlyOnTheWeekDay:
+                            rulePart = vm.CurrInterval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.YearlyEveryYear.ToString());
+                            if (rulePart != null)
+                                rulePart.Value = txtYearlyEvery.Text.Trim().Length == 0 ? "" : yearlyEvery.ToString();
+                            break;
+                    }
+                }
+
+                if (vm.CurrInterval.RecurrenceRangeRuleValue != null && vm.CurrInterval.RecurrenceRangeRuleValue.RecurrenceRule != null)
+                {
+                    var rangeRule = (Const.Rule)Enum.Parse(typeof(Const.Rule), vm.CurrInterval.RecurrenceRangeRuleValue.RecurrenceRule.Name);
+                    RulePartValue rangeRulePart = null;
+
+                    if (rangeRule == Const.Rule.RuleRangeTotalOcurrences)
+                    {
+                        rangeRulePart = vm.CurrInterval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString());
+                        if (rangeRulePart != null)
+                            rangeRulePart.Value = txtEndAfterOccurences.Text.Trim().Length == 0 ? "" : endAfterOccurences.ToString();
+                    }
+                }
             }
+            pivotContainer.Focus();
         }
 
         private void tglDaily_Checked(object sender, RoutedEventArgs e)

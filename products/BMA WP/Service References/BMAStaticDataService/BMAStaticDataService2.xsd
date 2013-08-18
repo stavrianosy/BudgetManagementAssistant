@@ -133,6 +133,7 @@
           <xs:element minOccurs="0" name="Purpose" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="RecurrenceRangeRuleValue" nillable="true" type="tns:RecurrenceRulePart" />
           <xs:element minOccurs="0" name="RecurrenceRuleValue" nillable="true" type="tns:RecurrenceRulePart" />
+          <xs:element minOccurs="0" name="TransactionReasonType" nillable="true" type="tns:TypeTransactionReason" />
           <xs:element minOccurs="0" name="TransactionType" nillable="true" type="tns:TypeTransaction" />
           <xs:element minOccurs="0" name="TypeIntervalId" type="xs:int" />
         </xs:sequence>

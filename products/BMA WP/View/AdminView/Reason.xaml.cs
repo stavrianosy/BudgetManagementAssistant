@@ -183,7 +183,7 @@ namespace BMA_WP.View.AdminView
         private bool ValidateTransactionReason()
         {
             var result = true;
-            if (vm.TransactionReasonList == null)
+            if (vm.CurrTransactionReason == null)
                 return result;
 
             SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });

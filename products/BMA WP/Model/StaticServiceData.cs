@@ -79,6 +79,10 @@ namespace BMA_WP.Model
         public ServerStatus SetServerStatus(Action<ServerStatus> callback)
         {
             var result = ServerStatus.Communicating;
+            
+            //callback(result);
+            //return result;
+
             try
             {
                 if (App.Instance.IsOnline)
@@ -453,7 +457,7 @@ namespace BMA_WP.Model
             ord.ForEach(x => TypeFrequencyList.Add(x));
         }
 
-        private async void SetupIntervalData(ICollection<TypeInterval> existing, bool removeNew)
+        private void SetupIntervalData(ICollection<TypeInterval> existing, bool removeNew)
         {
             existing = existing ?? new TypeIntervalList();
 
@@ -479,7 +483,7 @@ namespace BMA_WP.Model
             ord.ForEach(x => IntervalList.Add(x));
         }
 
-        private async void SetupIntervalConfigurationData(BMA.BusinessLogic.TypeIntervalConfiguration existing, bool removeNew)
+        private void SetupIntervalConfigurationData(BMA.BusinessLogic.TypeIntervalConfiguration existing, bool removeNew)
         {
             //existing = existing ?? new BMA.BusinessLogic.TypeIntervalConfiguration();
 
@@ -516,7 +520,7 @@ namespace BMA_WP.Model
             ord.ForEach(x => RecurrenceRuleList.Add(x));
         }
 
-        private async void SetupTypeIntervalConfigData(TypeIntervalConfiguration existing, bool removeNew)
+        private void SetupTypeIntervalConfigData(TypeIntervalConfiguration existing, bool removeNew)
         {
             var item = existing;
             
@@ -538,8 +542,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<Category>(STATIC_CATEGORY_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    CategoryList.Add(staticType);
+                    retVal.Add(staticType);
                 }
 
             }
@@ -549,6 +552,7 @@ namespace BMA_WP.Model
                 //callback(null, ex);
             }
             //SetupTypeCategoryData(retVal, false);
+            CategoryList = retVal;
 
             callback(CategoryList, null);
         }
@@ -573,8 +577,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    TypeTransactionReasonList.Add(staticType);
+                    retVal.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -582,8 +585,8 @@ namespace BMA_WP.Model
                 Debug.WriteLine(ex.ToString());
                 //callback(null, ex);
             }
-            
-            //SetupTypeTransactionReasonData(retVal, false);
+
+            TypeTransactionReasonList = retVal;
 
             callback(TypeTransactionReasonList, null);
         }
@@ -607,8 +610,7 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTION_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    TypeTransactionList.Add(staticType);
+                    retVal.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -618,6 +620,7 @@ namespace BMA_WP.Model
             }
             
             //SetupTypeTransactionData(retVal, false);
+            TypeTransactionList = retVal;
 
             callback(TypeTransactionList, null);
         }
@@ -642,8 +645,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<Notification>(STATIC_NOTIFICATION_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    NotificationList.Add(staticType);
+                    retVal.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -653,6 +655,7 @@ namespace BMA_WP.Model
             }
             
             //SetupNotificationData(retVal, false);
+            NotificationList = retVal;
 
             callback(NotificationList, null);
         }
@@ -677,8 +680,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    TypeFrequencyList.Add(staticType);
+                    retVal.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -688,6 +690,7 @@ namespace BMA_WP.Model
             }
 
             //SetupTypeFrequencyData(retVal, false);
+            TypeFrequencyList = retVal ;
 
             callback(TypeFrequencyList, null);
         }
@@ -711,8 +714,7 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    IntervalList.Add(staticType);
+                    retVal.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -722,20 +724,20 @@ namespace BMA_WP.Model
             }
 
             //SetupIntervalData(retVal, false);
+            IntervalList = retVal;
 
             callback(IntervalList, null);
         }
 
         private async void LoadCachedTypeIntervalConfiguration(Action<BMA.BusinessLogic.TypeIntervalConfiguration, Exception> callback)
         {
-            //var retVal = new BMA.BusinessLogic.TypeIntervalConfiguration();
+            var retVal = new BMA.BusinessLogic.TypeIntervalConfiguration();
             try
             {
                 foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<BMA.BusinessLogic.TypeIntervalConfiguration>(STATIC_TYPEINTERVALCONFIG_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    IntervalConfiguration = staticType;
+                    retVal = staticType;
                 }
             }
             catch (Exception ex)
@@ -745,6 +747,7 @@ namespace BMA_WP.Model
             }
 
             //SetupIntervalData(retVal, false);
+            IntervalConfiguration = retVal;
 
             callback(IntervalConfiguration, null);
         }
@@ -768,8 +771,7 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_RECURRENCE_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, item, App.Instance.User.UserName);
-                    //retVal.Add(staticType);
-                    RecurrenceRuleList.Add(staticType);
+                    retVal.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -779,6 +781,7 @@ namespace BMA_WP.Model
             }
 
             //SetupRecurrenceRuleData(retVal, false);
+            RecurrenceRuleList = retVal;
 
             callback(RecurrenceRuleList, null);
         }

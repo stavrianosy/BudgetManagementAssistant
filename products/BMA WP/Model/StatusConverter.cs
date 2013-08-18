@@ -65,6 +65,9 @@ namespace BMA_WP.Model
                         
                     case "bitconverter":
                         return BitConverter(value);
+
+                    case "reversebit":
+                        return ReverseBit(value);
                 
                     case "nulltranimages":
                         return GetNullTransImages(value);
@@ -226,6 +229,7 @@ namespace BMA_WP.Model
             List<TypeTransactionReason> result = null;
             var cat = value as Category;
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
+            var query2 = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).ToList();
 
             if(query != null)
                 result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToList();
@@ -295,6 +299,12 @@ namespace BMA_WP.Model
         {
             var bit = (bool)value;
             return bit ? "true" : "false";
+        }
+
+        private string ReverseBit(object value)
+        {
+            var bit = (bool)value;
+            return bit ? "false" : "true";
         }
 
         
@@ -410,6 +420,12 @@ namespace BMA_WP.Model
                     case "categorycloneinstance":
                         return CategoryCloneInstance(value);
 
+                    case "bitconverter":
+                        return BitConverter(value);
+
+                    case "reversebit":
+                        return ReverseBit(value);
+                
                     default:
                         break;
                 }

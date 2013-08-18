@@ -11,6 +11,36 @@ namespace BMA.BusinessLogic
     public class CategoryList : ObservableCollection<Category>, IDataList
     {
         public const int DEVICE_MAX_COUNT = 40;
+        protected override void InsertItem(int index, Category item)
+        {
+            bool added = false;
+
+            //logic for new unueqe id 
+            if (item.CategoryId <= 0 && this.Contains(item))
+            {
+                var minIndex = (from i in this
+                                orderby i.CategoryId ascending
+                                select i).ToList();
+
+                item.CategoryId = minIndex[0].CategoryId - 1;
+            }
+
+            for (int idx = 0; idx < Count; idx++)
+            {
+                //immediate sorting !
+                if (item.Name != null && item.Name.CompareTo(Items[idx].Name) <= 0)
+                {
+                    base.InsertItem(idx, item);
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added)
+                base.InsertItem(index, item);
+        }
+
+
         public void AcceptChanges()
         {
             foreach (var item in Items)

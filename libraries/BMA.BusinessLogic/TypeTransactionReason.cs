@@ -9,7 +9,37 @@ namespace BMA.BusinessLogic
 {
     public class TypeTransactionReasonList : ObservableCollection<TypeTransactionReason>, IDataList
     {
-        public const int DEVICE_MAX_COUNT = 60;
+        public const int DEVICE_MAX_COUNT = 70;
+
+        protected override void InsertItem(int index, TypeTransactionReason item)
+        {
+
+            bool added = false;
+
+            //logic for new unueqe id 
+            if (item.TypeTransactionReasonId <= 0 && this.Contains(item))
+            {
+                var minIndex = (from i in this
+                                orderby i.TypeTransactionReasonId ascending
+                                select i).ToList();
+
+                item.TypeTransactionReasonId = minIndex[0].TypeTransactionReasonId - 1;
+            }
+
+            for (int idx = 0; idx < Count; idx++)
+            {
+                //immediate sorting !
+                if (item.Name != null && item.Name.CompareTo(Items[idx].Name) <= 0)
+                {
+                    base.InsertItem(idx, item);
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added)
+                base.InsertItem(index, item);
+        }
 
         public void AcceptChanges()
         {

@@ -222,4 +222,23 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="ReportTransactionAmount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dateFrom" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="dateTo" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="transTypeId" type="xs:int" />
+        <xs:element minOccurs="0" name="amountFrom" type="xs:double" />
+        <xs:element minOccurs="0" name="amountTo" type="xs:double" />
+        <xs:element minOccurs="0" name="userId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReportTransactionAmountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="ReportTransactionAmountResult" nillable="true" type="q16:ArrayOfTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

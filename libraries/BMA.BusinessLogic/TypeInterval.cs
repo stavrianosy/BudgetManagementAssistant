@@ -113,6 +113,12 @@ namespace BMA.BusinessLogic
             List<string> result = new List<string>();
             var errorMessage = new StringBuilder();
 
+            if (this.Name == null || this.Name.Trim().Length == 0)
+                errorMessage.Append(string.Format("Interval {0} doesn't have a Name\n", this.Name));
+
+            if(this.Amount <= 0)
+                errorMessage.Append(string.Format("Interval {0} doesn't have an Amount\n", this.Name));
+
             if (this.RecurrenceRuleValue == null || this.RecurrenceRuleValue.RecurrenceRule == null || this.RecurrenceRuleValue.RulePartValueList == null)
             {
                 errorMessage.Append(string.Format("Interval {0} doesn't have a Recurrence Rule\n", this.Name));
@@ -125,6 +131,10 @@ namespace BMA.BusinessLogic
                     if (item.Value == null || item.Value == "")
                     {
                         errorMessage.Append(string.Format("Rule {0} of Interval {1} cannot be empty\n", item.RulePart.FieldName, this.Name));
+                    }
+                    if (item.Value == "0")
+                    {
+                        errorMessage.Append(string.Format("Rule {0} of Interval {1} cannot be 0\n", item.RulePart.FieldName, this.Name));
                     }
                 }
             }
@@ -141,6 +151,10 @@ namespace BMA.BusinessLogic
                     if (item.Value == null || item.Value == "")
                     {
                         errorMessage.Append(string.Format("Rule {0} of Interval {1} cannot be empty\n", item.RulePart.FieldName, this.Name));
+                    }
+                    if (item.Value == "0")
+                    {
+                        errorMessage.Append(string.Format("Rule {0} of Interval {1} cannot be 0\n", item.RulePart.FieldName, this.Name));
                     }
                 }
             }

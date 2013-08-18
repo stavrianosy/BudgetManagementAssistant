@@ -154,8 +154,7 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserName))
                     {
                         var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item, App.Instance.User.UserName);
-                        //retVal.Add(trans);
-                        TransactionList.Add(trans);
+                        retVal.Add(trans);
                     }
                 }
                 catch (Exception ex)
@@ -164,8 +163,7 @@ namespace BMA_WP.Model
                     //callback(null, ex);
                 }
 
-                TransactionList.OrderByDescending(x => x.TransactionDate);
-                //SetupTransactionList(retVal, false, false);
+                TransactionList = retVal;
 
                 callback(TransactionList, null);
             }
@@ -178,8 +176,7 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER, App.Instance.User.UserName))
                     {
                         var trans = await StorageUtility.RestoreItem<TransactionImage>(TRANSACTIONIMAGES_FOLDER, item, App.Instance.User.UserName);
-                        //retVal.Add(trans);
-                        TransactionImageList.Add(trans);
+                        retVal.Add(trans);
                     }
                 }
                 catch (Exception ex)
@@ -189,6 +186,7 @@ namespace BMA_WP.Model
                 }
                 
                 //SetupTransactionImageList(retVal);
+                TransactionImageList = retVal;
 
                 callback(TransactionImageList, null);
             }
@@ -201,8 +199,7 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(BUDGETS_FOLDER, App.Instance.User.UserName))
                     {
                         var budget = await StorageUtility.RestoreItem<Budget>(BUDGETS_FOLDER, item, App.Instance.User.UserName);
-                        //retVal.Add(budget);
-                        BudgetList.Add(budget);
+                        retVal.Add(budget);
                     }
                 }
                 catch (Exception ex)
@@ -212,7 +209,7 @@ namespace BMA_WP.Model
                 }
 
                 //SetupBudgetList(retVal, false);
-                BudgetList.OrderByDescending(x => x.Name);
+                BudgetList = retVal;
 
                 callback(BudgetList, null);
             }
@@ -629,6 +626,52 @@ namespace BMA_WP.Model
 
             #region Update Cache
             
+            #endregion
+
+            #region Reports
+            public void ReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo,
+                                                Action<ObservableCollection<Transaction>, Exception> callback)
+            {
+                App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                        LoadCachedReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo, 
+                                                        (transactionList, error) => callback(transactionList, error));
+                    else
+                        LoadLiveReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo,
+                                                        (transactionList, error) => callback(transactionList, error));
+                });
+
+            }
+
+            private void LoadLiveReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, 
+                                                            Action<ObservableCollection<Transaction>, Exception> callback)
+            {
+                try
+                {
+                    var client = new MainClient();
+                    client.ReportTransactionAmountAsync(dateFrom, dateTo, transTypeId, amountFrom, amountTo, App.Instance.User.UserId);
+
+                    client.ReportTransactionAmountCompleted += (sender, e) =>
+                    {
+                        if (e.Error == null)
+                            callback(e.Result, null);
+                        else
+                            callback(null, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            private void LoadCachedReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo,
+                                                            Action<ObservableCollection<Transaction>, Exception> callback)
+            {
+
+            }
             #endregion
         }
 

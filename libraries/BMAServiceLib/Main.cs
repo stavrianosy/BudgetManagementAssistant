@@ -621,5 +621,34 @@ namespace BMAServiceLib
         }
         #endregion
 
+        #region Reports
+        public List<Transaction> ReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId)
+        {
+            try
+            {
+                var result = new List<Transaction>();
+                using (EntityContext context = new EntityContext())
+                {
+                    var query = (from i in context.Transaction
+                                where i.TransactionDate >= dateFrom && i.TransactionDate <= dateTo &&
+                                i.TransactionType.TypeTransactionId == transTypeId && 
+                                (amountFrom >= 0 || i.Amount >= amountFrom) && (amountTo >= 0 || i.Amount <= amountTo) &&
+                                !i.IsDeleted && i.ModifiedUser.UserId == userId
+                                orderby i.Amount descending
+                                select i).ToList();
+
+                    query.ForEach(x => result.Add(x));
+
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+
+        }
+        #endregion
     }
 }

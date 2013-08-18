@@ -66,12 +66,20 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0">
-                            <TextBlock Text="{Binding Path=LocalizedResources.AmountFrom, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
-                            <TextBox x:Name="AmountFrom" 
-                                     InputScope="Number"/>
-                            <TextBlock Text="{Binding Path=LocalizedResources.AmountTo, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
-                            <TextBox x:Name="AmountTo" 
-                                     InputScope="Number"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                            <toolkit:DatePicker x:Name="dpDateFrom"
+                                        Header="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <toolkit:DatePicker  x:Name="dpDateTo"  Grid.Column="1"
+                                        Header="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
+                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            </Grid>
                             <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                             ItemsSource="{Binding TransactionTypeList}"
@@ -81,21 +89,52 @@
                                             FullModeHeader="Cities" CacheMode="BitmapCache"
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"
                                             />
-                            <toolkit:DatePicker 
-                                        Header="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
-                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                            <toolkit:DatePicker 
-                                        Header="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
-                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
-                                        IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel >
+                                    <TextBlock Margin="12 0 0 0" 
+                                               Text="{Binding Path=LocalizedResources.AmountFrom, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                                Foreground="{StaticResource PhoneSubtleBrush}"/>
+                                <TextBox x:Name="txtAmountFrom" 
+                                     InputScope="Number"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Margin="12 0 0 0" 
+                                               Text="{Binding Path=LocalizedResources.AmountTo, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                                Foreground="{StaticResource PhoneSubtleBrush}"/>
+                                    <TextBox x:Name="txtAmountTo" 
+                                     InputScope="Number"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Margin="12 0 0 0" 
+                                        Text="{Binding Path=LocalizedResources.AmountFrom, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                        Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton x:Name="tglAmount" Grid.Column="0" 
+                                          Content="Amount"  IsChecked="{Binding IsSortByDate, Converter={StaticResource converters}, ConverterParameter=reverseBit, Mode=TwoWay}"/>
+                                <ToggleButton x:Name="tglDate" Grid.Column="1" 
+                                          Content="Date"  IsChecked="{Binding IsSortByDate, Converter={StaticResource converters}, ConverterParameter=bitConverter, Mode=TwoWay}"/>
+                            
+                            </Grid>
                         </StackPanel>
-                        <Button Grid.Row="1" Content="View Report" />
+                        <Button x:Name="btnViewReport" Grid.Row="1" Content="View Report" 
+                                Tap="btnViewReport_Tap" />
                     </Grid>
                 </ScrollViewer>
             </phone:PivotItem>
-            <phone:PivotItem Header="aaaaa aaaaaa">
-
+            <phone:PivotItem Header="Report">
+                <phone:LongListSelector x:Name="longListReport"
+                    Margin="0,12,-12,0"
+                    LayoutMode="List"
+                    ItemsSource ="{Binding ReportResult}"
+                    ItemTemplate="{StaticResource BMA_TransAmountReport_ItemTemplate}"/>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>
