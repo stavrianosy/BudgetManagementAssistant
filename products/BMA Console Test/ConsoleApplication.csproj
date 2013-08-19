@@ -90,6 +90,9 @@
     <None Include="Service References\ServiceReference1\BMAService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\ServiceReference1\BMAService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ServiceReference1\Main.wsdl" />
     <None Include="Service References\ServiceReference2\BMAStaticDataService.xsd">
       <SubType>Designer</SubType>

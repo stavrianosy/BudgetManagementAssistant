@@ -635,16 +635,61 @@ namespace BMA_WP.Model
                 App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
                     if (status != StaticServiceData.ServerStatus.Ok)
-                        LoadCachedReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo, 
-                                                        (transactionList, error) => callback(transactionList, error));
+                        LoadCachedReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo,
+                                                        (result, error) => callback(result, error));
                     else
                         LoadLiveReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo,
-                                                        (transactionList, error) => callback(transactionList, error));
+                                                        (result, error) => callback(result, error));
                 });
 
             }
 
-            private void LoadLiveReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, 
+            public void ReportTransactionCategory(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                Action<Dictionary<Category, double>, Exception> callback)
+            {
+                App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                        LoadCachedReportTransactionCategory(dateFrom, dateTo, transTypeId,
+                                                        (result, error) => callback(result, error));
+                    else
+                        LoadLiveReportTransactionCategory(dateFrom, dateTo, transTypeId,
+                                                        (result, error) => callback(result, error));
+                });
+
+            }
+
+            public void ReportTransactionReason(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                Action<Dictionary<TypeTransactionReason, double>, Exception> callback)
+            {
+                App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                        LoadCachedReportTransactionReason(dateFrom, dateTo, transTypeId, 
+                                                        (result, error) => callback(result, error));
+                    else
+                        LoadLiveReportTransactionReason(dateFrom, dateTo, transTypeId, 
+                                                        (result, error) => callback(result, error));
+                });
+
+            }
+
+            public void ReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                Action<Dictionary<string, double>, Exception> callback)
+            {
+                App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                        LoadCachedReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId, 
+                                                        (result, error) => callback(result, error));
+                    else
+                        LoadLiveReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId, 
+                                                        (result, error) => callback(result, error));
+                });
+
+            }
+
+            private void LoadLiveReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo,
                                                             Action<ObservableCollection<Transaction>, Exception> callback)
             {
                 try
@@ -667,8 +712,95 @@ namespace BMA_WP.Model
                 }
             }
 
+            private void LoadLiveReportTransactionCategory(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                            Action<Dictionary<Category, double>, Exception> callback)
+            {
+                try
+                {
+                    var client = new MainClient();
+                    client.ReportTransactionCategoryAsync(dateFrom, dateTo, transTypeId, App.Instance.User.UserId);
+
+                    client.ReportTransactionCategoryCompleted += (sender, e) =>
+                    {
+                        if (e.Error == null)
+                            callback(e.Result, null);
+                        else
+                            callback(null, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            private void LoadLiveReportTransactionReason(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                            Action<Dictionary<TypeTransactionReason, double>, Exception> callback)
+            {
+                try
+                {
+                    var client = new MainClient();
+                    client.ReportTransactionReasonAsync(dateFrom, dateTo, transTypeId, App.Instance.User.UserId);
+
+                    client.ReportTransactionReasonCompleted += (sender, e) =>
+                    {
+                        if (e.Error == null)
+                            callback(e.Result, null);
+                        else
+                            callback(null, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            private void LoadLiveReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                            Action<Dictionary<string, double>, Exception> callback)
+            {
+                try
+                {
+                    var client = new MainClient();
+                    client.ReportTransactionNameOfPlaceAsync(dateFrom, dateTo, transTypeId, App.Instance.User.UserId);
+
+                    client.ReportTransactionNameOfPlaceCompleted += (sender, e) =>
+                    {
+                        if (e.Error == null)
+                            callback(e.Result, null);
+                        else
+                            callback(null, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
             private void LoadCachedReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo,
                                                             Action<ObservableCollection<Transaction>, Exception> callback)
+            {
+
+            }
+
+            private void LoadCachedReportTransactionCategory(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                            Action<Dictionary<Category, double>, Exception> callback)
+            {
+
+            }
+
+            private void LoadCachedReportTransactionReason(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                            Action<Dictionary<TypeTransactionReason, double>, Exception> callback)
+            {
+
+            }
+
+            private void LoadCachedReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId,
+                                                            Action<Dictionary<string, double>, Exception> callback)
             {
 
             }

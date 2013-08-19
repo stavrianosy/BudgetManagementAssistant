@@ -17,12 +17,12 @@ namespace BMA_WP.ViewModel.ReportsView
         #region Private Members
         private ObservableCollection<Transaction> reportResult;
         private int pivotIndex;
-        bool isSortByDate;
+        bool isSortByAmount;
         #endregion
 
         #region Public Properties
         public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
-        public bool IsSortByDate { get { return isSortByDate; } set { isSortByDate = value; RaisePropertyChanged("IsSortByDate"); } }
+        public bool IsSortByAmount { get { return isSortByAmount; } set { isSortByAmount = value; RaisePropertyChanged("IsSortByAmount"); } }
         public ObservableCollection<Transaction> ReportResult { get { return reportResult; } set { reportResult = value; RaisePropertyChanged("ReportResult"); } }
         public TypeTransactionList TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }

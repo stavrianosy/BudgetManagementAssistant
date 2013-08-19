@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP8"
-    DataContext="{Binding TransactioPlaceViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding TransactionPlaceViewModel, Source={StaticResource Locator}}">
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -66,30 +66,59 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0">
-                            <toolkit:DatePicker 
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <toolkit:DatePicker x:Name="dpDateFrom"
                                         Header="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                                         Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                            <toolkit:DatePicker 
+                                <toolkit:DatePicker  x:Name="dpDateTo"  Grid.Column="1"
                                         Header="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
                                         Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                            <TextBlock 
-                                Text="{Binding Path=LocalizedResources.Place, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                Margin="12 12 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                            <toolkit:LongListMultiSelector x:Name="placeList" Margin="0 12 0 0"
-                                                       LayoutMode="List" 
-                                                       ItemsSource="{Binding PlaceList, Mode=TwoWay}"
-                                                       SelectionChanged="placeList_SelectionChanged"
-                                                       ItemTemplate="{StaticResource BMA_ReasonCategories_ItemTemplate}"
-                                                       IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                            </Grid>
+                            <toolkit:ListPicker x:Name="cmbType" 
+                                            Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                            ItemsSource="{Binding TransactionTypeList}"
+                                            FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
+                                            ItemTemplate="{StaticResource PickerItemTemplate}"
+                                            ExpansionMode="ExpansionAllowed"
+                                            FullModeHeader="Cities" CacheMode="BitmapCache"
+                                                IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"
+                                            />
+                            <TextBlock Margin="12 0 0 0" 
+                                        Text="{Binding Path=LocalizedResources.AmountFrom, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                        Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton x:Name="tglAmount" Grid.Column="0" 
+                                          Content="Amount"  IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=bitConverter, Mode=TwoWay}"
+                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"
+                                              />
+                                <ToggleButton x:Name="tglName" Grid.Column="1" 
+                                          Content="Name"  IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=reverseBit, Mode=TwoWay}"
+                                              IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+
+                            </Grid>
                         </StackPanel>
-                        <Button Grid.Row="1" Content="View Report" />
+                        <Button x:Name="btnViewReport" Grid.Row="1" Content="View Report" 
+                                Tap="btnViewReport_Tap" 
+                                IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                     </Grid>
                 </ScrollViewer>
             </phone:PivotItem>
-            <phone:PivotItem Header="aaaaa aaaaaa">
-
+            <phone:PivotItem Header="Report">
+                <phone:LongListSelector x:Name="longListReport"
+                    Margin="0,12,-12,0"
+                    LayoutMode="List"
+                    ItemsSource ="{Binding ReportResult}"
+                    ItemTemplate="{StaticResource BMA_TransNameOfPlaceReport_ItemTemplate}"/>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

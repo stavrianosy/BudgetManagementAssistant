@@ -24,6 +24,7 @@ namespace ConsoleApplication1
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
 
 
+            var rep = Reports(a, usr);
             //var tic = b.GetAllTypeIntervals(usr.UserId);
             //SaveNotifications(b, usr);
             //var newuser = CreateUser(b);
@@ -36,13 +37,28 @@ namespace ConsoleApplication1
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransaction(b, usr);
-            UpdateTypeInterval(a, b, usr);
+            //UpdateTypeInterval(a, b, usr);
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);
             //UpdateBudget(a, usr);
             //var dd = a.GetLatestTransactionDate(usr.UserId);
+        }
+
+        private static object Reports(ServiceReference1.MainClient a, User usr)
+        {
+            var dateFrom = new DateTime(2013,8,1);
+            var dateTo = new DateTime(2013, 8, 30);
+            var transTypeId = 2;
+            var amountFrom = 1d;
+            var amountTo = 10d;
+
+            //var result = a.ReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo, usr.UserId);
+            //var result = a.ReportTransactionCategory(dateFrom, dateTo, transTypeId, usr.UserId);
+            var result = a.ReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId, usr.UserId);
+
+            return result;
         }
 
         private static void SaveNotifications(ServiceReference2.StaticClient b, User usr)

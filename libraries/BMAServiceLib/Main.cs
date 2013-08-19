@@ -622,7 +622,7 @@ namespace BMAServiceLib
         #endregion
 
         #region Reports
-        public List<Transaction> ReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId)
+        private List<Transaction> ReportTransaction(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId)
         {
             try
             {
@@ -630,12 +630,14 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.Transaction
-                                where i.TransactionDate >= dateFrom && i.TransactionDate <= dateTo &&
-                                i.TransactionType.TypeTransactionId == transTypeId && 
-                                (amountFrom >= 0 || i.Amount >= amountFrom) && (amountTo >= 0 || i.Amount <= amountTo) &&
-                                !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                orderby i.Amount descending
-                                select i).ToList();
+                                 .Include(i => i.Category)
+                                 .Include(i => i.TransactionReasonType)
+                                 where i.TransactionDate >= dateFrom && i.TransactionDate <= dateTo &&
+                                 i.TransactionType.TypeTransactionId == transTypeId &&
+                                 (amountFrom < 0 || i.Amount >= amountFrom) && (amountTo < 0 || i.Amount <= amountTo) &&
+                                 !i.IsDeleted && i.ModifiedUser.UserId == userId
+                                 orderby i.Amount descending
+                                 select i).ToList();
 
                     query.ForEach(x => result.Add(x));
 
@@ -644,10 +646,81 @@ namespace BMAServiceLib
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
 
+        }
+
+        public List<Transaction> ReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId)
+        {
+            return ReportTransaction(dateFrom, dateTo, transTypeId, amountFrom, amountTo, userId).Take(200).ToList();
+        }
+
+        public Dictionary<Category, double> ReportTransactionCategory(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId)
+        {
+            var result = new Dictionary<Category, double>();
+
+            var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId).GroupBy(x => x.Category)
+                         select new
+                         {
+                             item = i.FirstOrDefault().Category,
+                             sum = i.Sum(x => x.Amount)
+                         }).OrderByDescending(x => x.sum).ToList();
+
+            query.ForEach(x =>
+            {
+                result.Add(x.item, x.sum);
+            });
+
+            return result;
+        }
+
+        public Dictionary<TypeTransactionReason, double> ReportTransactionReason(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId)
+        {
+            var result = new Dictionary<TypeTransactionReason, double>();
+
+            var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId).GroupBy(x => x.TransactionReasonType)
+                         select new
+                         {
+                             item = i.FirstOrDefault().TransactionReasonType,
+                             sum = i.Sum(x => x.Amount)
+                         }).OrderByDescending(x => x.sum).ToList();
+
+            query.ForEach(x =>
+            {
+                result.Add(x.item, x.sum);
+            });
+
+            return result;
+        }
+
+        public List<Budget> ReportTransactionBudget(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId)
+        {
+            var result = new List<Budget>();
+
+            //get all budgets
+
+            return result;
+        }
+
+        public Dictionary<string, double> ReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId)
+        {
+            var result = new Dictionary<string, double>();
+
+            var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId).GroupBy(x => x.NameOfPlace)
+                         select new
+                         {
+                             item = i.FirstOrDefault().NameOfPlace,
+                             sum = i.Sum(x => x.Amount)
+                         }).OrderByDescending(x => x.sum).ToList();
+
+            query.ForEach(x =>
+            {
+                result.Add(x.item, x.sum);
+            });
+
+            return result;
         }
         #endregion
     }
