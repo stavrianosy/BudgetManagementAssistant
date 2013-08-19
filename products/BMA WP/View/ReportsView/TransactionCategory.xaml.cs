@@ -10,6 +10,10 @@ using Microsoft.Phone.Shell;
 using BMA_WP.ViewModel.ReportsView;
 using BMA.BusinessLogic;
 using System.Collections.ObjectModel;
+using System.Text;
+using BMA_WP.Resources;
+using BMA_WP.Model;
+using System.Windows.Data;
 
 namespace BMA_WP.View.ReportsView
 {
@@ -29,6 +33,58 @@ namespace BMA_WP.View.ReportsView
         public TransactionCategory()
         {
             InitializeComponent();
+
+            SetupAppBar();
+
+            SetupLoadingBinding();
+        }
+
+        #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
+        }
+        #endregion
+
+        private void SetupAppBar()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            SetupAppBar_Common();
+        }
+
+        void SetupAppBar_Common()
+        {
+            ApplicationBarMenuItem mainMenu = new ApplicationBarMenuItem();
+            ApplicationBarMenuItem transaction = new ApplicationBarMenuItem();
+
+            mainMenu = new ApplicationBarMenuItem();
+            mainMenu.Text = AppResources.AppBarButtonMainMenu;
+            ApplicationBar.MenuItems.Add(mainMenu);
+            mainMenu.Click += new EventHandler(MainMenu_Click);
+
+            transaction = new ApplicationBarMenuItem();
+            transaction.Text = AppResources.AppBarButtonTransaction;
+            ApplicationBar.MenuItems.Add(transaction);
+            transaction.Click += new EventHandler(Transaction_Click);
+        }
+
+        private void Transaction_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/Transactions.xaml", UriKind.Relative));
+        }
+
+        private void MainMenu_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
         }
 
 
@@ -37,17 +93,12 @@ namespace BMA_WP.View.ReportsView
             if (!IsValid())
                 return;
 
-            var dateFrom = dpDateFrom.Value.Value;
-            var dateTo = dpDateTo.Value.Value;
-            var transType = cmbType.SelectedItem as TypeTransaction;
-            var sortByAmount = tglAmount.IsChecked == true;
-
-            App.Instance.ServiceData.ReportTransactionCategory(dateFrom, dateTo, transType.TypeTransactionId,
+            App.Instance.ServiceData.ReportTransactionCategory(vm.DateFrom, vm.DateTo, vm.TransactionType.TypeTransactionId,
                 (result, error) =>
                 {
                     if (error == null)
                     {
-                        if (sortByAmount)
+                        if (vm.IsSortByAmount)
                         {
                             vm.ReportResult = new ObservableCollection<KeyValuePair<Category, double>>();
                             foreach (var item in result.ToList().OrderByDescending(x=>x.Value))
@@ -68,6 +119,21 @@ namespace BMA_WP.View.ReportsView
         private bool IsValid()
         {
             var result = true;
+            var errorMsg = new StringBuilder();
+
+            if (vm.DateFrom > vm.DateTo)
+                errorMsg.AppendLine(AppResources.DateFromBigger);
+
+            if (errorMsg.Length > 0)
+            {
+                result = false;
+                MessageBox.Show(errorMsg.ToString());
+            }
+            else if (App.Instance.IsSyncing)
+            {
+                result = false;
+                MessageBox.Show(AppResources.BusySynchronizing);
+            }
 
             return result;
         }

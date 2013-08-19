@@ -40,7 +40,6 @@ namespace BMA_WP.ViewModel
         #endregion
 
         public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
-
         public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
 
         public RelayCommand<string> GoToCommand_NavigateTo
@@ -59,10 +58,10 @@ namespace BMA_WP.ViewModel
             get
             {
                 if (_goToCommand_SelectionChanged == null)
-                    //_goToCommand_SelectionChanged = new RelayCommand<SelectionChangedEventArgs>(NavigateAway);
                     _goToCommand_SelectionChanged = new RelayCommand<SelectionChangedEventArgs>((e) => 
                     { 
                         PageNavigationService.NavigateTo(typeof(MainPage), ((MenuItem)e.AddedItems[0]).NavigateTo); 
+                        
                     });
 
                 return _goToCommand_SelectionChanged;

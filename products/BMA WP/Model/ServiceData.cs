@@ -781,28 +781,88 @@ namespace BMA_WP.Model
                 }
             }
 
+            private ObservableCollection<Transaction> GetAllTransactionsWithCriteria(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo)
+            {
+                var result = new ObservableCollection<Transaction>();
+
+                result = (from i in TransactionList
+                          where i.TransactionDate >= dateFrom && i.TransactionDate <= dateTo &&
+                          i.TransactionType.TypeTransactionId == transTypeId &&
+                          (amountFrom <= 0 || i.Amount >= amountFrom) && (amountTo <= 0 || i.Amount <= amountTo) &&
+                          !i.IsDeleted && i.ModifiedUser.UserId == App.Instance.User.UserId
+                          orderby i.Amount descending
+                          select i).ToObservableCollection();
+                
+                return result;
+            }
+
             private void LoadCachedReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo,
                                                             Action<ObservableCollection<Transaction>, Exception> callback)
             {
+                var result = GetAllTransactionsWithCriteria(dateFrom, dateTo, transTypeId, amountFrom, amountTo);
+
+                callback(result, null);
 
             }
 
             private void LoadCachedReportTransactionCategory(DateTime dateFrom, DateTime dateTo, int transTypeId,
                                                             Action<Dictionary<Category, double>, Exception> callback)
             {
+                var result = new Dictionary<Category, double>();
 
+                var query = (from i in GetAllTransactionsWithCriteria(dateFrom, dateTo, transTypeId, -1, -1).GroupBy(x => x.Category)
+                             select new
+                             {
+                                 item = i.FirstOrDefault().Category,
+                                 sum = i.Sum(x => x.Amount)
+                             }).OrderByDescending(x => x.sum).ToList();
+
+                query.ForEach(x =>
+                {
+                    result.Add(x.item, x.sum);
+                });
+
+                callback(result, null);
             }
 
             private void LoadCachedReportTransactionReason(DateTime dateFrom, DateTime dateTo, int transTypeId,
                                                             Action<Dictionary<TypeTransactionReason, double>, Exception> callback)
             {
+                var result = new Dictionary<TypeTransactionReason, double>();
 
+                var query = (from i in GetAllTransactionsWithCriteria(dateFrom, dateTo, transTypeId, -1, -1).GroupBy(x => x.TransactionReasonType)
+                             select new
+                             {
+                                 item = i.FirstOrDefault().TransactionReasonType,
+                                 sum = i.Sum(x => x.Amount)
+                             }).OrderByDescending(x => x.sum).ToList();
+
+                query.ForEach(x =>
+                {
+                    result.Add(x.item, x.sum);
+                });
+
+                callback(result, null);
             }
 
             private void LoadCachedReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId,
                                                             Action<Dictionary<string, double>, Exception> callback)
             {
+                var result = new Dictionary<string, double>();
 
+                var query = (from i in GetAllTransactionsWithCriteria(dateFrom, dateTo, transTypeId, -1, -1).GroupBy(x => x.NameOfPlace)
+                             select new
+                             {
+                                 item = i.FirstOrDefault().NameOfPlace,
+                                 sum = i.Sum(x => x.Amount)
+                             }).OrderByDescending(x => x.sum).ToList();
+
+                query.ForEach(x =>
+                {
+                    result.Add(x.item, x.sum);
+                });
+
+                callback(result, null);
             }
             #endregion
         }

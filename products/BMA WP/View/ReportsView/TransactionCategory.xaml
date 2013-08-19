@@ -10,7 +10,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -42,6 +42,7 @@
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -52,9 +53,14 @@
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
+        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0">
+            <TextBlock Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
+
         <!--ContentPanel - place additional content here-->
         <phone:Pivot x:Name="pivotContainer" 
-                     Grid.Row="1" 
+                     Grid.Row="2" 
                      SelectedIndex="{Binding PivotIndex, Mode=TwoWay}">
             <!--Panorama item one-->
             <phone:PivotItem x:Name="piCriteria"
@@ -73,16 +79,17 @@
                                 </Grid.ColumnDefinitions>
                                 <toolkit:DatePicker x:Name="dpDateFrom"
                                         Header="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
-                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        Value="{Binding DateFrom, Mode=TwoWay}"
                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 <toolkit:DatePicker  x:Name="dpDateTo"  Grid.Column="1"
                                         Header="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"                             
-                                        Value="{Binding CurrTransaction.TransactionDate, Mode=TwoWay}"
+                                        Value="{Binding DateTo, Mode=TwoWay}"
                                         IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                             </Grid>
                             <toolkit:ListPicker x:Name="cmbType" 
                                             Header = "{Binding Path=LocalizedResources.TransactionType, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                             ItemsSource="{Binding TransactionTypeList}"
+                                            SelectedItem="{Binding TransactionType, Mode=TwoWay}"
                                             FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
                                             ItemTemplate="{StaticResource PickerItemTemplate}"
                                             ExpansionMode="ExpansionAllowed"
@@ -90,7 +97,7 @@
                                                 IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"
                                             />
                             <TextBlock Margin="12 0 0 0" 
-                                        Text="{Binding Path=LocalizedResources.AmountFrom, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                        Text="{Binding Path=LocalizedResources.SortBy, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                         Foreground="{StaticResource PhoneSubtleBrush}"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>

@@ -634,7 +634,7 @@ namespace BMAServiceLib
                                  .Include(i => i.TransactionReasonType)
                                  where i.TransactionDate >= dateFrom && i.TransactionDate <= dateTo &&
                                  i.TransactionType.TypeTransactionId == transTypeId &&
-                                 (amountFrom < 0 || i.Amount >= amountFrom) && (amountTo < 0 || i.Amount <= amountTo) &&
+                                 (amountFrom <= 0 || i.Amount >= amountFrom) && (amountTo <= 0 || i.Amount <= amountTo) &&
                                  !i.IsDeleted && i.ModifiedUser.UserId == userId
                                  orderby i.Amount descending
                                  select i).ToList();

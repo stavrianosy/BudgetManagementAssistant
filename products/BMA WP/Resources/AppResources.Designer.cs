@@ -142,6 +142,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to From amount connot be greater than the To amount.
+        /// </summary>
+        public static string AmountFromBigger {
+            get {
+                return ResourceManager.GetString("AmountFromBigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amount to.
         /// </summary>
         public static string AmountTo {
@@ -381,6 +390,15 @@ namespace BMA_WP.Resources {
         public static string DateFrom {
             get {
                 return ResourceManager.GetString("DateFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From date connot be greater than the To date.
+        /// </summary>
+        public static string DateFromBigger {
+            get {
+                return ResourceManager.GetString("DateFromBigger", resourceCulture);
             }
         }
         
@@ -1005,6 +1023,15 @@ namespace BMA_WP.Resources {
         public static string Security {
             get {
                 return ResourceManager.GetString("Security", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort by.
+        /// </summary>
+        public static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
             }
         }
         
