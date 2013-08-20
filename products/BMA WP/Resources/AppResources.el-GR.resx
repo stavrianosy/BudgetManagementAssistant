@@ -494,4 +494,13 @@ Update it from the list and save again.</value>
   <data name="IntervalTransactionsMsgPartial" xml:space="preserve">
     <value>Εχετε επιλεξει {0} απο τις {1} συναλλαγες.</value>
   </data>
+  <data name="AmountFromBigger" xml:space="preserve">
+    <value>Το ποσο απο, δεν μπορει να ειναι μεγαλυτερο απο το ποσο μεχρι</value>
+  </data>
+  <data name="DateFromBigger" xml:space="preserve">
+    <value>Η ημερομηνια απο, δεν μπορει να ειναι μεγαλυτερη απο την ημερομηνια μεχρι</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Ταξινομηση κατα</value>
+  </data>
 </root>

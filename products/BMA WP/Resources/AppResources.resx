@@ -497,4 +497,13 @@ Choose the transactions that are completed</value>
   <data name="IntervalTransactionsMsgPartial" xml:space="preserve">
     <value>You have selected {0} out of {1} transactions.</value>
   </data>
+  <data name="AmountFromBigger" xml:space="preserve">
+    <value>From amount connot be greater than the To amount</value>
+  </data>
+  <data name="DateFromBigger" xml:space="preserve">
+    <value>From date connot be greater than the To date</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
 </root>

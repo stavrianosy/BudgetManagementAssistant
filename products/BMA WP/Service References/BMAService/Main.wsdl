@@ -5,6 +5,7 @@
       <xsd:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" />
+      <xsd:import schemaLocation="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IMain_GetDBStatus_InputMessage">
@@ -103,6 +104,36 @@
   <wsdl:message name="IMain_SaveTransactionImages_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveTransactionImagesResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionAmount_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionAmount" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionAmount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionAmountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionCategory" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionReason_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionReason" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionReason_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionReasonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionBudget_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionBudget" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionBudget_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionBudgetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionNameOfPlace_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionNameOfPlace" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionNameOfPlace_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionNameOfPlaceResponse" />
+  </wsdl:message>
   <wsdl:portType name="IMain">
     <wsdl:operation name="GetDBStatus">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetDBStatus" message="tns:IMain_GetDBStatus_InputMessage" />
@@ -167,6 +198,26 @@
     <wsdl:operation name="SaveTransactionImages">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/SaveTransactionImages" message="tns:IMain_SaveTransactionImages_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/SaveTransactionImagesResponse" message="tns:IMain_SaveTransactionImages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionAmount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionAmount" message="tns:IMain_ReportTransactionAmount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionAmountResponse" message="tns:IMain_ReportTransactionAmount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionCategory" message="tns:IMain_ReportTransactionCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionCategoryResponse" message="tns:IMain_ReportTransactionCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionReason">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionReason" message="tns:IMain_ReportTransactionReason_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionReasonResponse" message="tns:IMain_ReportTransactionReason_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionBudget">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionBudget" message="tns:IMain_ReportTransactionBudget_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionBudgetResponse" message="tns:IMain_ReportTransactionBudget_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionNameOfPlace">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionNameOfPlace" message="tns:IMain_ReportTransactionNameOfPlace_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionNameOfPlaceResponse" message="tns:IMain_ReportTransactionNameOfPlace_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IMain" type="tns:IMain">
@@ -308,6 +359,51 @@
     </wsdl:operation>
     <wsdl:operation name="SaveTransactionImages">
       <soap:operation soapAction="http://tempuri.org/IMain/SaveTransactionImages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionAmount">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionAmount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionCategory">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionReason">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionReason" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionBudget">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionBudget" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionNameOfPlace">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionNameOfPlace" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

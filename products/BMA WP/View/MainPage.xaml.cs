@@ -32,6 +32,7 @@ namespace BMA_WP.View
         public MainPage()
         {
             InitializeComponent();
+            
             MainPageObject = this;
 
             SetupAppBar();
@@ -138,6 +139,16 @@ namespace BMA_WP.View
         private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             CheckOnlineStatus();
+        }
+
+        private void MenuMultiSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var menuList = sender as LongListSelector;
+            if (menuList.SelectedItem != null)
+            {
+                PageNavigationService.NavigateTo(typeof(MainPage), ((BMA_WP.ViewModel.MenuItem)e.AddedItems[0]).NavigateTo);
+                menuList.SelectedItem = null;
+            }
         }
     }
 }

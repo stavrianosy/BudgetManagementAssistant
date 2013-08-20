@@ -23,49 +23,54 @@ namespace BMA_WP.Model
                     case "ruledateint":
                         string dateInt = value as string;
                         DateTime startDate = DateTime.Now;
-                        
+
                         if (dateInt != null && dateInt.Length > 0)
                             startDate = Helper.ConvertStringToDate(dateInt);
-                        
-                            return startDate;
+
+                        return startDate;
                     case "weekdays":
                         BasicItem weekDay = null;
-                        if (value == "")
-                            weekDay = WeekDayList.GetWeekDays()[0];
-                        else if (value != null)
-                            weekDay = WeekDayList.GetWeekDays().FirstOrDefault(x => x.Index.ToString() == value.ToString());
+                        if (value != null)
+                            if (value.ToString() == "")
+                                weekDay = WeekDayList.GetWeekDays()[0];
+                            else
+                                weekDay = WeekDayList.GetWeekDays().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return weekDay;
                     case "months":
                         BasicItem month = null;
-                        if (value == "")
-                            month = MonthList.GetMonths()[0];
-                        else if (value != null)
-                            month = MonthList.GetMonths().FirstOrDefault(x => x.Index.ToString() == value.ToString());
+                        if (value != null)
+                            if (value.ToString() == "")
+                                month = MonthList.GetMonths()[0];
+                            else
+                                month = MonthList.GetMonths().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return month;
                     case "positionall":
                         BasicItem posAll = null;
-                        if (value == "")
-                            posAll = PositionList.GetPositions()[0];
-                        else if (value != null)
-                            posAll = PositionList.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
+                        if (value != null)
+                            if (value.ToString() == "")
+                                posAll = PositionList.GetPositions()[0];
+                            else
+                                posAll = PositionList.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return posAll;
                     case "position4":
                         BasicItem pos4 = null;
-                        if (value == "")
-                            pos4 = Position4List.GetPositions()[0];
-                        else if (value != null)
-                            pos4 = Position4List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
+                        if (value != null)
+                            if (value.ToString() == "")
+                                pos4 = Position4List.GetPositions()[0];
+                            else
+                                pos4 = Position4List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return pos4;
                     case "position12":
                         BasicItem pos12 = null;
-                        if (value == "")
-                            pos12 = Position12List.GetPositions()[0];
-                        else if (value != null)
-                            pos12 = Position12List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
+                        if (value != null)
+                            if (value.ToString() == "")
+                                pos12 = Position12List.GetPositions()[0];
+                            else
+                                pos12 = Position12List.GetPositions().FirstOrDefault(x => x.Index.ToString() == value.ToString());
 
                         return pos12;
 

@@ -65,5 +65,22 @@ namespace BMAServiceLib
         bool SaveTransactionImages(TransactionImageList transactionImages);
 
         #endregion
+
+        #region Reports
+        [OperationContract]
+        List<Transaction> ReportTransactionAmount(DateTime dateFrom, DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId);
+
+        [OperationContract]
+        Dictionary<Category, double> ReportTransactionCategory(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId);
+
+        [OperationContract]
+        Dictionary<TypeTransactionReason, double> ReportTransactionReason(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId);
+
+        [OperationContract]
+        List<Budget> ReportTransactionBudget(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId);
+
+        [OperationContract]
+        Dictionary<string, double> ReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId);
+        #endregion
     }
 }

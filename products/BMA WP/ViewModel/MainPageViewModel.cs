@@ -40,7 +40,6 @@ namespace BMA_WP.ViewModel
         #endregion
 
         public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
-
         public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
 
         public RelayCommand<string> GoToCommand_NavigateTo
@@ -59,10 +58,10 @@ namespace BMA_WP.ViewModel
             get
             {
                 if (_goToCommand_SelectionChanged == null)
-                    //_goToCommand_SelectionChanged = new RelayCommand<SelectionChangedEventArgs>(NavigateAway);
                     _goToCommand_SelectionChanged = new RelayCommand<SelectionChangedEventArgs>((e) => 
                     { 
                         PageNavigationService.NavigateTo(typeof(MainPage), ((MenuItem)e.AddedItems[0]).NavigateTo); 
+                        
                     });
 
                 return _goToCommand_SelectionChanged;
@@ -99,11 +98,11 @@ namespace BMA_WP.ViewModel
             };
 
             ReportsMenuList = new ObservableCollection<MenuItem> { 
-                new MenuItem{Name=AppResources.ReportsMenuTransactionAmount, SubName="a11", IconPath="/Assets/icons/Dark/delete.png", Description="a22", NavigateTo="/View/Transactions.xaml"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionBudget, SubName="b11", IconPath="/Assets/icons/Dark/delete.png", Description="b22", NavigateTo="/View/Budgets.xaml"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionCategory, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="3"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionReason, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="4"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionPlace, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="5"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionAmount, SubName="a11", IconPath="/Assets/icons/Dark/delete.png", Description="a22", NavigateTo="/View/ReportsView/TransactionAmount.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionBudget, SubName="b11", IconPath="/Assets/icons/Dark/delete.png", Description="b22", NavigateTo="/View/ReportsView/TransactionBudget.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionCategory, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="/View/ReportsView/TransactionCategory.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionReason, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="/View/ReportsView/TransactionReason.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionPlace, SubName="c11", IconPath="/Assets/icons/Dark/delete.png", Description="c22", NavigateTo="/View/ReportsView/TransactionPlace.xaml"},
             };
 
             AdminMenuList = new ObservableCollection<MenuItem> { 

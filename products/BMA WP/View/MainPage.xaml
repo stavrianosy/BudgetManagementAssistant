@@ -125,35 +125,22 @@
                     </toolkit:WrapPanel>
                 </Grid>
             </phone:PivotItem>
-            <phone:PivotItem Header="Admin">
+            <phone:PivotItem CacheMode="{x:Null}" Header="Admin">
                 <phone:LongListSelector x:Name="AdminMenuMultiSelect" 
                                         Margin="0,0,0,0"
                                         LayoutMode="List"
                                         ItemsSource ="{Binding AdminMenuList}"
-                                        ItemTemplate="{StaticResource BMA_Main_ItemTemplate}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <command:EventToCommand 
-                                PassEventArgsToCommand="True" 
-                                Command="{Binding GoToCommand_SelectionChanged, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </phone:LongListSelector>
+                                        ItemTemplate="{StaticResource BMA_Main_ItemTemplate}"
+                                        SelectionChanged="MenuMultiSelect_SelectionChanged"/>
             </phone:PivotItem>
             <phone:PivotItem CacheMode="{x:Null}" Header="Reports">
                 <phone:LongListSelector x:Name="ReportsMenuMultiSelect"
                                         Margin="0,0,0,0"                                        
                                         LayoutMode="List"
                                         ItemsSource ="{Binding ReportsMenuList}"
-                                        ItemTemplate="{StaticResource BMA_Main_ItemTemplate}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <command:EventToCommand 
-                                PassEventArgsToCommand="True" 
-                                Command="{Binding GoToCommand_SelectionChanged, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </phone:LongListSelector>
+                                        ItemTemplate="{StaticResource BMA_Main_ItemTemplate}"
+                                        SelectionChanged="MenuMultiSelect_SelectionChanged"/>
+                    
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

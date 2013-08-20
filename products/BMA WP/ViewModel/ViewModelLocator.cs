@@ -186,7 +186,7 @@ namespace BMA_WP.ViewModel
             }
         }
 
-        public TransactionReasonViewModel TransactionperiodViewModel
+        public TransactionReasonViewModel TransactionReasonViewModel
         {
             get
             {

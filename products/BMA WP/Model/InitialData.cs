@@ -178,7 +178,7 @@ namespace BMA_WP.Model
             string buildInAdmin = "admin";
             string buildInAdminEmail = "admin@bma.com";
             string buildInAdminPass = "1234";
-            string userName = "stavrianosy";
+            //string userName = "stavrianosy";
 
 
             result.Append(string.Format("SET IDENTITY_INSERT [User] ON if not exists(select * from [User] where Username = {1}) BEGIN " +

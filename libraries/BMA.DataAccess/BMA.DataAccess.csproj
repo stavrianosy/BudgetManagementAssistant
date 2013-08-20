@@ -61,6 +61,10 @@
     <Compile Include="Migrations\201308161841169_interval.Designer.cs">
       <DependentUpon>201308161841169_interval.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201308181539247_budget.cs" />
+    <Compile Include="Migrations\201308181539247_budget.Designer.cs">
+      <DependentUpon>201308181539247_budget.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201308161841169_interval.resx">
       <DependentUpon>201308161841169_interval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201308181539247_budget.resx">
+      <DependentUpon>201308181539247_budget.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

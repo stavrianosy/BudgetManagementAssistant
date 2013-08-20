@@ -110,6 +110,36 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/SaveTransactionImages", ReplyAction="http://tempuri.org/IMain/SaveTransactionImagesResponse")]
         System.Threading.Tasks.Task<bool> SaveTransactionImagesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionAmount", ReplyAction="http://tempuri.org/IMain/ReportTransactionAmountResponse")]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> ReportTransactionAmount(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionAmount", ReplyAction="http://tempuri.org/IMain/ReportTransactionAmountResponse")]
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> ReportTransactionAmountAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionCategory", ReplyAction="http://tempuri.org/IMain/ReportTransactionCategoryResponse")]
+        System.Collections.Generic.Dictionary<BMA.BusinessLogic.Category, double> ReportTransactionCategory(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionCategory", ReplyAction="http://tempuri.org/IMain/ReportTransactionCategoryResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<BMA.BusinessLogic.Category, double>> ReportTransactionCategoryAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionReason", ReplyAction="http://tempuri.org/IMain/ReportTransactionReasonResponse")]
+        System.Collections.Generic.Dictionary<BMA.BusinessLogic.TypeTransactionReason, double> ReportTransactionReason(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionReason", ReplyAction="http://tempuri.org/IMain/ReportTransactionReasonResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<BMA.BusinessLogic.TypeTransactionReason, double>> ReportTransactionReasonAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionBudget", ReplyAction="http://tempuri.org/IMain/ReportTransactionBudgetResponse")]
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> ReportTransactionBudget(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionBudget", ReplyAction="http://tempuri.org/IMain/ReportTransactionBudgetResponse")]
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>> ReportTransactionBudgetAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionNameOfPlace", ReplyAction="http://tempuri.org/IMain/ReportTransactionNameOfPlaceResponse")]
+        System.Collections.Generic.Dictionary<string, double> ReportTransactionNameOfPlace(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionNameOfPlace", ReplyAction="http://tempuri.org/IMain/ReportTransactionNameOfPlaceResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, double>> ReportTransactionNameOfPlaceAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -265,6 +295,46 @@ namespace ConsoleApplication1.ServiceReference1 {
         
         public System.Threading.Tasks.Task<bool> SaveTransactionImagesAsync(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.TransactionImage> transactionImages) {
             return base.Channel.SaveTransactionImagesAsync(transactionImages);
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> ReportTransactionAmount(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId) {
+            return base.Channel.ReportTransactionAmount(dateFrom, dateTo, transTypeId, amountFrom, amountTo, userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>> ReportTransactionAmountAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, double amountFrom, double amountTo, int userId) {
+            return base.Channel.ReportTransactionAmountAsync(dateFrom, dateTo, transTypeId, amountFrom, amountTo, userId);
+        }
+        
+        public System.Collections.Generic.Dictionary<BMA.BusinessLogic.Category, double> ReportTransactionCategory(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionCategory(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<BMA.BusinessLogic.Category, double>> ReportTransactionCategoryAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionCategoryAsync(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Collections.Generic.Dictionary<BMA.BusinessLogic.TypeTransactionReason, double> ReportTransactionReason(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionReason(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<BMA.BusinessLogic.TypeTransactionReason, double>> ReportTransactionReasonAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionReasonAsync(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> ReportTransactionBudget(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionBudget(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>> ReportTransactionBudgetAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionBudgetAsync(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Collections.Generic.Dictionary<string, double> ReportTransactionNameOfPlace(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId, userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, double>> ReportTransactionNameOfPlaceAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId) {
+            return base.Channel.ReportTransactionNameOfPlaceAsync(dateFrom, dateTo, transTypeId, userId);
         }
     }
 }

@@ -91,7 +91,6 @@
                         </StackPanel>
                         <StackPanel>
                             <toolkit:ToggleSwitch Content="Reapeat on expiration" FontSize="22" Foreground="{StaticResource PhoneSubtleBrush}" IsChecked="{Binding Repeat, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
-                            <toolkit:ToggleSwitch Content="Include Interval Payments" FontSize="22" Foreground="{StaticResource PhoneSubtleBrush}" IsChecked="{Binding IncludeInstallments, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                         </StackPanel>
                         <TextBlock Text="Comments" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtComments" 

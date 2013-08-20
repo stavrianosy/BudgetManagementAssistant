@@ -283,6 +283,88 @@
         </Grid>
     </DataTemplate>
 
+    <!-- ## REPORTS ##-->
+    <DataTemplate x:Key="BMA_TransAmountReport_ItemTemplate">
+        <Grid Margin="0 0 0 12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+            </StackPanel>
+            <Grid Grid.Column="1" Margin="12 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{Binding NameOfPlace}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Date: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        <TextBlock Text="{Binding TransactionDate, StringFormat=\{0:g\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                    <TextBlock Text="{Binding Amount, StringFormat=\{0:#.00\}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BMA_TransCategoryReport_ItemTemplate">
+        <Grid Margin="0 0 0 12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+            </StackPanel>
+            <Grid Grid.Column="1" Margin="12 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{Binding Key.Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                    <TextBlock Text="{Binding Value, StringFormat=\{0:#.00\}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BMA_TransNameOfPlaceReport_ItemTemplate">
+        <Grid Margin="0 0 0 12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="50" Margin="0 12 0 0">
+                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+            </StackPanel>
+            <Grid Grid.Column="1" Margin="12 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{Binding Key}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                    <TextBlock Text="{Binding Value, StringFormat=\{0:#.00\}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </DataTemplate>
+<!-- ## END REPORTS ##-->
+
+
     <DataTemplate x:Name="MainPivot">
         <StackPanel Background="#FF555555" Orientation="Horizontal" Margin="-24 6 0 6" Width="360">
             <Border Background="#FF999999" Margin="60 0 6 0" Padding="6 1">

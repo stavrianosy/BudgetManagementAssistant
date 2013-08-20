@@ -108,11 +108,6 @@ namespace BMA.BusinessLogic
         public string Comments { get { return comments; } set { comments = value; OnPropertyChanged("Comments"); } }
 
         /// <summary>
-        /// Subtract the installment amount when its date come.
-        /// </summary>
-        public bool IncludeInstallments { get { return includeInstallemnts; } set { includeInstallemnts = value; OnPropertyChanged("IncludeInstallemnts"); } }
-
-        /// <summary>
         /// Recreate on expiration
         /// </summary>
         public bool Repeat { get { return repeat; } set { repeat = value; OnPropertyChanged("Rrepeat"); } }
@@ -202,7 +197,6 @@ namespace BMA.BusinessLogic
             bud.FromDate = this.FromDate;
             bud.ToDate = this.ToDate;
             bud.Transactions = this.Transactions;
-            bud.IncludeInstallments = this.IncludeInstallments;
             bud.Repeat = this.Repeat;
             bud.Name = this.Name;
 
@@ -224,7 +218,6 @@ namespace BMA.BusinessLogic
             FromDate = DateTime.Now;
             ToDate = FromDate.AddDays(1);
             Comments = "";
-            IncludeInstallments = false;
         }
         #endregion
 
