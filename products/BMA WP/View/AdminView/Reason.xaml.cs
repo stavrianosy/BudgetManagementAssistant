@@ -49,12 +49,12 @@ namespace BMA_WP.View.AdminView
                     svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piReasonList":
-
                     SetupAppBar_ReasonList();
                     ReasonsMultiSelect.SelectedItem = null;
                     
                     vm.CurrTransactionReason = null;
-                    categoryList.SelectedItems.Clear();
+                    if(categoryList.SelectedItems.Count > 0)
+                        categoryList.SelectedItems.Clear();
 
                     break;
             }
@@ -74,13 +74,12 @@ namespace BMA_WP.View.AdminView
                     var container = categoryList.ContainerFromItem(item) as LongListMultiSelectorItem;
                     if (vm.CurrTransactionReason.Categories != null &&
                         vm.CurrTransactionReason.Categories.Where(x => x.CategoryId == item.CategoryId && !x.IsDeleted).Count() == 0)
-                    {
                         container.IsSelected = false;
-                        continue;
-                    }
-
-                    if (container != null)
+                    else
                         container.IsSelected = true;
+
+                    if (item.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase))
+                        container.IsEnabled = false;
                 }
                 vm.CurrTransactionReason.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.TransactionReasonList.HasItemsWithChanges();
 
@@ -183,6 +182,15 @@ namespace BMA_WP.View.AdminView
         private bool ValidateTransactionReason()
         {
             var result = true;
+
+            result = ValidateSingleTransaction() && ValidateAllTransactions();
+
+            return result;   
+        }
+
+        private bool ValidateSingleTransaction()
+        {
+            var result = true;
             if (vm.CurrTransactionReason == null)
                 return result;
 
@@ -197,24 +205,50 @@ namespace BMA_WP.View.AdminView
                 txtName.Background = errColor;
             }
 
+            var nameExists = vm.TransactionReasonList.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrTransactionReason.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                        x.TypeTransactionReasonId != vm.CurrTransactionReason.TypeTransactionReasonId);
+            if (nameExists != null)
+            {
+                result = false;
+                MessageBox.Show(AppResources.NameAlreadyExist);
+            }
+
             if (!result)
                 svItem.ScrollToVerticalOffset(0);
-            else
+
+            return result;
+        }
+
+
+        public bool ValidateAllTransactions()
+        {
+            var result = true;
+
+            var tempTransReasonCount = vm.TransactionReasonList.Where(x => !x.IsDeleted && x.HasChanges &&
+                                        (x.Name == null || x.Name.Length == 0)).Count();
+
+            var tempTransReasonNameExists = (from i in vm.TransactionReasonList
+                                             where !i.IsDeleted && i.HasChanges
+                                             group i by i.Name into g
+                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 0).Count();
+
+            if (tempTransReasonNameExists > 0)
             {
-                var tempTransReason = vm.TransactionReasonList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Length == 0)).ToList();
-                if (tempTransReason.Count > 0)
-                {
-                    result = false;
-                    //for more specific message
-                    if (tempTransReason.Count == 1)
-                        MessageBox.Show(string.Format(AppResources.FaildValidationSingle, "transaction reason"));
-                    else
-                        MessageBox.Show(string.Format(AppResources.FaildValidation, tempTransReason.Count, "transaction reasons"));
-                }
+                result = false;
+                MessageBox.Show(string.Format(AppResources.FaildValidationNameExists, AppResources.TransactionReasons));
+            }
+
+            if (tempTransReasonCount > 0)
+            {
+                result = false;
+                //for more specific message
+                if (tempTransReasonCount == 1)
+                    MessageBox.Show(string.Format(AppResources.FaildValidationSingle, AppResources.TransactionReason));
+                else
+                    MessageBox.Show(string.Format(AppResources.FaildValidation, tempTransReasonCount, AppResources.TransactionReasons));
             }
 
             return result;
-
         }
 
         private void Save_Click(object sender, EventArgs e)

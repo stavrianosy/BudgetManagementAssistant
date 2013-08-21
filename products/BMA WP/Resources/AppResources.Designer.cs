@@ -449,6 +449,16 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are multiple {0} with same names. 
+        ///Please use only unique names..
+        /// </summary>
+        public static string FaildValidationNameExists {
+            get {
+                return ResourceManager.GetString("FaildValidationNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is another {0} that failed validation.
         ///Update it from the list and save again..
         /// </summary>
@@ -717,6 +727,16 @@ namespace BMA_WP.Resources {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name already exists.
+        ///Please change the name..
+        /// </summary>
+        public static string NameAlreadyExist {
+            get {
+                return ResourceManager.GetString("NameAlreadyExist", resourceCulture);
             }
         }
         
@@ -1131,6 +1151,24 @@ namespace BMA_WP.Resources {
         public static string Transaction {
             get {
                 return ResourceManager.GetString("Transaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to transaction reason.
+        /// </summary>
+        public static string TransactionReason {
+            get {
+                return ResourceManager.GetString("TransactionReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to transaction reasons.
+        /// </summary>
+        public static string TransactionReasons {
+            get {
+                return ResourceManager.GetString("TransactionReasons", resourceCulture);
             }
         }
         

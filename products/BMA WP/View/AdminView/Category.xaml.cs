@@ -48,10 +48,10 @@ namespace BMA_WP.View.AdminView
                     break;
                 case "piCategoryList":
                     SetupAppBar_CategoryList();
-                    CategoriesMultiSelect.SelectedItem = null;
-                    
+                    CategoriesMultiSelect.SelectedItem = null;                    
                     vm.CurrCategory = null;
-                    transactionReasonList.SelectedItems.Clear();
+                    if(transactionReasonList.SelectedItems.Count > 0)
+                        transactionReasonList.SelectedItems.Clear();
                     
                     break;
             }
@@ -71,13 +71,12 @@ namespace BMA_WP.View.AdminView
                     var container = transactionReasonList.ContainerFromItem(item) as LongListMultiSelectorItem;
                     if (vm.CurrCategory.TypeTransactionReasons != null &&
                         vm.CurrCategory.TypeTransactionReasons.Where(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId && !x.IsDeleted).Count() == 0)
-                    {
                         container.IsSelected = false;
-                        continue;
-                    }
-
-                    if (container != null)
+                    else
                         container.IsSelected = true;
+
+                    if (item.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase))
+                        container.IsEnabled = false;
                 }
 
                 vm.CurrCategory.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.CategoryList.HasItemsWithChanges();
@@ -184,6 +183,15 @@ namespace BMA_WP.View.AdminView
         private bool ValidateCaregory()
         {
             var result = true;
+
+            result = ValidateSingleTransaction() && ValidateAllTransactions();
+
+            return result;   
+        }
+
+        private bool ValidateSingleTransaction()
+        {
+            var result = true;
             if (vm.CurrCategory == null)
                 return result;
 
@@ -198,24 +206,49 @@ namespace BMA_WP.View.AdminView
                 txtName.Background = errColor;
             }
 
+            var nameExists = vm.CategoryList.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrCategory.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
+                                                            x.CategoryId != vm.CurrCategory.CategoryId);
+            if (nameExists != null)
+            {
+                result = false;
+                MessageBox.Show(AppResources.NameAlreadyExist);
+            }
+
             if (!result)
                 svItem.ScrollToVerticalOffset(0);
-            else
+
+            return result;
+        }
+
+        public bool ValidateAllTransactions()
+        {
+            var result = true;
+
+            var tempCategoryCount = vm.CategoryList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Length == 0)).Count();
+
+
+            var tempCategoryNameExists = (from i in vm.CategoryList
+                                             where !i.IsDeleted && i.HasChanges
+                                             group i by i.Name into g
+                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 0).Count();
+
+            if (tempCategoryNameExists > 0)
             {
-                var tempCategory = vm.CategoryList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Length == 0)).ToList();
-                if (tempCategory.Count > 0)
-                {
-                    result = false;
-                    //for more specific message
-                    if (tempCategory.Count == 1)
-                        MessageBox.Show(string.Format(AppResources.FaildValidationSingle, "category"));
-                    else
-                        MessageBox.Show(string.Format(AppResources.FaildValidation, tempCategory.Count, "categories"));
-                }
+                result = false;
+                MessageBox.Show(string.Format(AppResources.FaildValidationNameExists, AppResources.Categories));
+            }
+
+            if (tempCategoryCount > 0)
+            {
+                result = false;
+                //for more specific message
+                if (tempCategoryCount == 1)
+                    MessageBox.Show(string.Format(AppResources.FaildValidationSingle, AppResources.Category));
+                else
+                    MessageBox.Show(string.Format(AppResources.FaildValidation, tempCategoryCount, AppResources.Categories));
             }
 
             return result;
-
         }
 
         private void Add_Click(object sender, EventArgs e)
@@ -270,7 +303,7 @@ namespace BMA_WP.View.AdminView
             }
             else if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) != null && !isAdded)
             {
-                //vm.CurrCategory.TypeTransactionReasons.Categories.Remove(item);
+                //vm.CurrCategory.TypeTransactionReasons.Remove(item);
                 vm.CurrCategory.TypeTransactionReasons.Find(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId).IsDeleted = true;
                 vm.CurrCategory.ModifiedDate = DateTime.Now;
                 vm.CurrCategory.HasChanges = true;

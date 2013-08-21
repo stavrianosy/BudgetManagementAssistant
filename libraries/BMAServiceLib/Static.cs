@@ -750,14 +750,20 @@ namespace BMAServiceLib
 
                                 if (item.Categories != null)
                                 {
-                                    item.Categories.ForEach(x =>
+                                    for(var i=item.Categories.Count-1; i >= 0 ;i--)
                                     {
-                                        var query = context.Category.FirstOrDefault(k => k.CategoryId == x.CategoryId);
-                                        if (x.IsDeleted)
+                                        var catId = item.Categories[i].CategoryId;
+                                        var query = context.Category.FirstOrDefault(k => k.CategoryId == catId);
+                                        if (item.Categories[i].IsDeleted)
+                                        {
                                             original.Categories.Remove(query);
+                                            item.Categories.RemoveAt(i);
+                                        }
                                         else
+                                        {
                                             original.Categories.Add(query);
-                                    });
+                                        }
+                                    }
                                 }
 
                                 context.Entry(original).CurrentValues.SetValues(item);

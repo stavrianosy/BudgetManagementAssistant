@@ -330,6 +330,7 @@
     </None>
     <Content Include="Assets\category.png" />
     <Content Include="Assets\category_80.png" />
+    <Content Include="Assets\chart.png" />
     <Content Include="Assets\icons\Dark\add.png" />
     <Content Include="Assets\icons\Dark\back.png" />
     <Content Include="Assets\icons\Dark\basecircle.png" />
@@ -438,7 +439,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="ServiceReferences.ClientConfig" />
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Service References\BMAStaticDataService\BMAStaticDataService.xsd">
       <SubType>Designer</SubType>
     </None>

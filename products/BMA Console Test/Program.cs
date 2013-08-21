@@ -24,7 +24,7 @@ namespace ConsoleApplication1
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww" };
 
 
-            var rep = Reports(a, usr);
+            //var rep = Reports(a, usr);
             //var tic = b.GetAllTypeIntervals(usr.UserId);
             //SaveNotifications(b, usr);
             //var newuser = CreateUser(b);
@@ -36,7 +36,7 @@ namespace ConsoleApplication1
             //GetAllBudgets(a);
             //b.GetAllStaticData();
             //ForgotPass(b);
-            //SaveTypeTransaction(b, usr);
+            SaveTypeTransactionReasons(b, usr);
             //UpdateTypeInterval(a, b, usr);
             //b.GetAllTypeTransactionReasons();
             //SaveCategories(b, usr);
@@ -269,23 +269,25 @@ namespace ConsoleApplication1
             var result = b.SaveTypeIntervals(intervals.ToList());
 
         }
-        
-        private static void SaveTypeTransaction(ServiceReference2.StaticClient client, User usr)
+
+        private static void SaveTypeTransactionReasons(ServiceReference2.StaticClient client, User usr)
         {
             //var stData = client.GetAllStaticData();
             //var stDataCat = client.GetAllCategories();
             var stDataTR = client.GetAllTypeTransactionReasons(usr.UserId);
 
             var reasons = new List<TypeTransactionReason>();
-            stDataTR[11].Name = "abc";
+            reasons.Add(stDataTR[6]);
+
+            reasons[0].Name = "abc";
             //stDataTR[11].Categories.Add(stData.TypeTransactionReasons[0].Categories[0]);
             //stDataTR[11].Categories.RemoveAt(0);
-            //stDataTR[11].Categories[0].IsDeleted = true;
+            reasons[0].Categories[1].IsDeleted = true;
+            reasons[0].Categories[2].IsDeleted = true;
 
-            stDataTR[1].TypeTransactionReasonId = -1;
+            //stDataTR[1].TypeTransactionReasonId = -1;
             //stDataTR[1].Categories = null;
-            reasons.Add(stDataTR[1]);
-            //reasons.Add(stDataTR[11]);
+            //reasons.Add(stDataTR[1]);
 
             reasons[0].ModifiedDate = DateTime.Now;
             client.SaveTypeTransactionReasons(reasons);

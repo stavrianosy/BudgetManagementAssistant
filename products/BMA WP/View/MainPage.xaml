@@ -86,20 +86,22 @@
             <TextBlock Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
             <ProgressBar IsIndeterminate="True" />
         </StackPanel>
-        <phone:Pivot Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="480">
-            <phone:PivotItem CacheMode="{x:Null}" Header="Main" Width="455">
+        <phone:Pivot Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <phone:PivotItem CacheMode="{x:Null}" Header="Main" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <toolkit:WrapPanel ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="horizontalWrapPanel" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Width="435">
-                        <toolkit:HubTile x:Name="hTileTransactions" Size="Large" 
+                    <toolkit:WrapPanel ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                       x:Name="horizontalWrapPanel" 
+                                       Grid.Column="1" 
+                                       Orientation="Vertical" 
+                                       VerticalAlignment="Top" >
+                        <toolkit:HubTile x:Name="hTileTransactions" Size="Large"
                                          Source="{Binding HubTileTransactions.IconPath}" 
                                          DisplayNotification="True" 
                                          Title="{Binding HubTileTransactions.Name}" 
-                                         Message="Last capture:" Margin="0,0,0,5" 
+                                         Message="Last capture:" Margin="6 6" 
                                          GroupTag="StaticHubTile">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Tap">
@@ -113,7 +115,7 @@
                                          Source="{Binding HubTileTransactions.IconPath}"
                                          DisplayNotification="false" 
                                          Title="{Binding HubTileBudgets.Name}" 
-                                         Message="Total items:" Margin="0,0,0,5" GroupTag="StaticHubTile">
+                                         Message="Total items:" Margin="6 6" GroupTag="StaticHubTile">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Tap">
                                     <command:EventToCommand 

@@ -229,9 +229,8 @@ namespace BMA_WP.Model
             List<TypeTransactionReason> result = null;
             var cat = value as Category;
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
-            var query2 = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).ToList();
 
-            if(query != null)
+            if (query != null && query.TypeTransactionReasons !=null)
                 result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToList();
             
             return result;

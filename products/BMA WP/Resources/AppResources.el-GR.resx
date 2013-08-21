@@ -503,4 +503,18 @@ Update it from the list and save again.</value>
   <data name="SortBy" xml:space="preserve">
     <value>Ταξινομηση κατα</value>
   </data>
+  <data name="NameAlreadyExist" xml:space="preserve">
+    <value>Το ονομα εχει ηδη χρησημοποιηθει.
+Παρακαλω διαλεξτε αλλο ονομα.</value>
+  </data>
+  <data name="FaildValidationNameExists" xml:space="preserve">
+    <value>Υπαρχουν μερικα {0} με το ιδιο ονομα.
+Παρακαλω χρησημοποιηστε το ιδιο ονομα μονο μια φορα.</value>
+  </data>
+  <data name="TransactionReason" xml:space="preserve">
+    <value>λογος συναλλαγης</value>
+  </data>
+  <data name="TransactionReasons" xml:space="preserve">
+    <value>λογοι συναλλαγης</value>
+  </data>
 </root>

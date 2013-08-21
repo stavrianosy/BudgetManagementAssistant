@@ -193,7 +193,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BMA_ReasonCategories_ItemTemplate">
-        <Grid Margin="0,-12,0,24" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
+        <Grid Margin="0,-12,0,24" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
@@ -291,7 +291,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Width="50" Margin="0 12 0 0">
-                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+                <Image Source="/Assets/chart.png" Stretch="UniformToFill" />
             </StackPanel>
             <Grid Grid.Column="1" Margin="12 0 0 0">
                 <Grid.ColumnDefinitions>
@@ -320,7 +320,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Width="50" Margin="0 12 0 0">
-                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+                <Image Source="/Assets/chart.png" Stretch="UniformToFill" />
             </StackPanel>
             <Grid Grid.Column="1" Margin="12 0 0 0">
                 <Grid.ColumnDefinitions>
@@ -345,7 +345,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Width="50" Margin="0 12 0 0">
-                <Image Source="/Assets/Notification.png" Stretch="UniformToFill" />
+                <Image Source="/Assets/chart.png" Stretch="UniformToFill" />
             </StackPanel>
             <Grid Grid.Column="1" Margin="12 0 0 0">
                 <Grid.ColumnDefinitions>

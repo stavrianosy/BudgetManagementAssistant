@@ -583,8 +583,11 @@ namespace BMA.BusinessLogic
         #region Public Methods
         public void OptimizeOnTopLevel(ImageRemovalStatus removeImages)
         {
-            this.Category.TypeTransactionReasons = null;
-            this.TransactionReasonType.Categories = null;
+            if (this.Category!=null)
+                this.Category.TypeTransactionReasons = null;
+
+            if (this.TransactionReasonType != null)
+                this.TransactionReasonType.Categories = null;
 
             if (this.TransactionImages != null)
             {

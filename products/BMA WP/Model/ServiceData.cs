@@ -508,7 +508,8 @@ namespace BMA_WP.Model
 
                             SetupTransactionList(transactions, false);
 
-                            App.Instance.IsSync = false;
+                            //Only update sync when offline and in login and main pages
+                            //App.Instance.IsSync = true;
 
                             callback(null);
                         }
@@ -566,9 +567,10 @@ namespace BMA_WP.Model
                             if (completedEventArgs.Error == null)
                             {
                                 //SetupTransactionImageList(completedEventArgs.Result);
-                                App.Instance.IsSync = true;
+                                
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
                             }
-
                         };
                     }
                 });
@@ -607,7 +609,8 @@ namespace BMA_WP.Model
                             {
                                 SetupBudgetList(completedEventArgs.Result, true);
 
-                                App.Instance.IsSync = true;
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }

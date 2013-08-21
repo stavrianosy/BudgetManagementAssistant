@@ -506,4 +506,18 @@ Choose the transactions that are completed</value>
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
+  <data name="NameAlreadyExist" xml:space="preserve">
+    <value>The name already exists.
+Please change the name.</value>
+  </data>
+  <data name="FaildValidationNameExists" xml:space="preserve">
+    <value>There are multiple {0} with same names. 
+Please use only unique names.</value>
+  </data>
+  <data name="TransactionReason" xml:space="preserve">
+    <value>transaction reason</value>
+  </data>
+  <data name="TransactionReasons" xml:space="preserve">
+    <value>transaction reasons</value>
+  </data>
 </root>

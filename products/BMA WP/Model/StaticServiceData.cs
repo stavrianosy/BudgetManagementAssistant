@@ -79,7 +79,8 @@ namespace BMA_WP.Model
         public ServerStatus SetServerStatus(Action<ServerStatus> callback)
         {
             var result = ServerStatus.Communicating;
-            
+
+            //## always offline
             //callback(result);
             //return result;
 
@@ -1041,10 +1042,14 @@ namespace BMA_WP.Model
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                //** TEST IF I CAN SEND NULL TO THE CALLBACK
-                                LoadTypeTransactionReasons(null);
+                                //## Find a more efficient call. Dont fetch all categories, only the affected ones.
+                                LoadTypeTransactionReasons(errorTransReason =>
+                                    callback(errorTransReason));
 
                                 SetupTypeCategoryData(completedEventArgs.Result, true);
+
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }
@@ -1105,12 +1110,14 @@ namespace BMA_WP.Model
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                //** CHECK IF NULL IS OK
-                                LoadCategories(null);
+                                //## Find a more efficient call. Dont fetch all categories, only the affected ones.
+                                LoadCategories(errorCat => 
+                                    callback(errorCat));
 
                                 SetupTypeTransactionReasonData(completedEventArgs.Result, true);
 
-                                App.Instance.IsSync = true;
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }
@@ -1184,7 +1191,8 @@ namespace BMA_WP.Model
                             {
                                 SetupIntervalData(completedEventArgs.Result, true);
 
-                                App.Instance.IsSync = true;
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }
@@ -1237,7 +1245,8 @@ namespace BMA_WP.Model
                             {
                                 SetupNotificationData(completedEventArgs.Result, true);
 
-                                App.Instance.IsSync = true;
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }
@@ -1286,7 +1295,8 @@ namespace BMA_WP.Model
                             {
                                 SetupTypeIntervalConfigData(completedEventArgs.Result, true);
 
-                                App.Instance.IsSync = true;
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }

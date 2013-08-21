@@ -74,6 +74,16 @@ namespace BMA_WP.View
             if (vm.CurrTransaction == null)
                 return;
 
+            if (vm.CurrTransaction.Category == null && vm.CategoryList.Count > 0)
+                vm.CurrTransaction.Category = vm.CategoryList[0];
+
+            var catFound = vm.CategoryList.FirstOrDefault(x => x.CategoryId == vm.CurrTransaction.Category.CategoryId);
+            if (vm.CurrTransaction.TransactionReasonType == null && 
+                catFound != null &&
+                catFound.TypeTransactionReasons != null &&
+                catFound.TypeTransactionReasons.Count > 0)
+                vm.CurrTransaction.TransactionReasonType = catFound.TypeTransactionReasons[0];
+
             SetupTransactionTypeBinding();
             SetupCategoryBinding();
             SetupTransactionReasonBinding();
@@ -342,11 +352,21 @@ namespace BMA_WP.View
         private bool ValidateTransaction()
         {
             var result = true;
+
+            result = ValidateSingleTransaction() && ValidateAllTransactions();
+
+            return result;
+        }
+
+        private bool ValidateSingleTransaction()
+        {
+            var result = true;
+
             if (vm.CurrTransaction == null)
                 return result;
 
             SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });
-            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240});
+            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
 
             txtAmount.Background = okColor;
             txtTip.Background = okColor;
@@ -370,16 +390,23 @@ namespace BMA_WP.View
                 txtTip.Background = errColor;
             }
 
+            return result;
+        }
+
+        public bool ValidateAllTransactions()
+        {
+            var result = true;
+
             if (!result)
                 svItem.ScrollToVerticalOffset(0);
             else
             {
                 var tempTrans = vm.Transactions.Where(x => !x.IsDeleted && ((x.Amount <= 0 && x.TipAmount <= 0) || (x.Amount < 0 || x.TipAmount < 0))).ToList();
-                if (tempTrans.Count>0)
+                if (tempTrans.Count > 0)
                 {
                     result = false;
                     //for more specific message
-                    if(tempTrans.Count ==1)
+                    if (tempTrans.Count == 1)
                         MessageBox.Show(string.Format("There is another transaction that failed validation.\nUpdate it from the list and save again."));
                     else
                         MessageBox.Show(string.Format("There are another {0} transactions that failed validation.\nUpdate them from the list and save again.", tempTrans.Count));
