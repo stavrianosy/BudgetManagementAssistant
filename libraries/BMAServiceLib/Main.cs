@@ -708,7 +708,7 @@ namespace BMAServiceLib
         {
             var result = new Dictionary<string, double>();
 
-            var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId).GroupBy(x => x.NameOfPlace)
+            var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId).GroupBy(x => x.NameOfPlace.Trim())
                          select new
                          {
                              item = i.FirstOrDefault().NameOfPlace,
@@ -718,6 +718,43 @@ namespace BMAServiceLib
             query.ForEach(x =>
             {
                 result.Add(x.item, x.sum);
+            });
+
+            return result;
+        }
+
+        public Dictionary<int, double> ReportTransactionByPeriod(DateTime dateFrom, DateTime dateTo, int transTypeId, Const.ReportPeriod period, int userId)
+        {
+            var result = new Dictionary<int, double>();
+
+            string periodStr = "yyyyMM";
+            //var periodEnum = (Const.ReportPeriod)Enum.Parse(typeof(Const.ReportPeriod), period);
+
+            switch (period)
+                {
+                    case Const.ReportPeriod.Monthly:
+                        periodStr = "yyyyMM";
+                        break;
+                    case Const.ReportPeriod.Yearly:
+                        periodStr = "yyyy";
+                        break;
+                    default:
+                        periodStr = "yyyyMMdd";
+                        break;
+                }
+            
+
+            var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId)
+                             .GroupBy(x => x.TransactionDate.ToString(periodStr))
+                         select new
+                         {
+                             item = i.Key,
+                             sum = i.Sum(x => x.Amount)
+                         }).OrderByDescending(x => x.sum).ToList();
+
+            query.ForEach(x =>
+            {
+                result.Add(int.Parse(x.item), x.sum);
             });
 
             return result;

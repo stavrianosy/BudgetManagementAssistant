@@ -520,4 +520,19 @@ Please use only unique names.</value>
   <data name="TransactionReasons" xml:space="preserve">
     <value>transaction reasons</value>
   </data>
+  <data name="ReminderError" xml:space="preserve">
+    <value>Reminders cannot be set</value>
+  </data>
+  <data name="ReminderForUser" xml:space="preserve">
+    <value>Reminder for user:</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="ReportsMenuTransactionByPeriod" xml:space="preserve">
+    <value>Transactions by Period</value>
+  </data>
+  <data name="NotificationNote" xml:space="preserve">
+    <value>Notification list display reminders from all users of this device.</value>
+  </data>
 </root>

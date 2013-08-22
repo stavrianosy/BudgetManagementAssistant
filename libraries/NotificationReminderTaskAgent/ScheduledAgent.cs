@@ -54,16 +54,16 @@ namespace NotificationReminderTaskAgent
                 {
                     if (error == null)
                     {
+                        
+                        //string toastMessage = "Periodic task running.";
 
-                        string toastMessage = "Periodic task running.";
-
-                        ShellToast toast = new ShellToast();
-                        toast.Title = string.Format("{0} Background Agent Sample", notificationsList.Count);
-                        toast.Content = toastMessage;
-                        toast.Show();
+                        //ShellToast toast = new ShellToast();
+                        //toast.Title = string.Format("{0} Background Agent Sample", notificationsList.Count);
+                        //toast.Content = toastMessage;
+                        //toast.Show();
 
 #if DEBUG_AGENT
-                        ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(30));
+                        ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(20));
 #endif
                     }
                     NotifyComplete();

@@ -517,4 +517,19 @@ Update it from the list and save again.</value>
   <data name="TransactionReasons" xml:space="preserve">
     <value>λογοι συναλλαγης</value>
   </data>
+  <data name="ReminderError" xml:space="preserve">
+    <value>Η υπενθημησεις δεν μπορουν να δημιουργηθουν</value>
+  </data>
+  <data name="ReminderForUser" xml:space="preserve">
+    <value>Υπενθημηση για χρηστη:</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Περιοδος</value>
+  </data>
+  <data name="ReportsMenuTransactionByPeriod" xml:space="preserve">
+    <value>Συναλλαγες ανα περιοδο</value>
+  </data>
+  <data name="NotificationNote" xml:space="preserve">
+    <value>Η λιστα ειδοποιησεων περιλαμβανει υπενθημισεισ απο ολους τους χρηστες της συσκευης.</value>
+  </data>
 </root>

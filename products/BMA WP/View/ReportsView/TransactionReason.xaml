@@ -120,7 +120,7 @@
                     Margin="0,12,-12,0"
                     LayoutMode="List"
                     ItemsSource ="{Binding ReportResult}"
-                    ItemTemplate="{StaticResource BMA_TransCategoryReport_ItemTemplate}"/>
+                    ItemTemplate="{StaticResource BMA_TransReasonReport_ItemTemplate}"/>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

@@ -18,6 +18,7 @@ using BMA_WP.ViewModel;
 using BMA_WP.Model;
 using System.Windows.Data;
 using BMA.BusinessLogic;
+using Microsoft.Phone.Scheduler;
 
 namespace BMA_WP.View
 {
@@ -395,11 +396,12 @@ namespace BMA_WP.View
             var budget = false;
             var staticData = false;
             var typeInterval = false;
+            var notifications = false;
             
             App.Instance.ServiceData.LoadTransactions(error=>
                 {
                     transaction = true;
-                    if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                    if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
                         callback();
                 });
 
@@ -407,14 +409,14 @@ namespace BMA_WP.View
             App.Instance.ServiceData.LoadBudgets(error =>
                 {
                     budget = true;
-                    if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                    if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
                         callback();
                 });
 
             App.Instance.StaticServiceData.LoadStaticData(error =>
             {
                 staticData = true;
-                if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
                 {
                     callback();
                 }
@@ -434,18 +436,45 @@ namespace BMA_WP.View
                         if (App.Instance.ServiceData.IntervalTransactionList != null && App.Instance.ServiceData.IntervalTransactionList.Count > 0)
                             NavigationService.Navigate(new Uri("/View/TransactionsInterval.xaml", UriKind.Relative));
 
-                        if (AllDataLoaded(transaction, budget, staticData, typeInterval))
+                        if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
                         {
                             callback();
                         }
                     });
                 });
 
+            App.Instance.StaticServiceData.LoadNotifications(error =>
+                {
+                    if (error != null)
+                        callback();
+
+                    SetupNotificationReminders();
+
+                    notifications = true;
+
+                    if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
+                    {
+                        callback();
+                    }
+                });
+
         }
 
-        private bool AllDataLoaded(bool transaction, bool budget, bool staticData, bool recurrenceRule)
+        private void SetupNotificationReminders()
         {
-            return transaction && budget && staticData && recurrenceRule;
+            try
+            {
+                Model.Reminders.SetupReminders();
+            }
+            catch(Exception)
+            {
+                MessageBox.Show(AppResources.ReminderError);
+            }
+        }
+
+        private bool AllDataLoaded(bool transaction, bool budget, bool staticData, bool recurrenceRule, bool notifications)
+        {
+            return transaction && budget && staticData && recurrenceRule && notifications;
             //return transaction && budget;
         }
 

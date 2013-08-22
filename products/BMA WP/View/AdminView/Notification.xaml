@@ -69,7 +69,7 @@
             <!--Pivot item one-->
             <phone:PivotItem x:Name="piNotification"
                              Header="{Binding Path=LocalizedResources.Notification, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
-                <ScrollViewer x:Name="svItem">
+                    <ScrollViewer x:Name="svItem">
                     <StackPanel>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
@@ -96,19 +96,24 @@
             <!--Pivot item two-->
             <phone:PivotItem x:Name="piNotificationList" 
                              Header="{Binding Path=LocalizedResources.Notifications, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
-                <phone:LongListSelector x:Name="NotificationsMultiSelect"
+                <StackPanel>
+                    <TextBlock Text="{Binding Path=LocalizedResources.NotificationNote, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                               TextWrapping="Wrap"
+                               Foreground="{StaticResource PhoneSubtleBrush}"/>
+                    <phone:LongListSelector x:Name="NotificationsMultiSelect"
                                         Margin="0,12,0,0"                                        
                                         LayoutMode="List"
                                         ItemsSource ="{Binding Notifications}"
                                         ItemTemplate="{StaticResource BMA_Notification_ItemTemplate}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <command:EventToCommand 
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <command:EventToCommand 
                                 PassEventArgsToCommand="True" 
                                 Command="{Binding Notifications_SelectionChanged, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </phone:LongListSelector>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </phone:LongListSelector>
+                </StackPanel>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

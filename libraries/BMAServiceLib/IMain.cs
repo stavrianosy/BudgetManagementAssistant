@@ -81,6 +81,10 @@ namespace BMAServiceLib
 
         [OperationContract]
         Dictionary<string, double> ReportTransactionNameOfPlace(DateTime dateFrom, DateTime dateTo, int transTypeId, int userId);
+
+        [OperationContract]
+        Dictionary<int, double> ReportTransactionByPeriod(DateTime dateFrom, DateTime dateTo, int transTypeId, Const.ReportPeriod period, int userId);
+
         #endregion
     }
 }

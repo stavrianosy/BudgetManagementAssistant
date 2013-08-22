@@ -78,6 +78,9 @@ namespace BMA_WP.Model
                     case "reasoncatlist":
                         return GetReasonCategoryList(value);
 
+                    case "categoryreasonlist":
+                        return GetCategoryReasonList(value);
+
                     case "changedcolor":
                         return GetChangedColor(value);
 
@@ -107,6 +110,9 @@ namespace BMA_WP.Model
 
                     case "intervalimage":
                         return IntervalImage(value);
+
+                    case "periodtodate":
+                        return PeriodToDate(value);
                 }
             }
 
@@ -138,6 +144,34 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object PeriodToDate(object value)
+        {
+            var result = value.ToString();
+            var date = new DateTime();
+
+            switch (result.Length)
+            {
+                    //Daily yyyyMMdd
+                case 8:
+                    date = Helper.ConvertStringToDate(result);
+                    result = date.ToShortDateString();
+                    break;
+
+                //Monthly yyyyMM
+                case 6:
+                    date = Helper.ConvertStringToDate(result + "01");
+                    result = date.ToString("MMMM yyyy");
+                    break;
+
+                //Yearly yyyy
+                case 4:
+                    result = string.Format("Year {0}", result);
+                    break;
+            }
+
+            return result;
         }
 
         private object IntervalImage(object value)
@@ -263,17 +297,33 @@ namespace BMA_WP.Model
         private string GetReasonCategoryList(object value)
         {
             var delim = "";
-            var reasonCatList = new StringBuilder();
+            var result = new StringBuilder();
             if (value is ICollection<Category>)
             {
                 foreach (var i in (ICollection<Category>)value)
                 {
-                    reasonCatList.Append(delim);
-                    reasonCatList.Append(i.Name);
+                    result.Append(delim);
+                    result.Append(i.Name);
                     delim = ", ";
                 }
             }
-            return reasonCatList.ToString();
+            return result.ToString();
+        }
+
+        private string GetCategoryReasonList(object value)
+        {
+            var delim = "";
+            var result = new StringBuilder();
+            if (value is ICollection<TypeTransactionReason>)
+            {
+                foreach (var i in (ICollection<TypeTransactionReason>)value)
+                {
+                    result.Append(delim);
+                    result.Append(i.Name);
+                    delim = ", ";
+                }
+            }
+            return result.ToString();
         }
 
         private object GetNullList(object value)

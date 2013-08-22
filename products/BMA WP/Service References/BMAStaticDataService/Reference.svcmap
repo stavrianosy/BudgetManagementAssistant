@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="554040a4-686f-48b1-8a80-4798f330f8bc" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="9273b059-9140-44d2-9218-bf45e09b3a6a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -23,11 +23,11 @@
     <MetadataSource Address="http://localhost/BMAService/BMAStaticDataService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="BMAStaticDataService.xsd" MetadataType="Schema" ID="e26e025e-ff2f-4280-a10e-9d431eb8e864" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd1" />
-    <MetadataFile FileName="BMAStaticDataService1.xsd" MetadataType="Schema" ID="27af6ee3-2df9-4e83-9712-bcd8c3ef2061" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd0" />
-    <MetadataFile FileName="BMAStaticDataService.disco" MetadataType="Disco" ID="53c8d8ed-52ea-4cf9-bc5b-24699a0cb347" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?disco" />
-    <MetadataFile FileName="Static.wsdl" MetadataType="Wsdl" ID="4d070705-a24e-42de-bf83-2f780cb58889" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?wsdl" />
-    <MetadataFile FileName="BMAStaticDataService2.xsd" MetadataType="Schema" ID="07c24cab-4317-4ccd-911a-b0075ec8761a" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BMAStaticDataService.xsd" MetadataType="Schema" ID="b6dfdddb-dccf-4049-abb5-162237a77fd5" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd1" />
+    <MetadataFile FileName="BMAStaticDataService1.xsd" MetadataType="Schema" ID="f040d3b6-bb99-4cf4-bf41-c515895b31ea" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BMAStaticDataService.disco" MetadataType="Disco" ID="5c2efb34-2f7a-413c-a614-c1297abb18cb" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?disco" />
+    <MetadataFile FileName="Static.wsdl" MetadataType="Wsdl" ID="5ab1c4e0-976d-45ae-a637-b1507293941c" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?wsdl" />
+    <MetadataFile FileName="BMAStaticDataService2.xsd" MetadataType="Schema" ID="d30e30b7-416b-49e9-b796-648a15fb8fe0" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAStaticDataService.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

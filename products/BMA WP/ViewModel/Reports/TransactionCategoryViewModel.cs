@@ -38,6 +38,7 @@ namespace BMA_WP.ViewModel.ReportsView
 
         public ObservableCollection<KeyValuePair<Category, double>> ReportResult { get { return reportResult; } set { reportResult = value; RaisePropertyChanged("ReportResult"); } }
         public TypeTransactionList TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
+        public CategoryList CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         #endregion
 

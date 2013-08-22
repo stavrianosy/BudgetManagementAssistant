@@ -777,6 +777,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notification list display reminders from all users of this device..
+        /// </summary>
+        public static string NotificationNote {
+            get {
+                return ResourceManager.GetString("NotificationNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notifications.
         /// </summary>
         public static string Notifications {
@@ -845,6 +854,15 @@ namespace BMA_WP.Resources {
         public static string PasswordValidationFailMessage {
             get {
                 return ResourceManager.GetString("PasswordValidationFailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period.
+        /// </summary>
+        public static string Period {
+            get {
+                return ResourceManager.GetString("Period", resourceCulture);
             }
         }
         
@@ -957,6 +975,24 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reminders cannot be set.
+        /// </summary>
+        public static string ReminderError {
+            get {
+                return ResourceManager.GetString("ReminderError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder for user:.
+        /// </summary>
+        public static string ReminderForUser {
+            get {
+                return ResourceManager.GetString("ReminderForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaction Amount.
         /// </summary>
         public static string ReportsMenuTransactionAmount {
@@ -971,6 +1007,15 @@ namespace BMA_WP.Resources {
         public static string ReportsMenuTransactionBudget {
             get {
                 return ResourceManager.GetString("ReportsMenuTransactionBudget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactions by Period.
+        /// </summary>
+        public static string ReportsMenuTransactionByPeriod {
+            get {
+                return ResourceManager.GetString("ReportsMenuTransactionByPeriod", resourceCulture);
             }
         }
         

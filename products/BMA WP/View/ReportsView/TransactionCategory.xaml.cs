@@ -101,14 +101,20 @@ namespace BMA_WP.View.ReportsView
                         if (vm.IsSortByAmount)
                         {
                             vm.ReportResult = new ObservableCollection<KeyValuePair<Category, double>>();
-                            foreach (var item in result.ToList().OrderByDescending(x=>x.Value))
-                                vm.ReportResult.Add(new KeyValuePair<Category,double>(item.Key, item.Value));
+                            foreach (var item in result.ToList().OrderByDescending(x => x.Value))
+                            {
+                                item.Key.TypeTransactionReasons = vm.CategoryList.FirstOrDefault(x => x.CategoryId == item.Key.CategoryId).TypeTransactionReasons;
+                                vm.ReportResult.Add(new KeyValuePair<Category, double>(item.Key, item.Value));
+                            }
                         }
                         else
                         {
                             vm.ReportResult = new ObservableCollection<KeyValuePair<Category, double>>();
-                            foreach (var item in result.ToList().OrderBy(x=>x.Key.Name))
-                                vm.ReportResult.Add(new KeyValuePair<Category,double>(item.Key, item.Value));
+                            foreach (var item in result.ToList().OrderBy(x => x.Key.Name))
+                            {
+                                item.Key.TypeTransactionReasons = vm.CategoryList.FirstOrDefault(x => x.CategoryId == item.Key.CategoryId).TypeTransactionReasons;
+                                vm.ReportResult.Add(new KeyValuePair<Category, double>(item.Key, item.Value));
+                            }
                         }
 
                         vm.PivotIndex = 1;

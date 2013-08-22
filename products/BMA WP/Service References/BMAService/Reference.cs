@@ -122,6 +122,11 @@ namespace BMA_WP.BMAService {
         System.IAsyncResult BeginReportTransactionNameOfPlace(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId, System.AsyncCallback callback, object asyncState);
         
         System.Collections.Generic.Dictionary<string, double> EndReportTransactionNameOfPlace(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/ReportTransactionByPeriod", ReplyAction="http://tempuri.org/IMain/ReportTransactionByPeriodResponse")]
+        System.IAsyncResult BeginReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.Generic.Dictionary<int, double> EndReportTransactionByPeriod(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -529,6 +534,25 @@ namespace BMA_WP.BMAService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class ReportTransactionByPeriodCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public ReportTransactionByPeriodCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.Generic.Dictionary<int, double> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.Generic.Dictionary<int, double>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class MainClient : System.ServiceModel.ClientBase<BMA_WP.BMAService.IMain>, BMA_WP.BMAService.IMain {
         
         private BeginOperationDelegate onBeginGetDBStatusDelegate;
@@ -657,6 +681,12 @@ namespace BMA_WP.BMAService {
         
         private System.Threading.SendOrPostCallback onReportTransactionNameOfPlaceCompletedDelegate;
         
+        private BeginOperationDelegate onBeginReportTransactionByPeriodDelegate;
+        
+        private EndOperationDelegate onEndReportTransactionByPeriodDelegate;
+        
+        private System.Threading.SendOrPostCallback onReportTransactionByPeriodCompletedDelegate;
+        
         private BeginOperationDelegate onBeginOpenDelegate;
         
         private EndOperationDelegate onEndOpenDelegate;
@@ -751,6 +781,8 @@ namespace BMA_WP.BMAService {
         public event System.EventHandler<ReportTransactionBudgetCompletedEventArgs> ReportTransactionBudgetCompleted;
         
         public event System.EventHandler<ReportTransactionNameOfPlaceCompletedEventArgs> ReportTransactionNameOfPlaceCompleted;
+        
+        public event System.EventHandler<ReportTransactionByPeriodCompletedEventArgs> ReportTransactionByPeriodCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
@@ -1754,6 +1786,60 @@ namespace BMA_WP.BMAService {
                         userId}, this.onEndReportTransactionNameOfPlaceDelegate, this.onReportTransactionNameOfPlaceCompletedDelegate, userState);
         }
         
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult BMA_WP.BMAService.IMain.BeginReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginReportTransactionByPeriod(dateFrom, dateTo, transTypeId, period, userId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.Generic.Dictionary<int, double> BMA_WP.BMAService.IMain.EndReportTransactionByPeriod(System.IAsyncResult result) {
+            return base.Channel.EndReportTransactionByPeriod(result);
+        }
+        
+        private System.IAsyncResult OnBeginReportTransactionByPeriod(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            System.DateTime dateFrom = ((System.DateTime)(inValues[0]));
+            System.DateTime dateTo = ((System.DateTime)(inValues[1]));
+            int transTypeId = ((int)(inValues[2]));
+            BMA.BusinessLogic.Const.ReportPeriod period = ((BMA.BusinessLogic.Const.ReportPeriod)(inValues[3]));
+            int userId = ((int)(inValues[4]));
+            return ((BMA_WP.BMAService.IMain)(this)).BeginReportTransactionByPeriod(dateFrom, dateTo, transTypeId, period, userId, callback, asyncState);
+        }
+        
+        private object[] OnEndReportTransactionByPeriod(System.IAsyncResult result) {
+            System.Collections.Generic.Dictionary<int, double> retVal = ((BMA_WP.BMAService.IMain)(this)).EndReportTransactionByPeriod(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnReportTransactionByPeriodCompleted(object state) {
+            if ((this.ReportTransactionByPeriodCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.ReportTransactionByPeriodCompleted(this, new ReportTransactionByPeriodCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void ReportTransactionByPeriodAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId) {
+            this.ReportTransactionByPeriodAsync(dateFrom, dateTo, transTypeId, period, userId, null);
+        }
+        
+        public void ReportTransactionByPeriodAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId, object userState) {
+            if ((this.onBeginReportTransactionByPeriodDelegate == null)) {
+                this.onBeginReportTransactionByPeriodDelegate = new BeginOperationDelegate(this.OnBeginReportTransactionByPeriod);
+            }
+            if ((this.onEndReportTransactionByPeriodDelegate == null)) {
+                this.onEndReportTransactionByPeriodDelegate = new EndOperationDelegate(this.OnEndReportTransactionByPeriod);
+            }
+            if ((this.onReportTransactionByPeriodCompletedDelegate == null)) {
+                this.onReportTransactionByPeriodCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnReportTransactionByPeriodCompleted);
+            }
+            base.InvokeAsync(this.onBeginReportTransactionByPeriodDelegate, new object[] {
+                        dateFrom,
+                        dateTo,
+                        transTypeId,
+                        period,
+                        userId}, this.onEndReportTransactionByPeriodDelegate, this.onReportTransactionByPeriodCompletedDelegate, userState);
+        }
+        
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
             return ((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(callback, asyncState);
         }
@@ -2116,6 +2202,23 @@ namespace BMA_WP.BMAService {
             public System.Collections.Generic.Dictionary<string, double> EndReportTransactionNameOfPlace(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 System.Collections.Generic.Dictionary<string, double> _result = ((System.Collections.Generic.Dictionary<string, double>)(base.EndInvoke("ReportTransactionNameOfPlace", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[5];
+                _args[0] = dateFrom;
+                _args[1] = dateTo;
+                _args[2] = transTypeId;
+                _args[3] = period;
+                _args[4] = userId;
+                System.IAsyncResult _result = base.BeginInvoke("ReportTransactionByPeriod", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.Generic.Dictionary<int, double> EndReportTransactionByPeriod(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.Generic.Dictionary<int, double> _result = ((System.Collections.Generic.Dictionary<int, double>)(base.EndInvoke("ReportTransactionByPeriod", _args, result)));
                 return _result;
             }
         }

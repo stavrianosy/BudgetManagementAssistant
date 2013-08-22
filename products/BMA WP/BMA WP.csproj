@@ -103,6 +103,7 @@
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Model\InitialData.cs" />
     <Compile Include="Model\IntervalRuleConverter.cs" />
+    <Compile Include="Model\Reminders.cs" />
     <Compile Include="Model\RuleSupportItems\BasicItem.cs" />
     <Compile Include="Model\RuleSupportItems\Month.cs" />
     <Compile Include="Model\RuleSupportItems\Position.cs" />
@@ -129,7 +130,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\Reports\TransactionByPeriodViewModel.cs" />
     <Compile Include="ViewModel\TransactionsIntervalViewModel.cs" />
+    <Compile Include="View\ReportsView\TransactionByPeriod.xaml.cs">
+      <DependentUpon>TransactionByPeriod.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TransactionsInterval.xaml.cs">
       <DependentUpon>TransactionsInterval.xaml</DependentUpon>
     </Compile>
@@ -219,6 +224,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Common\BMAStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReportsView\TransactionByPeriod.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -332,9 +341,11 @@
     <Content Include="Assets\category_80.png" />
     <Content Include="Assets\chart.png" />
     <Content Include="Assets\icons\Dark\add.png" />
+    <Content Include="Assets\icons\Dark\admin.png" />
     <Content Include="Assets\icons\Dark\back.png" />
     <Content Include="Assets\icons\Dark\basecircle.png" />
     <Content Include="Assets\icons\Dark\cancel.png" />
+    <Content Include="Assets\icons\Dark\category.png" />
     <Content Include="Assets\icons\Dark\check.png" />
     <Content Include="Assets\icons\Dark\close.png" />
     <Content Include="Assets\icons\Dark\delete.png" />
@@ -358,7 +369,9 @@
     <Content Include="Assets\icons\Dark\next.png" />
     <Content Include="Assets\icons\Dark\overflowdots.png" />
     <Content Include="Assets\icons\Dark\questionmark.png" />
+    <Content Include="Assets\icons\Dark\reason.png" />
     <Content Include="Assets\icons\Dark\refresh.png" />
+    <Content Include="Assets\icons\Dark\reports.png" />
     <Content Include="Assets\icons\Dark\save.png" />
     <Content Include="Assets\icons\Dark\share.png" />
     <Content Include="Assets\icons\Dark\stop.png" />
@@ -419,6 +432,23 @@
     <Content Include="Assets\wallet_out.png" />
     <Content Include="MVVMLight.Nuget.Readme.txt" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
+    <None Include="Service References\BMAService\BMAService.disco" />
+    <None Include="Service References\BMAService\configuration91.svcinfo" />
+    <None Include="Service References\BMAService\configuration.svcinfo" />
+    <None Include="Service References\BMAService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
+    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Service References\BMAService\BMAService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -432,16 +462,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAService\Main.wsdl" />
-    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
-    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
-    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
-    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <Content Include="ServiceReferences.ClientConfig">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Service References\BMAStaticDataService\BMAStaticDataService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -474,13 +494,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README_FIRST.txt" />
-    <None Include="Service References\BMAService\BMAService.disco" />
-    <None Include="Service References\BMAService\configuration91.svcinfo" />
-    <None Include="Service References\BMAService\configuration.svcinfo" />
-    <None Include="Service References\BMAService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />

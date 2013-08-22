@@ -186,6 +186,8 @@ namespace BMA_WP.View.AdminView
             {
                 if (error != null)
                     MessageBox.Show(AppResources.SaveFailed);
+                else
+                    Model.Reminders.SetupReminders();
 
                 vm.IsLoading = false;
 
@@ -224,6 +226,15 @@ namespace BMA_WP.View.AdminView
         private bool ValidateNotification()
         {
             var result = true;
+
+            result = ValidateSingleNotification() && ValidateAllNotification();
+
+            return result;
+        }
+
+        private bool ValidateSingleNotification()
+        {
+            var result = true;
             if (vm.CurrNotification == null)
                 return result;
 
@@ -232,29 +243,57 @@ namespace BMA_WP.View.AdminView
 
             txtName.Background = okColor;
 
-            if (vm.CurrNotification.Name.Trim().Length == 0)
+            if (vm.CurrNotification.Name != null && vm.CurrNotification.Name.Trim().Length == 0)
             {
                 result = false;
                 txtName.Background = errColor;
             }
 
-            if (!result)
-                svItem.ScrollToVerticalOffset(0);
-            else
+            if (vm.CurrNotification.Name != null)
             {
-                var tempNotification = vm.Notifications.Where(x => !x.IsDeleted && vm.CurrNotification.Name.Trim().Length == 0).ToList();
-                if (tempNotification.Count > 0)
+                var nameExists = vm.Notifications.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrNotification.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                            x.NotificationId != vm.CurrNotification.NotificationId && !x.IsDeleted);
+                if (nameExists != null)
                 {
                     result = false;
-                    //for more specific message
-                    if (tempNotification.Count == 1)
-                        MessageBox.Show(string.Format("There is another notification that failed validation.\nUpdate it from the list and save again."));
-                    else
-                        MessageBox.Show(string.Format("There are another {0} notifications that failed validation.\nUpdate them from the list and save again.", tempNotification.Count));
+                    MessageBox.Show(AppResources.NameAlreadyExist);
                 }
+            }
+
+            if (!result)
+                svItem.ScrollToVerticalOffset(0);
+
+            return result;
+        }
+
+        public bool ValidateAllNotification()
+        {
+            var result = true;
+
+            var tempNotificationCount = vm.Notifications.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Trim().Length == 0)).Count();
+
+            var tempNotificationNameExists = (from i in vm.Notifications
+                                             where i.Name != null && !i.IsDeleted
+                                             group i by i.Name.Trim().ToLower() into g
+                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 1).Count();
+
+            if (tempNotificationNameExists > 0)
+            {
+                result = false;
+                MessageBox.Show(string.Format(AppResources.FaildValidationNameExists, AppResources.Notifications));
+            }
+            else if (tempNotificationCount > 0)
+            {
+                result = false;
+                //for more specific message
+                if (tempNotificationCount == 1)
+                    MessageBox.Show(string.Format("There is another notification that failed validation.\nUpdate it from the list and save again."));
+                else
+                    MessageBox.Show(string.Format("There are another {0} notifications that failed validation.\nUpdate them from the list and save again.", tempNotificationCount));
             }
 
             return result;
         }
+
     }
 }

@@ -206,12 +206,15 @@ namespace BMA_WP.View.AdminView
                 txtName.Background = errColor;
             }
 
-            var nameExists = vm.CategoryList.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrCategory.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
-                                                            x.CategoryId != vm.CurrCategory.CategoryId);
-            if (nameExists != null)
+            if (vm.CurrCategory.Name != null)
             {
-                result = false;
-                MessageBox.Show(AppResources.NameAlreadyExist);
+                var nameExists = vm.CategoryList.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrCategory.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                x.CategoryId != vm.CurrCategory.CategoryId && !x.IsDeleted);
+                if (nameExists != null)
+                {
+                    result = false;
+                    MessageBox.Show(AppResources.NameAlreadyExist);
+                }
             }
 
             if (!result)
@@ -224,21 +227,19 @@ namespace BMA_WP.View.AdminView
         {
             var result = true;
 
-            var tempCategoryCount = vm.CategoryList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Length == 0)).Count();
+            var tempCategoryCount = vm.CategoryList.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Trim().Length == 0)).Count();
 
-
-            var tempCategoryNameExists = (from i in vm.CategoryList
-                                             where !i.IsDeleted && i.HasChanges
-                                             group i by i.Name into g
-                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 0).Count();
+            var tempCategoryNameExists = (from i in vm.CategoryList 
+                                          where i.Name != null && !i.IsDeleted 
+                                          group i by i.Name.Trim().ToLower() into g
+                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 1).Count();
 
             if (tempCategoryNameExists > 0)
             {
                 result = false;
                 MessageBox.Show(string.Format(AppResources.FaildValidationNameExists, AppResources.Categories));
             }
-
-            if (tempCategoryCount > 0)
+            else if (tempCategoryCount > 0)
             {
                 result = false;
                 //for more specific message

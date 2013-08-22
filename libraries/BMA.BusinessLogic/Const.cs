@@ -58,5 +58,12 @@ namespace BMA.BusinessLogic
             String,
             Position
         }
+
+        public enum ReportPeriod
+        {
+            Daily,
+            Monthly,
+            Yearly
+        }
     }
 }

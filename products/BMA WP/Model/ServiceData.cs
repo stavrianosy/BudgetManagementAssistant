@@ -237,7 +237,6 @@ namespace BMA_WP.Model
                     //if(updateCache)
                         await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserName);
                 }
-                TransactionList.OrderByDescending(x => x.TransactionDate);
             }
 
             private async void SetupTransactionImageList(ICollection<TransactionImage> existing, int transactionId)
@@ -264,7 +263,7 @@ namespace BMA_WP.Model
 
                 //sync logic
                 if (removeNew)
-                    RemoveInsertedTransactions();
+                    RemoveInsertedBudgets();
 
                 foreach (var item in existing)
                 {
@@ -279,18 +278,28 @@ namespace BMA_WP.Model
 
                     await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId, App.Instance.User.UserName);
                 }
-                BudgetList.OrderByDescending(x => x.Name);
             }
 
             private async void RemoveInsertedTransactions()
             {
                 //REMOVE all inserted records as they will be added with a new Id
                 var newItems = TransactionList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TransactionId <= 0).OrderByDescending(x => x.Index).ToList();
+
                 foreach (var x in newItems)
-                {
                     TransactionList.RemoveAt(x.Index);
-                    await StorageUtility.DeleteItem<Transaction>(TRANSACTIONS_FOLDER, x.Item, x.Item.TransactionId);
-                }
+
+                await StorageUtility.DeleteNewItems<Transaction>(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
+            }
+
+            private async void RemoveInsertedBudgets()
+            {
+                //REMOVE all inserted records as they will be added with a new Id
+                var newItems = BudgetList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.BudgetId <= 0).OrderByDescending(x => x.Index).ToList();
+
+                foreach (var x in newItems)
+                    BudgetList.RemoveAt(x.Index);
+
+                await StorageUtility.DeleteNewItems<Transaction>(BUDGETS_FOLDER, App.Instance.User.UserName);
             }
 
             #endregion
@@ -343,6 +352,9 @@ namespace BMA_WP.Model
             {
                 App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    TransactionList = new BMA.BusinessLogic.TransactionList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                             LoadCachedTransactions((transactionList, error) => callback(error));
                         else
@@ -395,6 +407,9 @@ namespace BMA_WP.Model
             {
                 App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    BudgetList = new BMA.BusinessLogic.BudgetList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedBudgets((budgetList, error) => callback(error));
                     else
@@ -508,8 +523,7 @@ namespace BMA_WP.Model
 
                             SetupTransactionList(transactions, false);
 
-                            //Only update sync when offline and in login and main pages
-                            //App.Instance.IsSync = true;
+                            App.Instance.IsSync = false;
 
                             callback(null);
                         }
@@ -532,7 +546,8 @@ namespace BMA_WP.Model
                             {
                                 SetupTransactionList(completedEventArgs.Result, true);
 
-                                App.Instance.IsSync = true;
+                                //Only update sync when offline and in login and main pages
+                                //App.Instance.IsSync = true;
 
                                 callback(null);
                             }
@@ -683,10 +698,25 @@ namespace BMA_WP.Model
                 App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
                     if (status != StaticServiceData.ServerStatus.Ok)
-                        LoadCachedReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId, 
+                        LoadCachedReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId,
                                                         (result, error) => callback(result, error));
                     else
-                        LoadLiveReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId, 
+                        LoadLiveReportTransactionNameOfPlace(dateFrom, dateTo, transTypeId,
+                                                        (result, error) => callback(result, error));
+                });
+
+            }
+
+            public void ReportTransactionByPeriod(DateTime dateFrom, DateTime dateTo, int transTypeId, Const.ReportPeriod period,
+                                                Action<Dictionary<int, double>, Exception> callback)
+            {
+                App.Instance.StaticServiceData.SetServerStatus(status =>
+                {
+                    if (status != StaticServiceData.ServerStatus.Ok)
+                        LoadCachedReportTransactionByPeriod(dateFrom, dateTo, transTypeId, period,
+                                                        (result, error) => callback(result, error));
+                    else
+                        LoadLiveReportTransactionByPeriod(dateFrom, dateTo, transTypeId, period,
                                                         (result, error) => callback(result, error));
                 });
 
@@ -779,7 +809,28 @@ namespace BMA_WP.Model
                 }
                 catch (Exception)
                 {
+                    throw;
+                }
+            }
 
+            private void LoadLiveReportTransactionByPeriod(DateTime dateFrom, DateTime dateTo, int transTypeId, Const.ReportPeriod period,
+                                                            Action<Dictionary<int, double>, Exception> callback)
+            {
+                try
+                {
+                    var client = new MainClient();
+                    client.ReportTransactionByPeriodAsync(dateFrom, dateTo, transTypeId, period, App.Instance.User.UserId);
+
+                    client.ReportTransactionByPeriodCompleted += (sender, e) =>
+                    {
+                        if (e.Error == null)
+                            callback(e.Result, null);
+                        else
+                            callback(null, e.Error);
+                    };
+                }
+                catch (Exception)
+                {
                     throw;
                 }
             }
@@ -863,6 +914,43 @@ namespace BMA_WP.Model
                 query.ForEach(x =>
                 {
                     result.Add(x.item, x.sum);
+                });
+
+                callback(result, null);
+            }
+
+            private void LoadCachedReportTransactionByPeriod(DateTime dateFrom, DateTime dateTo, int transTypeId, Const.ReportPeriod period,
+                                                            Action<Dictionary<int, double>, Exception> callback)
+            {
+                var result = new Dictionary<int, double>();
+
+                string periodStr = "";
+
+                switch (period)
+                {
+                    case Const.ReportPeriod.Monthly:
+                        periodStr = "yyyyMM";
+                        break;
+                    case Const.ReportPeriod.Yearly:
+                        periodStr = "yyyy";
+                        break;
+                    default:
+                        periodStr = "yyyyMMdd";
+                        break;
+                }
+
+
+                var query = (from i in GetAllTransactionsWithCriteria(dateFrom, dateTo, transTypeId, -1, -1)
+                                 .GroupBy(x => x.TransactionDate.ToString(periodStr))
+                             select new
+                             {
+                                 item = i.Key,
+                                 sum = i.Sum(x => x.Amount)
+                             }).OrderByDescending(x => x.sum).ToList();
+
+                query.ForEach(x =>
+                {
+                    result.Add(int.Parse(x.item), x.sum);
                 });
 
                 callback(result, null);

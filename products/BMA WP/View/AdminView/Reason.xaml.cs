@@ -205,12 +205,15 @@ namespace BMA_WP.View.AdminView
                 txtName.Background = errColor;
             }
 
-            var nameExists = vm.TransactionReasonList.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrTransactionReason.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
-                                                                        x.TypeTransactionReasonId != vm.CurrTransactionReason.TypeTransactionReasonId);
-            if (nameExists != null)
+            if (vm.CurrTransactionReason.Name != null)
             {
-                result = false;
-                MessageBox.Show(AppResources.NameAlreadyExist);
+                var nameExists = vm.TransactionReasonList.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrTransactionReason.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                            x.TypeTransactionReasonId != vm.CurrTransactionReason.TypeTransactionReasonId && !x.IsDeleted);
+                if (nameExists != null)
+                {
+                    result = false;
+                    MessageBox.Show(AppResources.NameAlreadyExist);
+                }
             }
 
             if (!result)
@@ -218,7 +221,6 @@ namespace BMA_WP.View.AdminView
 
             return result;
         }
-
 
         public bool ValidateAllTransactions()
         {
@@ -228,17 +230,16 @@ namespace BMA_WP.View.AdminView
                                         (x.Name == null || x.Name.Length == 0)).Count();
 
             var tempTransReasonNameExists = (from i in vm.TransactionReasonList
-                                             where !i.IsDeleted && i.HasChanges
-                                             group i by i.Name into g
-                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 0).Count();
+                                             where i.Name != null && !i.IsDeleted
+                                             group i by i.Name.Trim().ToLower() into g
+                                             select new { item = g.Key, count = g.Count() }).Where(x => x.count > 1).Count();
 
             if (tempTransReasonNameExists > 0)
             {
                 result = false;
                 MessageBox.Show(string.Format(AppResources.FaildValidationNameExists, AppResources.TransactionReasons));
             }
-
-            if (tempTransReasonCount > 0)
+            else if (tempTransReasonCount > 0)
             {
                 result = false;
                 //for more specific message

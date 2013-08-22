@@ -81,7 +81,7 @@ namespace BMA_WP.Common
             return retVal;
         }
 
-        public static async Task DeleteItem<T>(string folderName, T item, int id)
+        public static async Task DeleteItem<T>(string folderName, T item, int id, string userName)
             where T : BaseItem, new()
         {
             if (string.IsNullOrEmpty(folderName))
@@ -93,9 +93,67 @@ namespace BMA_WP.Common
             try
             {
                 var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync(folderName);
-                var file = await folder.GetFileAsync(id.GetHashCode().ToString());
+                var folderUsersAll = await folder.GetFoldersAsync();
 
-                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                StorageFile file = null;
+
+                if (userName != null && userName.Length > 0)
+                {
+                    var folderUser = folderUsersAll.FirstOrDefault(x => x.Name == (userName));
+                    file = await folderUser.GetFileAsync(id.GetHashCode().ToString());
+                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+                else
+                {
+                    foreach (var foderUser in folderUsersAll)
+                    {
+                        file = (await foderUser.GetFilesAsync()).FirstOrDefault(x => x.Name == id.GetHashCode().ToString());
+                        await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    }
+                }
+
+                //var file = await folder.GetFileAsync(id.GetHashCode().ToString());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
+        public static async Task DeleteNewItems<T>(string folderName, string userName)
+            where T : BaseItem, new()
+        {
+            if (string.IsNullOrEmpty(folderName))
+            {
+                throw new ArgumentNullException("folderName");
+            }
+
+
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync(folderName);
+                var folderUsersAll = await folder.GetFoldersAsync();
+
+                IReadOnlyList<StorageFile> files = null;
+
+                if (userName != null && userName.Length > 0)
+                {
+                    var folderUser = folderUsersAll.FirstOrDefault(x => x.Name == (userName));
+                    files = (await folderUser.GetFilesAsync()).ToList();
+                    foreach(var file in files.Where(x => int.Parse(x.Name) <= 0))
+                        await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+                else
+                {
+                    foreach (var foderUser in folderUsersAll)
+                    {
+                        files = (await foderUser.GetFilesAsync()).ToList();
+                        foreach (var file in files.Where(x => int.Parse(x.Name) <= 0))
+                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    }
+                }
+
+                //var file = await folder.GetFileAsync(id.GetHashCode().ToString());
             }
             catch (Exception ex)
             {

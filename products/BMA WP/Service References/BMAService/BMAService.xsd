@@ -154,4 +154,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="StartupInfo" nillable="true" type="tns:StartupInfo" />
+  <xs:simpleType name="Const.ReportPeriod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Daily" />
+      <xs:enumeration value="Monthly" />
+      <xs:enumeration value="Yearly" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Const.ReportPeriod" nillable="true" type="tns:Const.ReportPeriod" />
 </xs:schema>

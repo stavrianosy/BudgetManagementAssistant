@@ -134,6 +134,12 @@
   <wsdl:message name="IMain_ReportTransactionNameOfPlace_OutputMessage">
     <wsdl:part name="parameters" element="tns:ReportTransactionNameOfPlaceResponse" />
   </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionByPeriod_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionByPeriod" />
+  </wsdl:message>
+  <wsdl:message name="IMain_ReportTransactionByPeriod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportTransactionByPeriodResponse" />
+  </wsdl:message>
   <wsdl:portType name="IMain">
     <wsdl:operation name="GetDBStatus">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/GetDBStatus" message="tns:IMain_GetDBStatus_InputMessage" />
@@ -218,6 +224,10 @@
     <wsdl:operation name="ReportTransactionNameOfPlace">
       <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionNameOfPlace" message="tns:IMain_ReportTransactionNameOfPlace_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionNameOfPlaceResponse" message="tns:IMain_ReportTransactionNameOfPlace_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionByPeriod">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMain/ReportTransactionByPeriod" message="tns:IMain_ReportTransactionByPeriod_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMain/ReportTransactionByPeriodResponse" message="tns:IMain_ReportTransactionByPeriod_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IMain" type="tns:IMain">
@@ -404,6 +414,15 @@
     </wsdl:operation>
     <wsdl:operation name="ReportTransactionNameOfPlace">
       <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionNameOfPlace" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReportTransactionByPeriod">
+      <soap:operation soapAction="http://tempuri.org/IMain/ReportTransactionByPeriod" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

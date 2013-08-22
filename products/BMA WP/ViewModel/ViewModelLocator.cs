@@ -63,6 +63,7 @@ namespace BMA_WP.ViewModel
             SimpleIoc.Default.Register<TransactionCategoryViewModel>();
             SimpleIoc.Default.Register<TransactionReasonViewModel>();
             SimpleIoc.Default.Register<TransactionPlaceViewModel>();
+            SimpleIoc.Default.Register<TransactionByPeriodViewModel>();
             #endregion
         }
 
@@ -199,6 +200,14 @@ namespace BMA_WP.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<TransactionPlaceViewModel>();
+            }
+        }
+
+        public TransactionByPeriodViewModel TransactionByPeriodViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<TransactionByPeriodViewModel>();
             }
         }
 

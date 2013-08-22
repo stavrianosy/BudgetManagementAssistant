@@ -56,7 +56,6 @@ namespace BMA.BusinessLogic
         private DateTime fromDate;
         private DateTime toDate;
         private string comments;
-        private bool includeInstallemnts;
         private bool repeat;
         private TransactionList transactions;
         #endregion

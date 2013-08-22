@@ -119,7 +119,7 @@ namespace BMA_WP.Model
             var categories = false;
             var typeTransReasons = false;
             var typeTrans= false;
-            var notifications = false;
+            var notifications = true;
             var typeFrequencies= false;
             var typeIntervals= true;
             var recurrenceRules= false;
@@ -142,12 +142,12 @@ namespace BMA_WP.Model
                 if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
                     callback(error);
             });
-            LoadNotifications(error =>
-            {
-                notifications = true;
-                if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
-                    callback(error);
-            });
+            //LoadNotifications(error =>
+            //{
+            //    notifications = true;
+            //    if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
+            //        callback(error);
+            //});
             LoadTypeFrequencies(error =>
             {
                 typeFrequencies = true;
@@ -180,6 +180,9 @@ namespace BMA_WP.Model
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    CategoryList = new BMA.BusinessLogic.CategoryList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedCategories((categoryList, error) => callback(error));
                     else
@@ -191,6 +194,9 @@ namespace BMA_WP.Model
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    TypeTransactionReasonList = new BMA.BusinessLogic.TypeTransactionReasonList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedTypeTransactionReasons((typeTransactionReasonList, error) => callback(error));
                     else
@@ -202,6 +208,9 @@ namespace BMA_WP.Model
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    TypeTransactionList= new BMA.BusinessLogic.TypeTransactionList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedTypeTransactions((typeTransactionList, error) => callback(error));
                     else
@@ -213,6 +222,9 @@ namespace BMA_WP.Model
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    NotificationList = new BMA.BusinessLogic.NotificationList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedNotifications((notificationsList, error) => callback(error));
                     else
@@ -224,6 +236,9 @@ namespace BMA_WP.Model
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    TypeFrequencyList = new BMA.BusinessLogic.TypeFrequencyList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedTypeFrequencies((typeFrequenciesList, error) => callback(error));
                     else
@@ -235,6 +250,9 @@ namespace BMA_WP.Model
         {
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
+                    //Clean the list before fetch the new data
+                    IntervalList = new BMA.BusinessLogic.TypeIntervalList();
+
                     if (status != StaticServiceData.ServerStatus.Ok)
                         LoadCachedTypeIntervals((typeIntervalsList, error) => callback(error));
                     else
@@ -253,9 +271,11 @@ namespace BMA_WP.Model
                 });
         }
 
-        
         public void LoadRecurrenceRules(Action<Exception> callback)
         {
+            //Clean the list before fetch the new data
+                    RecurrenceRuleList= new BMA.BusinessLogic.RecurrenceRuleList();
+
             App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
                     if (status != StaticServiceData.ServerStatus.Ok)
@@ -268,37 +288,42 @@ namespace BMA_WP.Model
         public async Task LoadUser(User user, Action<Exception> callback)
         {
             User existing = new User();
-            if (App.Instance.StaticDataOnlineStatus != ServerStatus.Ok)
-            {
-                try
+            App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
-                    var query = await LoadCachedUser();
-                    existing = query.Where(i => i.UserName == user.UserName).Single();
-                    UserFound(existing);
-                    
-                    callback(null);
-                }
-                catch (Exception) { throw new Exception("Username or Password is incorrect.\nThis might be due to that offline mode is not updated.\nPlease connect to the live system get get the latest data."); }
-            }
-            else
-            {
-                var client = new StaticClient();
-                client.AuthenticateUserAsync(user, callback);
-                client.AuthenticateUserCompleted += async (sender,eventargs) => {
-                    try
+                    if (status != StaticServiceData.ServerStatus.Ok)
                     {
-                        if (eventargs.Error == null)
+                        try
                         {
-                            existing = eventargs.Result;
+                            var query = await LoadCachedUser();
+                            existing = query.Where(i => i.UserName == user.UserName).Single();
                             UserFound(existing);
-                            await UpdateCacheUserData(existing);
-                        }
 
-                        callback(eventargs.Error);
+                            callback(null);
+                        }
+                        catch (Exception) { throw new Exception("Username or Password is incorrect.\nThis might be due to that offline mode is not updated.\nPlease connect to the live system get get the latest data."); }
+
                     }
-                    catch (Exception){throw;}
-                };
-            }
+                    else
+                    {
+                        var client = new StaticClient();
+                        client.AuthenticateUserAsync(user, callback);
+                        client.AuthenticateUserCompleted += async (sender, eventargs) =>
+                        {
+                            try
+                            {
+                                if (eventargs.Error == null)
+                                {
+                                    existing = eventargs.Result;
+                                    UserFound(existing);
+                                    await UpdateCacheUserData(existing);
+                                }
+
+                                callback(eventargs.Error);
+                            }
+                            catch (Exception) { throw; }
+                        };
+                    }
+                });
         }
 
         private void UserFound(User existing)
@@ -347,7 +372,7 @@ namespace BMA_WP.Model
                 else
                     CategoryList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId, App.Instance.User.UserName);
             }
             var ord = CategoryList.OrderBy(x => x.Name).ToList();
             CategoryList.Clear();
@@ -373,7 +398,7 @@ namespace BMA_WP.Model
                 else
                     TypeTransactionReasonList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId, App.Instance.User.UserName);
             }
             var ord = TypeTransactionReasonList.OrderBy(x => x.Name).ToList();
             TypeTransactionReasonList.Clear();
@@ -399,7 +424,7 @@ namespace BMA_WP.Model
                 else
                     TypeTransactionList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId, App.Instance.User.UserName);
             }
             var ord = TypeTransactionList.OrderBy(x => x.Name).ToList();
             TypeTransactionList.Clear();
@@ -425,7 +450,7 @@ namespace BMA_WP.Model
                 else
                     NotificationList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId, App.Instance.User.UserName);
             }
             var ord = NotificationList.OrderBy(x => x.Name).ToList();
             NotificationList.Clear();
@@ -451,7 +476,7 @@ namespace BMA_WP.Model
                 else
                     TypeFrequencyList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId, App.Instance.User.UserName);
             }
             var ord = TypeFrequencyList.OrderBy(x => x.Name).ToList();
             TypeFrequencyList.Clear();
@@ -514,7 +539,7 @@ namespace BMA_WP.Model
                 else
                     RecurrenceRuleList[query.Index] = item;
 
-                await StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId, App.Instance.User.UserName);
+                StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId, App.Instance.User.UserName);
             }
             var ord = RecurrenceRuleList.OrderBy(x => x.Name).ToList();
             RecurrenceRuleList.Clear();
@@ -562,11 +587,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = CategoryList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.CategoryId <= 0).OrderByDescending(x => x.Index).ToList();
+            
             foreach (var x in newItems)
-            {
                 CategoryList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<Category>(STATIC_CATEGORY_FOLDER, x.Item, x.Item.CategoryId);
-            }
+            
+                await StorageUtility.DeleteNewItems<Transaction>(STATIC_CATEGORY_FOLDER, App.Instance.User.UserName);
         }
 
         private async void LoadCachedTypeTransactionReasons(Action<TypeTransactionReasonList, Exception> callback)
@@ -596,11 +621,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = TypeTransactionReasonList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeTransactionReasonId <= 0).OrderByDescending(x => x.Index).ToList();
+
             foreach (var x in newItems)
-            {
                 TypeTransactionReasonList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, x.Item, x.Item.TypeTransactionReasonId);
-            }
+
+            await StorageUtility.DeleteNewItems<Transaction>(STATIC_TYPETRANSACTIONREASON_FOLDER, App.Instance.User.UserName);
         }
 
         private async void LoadCachedTypeTransactions(Action<TypeTransactionList, Exception> callback)
@@ -630,11 +655,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = TypeTransactionList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeTransactionId <= 0).OrderByDescending(x => x.Index).ToList();
+
             foreach (var x in newItems)
-            {
                 TypeTransactionList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, x.Item, x.Item.TypeTransactionId);
-            }
+            
+            await StorageUtility.DeleteNewItems<Transaction>(STATIC_TYPETRANSACTION_FOLDER, App.Instance.User.UserName);
         }
 
         private async void LoadCachedNotifications(Action<NotificationList, Exception> callback)
@@ -665,11 +690,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = NotificationList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.NotificationId <= 0).OrderByDescending(x => x.Index).ToList();
+            
             foreach (var x in newItems)
-            {
                 NotificationList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<Notification>(STATIC_NOTIFICATION_FOLDER, x.Item, x.Item.NotificationId);
-            }
+            
+                await StorageUtility.DeleteNewItems<Transaction>(STATIC_NOTIFICATION_FOLDER, App.Instance.User.UserName);
         }
 
         private async void LoadCachedTypeFrequencies(Action<TypeFrequencyList, Exception> callback)
@@ -700,11 +725,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = TypeFrequencyList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeFrequencyId <= 0).OrderByDescending(x => x.Index).ToList();
+
             foreach (var x in newItems)
-            {
                 TypeFrequencyList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, x.Item, x.Item.TypeFrequencyId);
-            }
+            
+            await StorageUtility.DeleteNewItems<Transaction>(STATIC_TYPEFREQUENCY_FOLDER, App.Instance.User.UserName);
         }
 
         private async void LoadCachedTypeIntervals(Action<TypeIntervalList, Exception> callback)
@@ -757,11 +782,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = IntervalList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.TypeIntervalId <= 0).OrderByDescending(x => x.Index).ToList();
+
             foreach (var x in newItems)
-            {
                 IntervalList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, x.Item, x.Item.TypeIntervalId);
-            }
+            
+            await StorageUtility.DeleteNewItems<Transaction>(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName);
         }
 
         private async void LoadCachedRecurrenceRules(Action<RecurrenceRuleList, Exception> callback)
@@ -791,11 +816,11 @@ namespace BMA_WP.Model
         {
             //REMOVE all inserted records as they will be added with a new Id
             var newItems = RecurrenceRuleList.Select((x, i) => new { Item = x, Index = i }).Where(x => x.Item.RecurrenceRuleId <= 0).OrderByDescending(x => x.Index).ToList();
+
             foreach (var x in newItems)
-            {
                 RecurrenceRuleList.RemoveAt(x.Index);
-                await StorageUtility.DeleteItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, x.Item, x.Item.RecurrenceRuleId);
-            }
+            
+            await StorageUtility.DeleteNewItems<Transaction>(STATIC_RECURRENCE_FOLDER, App.Instance.User.UserName);
         }
 
         private async Task<List<User>> LoadCachedUser()

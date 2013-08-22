@@ -100,13 +100,19 @@ namespace BMA_WP.View.ReportsView
                         {
                             vm.ReportResult = new ObservableCollection<KeyValuePair<TypeTransactionReason, double>>();
                             foreach (var item in result.ToList().OrderByDescending(x => x.Value))
+                            {
+                                item.Key.Categories = vm.TransactionReasonList.FirstOrDefault(x => x.TypeTransactionReasonId == item.Key.TypeTransactionReasonId).Categories;
                                 vm.ReportResult.Add(new KeyValuePair<TypeTransactionReason, double>(item.Key, item.Value));
+                            }
                         }
                         else
                         {
                             vm.ReportResult = new ObservableCollection<KeyValuePair<TypeTransactionReason, double>>();
                             foreach (var item in result.ToList().OrderBy(x => x.Key.Name))
+                            {
+                                item.Key.Categories = vm.TransactionReasonList.FirstOrDefault(x => x.TypeTransactionReasonId == item.Key.TypeTransactionReasonId).Categories;
                                 vm.ReportResult.Add(new KeyValuePair<TypeTransactionReason, double>(item.Key, item.Value));
+                            }
                         };
 
                         vm.PivotIndex = 1;

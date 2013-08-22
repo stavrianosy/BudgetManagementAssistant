@@ -66,6 +66,7 @@ namespace BMA.BusinessLogic
             : base(user)
         {
             //** DONT INSTANTIATE CREATED AND MODIFIED USER WITH EMPTY VALUES **// 
+            Time = new DateTime(2000, 1, 1, 22, 0, 0);
         }
 
         #endregion
