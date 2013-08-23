@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BMA_WP.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,20 @@ namespace BMA_WP.Model.RuleSupportItems
 {
     public static class MonthList
     {
-        static List<BasicItem> months = new List<BasicItem> { new BasicItem(1, "January"), new BasicItem(2, "February"), new BasicItem(3, "March"), new BasicItem(4, "April"), 
-                                new BasicItem(5, "May"), new BasicItem(6, "June"), new BasicItem(7, "July"), new BasicItem(8, "August"), 
-                                new BasicItem(9, "Septeber"), new BasicItem(10, "October"), new BasicItem(11, "Noveber"), new BasicItem(12, "December")};
+        static List<BasicItem> months = new List<BasicItem> 
+        { 
+            new BasicItem(1, AppResources.January), 
+            new BasicItem(2, AppResources.February), 
+            new BasicItem(3, AppResources.March), 
+            new BasicItem(4, AppResources.April), 
+            new BasicItem(5, AppResources.May), 
+            new BasicItem(6, AppResources.June), 
+            new BasicItem(7, AppResources.July), 
+            new BasicItem(8, AppResources.August), 
+            new BasicItem(9, AppResources.Septeber), 
+            new BasicItem(10, AppResources.October), 
+            new BasicItem(11, AppResources.Noveber), 
+            new BasicItem(12, AppResources.December)};
 
         public static List<BasicItem> GetMonths()
         {

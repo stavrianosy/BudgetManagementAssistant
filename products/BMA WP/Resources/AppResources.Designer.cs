@@ -286,6 +286,24 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to April.
+        /// </summary>
+        public static string April {
+            get {
+                return ResourceManager.GetString("April", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to August.
+        /// </summary>
+        public static string August {
+            get {
+                return ResourceManager.GetString("August", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Budget Status.
         /// </summary>
         public static string BudgetStatus {
@@ -412,6 +430,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to December.
+        /// </summary>
+        public static string December {
+            get {
+                return ResourceManager.GetString("December", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete ?.
         /// </summary>
         public static string DeleteMessage {
@@ -469,11 +496,11 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First.
+        ///   Looks up a localized string similar to February.
         /// </summary>
-        public static string First {
+        public static string February {
             get {
-                return ResourceManager.GetString("First", resourceCulture);
+                return ResourceManager.GetString("February", resourceCulture);
             }
         }
         
@@ -492,6 +519,15 @@ namespace BMA_WP.Resources {
         public static string Forth {
             get {
                 return ResourceManager.GetString("Forth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friday.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
             }
         }
         
@@ -569,11 +605,29 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last.
+        ///   Looks up a localized string similar to January.
         /// </summary>
-        public static string Last {
+        public static string January {
             get {
-                return ResourceManager.GetString("Last", resourceCulture);
+                return ResourceManager.GetString("January", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to July.
+        /// </summary>
+        public static string July {
+            get {
+                return ResourceManager.GetString("July", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to June.
+        /// </summary>
+        public static string June {
+            get {
+                return ResourceManager.GetString("June", resourceCulture);
             }
         }
         
@@ -650,11 +704,29 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to March.
+        /// </summary>
+        public static string March {
+            get {
+                return ResourceManager.GetString("March", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have reached the maximum allowed items [{0}]. You must delete before you add.
         /// </summary>
         public static string MaxItemsCount {
             get {
                 return ResourceManager.GetString("MaxItemsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to May.
+        /// </summary>
+        public static string May {
+            get {
+                return ResourceManager.GetString("May", resourceCulture);
             }
         }
         
@@ -767,6 +839,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        public static string Monday {
+            get {
+                return ResourceManager.GetString("Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -836,6 +917,24 @@ namespace BMA_WP.Resources {
         public static string Notifications {
             get {
                 return ResourceManager.GetString("Notifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to November.
+        /// </summary>
+        public static string Noveber {
+            get {
+                return ResourceManager.GetString("Noveber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to October.
+        /// </summary>
+        public static string October {
+            get {
+                return ResourceManager.GetString("October", resourceCulture);
             }
         }
         
@@ -917,6 +1016,294 @@ namespace BMA_WP.Resources {
         public static string Place {
             get {
                 return ResourceManager.GetString("Place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 18th Eighteenth.
+        /// </summary>
+        public static string PositionEighteenth {
+            get {
+                return ResourceManager.GetString("PositionEighteenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 8th Eightth.
+        /// </summary>
+        public static string PositionEightth {
+            get {
+                return ResourceManager.GetString("PositionEightth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 11th Eleventh.
+        /// </summary>
+        public static string PositionEleventh {
+            get {
+                return ResourceManager.GetString("PositionEleventh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 15th Fifteenth.
+        /// </summary>
+        public static string PositionFifteenth {
+            get {
+                return ResourceManager.GetString("PositionFifteenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5th Fifth.
+        /// </summary>
+        public static string PositionFifth {
+            get {
+                return ResourceManager.GetString("PositionFifth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First.
+        /// </summary>
+        public static string PositionFirst {
+            get {
+                return ResourceManager.GetString("PositionFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4th Forth.
+        /// </summary>
+        public static string PositionForth {
+            get {
+                return ResourceManager.GetString("PositionForth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 14th Fourteenth.
+        /// </summary>
+        public static string PositionFourteenth {
+            get {
+                return ResourceManager.GetString("PositionFourteenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last.
+        /// </summary>
+        public static string PositionLast {
+            get {
+                return ResourceManager.GetString("PositionLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 19th Nineteenth.
+        /// </summary>
+        public static string PositionNineteenth {
+            get {
+                return ResourceManager.GetString("PositionNineteenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 9th Nineth.
+        /// </summary>
+        public static string PositionNineth {
+            get {
+                return ResourceManager.GetString("PositionNineth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2nd Second.
+        /// </summary>
+        public static string PositionSecond {
+            get {
+                return ResourceManager.GetString("PositionSecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 17th Seventeenth.
+        /// </summary>
+        public static string PositionSeventeenth {
+            get {
+                return ResourceManager.GetString("PositionSeventeenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7th Seventh.
+        /// </summary>
+        public static string PositionSeventh {
+            get {
+                return ResourceManager.GetString("PositionSeventh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6th Sisth.
+        /// </summary>
+        public static string PositionSisth {
+            get {
+                return ResourceManager.GetString("PositionSisth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 16th Sixteenth.
+        /// </summary>
+        public static string PositionSixteenth {
+            get {
+                return ResourceManager.GetString("PositionSixteenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10th Tenth.
+        /// </summary>
+        public static string PositionTenth {
+            get {
+                return ResourceManager.GetString("PositionTenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3rd Third.
+        /// </summary>
+        public static string PositionThird {
+            get {
+                return ResourceManager.GetString("PositionThird", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 13th Thirteenth.
+        /// </summary>
+        public static string PositionThirteenth {
+            get {
+                return ResourceManager.GetString("PositionThirteenth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 30th Thirtyeth.
+        /// </summary>
+        public static string PositionThirtyeth {
+            get {
+                return ResourceManager.GetString("PositionThirtyeth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 31st Thirty first.
+        /// </summary>
+        public static string PositionThirtyFirst {
+            get {
+                return ResourceManager.GetString("PositionThirtyFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12th Twelveth.
+        /// </summary>
+        public static string PositionTwelveth {
+            get {
+                return ResourceManager.GetString("PositionTwelveth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 20th Twentieth.
+        /// </summary>
+        public static string PositionTwentieth {
+            get {
+                return ResourceManager.GetString("PositionTwentieth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 28th Twenty eightth.
+        /// </summary>
+        public static string PositionTwentyEightth {
+            get {
+                return ResourceManager.GetString("PositionTwentyEightth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 25th Twenty fifth.
+        /// </summary>
+        public static string PositionTwentyFifth {
+            get {
+                return ResourceManager.GetString("PositionTwentyFifth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 21st Twenty first.
+        /// </summary>
+        public static string PositionTwentyFirst {
+            get {
+                return ResourceManager.GetString("PositionTwentyFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 24th Twenty forth.
+        /// </summary>
+        public static string PositionTwentyForth {
+            get {
+                return ResourceManager.GetString("PositionTwentyForth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 29th Twenty nineth.
+        /// </summary>
+        public static string PositionTwentyNineth {
+            get {
+                return ResourceManager.GetString("PositionTwentyNineth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 22nd Twenty second.
+        /// </summary>
+        public static string PositionTwentySecond {
+            get {
+                return ResourceManager.GetString("PositionTwentySecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 27th Twenty seventh.
+        /// </summary>
+        public static string PositionTwentySeventh {
+            get {
+                return ResourceManager.GetString("PositionTwentySeventh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 26th Twenty sixth.
+        /// </summary>
+        public static string PositionTwentySixth {
+            get {
+                return ResourceManager.GetString("PositionTwentySixth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 23rd Twenty third.
+        /// </summary>
+        public static string PositionTwentyThird {
+            get {
+                return ResourceManager.GetString("PositionTwentyThird", resourceCulture);
             }
         }
         
@@ -1110,6 +1497,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save failed. Please try again..
         /// </summary>
         public static string SaveFailed {
@@ -1133,6 +1529,15 @@ namespace BMA_WP.Resources {
         public static string Security {
             get {
                 return ResourceManager.GetString("Security", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to September.
+        /// </summary>
+        public static string Septeber {
+            get {
+                return ResourceManager.GetString("Septeber", resourceCulture);
             }
         }
         
@@ -1173,6 +1578,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        public static string Sunday {
+            get {
+                return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading data....
         /// </summary>
         public static string Synchronizing {
@@ -1187,6 +1601,15 @@ namespace BMA_WP.Resources {
         public static string Third {
             get {
                 return ResourceManager.GetString("Third", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday.
+        /// </summary>
+        public static string Thursday {
+            get {
+                return ResourceManager.GetString("Thursday", resourceCulture);
             }
         }
         
@@ -1290,6 +1713,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tuesday.
+        /// </summary>
+        public static string Tuesday {
+            get {
+                return ResourceManager.GetString("Tuesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type Frequencies.
         /// </summary>
         public static string TypeFrequencies {
@@ -1340,6 +1772,26 @@ namespace BMA_WP.Resources {
         public static string UsernameOrEmail {
             get {
                 return ResourceManager.GetString("UsernameOrEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username or Password is incorrect.
+        ///This might be due to that offline mode is not updated.
+        ///Please connect to the live system to get the latest data..
+        /// </summary>
+        public static string UserNamePasswordWrongOffline {
+            get {
+                return ResourceManager.GetString("UserNamePasswordWrongOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wednesday.
+        /// </summary>
+        public static string Wednesday {
+            get {
+                return ResourceManager.GetString("Wednesday", resourceCulture);
             }
         }
     }

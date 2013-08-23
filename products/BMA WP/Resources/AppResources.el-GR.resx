@@ -386,13 +386,13 @@
   <data name="End" xml:space="preserve">
     <value>Τελος</value>
   </data>
-  <data name="First" xml:space="preserve">
+  <data name="PositionFirst" xml:space="preserve">
     <value>Πρωτη</value>
   </data>
   <data name="Forth" xml:space="preserve">
     <value>Τεταρτη</value>
   </data>
-  <data name="Last" xml:space="preserve">
+  <data name="PositionLast" xml:space="preserve">
     <value>Τελευτεα</value>
   </data>
   <data name="Purpose" xml:space="preserve">
@@ -546,5 +546,157 @@ Update it from the list and save again.</value>
   </data>
   <data name="MenuDescriptionReportReason" xml:space="preserve">
     <value>Συναλλαγες ομαδοποιημενες με τους λογους, συμφωνα με τις ημερομηνιες που επιλεκτικαν.</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Απριλης</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Αυγουστος</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Δεκεμβρης</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Φεβραρης</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Παρασκευη</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Γεναρης</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Ιουλης</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Ιουνης</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Μαρτης</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Μαης</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Δευτερα</value>
+  </data>
+  <data name="Noveber" xml:space="preserve">
+    <value>Νιοβρης</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Οκτομβρης</value>
+  </data>
+  <data name="PositionEighteenth" xml:space="preserve">
+    <value>18ο Δεκατο ογδοο</value>
+  </data>
+  <data name="PositionEightth" xml:space="preserve">
+    <value>8ο Ογδοο</value>
+  </data>
+  <data name="PositionEleventh" xml:space="preserve">
+    <value>11ο Εντεκατο</value>
+  </data>
+  <data name="PositionFifteenth" xml:space="preserve">
+    <value>15ο Δεκατο πεμπτο</value>
+  </data>
+  <data name="PositionFifth" xml:space="preserve">
+    <value>5ο Πεμπτο</value>
+  </data>
+  <data name="PositionForth" xml:space="preserve">
+    <value>4ο Τεταρτο</value>
+  </data>
+  <data name="PositionFourteenth" xml:space="preserve">
+    <value>14ο Δεκατο τεταρτο</value>
+  </data>
+  <data name="PositionNineteenth" xml:space="preserve">
+    <value>19ο Δεκατο εννατο</value>
+  </data>
+  <data name="PositionNineth" xml:space="preserve">
+    <value>9ο Εννατο</value>
+  </data>
+  <data name="PositionSecond" xml:space="preserve">
+    <value>2ο Δευτερο</value>
+  </data>
+  <data name="PositionSeventeenth" xml:space="preserve">
+    <value>17ο Δεκατο εβδομο</value>
+  </data>
+  <data name="PositionSeventh" xml:space="preserve">
+    <value>7ο Εβδομο</value>
+  </data>
+  <data name="PositionSisteenth" xml:space="preserve">
+    <value>16ο Δεκατο εκτο</value>
+  </data>
+  <data name="PositionSisth" xml:space="preserve">
+    <value>6ο Εκτο</value>
+  </data>
+  <data name="PositionTenth" xml:space="preserve">
+    <value>10ο Δεκατο</value>
+  </data>
+  <data name="PositionThird" xml:space="preserve">
+    <value>3ο Τριτο</value>
+  </data>
+  <data name="PositionThirteenth" xml:space="preserve">
+    <value>13ο Δεκατο τριτο</value>
+  </data>
+  <data name="PositionThirtyeth" xml:space="preserve">
+    <value>30ο Τριαντακοστο</value>
+  </data>
+  <data name="PositionThirtyFirst" xml:space="preserve">
+    <value>31ο Τριαντακοστο πρωτο</value>
+  </data>
+  <data name="PositionTwelveth" xml:space="preserve">
+    <value>12ο Δωδεκατο</value>
+  </data>
+  <data name="PositionTwentieth" xml:space="preserve">
+    <value>20ο Εικοστο</value>
+  </data>
+  <data name="PositionTwentyEightth" xml:space="preserve">
+    <value>28ο Εικοστο ογδοο</value>
+  </data>
+  <data name="PositionTwentyFifth" xml:space="preserve">
+    <value>25ο Εικοστο πεμπτο</value>
+  </data>
+  <data name="PositionTwentyFirst" xml:space="preserve">
+    <value>21ο Εικοστο πρωτο</value>
+  </data>
+  <data name="PositionTwentyForth" xml:space="preserve">
+    <value>24ο Εικοστο τεταρτο</value>
+  </data>
+  <data name="PositionTwentyNineth" xml:space="preserve">
+    <value>29ο Εικοστο εννατο</value>
+  </data>
+  <data name="PositionTwentySecond" xml:space="preserve">
+    <value>22ο Εικοστο δευτερο</value>
+  </data>
+  <data name="PositionTwentySeventh" xml:space="preserve">
+    <value>27ο Εικοστο εβδομο</value>
+  </data>
+  <data name="PositionTwentySixth" xml:space="preserve">
+    <value>26ο Εικοστο εκτο</value>
+  </data>
+  <data name="PositionTwentyThird" xml:space="preserve">
+    <value>23ο Εικοστο τριτο</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Σαββατο</value>
+  </data>
+  <data name="Septeber" xml:space="preserve">
+    <value>Σεπτεμβρης</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Κυριακη</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Πεμπτη</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Τριτη</value>
+  </data>
+  <data name="UserNamePasswordWrongOffline" xml:space="preserve">
+    <value>Το ονομα ή ο κωδικος του χρηστη ειναι λανθασμενος.
+Αυτο συμβενει, πιθανον διοτι το offline mode δεν ειναι ενημερομενο.
+Παρακαλω συνδεθητε με το live συστημα για να αρετε τισ τελεφτεες αλλαγες.</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Τεταρτη</value>
   </data>
 </root>

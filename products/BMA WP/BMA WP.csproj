@@ -431,6 +431,8 @@
     <Content Include="Assets\Notification.png" />
     <Content Include="Assets\outcome.png" />
     <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\TileBudgets.png" />
+    <Content Include="Assets\TileTransactions.png" />
     <Content Include="Assets\TransReason_note.png" />
     <Content Include="Assets\TypeTrans.png" />
     <Content Include="Assets\wallet_in.png" />

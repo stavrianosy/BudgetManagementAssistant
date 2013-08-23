@@ -101,8 +101,8 @@ namespace BMA_WP.ViewModel
             var themAssetsDir = IsLightThemeUsed() ? "Light" : "Dark";
 
 
-            HubTileTransactions = new MenuItem { Name = AppResources.MainMenuTransactions, SubName = "a11", Description = "a22", IconPath = "/Assets/SplashScreen.png", NavigateTo = "/View/Transactions.xaml" };
-            HubTileBudgets = new MenuItem { Name = AppResources.MainMenuBudgets, SubName = "b11", Description = "b22", IconPath = "/Assets/SplashScreen.png", NavigateTo = "/View/Budgets.xaml" };
+            HubTileTransactions = new MenuItem { Name = AppResources.MainMenuTransactions, SubName = "a11", Description = "a22", IconPath = "/Assets/TileTransactions.png", NavigateTo = "/View/Transactions.xaml" };
+            HubTileBudgets = new MenuItem { Name = AppResources.MainMenuBudgets, SubName = "b11", Description = "b22", IconPath = "/Assets/TileBudgets.png", NavigateTo = "/View/Budgets.xaml" };
 
             MainMenuList = new ObservableCollection<MenuItem> { 
                 new MenuItem{Name=AppResources.MainMenuTransactions, SubName="a11", Description="a22", NavigateTo="/View/Transactions.xaml"},

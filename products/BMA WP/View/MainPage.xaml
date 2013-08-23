@@ -111,8 +111,8 @@
                             </i:Interaction.Triggers>
                         </toolkit:HubTile>
                         <toolkit:HubTile x:Name="hTileBudgets" Size="Large" 
-                                         Source="{Binding HubTileTransactions.IconPath}"
-                                         DisplayNotification="false" 
+                                         Source="{Binding HubTileBudgets.IconPath}"
+                                         DisplayNotification="True" 
                                          Title="{Binding HubTileBudgets.Name}" 
                                          Message="Total items:" Margin="6 6" GroupTag="StaticHubTile">
                             <i:Interaction.Triggers>

@@ -245,7 +245,7 @@ Update them from the list and save again.</value>
     <value>There is another {0} that failed validation.
 Update it from the list and save again.</value>
   </data>
-  <data name="First" xml:space="preserve">
+  <data name="PositionFirst" xml:space="preserve">
     <value>First</value>
   </data>
   <data name="ForgotPassword" xml:space="preserve">
@@ -260,7 +260,7 @@ Update it from the list and save again.</value>
   <data name="FromTime" xml:space="preserve">
     <value>Time From</value>
   </data>
-  <data name="Last" xml:space="preserve">
+  <data name="PositionLast" xml:space="preserve">
     <value>Last</value>
   </data>
   <data name="LastLoginFail" xml:space="preserve">
@@ -549,5 +549,157 @@ Please use only unique names.</value>
   </data>
   <data name="MenuDescriptionReportReason" xml:space="preserve">
     <value>Transactions grouped by reason according to the date range selected.</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="Noveber" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="PositionEighteenth" xml:space="preserve">
+    <value>18th Eighteenth</value>
+  </data>
+  <data name="PositionEightth" xml:space="preserve">
+    <value>8th Eightth</value>
+  </data>
+  <data name="PositionEleventh" xml:space="preserve">
+    <value>11th Eleventh</value>
+  </data>
+  <data name="PositionFifteenth" xml:space="preserve">
+    <value>15th Fifteenth</value>
+  </data>
+  <data name="PositionFifth" xml:space="preserve">
+    <value>5th Fifth</value>
+  </data>
+  <data name="PositionForth" xml:space="preserve">
+    <value>4th Forth</value>
+  </data>
+  <data name="PositionFourteenth" xml:space="preserve">
+    <value>14th Fourteenth</value>
+  </data>
+  <data name="PositionNineteenth" xml:space="preserve">
+    <value>19th Nineteenth</value>
+  </data>
+  <data name="PositionNineth" xml:space="preserve">
+    <value>9th Nineth</value>
+  </data>
+  <data name="PositionSecond" xml:space="preserve">
+    <value>2nd Second</value>
+  </data>
+  <data name="PositionSeventeenth" xml:space="preserve">
+    <value>17th Seventeenth</value>
+  </data>
+  <data name="PositionSeventh" xml:space="preserve">
+    <value>7th Seventh</value>
+  </data>
+  <data name="PositionSisth" xml:space="preserve">
+    <value>6th Sisth</value>
+  </data>
+  <data name="PositionSixteenth" xml:space="preserve">
+    <value>16th Sixteenth</value>
+  </data>
+  <data name="PositionTenth" xml:space="preserve">
+    <value>10th Tenth</value>
+  </data>
+  <data name="PositionThird" xml:space="preserve">
+    <value>3rd Third</value>
+  </data>
+  <data name="PositionThirteenth" xml:space="preserve">
+    <value>13th Thirteenth</value>
+  </data>
+  <data name="PositionThirtyeth" xml:space="preserve">
+    <value>30th Thirtyeth</value>
+  </data>
+  <data name="PositionThirtyFirst" xml:space="preserve">
+    <value>31st Thirty first</value>
+  </data>
+  <data name="PositionTwelveth" xml:space="preserve">
+    <value>12th Twelveth</value>
+  </data>
+  <data name="PositionTwentieth" xml:space="preserve">
+    <value>20th Twentieth</value>
+  </data>
+  <data name="PositionTwentyEightth" xml:space="preserve">
+    <value>28th Twenty eightth</value>
+  </data>
+  <data name="PositionTwentyFifth" xml:space="preserve">
+    <value>25th Twenty fifth</value>
+  </data>
+  <data name="PositionTwentyFirst" xml:space="preserve">
+    <value>21st Twenty first</value>
+  </data>
+  <data name="PositionTwentyForth" xml:space="preserve">
+    <value>24th Twenty forth</value>
+  </data>
+  <data name="PositionTwentyNineth" xml:space="preserve">
+    <value>29th Twenty nineth</value>
+  </data>
+  <data name="PositionTwentySecond" xml:space="preserve">
+    <value>22nd Twenty second</value>
+  </data>
+  <data name="PositionTwentySeventh" xml:space="preserve">
+    <value>27th Twenty seventh</value>
+  </data>
+  <data name="PositionTwentySixth" xml:space="preserve">
+    <value>26th Twenty sixth</value>
+  </data>
+  <data name="PositionTwentyThird" xml:space="preserve">
+    <value>23rd Twenty third</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="Septeber" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="UserNamePasswordWrongOffline" xml:space="preserve">
+    <value>Username or Password is incorrect.
+This might be due to that offline mode is not updated.
+Please connect to the live system to get the latest data.</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
   </data>
 </root>

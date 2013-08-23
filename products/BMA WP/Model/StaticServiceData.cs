@@ -295,12 +295,16 @@ namespace BMA_WP.Model
                         try
                         {
                             var query = await LoadCachedUser();
-                            existing = query.Where(i => i.UserName == user.UserName).Single();
+                            existing = query.Where(i => i.UserName == user.UserName && i.Password == user.Password).Single();
                             UserFound(existing);
 
                             callback(null);
                         }
-                        catch (Exception) { throw new Exception("Username or Password is incorrect.\nThis might be due to that offline mode is not updated.\nPlease connect to the live system get get the latest data."); }
+                        catch (Exception) 
+                        { 
+                            var error = new Exception(AppResources.UserNamePasswordWrongOffline);
+                            callback(error);
+                        }
 
                     }
                     else
