@@ -9,6 +9,7 @@ using BMA.BusinessLogic;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace BMA_WP.View
 {
@@ -39,6 +40,14 @@ namespace BMA_WP.View
             SetupAppBar_TransactionList();
         }
         #endregion
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
 
         #region Binding
 

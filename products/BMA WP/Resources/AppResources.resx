@@ -187,7 +187,7 @@
     <value>transaction</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>BUDGET MANAGEMENT &amp; ASSISTANT</value>
+    <value>MONEY SAVER</value>
   </data>
   <data name="BudgetStatus" xml:space="preserve">
     <value>Budget Status</value>
@@ -534,5 +534,20 @@ Please use only unique names.</value>
   </data>
   <data name="NotificationNote" xml:space="preserve">
     <value>Notification list display reminders from all users of this device.</value>
+  </data>
+  <data name="MenuDescriptionReportAmount" xml:space="preserve">
+    <value>All transactions according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportCategory" xml:space="preserve">
+    <value>Transactions grouped by category according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportNameOfPlace" xml:space="preserve">
+    <value>Transactions grouped by bame of place according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportPeriod" xml:space="preserve">
+    <value>Transactions grouped by frequency, according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportReason" xml:space="preserve">
+    <value>Transactions grouped by reason according to the date range selected.</value>
   </data>
 </root>

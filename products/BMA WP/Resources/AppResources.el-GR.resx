@@ -126,7 +126,7 @@
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>BUDGET MANAGEMENT &amp; ASSISTANT</value>
+    <value>MONEY SAVER</value>
   </data>
   <data name="AppBarButtonSave" xml:space="preserve">
     <value>αποθηκευση</value>
@@ -531,5 +531,20 @@ Update it from the list and save again.</value>
   </data>
   <data name="NotificationNote" xml:space="preserve">
     <value>Η λιστα ειδοποιησεων περιλαμβανει υπενθημισεισ απο ολους τους χρηστες της συσκευης.</value>
+  </data>
+  <data name="MenuDescriptionReportAmount" xml:space="preserve">
+    <value>Ολες οι συναλλαγες συμφωνα με τις ημερομηνιες που επιλεκτικαν.</value>
+  </data>
+  <data name="MenuDescriptionReportCategory" xml:space="preserve">
+    <value>Συναλλαγες ομαδοποιημενες με τις κατηγοριες, συμφωνα με τις ημερομηνιες που επιλεκτικαν.</value>
+  </data>
+  <data name="MenuDescriptionReportNameOfPlace" xml:space="preserve">
+    <value>Συναλλαγες ομαδοποιημενες με τι; ονομασιες τοποθεσιων, συμφωνα με τις ημερομηνιες που επιλεκτικαν.</value>
+  </data>
+  <data name="MenuDescriptionReportPeriod" xml:space="preserve">
+    <value>Συναλλαγες ομαδοποιημενες με τη συχνοτητα, συμφωνα με τις ημερομηνιες που επιλεκτικαν.</value>
+  </data>
+  <data name="MenuDescriptionReportReason" xml:space="preserve">
+    <value>Συναλλαγες ομαδοποιημενες με τους λογους, συμφωνα με τις ημερομηνιες που επιλεκτικαν.</value>
   </data>
 </root>

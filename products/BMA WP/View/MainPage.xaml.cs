@@ -102,6 +102,14 @@ namespace BMA_WP.View
             about.Click += new EventHandler(About_Click);
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if(!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
+
         public static bool NavigateTo(string uriString, System.UriKind uriKind)
         {
             if (Uri.IsWellFormedUriString(uriString, uriKind))

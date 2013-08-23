@@ -38,6 +38,14 @@ namespace BMA_WP.View.AdminView
             InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
+
         #region Binding
 
         //workaround for the ListPicker issue when binding object becomes null

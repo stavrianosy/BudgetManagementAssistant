@@ -38,6 +38,14 @@ namespace BMA_WP.View.ReportsView
             SetupLoadingBinding();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
+
         #region Binding
 
         private void SetupLoadingBinding()

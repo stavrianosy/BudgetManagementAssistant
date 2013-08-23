@@ -16,5 +16,14 @@ namespace BMA_WP.View
         {
             InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
+
     }
 }

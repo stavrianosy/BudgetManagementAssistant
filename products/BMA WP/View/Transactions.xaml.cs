@@ -54,6 +54,14 @@ namespace BMA_WP.View
         }
         #endregion
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
+
         #region Binding
 
         private void SetupLoadingBinding()
@@ -135,10 +143,7 @@ namespace BMA_WP.View
         #endregion
 
         #region Events
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);            
-        }
+      
         #endregion
 
         private void Transactions_SelectionChanged(object sender, SelectionChangedEventArgs e)

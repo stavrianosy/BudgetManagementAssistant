@@ -35,6 +35,14 @@ namespace BMA_WP.View
             InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+        }
+
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string piName = (e.AddedItems[0] as PivotItem).Name;

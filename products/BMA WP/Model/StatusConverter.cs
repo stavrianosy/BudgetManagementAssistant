@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using Windows.UI;
@@ -24,7 +25,7 @@ namespace BMA_WP.Model
                 string param = parameter.ToString().ToLower();
 
                 double barSize = 1;
-                if(value!=null)
+                if (value != null)
                     double.TryParse(value.ToString(), out barSize);
                 string width = "1*";
 
@@ -62,13 +63,13 @@ namespace BMA_WP.Model
 
                     case "intervalbool":
                         return TransTypeConverter(value);
-                        
+
                     case "bitconverter":
                         return BitConverter(value);
 
                     case "reversebit":
                         return ReverseBit(value);
-                
+
                     case "nulltranimages":
                         return GetNullTransImages(value);
 
@@ -92,10 +93,10 @@ namespace BMA_WP.Model
 
                     case "deletedimagecolor":
                         return DeletedImageColor(value);
-                        
+
                     case "onlinestatustotext":
                         return OnlineStatusToText(value);
-                        
+
                     case "onlinestatustovisibility":
                         return OnlineStatusToVisibility(value);
 
@@ -104,7 +105,7 @@ namespace BMA_WP.Model
 
                     case "updatetovisibility":
                         return UpdateToVisibility(value);
-                        
+
                     case "filtertransactioreasonbycategory":
                         return GetTypeTransactionReasonByCategory(value);
 
@@ -153,7 +154,7 @@ namespace BMA_WP.Model
 
             switch (result.Length)
             {
-                    //Daily yyyyMMdd
+                //Daily yyyyMMdd
                 case 8:
                     date = Helper.ConvertStringToDate(result);
                     result = date.ToShortDateString();
@@ -264,9 +265,9 @@ namespace BMA_WP.Model
             var cat = value as Category;
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
 
-            if (query != null && query.TypeTransactionReasons !=null)
+            if (query != null && query.TypeTransactionReasons != null)
                 result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToList();
-            
+
             return result;
         }
 
@@ -290,8 +291,9 @@ namespace BMA_WP.Model
 
         private object GetChangedColor(object value)
         {
+            var test = IsLightThemeUsed();
             var color = (bool)value;
-            return color ? "Blue" :"White";
+            return color ? "Blue" : IsLightThemeUsed() ? "Black" : "White";
         }
 
         private string GetReasonCategoryList(object value)
@@ -356,7 +358,7 @@ namespace BMA_WP.Model
             return bit ? "false" : "true";
         }
 
-        
+
         private string TransTypeConverter(object value)
         {
             var isIncome = (bool)value;
@@ -474,12 +476,19 @@ namespace BMA_WP.Model
 
                     case "reversebit":
                         return ReverseBit(value);
-                
+
                     default:
                         break;
                 }
             }
             return null;
+        }
+
+        private bool IsLightThemeUsed()
+        {
+            //var theme = (System.Windows.Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+            var theme = (System.Windows.Visibility)Application.Current.Resources["PhoneLightThemeVisibility"];
+            return theme == Visibility.Visible;
         }
     }
 }

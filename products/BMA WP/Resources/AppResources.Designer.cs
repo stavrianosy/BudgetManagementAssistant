@@ -277,7 +277,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BUDGET MANAGEMENT &amp; ASSISTANT.
+        ///   Looks up a localized string similar to MONEY SAVER.
         /// </summary>
         public static string ApplicationTitle {
             get {
@@ -700,6 +700,51 @@ namespace BMA_WP.Resources {
         public static string MenuDescriptionNotification {
             get {
                 return ResourceManager.GetString("MenuDescriptionNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All transactions according to the date range selected..
+        /// </summary>
+        public static string MenuDescriptionReportAmount {
+            get {
+                return ResourceManager.GetString("MenuDescriptionReportAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactions grouped by category according to the date range selected..
+        /// </summary>
+        public static string MenuDescriptionReportCategory {
+            get {
+                return ResourceManager.GetString("MenuDescriptionReportCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactions grouped by bame of place according to the date range selected..
+        /// </summary>
+        public static string MenuDescriptionReportNameOfPlace {
+            get {
+                return ResourceManager.GetString("MenuDescriptionReportNameOfPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactions grouped by frequency, according to the date range selected..
+        /// </summary>
+        public static string MenuDescriptionReportPeriod {
+            get {
+                return ResourceManager.GetString("MenuDescriptionReportPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactions grouped by reason according to the date range selected..
+        /// </summary>
+        public static string MenuDescriptionReportReason {
+            get {
+                return ResourceManager.GetString("MenuDescriptionReportReason", resourceCulture);
             }
         }
         

@@ -40,8 +40,7 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
-    
-
+   
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -65,7 +64,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel 
                     Visibility="{Binding Status, Converter={StaticResource converters}, ConverterParameter=updateToVisibility}">
-                    <TextBlock Margin="12 0" HorizontalAlignment="Right" 
+                    <TextBlock Margin="12 0" HorizontalAlignment="Right"  Foreground="White"
                                Text="{Binding Path=LocalizedResources.Updating, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
                     <ProgressBar IsIndeterminate="True" />
                 </StackPanel>

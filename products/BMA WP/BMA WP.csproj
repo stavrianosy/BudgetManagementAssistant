@@ -337,6 +337,7 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\application\ApplicationIcon.png" />
     <Content Include="Assets\category.png" />
     <Content Include="Assets\category_80.png" />
     <Content Include="Assets\chart.png" />
@@ -382,9 +383,11 @@
     <Content Include="Assets\icons\Dark\transport.rew.png" />
     <Content Include="Assets\icons\Dark\upload.png" />
     <Content Include="Assets\icons\Light\add.png" />
+    <Content Include="Assets\icons\Light\admin.png" />
     <Content Include="Assets\icons\Light\back.png" />
     <Content Include="Assets\icons\Light\basecircle.png" />
     <Content Include="Assets\icons\Light\cancel.png" />
+    <Content Include="Assets\icons\Light\category.png" />
     <Content Include="Assets\icons\Light\check.png" />
     <Content Include="Assets\icons\Light\close.png" />
     <Content Include="Assets\icons\Light\delete.png" />
@@ -408,7 +411,9 @@
     <Content Include="Assets\icons\Light\next.png" />
     <Content Include="Assets\icons\Light\overflowdots.png" />
     <Content Include="Assets\icons\Light\questionmark.png" />
+    <Content Include="Assets\icons\Light\reason.png" />
     <Content Include="Assets\icons\Light\refresh.png" />
+    <Content Include="Assets\icons\Light\reports.png" />
     <Content Include="Assets\icons\Light\save.png" />
     <Content Include="Assets\icons\Light\share.png" />
     <Content Include="Assets\icons\Light\stop.png" />

@@ -24,6 +24,11 @@ namespace BMA_WP.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+
+            if (!App.Instance.IsAuthorized)
+                NavigationService.Navigate(new Uri("/View/Login.xaml", UriKind.Relative));
+
             var transimageId = 0;
             var transactionId = 0;
 

@@ -343,6 +343,8 @@ namespace BMA_WP
         bool _isUserAuthenticated;
         private bool _isSyncing;
 
+        public bool IsAuthorized {get { return User.UserId > 0; }}
+
         public bool IsInitialized
         {
             get
