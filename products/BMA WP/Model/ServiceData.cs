@@ -350,71 +350,63 @@ namespace BMA_WP.Model
 
             public void LoadAllTransactions(int budgetId, Action<Exception> callback)
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
-                    //Clean the list before fetch the new data
-                    TransactionList = new BMA.BusinessLogic.TransactionList();
+                //Clean the list before fetch the new data
+                TransactionList = new BMA.BusinessLogic.TransactionList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
-                            LoadCachedTransactions((transactionList, error) => callback(error));
-                        else
-                            LoadLiveTransactions(budgetId, error => callback(error));
-                });
+                if (!App.Instance.IsOnline)
+                    LoadCachedTransactions((transactionList, error) => callback(error));
+                else
+                    LoadLiveTransactions(budgetId, error => callback(error));
             }
 
             public void LoadAllTransactionImages(int transactionId, Action<Exception> callback)
             {
                 //ICollection<TransactionImage> existing = null;
 
-                App.Instance.StaticServiceData.SetServerStatus(status =>
+                if (!App.Instance.IsOnline)
                 {
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    try
                     {
-                        try
-                        {
-                            //## doesnt need to get anything from cache. Images is retrieved by the transaction
-                            //existing = await LoadCachedTransactionImages();
-                            callback(null);
-                        }
-                        catch (Exception) { throw new Exception("Username"); }
+                        //## doesnt need to get anything from cache. Images is retrieved by the transaction
+                        //existing = await LoadCachedTransactionImages();
+                        callback(null);
                     }
-                    else
+                    catch (Exception) { throw new Exception("Username"); }
+                }
+                else
+                {
+                    try
                     {
-                        try
-                        {
-                            var client = new MainClient();
-                            latestState = Guid.NewGuid().ToString();
+                        var client = new MainClient();
+                        latestState = Guid.NewGuid().ToString();
 
-                            client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
-                            {
-                                if (completedEventArgs.Error == null)
-                                    SetupTransactionImageList(completedEventArgs.Result, transactionId);
-
-                                callback(completedEventArgs.Error);
-                            };
-                            client.GetImagesForTransactionAsync(transactionId, latestState);
-                        }
-                        catch (Exception ex)
+                        client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
                         {
-                            var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
-                            throw;
-                        }
+                            if (completedEventArgs.Error == null)
+                                SetupTransactionImageList(completedEventArgs.Result, transactionId);
+
+                            callback(completedEventArgs.Error);
+                        };
+                        client.GetImagesForTransactionAsync(transactionId, latestState);
                     }
-                });
+                    catch (Exception ex)
+                    {
+                        var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                        throw;
+                    }
+                }
             }
 
             public void LoadAllBudgets(Action<Exception> callback)
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+                
                     //Clean the list before fetch the new data
                     BudgetList = new BMA.BusinessLogic.BudgetList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedBudgets((budgetList, error) => callback(error));
                     else
                         LoadLiveBudgets(error => callback(error));
-                });
             }
 
             public void GetLatestTransactionDateDouble(Action<double, Exception> callback)
@@ -451,10 +443,9 @@ namespace BMA_WP.Model
                             callback(DateTime.Now, e.Error);
                     };
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    callback(DateTime.Now, ex);
                 }
             }
 
@@ -473,10 +464,9 @@ namespace BMA_WP.Model
                             client.SyncTransactionsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
                         });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    callback(ex);
                 }
             }
 
@@ -495,10 +485,9 @@ namespace BMA_WP.Model
                             client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
                         });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    callback(ex);
                 }
             }
 

@@ -464,7 +464,7 @@ Update it from the list and save again.</value>
     <value>Type Frequency</value>
   </data>
   <data name="Updating" xml:space="preserve">
-    <value>checking status</value>
+    <value>connecting</value>
   </data>
   <data name="UserDetails" xml:space="preserve">
     <value>User Details</value>

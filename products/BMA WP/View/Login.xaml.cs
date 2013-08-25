@@ -61,7 +61,7 @@ namespace BMA_WP.View
 
             SetupLoadingBinding();
 
-            CheckOnlineStatus();
+            CheckOnlineStatus(null);
         }
 
         private void SetupLoadingBinding()
@@ -385,8 +385,9 @@ namespace BMA_WP.View
         {
             App.Instance.IsSyncing = true;
 
-            LoadAllData(() => App.Instance.IsSyncing = false);
-
+            CheckOnlineStatus(error => { 
+                LoadAllData(() => App.Instance.IsSyncing = false);
+            });
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
         }
 
@@ -422,12 +423,12 @@ namespace BMA_WP.View
                 }
             });
 
-            App.Instance.StaticServiceData.LoadTypeIntervalConfiguration(errorCall =>
+            App.Instance.StaticServiceData.LoadTypeIntervalConfiguration(true, errorCall =>
                 {
                     if (errorCall != null)
                         callback();
 
-                    App.Instance.StaticServiceData.LoadTypeIntervals(error =>
+                    App.Instance.StaticServiceData.LoadTypeIntervals(true, error =>
                     {
                         typeInterval = true;
 
@@ -443,7 +444,7 @@ namespace BMA_WP.View
                     });
                 });
 
-            App.Instance.StaticServiceData.LoadNotifications(error =>
+            App.Instance.StaticServiceData.LoadNotifications(true, error =>
                 {
                     if (error != null)
                         callback();
@@ -505,11 +506,11 @@ namespace BMA_WP.View
 
         private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            CheckOnlineStatus();
+            CheckOnlineStatus(null);
         }
 
 
-        private void CheckOnlineStatus()
+        private void CheckOnlineStatus(Action<Exception> callback)
         {
             App.Instance.StaticDataOnlineStatus = App.Instance.StaticServiceData.SetServerStatus(status =>
             {
@@ -521,6 +522,9 @@ namespace BMA_WP.View
 
                     App.Instance.Sync(() => vm.IsLoading = false);
                 }
+
+                if (callback != null)
+                    callback(null);
             });
             vm.Status = App.Instance.StaticDataOnlineStatus;
         }

@@ -121,11 +121,29 @@
                 </ScrollViewer>
             </phone:PivotItem>
             <phone:PivotItem Header="Report">
-                <phone:LongListSelector x:Name="longListReport"
-                    Margin="0,12,-12,0"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextAlignment="Right" Margin="0 0 12 0" FontWeight="Bold"
+                                   FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                   Text="Total:" />
+                        <TextBlock Grid.Column="1" FontWeight="Bold"
+                                   FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                   Text="{Binding Total}" />
+                    </Grid>
+                    <phone:LongListSelector x:Name="longListReport" Grid.Row="1"
+                    Margin="0,12,0,0"
                     LayoutMode="List"
                     ItemsSource ="{Binding ReportResult}"
                     ItemTemplate="{StaticResource BMA_TransCategoryReport_ItemTemplate}"/>
+                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

@@ -25,6 +25,7 @@ namespace BMA_WP.ViewModel.ReportsView
         TypeTransaction transType;
         double amountFrom;
         double amountTo;
+        double total;
         Const.ReportPeriod period;
         ObservableCollection<Const.ReportPeriod> periodList;
         #endregion
@@ -40,6 +41,8 @@ namespace BMA_WP.ViewModel.ReportsView
         public double AmountTo { get { return amountTo; } set { amountTo = value; RaisePropertyChanged("AmountTo"); } }
         public Const.ReportPeriod Period { get { return period; } set { period = value; RaisePropertyChanged("Period"); } }
 
+        public double Total { get { return total; } set { total = value; RaisePropertyChanged("Total"); } }
+
         public ObservableCollection<KeyValuePair<int, double>> ReportResult { get { return reportResult; } set { reportResult = value; RaisePropertyChanged("ReportResult"); } }
         public ObservableCollection<Const.ReportPeriod> PeriodList { get { return periodList; } set { periodList = value; RaisePropertyChanged("PeriodList"); } }
         public TypeTransactionList TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
@@ -52,12 +55,19 @@ namespace BMA_WP.ViewModel.ReportsView
         /// </summary>
         public TransactionByPeriodViewModel()
         {
-            DateFrom = DateTime.Now.AddMonths(-1);
-            DateTo = DateTime.Now;
+            var now = DateTime.Now;
+
+            var from = now.AddMonths(-1);
+            var to = now.AddDays(1);
+
+            DateFrom = new DateTime(from.Year, from.Month, from.Day, 0, 0, 0);
+            DateTo = new DateTime(to.Year, to.Month, to.Day, 0, 0, 0);
+            
             TransactionType = TransactionTypeList[0];
 
             PeriodList = new ObservableCollection<Const.ReportPeriod> { Const.ReportPeriod.Daily, Const.ReportPeriod.Monthly, Const.ReportPeriod.Yearly };
             Period = PeriodList[0];
+            Total = 0;
         }
     }
 }

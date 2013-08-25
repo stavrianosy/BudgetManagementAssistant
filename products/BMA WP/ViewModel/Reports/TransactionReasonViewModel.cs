@@ -24,6 +24,7 @@ namespace BMA_WP.ViewModel.ReportsView
         TypeTransaction transType;
         double amountFrom;
         double amountTo;
+        double total;
         #endregion
 
         #region Public Properties
@@ -36,6 +37,8 @@ namespace BMA_WP.ViewModel.ReportsView
         public double AmountFrom { get { return amountFrom; } set { amountFrom = value; RaisePropertyChanged("AmountFrom"); } }
         public double AmountTo { get { return amountTo; } set { amountTo = value; RaisePropertyChanged("AmountTo"); } }
 
+        public double Total { get { return total; } set { total = value; RaisePropertyChanged("Total"); } }
+
         public ObservableCollection<KeyValuePair<TypeTransactionReason, double>> ReportResult { get { return reportResult; } set { reportResult = value; RaisePropertyChanged("ReportResult"); } }
         public TypeTransactionList TransactionTypeList { get { return App.Instance.StaticServiceData.TypeTransactionList; } }
         public TypeTransactionReasonList TransactionReasonList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }
@@ -47,8 +50,14 @@ namespace BMA_WP.ViewModel.ReportsView
         /// </summary>
         public TransactionReasonViewModel()
         {
-            DateFrom = DateTime.Now.AddMonths(-1);
-            DateTo = DateTime.Now;
+            var now = DateTime.Now;
+
+            var from = now.AddMonths(-1);
+            var to = now.AddDays(1);
+
+            DateFrom = new DateTime(from.Year, from.Month, from.Day, 0, 0, 0);
+            DateTo = new DateTime(to.Year, to.Month, to.Day, 0, 0, 0);
+            
             TransactionType = TransactionTypeList[0];
         }
     }

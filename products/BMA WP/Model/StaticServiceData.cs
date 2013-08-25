@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace BMA_WP.Model
 {
@@ -78,6 +79,11 @@ namespace BMA_WP.Model
         #region Public methods
         public ServerStatus SetServerStatus(Action<ServerStatus> callback)
         {
+            return SetServerStatus(false, callback);
+        }
+
+        public ServerStatus SetServerStatus(bool SkipCheckForStatus, Action<ServerStatus> callback)
+        {
             var result = ServerStatus.Communicating;
 
             //## always offline
@@ -86,7 +92,10 @@ namespace BMA_WP.Model
 
             try
             {
-                if (App.Instance.IsOnline)
+                if (SkipCheckForStatus)
+                    callback(result);
+
+                if (DeviceNetworkInformation.IsNetworkAvailable)
                 {
                     var client = new StaticClient();
                     client.GetDBStatusAsync();
@@ -109,7 +118,7 @@ namespace BMA_WP.Model
             catch (Exception)
             {
                 //throw;
-                result = ServerStatus.Error;
+                callback(ServerStatus.Error);
             }
             return result;
         }
@@ -124,19 +133,19 @@ namespace BMA_WP.Model
             var typeIntervals= true;
             var recurrenceRules= false;
 
-            LoadCategories(error => 
+            LoadCategories(true, error => 
             {
                 categories = true;
                 if(LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
                     callback(error);
             });
-            LoadTypeTransactionReasons(error =>
+            LoadTypeTransactionReasons(true, error =>
             {
                 typeTransReasons = true;
                 if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
                     callback(error);
             });
-            LoadTypeTransactions(error =>
+            LoadTypeTransactions(true, error =>
             {
                 typeTrans = true;
                 if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
@@ -148,7 +157,7 @@ namespace BMA_WP.Model
             //    if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
             //        callback(error);
             //});
-            LoadTypeFrequencies(error =>
+            LoadTypeFrequencies(true, error =>
             {
                 typeFrequencies = true;
                 if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
@@ -162,7 +171,7 @@ namespace BMA_WP.Model
             //        callback(error);
             //});
 
-            LoadRecurrenceRules(error =>
+            LoadRecurrenceRules(true, error =>
             {
                 recurrenceRules = true;
                 if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
@@ -170,119 +179,119 @@ namespace BMA_WP.Model
             });
         }
 
+        #region Load Static Data
         private bool LoadStaticDataDone(bool categories, bool typeTransReasons, bool typeTrans, bool notifications, bool typeFrequencies,
                                     bool typeIntervals, bool recurrenceRules)
         {
             return categories && typeTrans && typeTransReasons && notifications && typeFrequencies && typeIntervals && recurrenceRules;
         }
 
-        public void LoadCategories(Action<Exception> callback)
+        public void LoadCategories(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
                     //Clean the list before fetch the new data
                     CategoryList = new BMA.BusinessLogic.CategoryList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedCategories((categoryList, error) => callback(error));
                     else
                         LoadLiveCategories(error => callback(error));
-                });
+                //});
         }
 
-        public void LoadTypeTransactionReasons(Action<Exception> callback)
+        public void LoadTypeTransactionReasons(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+              //  {
                     //Clean the list before fetch the new data
                     TypeTransactionReasonList = new BMA.BusinessLogic.TypeTransactionReasonList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedTypeTransactionReasons((typeTransactionReasonList, error) => callback(error));
                     else
                         LoadLiveTypeTransactionReasons(error => callback(error));
-                });
+                //});
         }
 
-        public void LoadTypeTransactions(Action<Exception> callback)
+        public void LoadTypeTransactions(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
                     //Clean the list before fetch the new data
                     TypeTransactionList= new BMA.BusinessLogic.TypeTransactionList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedTypeTransactions((typeTransactionList, error) => callback(error));
                     else
                         LoadLiveTypeTransactions(error => callback(error));
-                });
+                //});
         }
 
-        public void LoadNotifications(Action<Exception> callback)
+        public void LoadNotifications(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
                     //Clean the list before fetch the new data
                     NotificationList = new BMA.BusinessLogic.NotificationList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedNotifications((notificationsList, error) => callback(error));
                     else
                         LoadLiveNotifications(error => callback(error));
-                });
+                //});
         }
 
-        public void LoadTypeFrequencies(Action<Exception> callback)
+        public void LoadTypeFrequencies(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
                     //Clean the list before fetch the new data
                     TypeFrequencyList = new BMA.BusinessLogic.TypeFrequencyList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedTypeFrequencies((typeFrequenciesList, error) => callback(error));
                     else
                         LoadLiveTypeFrequencies(error => callback(error));
-                });
+                ///});
         }
 
-        public void LoadTypeIntervals(Action<Exception> callback)
+        public void LoadTypeIntervals(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
                     //Clean the list before fetch the new data
                     IntervalList = new BMA.BusinessLogic.TypeIntervalList();
 
-                    if (status != StaticServiceData.ServerStatus.Ok)
+                    if (!App.Instance.IsOnline)
                         LoadCachedTypeIntervals((typeIntervalsList, error) => callback(error));
                     else
                         LoadLiveTypeIntervals(error => callback(error));
-                });
+                //});
         }
 
-        public void LoadTypeIntervalConfiguration(Action<Exception> callback)
+        public void LoadTypeIntervalConfiguration(bool skipCheckForStatus, Action<Exception> callback)
         {
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
-                    if (status != StaticServiceData.ServerStatus.Ok)
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
+            if (!App.Instance.IsOnline)
                         LoadCachedTypeIntervalConfiguration((typeIntervalsConfiguration, error) => callback(error));
                     else
                         LoadLiveTypeIntervalConfiguration(error => callback(error));
-                });
+                //});
         }
 
-        public void LoadRecurrenceRules(Action<Exception> callback)
+        public void LoadRecurrenceRules(bool skipCheckForStatus, Action<Exception> callback)
         {
-            //Clean the list before fetch the new data
+            //App.Instance.StaticServiceData.SetServerStatus(skipCheckForStatus, status =>
+            //    {
+         //Clean the list before fetch the new data
                     RecurrenceRuleList= new BMA.BusinessLogic.RecurrenceRuleList();
-
-            App.Instance.StaticServiceData.SetServerStatus(status =>
-                {
-                    if (status != StaticServiceData.ServerStatus.Ok)
+           if (!App.Instance.IsOnline)
                         LoadCachedRecurrenceRules((recurrenceRuleList, error) => callback(error));
                     else
                         LoadLiveRecurrenceRules(error => callback(error));
-                });
+                //});
         }
 
         public async Task LoadUser(User user, Action<Exception> callback)
@@ -345,6 +354,8 @@ namespace BMA_WP.Model
                 throw new Exception("User has no authentication");
             }
         }
+        #endregion
+
         #endregion
 
         #region Private Methods
@@ -851,6 +862,137 @@ namespace BMA_WP.Model
 
         #endregion
 
+        #region Sync
+
+        public void SyncStaticData(Action<Exception> callback)
+        {
+            var categories = false;
+            var typeTransReasons = false;
+            var typeTrans = true;
+            var notifications = false;
+            var typeFrequencies = true;
+            var typeIntervals = false;
+            var recurrenceRules = true;
+
+            SyncCategoriesData(error =>
+            {
+                categories = true;
+                if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
+                    callback(error);
+            });
+
+            SyncTypeTransReasonsData(error =>
+            {
+                typeTransReasons = true;
+                if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
+                    callback(error);
+            });
+
+            SyncNotificationsData(error =>
+            {
+                notifications = true;
+                if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
+                    callback(error);
+            });
+
+            SyncTypeIntervalsData(error =>
+            {
+                typeIntervals = true;
+                if (LoadStaticDataDone(categories, typeTransReasons, typeTrans, notifications, typeFrequencies, typeIntervals, recurrenceRules))
+                    callback(error);
+            });
+        }
+
+        public void SyncCategoriesData(Action<Exception> callback)
+        {
+            try
+            {
+                App.Instance.StaticServiceData.LoadCachedCategories((cachedCategories, error) =>
+                {
+                    var categoryList = cachedCategories.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+
+                    var client = new StaticClient();
+
+                    //client.SyncBudgetsAsync(budgetList);
+
+                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                    callback(new Exception("Not Implemented"));
+                });
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
+        public void SyncTypeTransReasonsData(Action<Exception> callback)
+        {
+            try
+            {
+                App.Instance.StaticServiceData.LoadCachedTypeTransactionReasons((cachedTypeTransReasons, error) =>
+                {
+                    var typeTransList = cachedTypeTransReasons.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+
+                    var client = new StaticClient();
+
+                    //client.SyncBudgetsAsync(budgetList);
+
+                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                    callback(new Exception("Not Implemented"));
+                });
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
+        public void SyncNotificationsData(Action<Exception> callback)
+        {
+            try
+            {
+                App.Instance.StaticServiceData.LoadCachedNotifications((cachedNotifications, error) =>
+                {
+                    var notificationList = cachedNotifications.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+
+                    var client = new StaticClient();
+
+                    //client.SyncBudgetsAsync(budgetList);
+
+                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                    callback(new Exception("Not Implemented"));
+                });
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
+        public void SyncTypeIntervalsData(Action<Exception> callback)
+        {
+            try
+            {
+                App.Instance.StaticServiceData.LoadCachedTypeIntervals((cachedTypeIntervals, error) =>
+                {
+                    var typeIntervalsList = cachedTypeIntervals.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+
+                    var client = new StaticClient();
+
+                    //client.SyncBudgetsAsync(budgetList);
+
+                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                    callback(new Exception("Not Implemented"));
+                });
+            }
+            catch (Exception ex)
+            {
+                callback(ex);
+            }
+        }
+
+        #endregion
+
         #region Load Live Data
         public void LoadLiveCategories(Action<Exception> callback)
         {
@@ -1072,7 +1214,7 @@ namespace BMA_WP.Model
                             if (completedEventArgs.Error == null)
                             {
                                 //## Find a more efficient call. Dont fetch all categories, only the affected ones.
-                                LoadTypeTransactionReasons(errorTransReason =>
+                                LoadTypeTransactionReasons(true, errorTransReason =>
                                     callback(errorTransReason));
 
                                 SetupTypeCategoryData(completedEventArgs.Result, true);
@@ -1089,9 +1231,10 @@ namespace BMA_WP.Model
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                //throw;
+                callback(ex);
             }
         }
 
@@ -1140,7 +1283,7 @@ namespace BMA_WP.Model
                             if (completedEventArgs.Error == null)
                             {
                                 //## Find a more efficient call. Dont fetch all categories, only the affected ones.
-                                LoadCategories(errorCat => 
+                                LoadCategories(true, errorCat => 
                                     callback(errorCat));
 
                                 SetupTypeTransactionReasonData(completedEventArgs.Result, true);
@@ -1157,9 +1300,9 @@ namespace BMA_WP.Model
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                callback(ex);
             }
         }
 

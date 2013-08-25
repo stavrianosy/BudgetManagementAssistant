@@ -35,6 +35,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,7 +77,8 @@
     <PostBuildEvent>copy "$(TargetDir)BMA.DataAccess.dll" "$(TargetDir)..\"
 copy "$(TargetDir)BMA.BusinessLogic.dll" "$(TargetDir)..\"
 copy "$(TargetDir)BMAServiceLib.dll" "$(TargetDir)..\"
-copy "$(TargetDir)EntityFramework.dll" "$(TargetDir)..\"</PostBuildEvent>
+copy "$(TargetDir)EntityFramework.dll" "$(TargetDir)..\"
+copy "$(TargetDir)System.Linq.Dynamic.dll" "$(TargetDir)..\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -100,11 +100,17 @@ namespace BMA_WP.View.ReportsView
             if(!IsValid())
                 return;
 
+            spLoading.Visibility = System.Windows.Visibility.Visible;
+
             App.Instance.ServiceData.ReportTransactionAmount(vm.DateFrom, vm.DateTo, vm.TransactionType.TypeTransactionId, vm.AmountFrom, vm.AmountTo,
                 (result, error) =>
                 {
+                    spLoading.Visibility = System.Windows.Visibility.Collapsed;
+
                     if (error == null)
                     {
+                        vm.Total = result.Sum(x => x.Amount);
+
                         if (vm.IsSortByAmount)
                             vm.ReportResult = result.OrderByDescending(x => x.Amount).ToObservableCollection();
                         else

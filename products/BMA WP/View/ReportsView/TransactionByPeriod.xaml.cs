@@ -99,33 +99,39 @@ namespace BMA_WP.View.ReportsView
             if (!IsValid())
                 return;
 
-                App.Instance.ServiceData.ReportTransactionByPeriod(vm.DateFrom, vm.DateTo, vm.TransactionType.TypeTransactionId, vm.Period,
-                (result, error) =>
-                {
-                    if (error == null)
-                    {
-                        if (vm.IsSortByAmount)
-                        {
-                            vm.ReportResult = new ObservableCollection<KeyValuePair<int, double>>();
-                            foreach (var item in result.ToList().OrderByDescending(x => x.Value))
-                            {
-                                //item.Key.Categories = vm.TransactionReasonList.FirstOrDefault(x => x.TypeTransactionReasonId == item.Key.TypeTransactionReasonId).Categories;
-                                vm.ReportResult.Add(new KeyValuePair<int, double>(item.Key, item.Value));
-                            }
-                        }
-                        else
-                        {
-                            vm.ReportResult = new ObservableCollection<KeyValuePair<int, double>>();
-                            foreach (var item in result.ToList().OrderByDescending(x => x.Key))
-                            {
-                                //item.Key.Categories = vm.TransactionReasonList.FirstOrDefault(x => x.TypeTransactionReasonId == item.Key.TypeTransactionReasonId).Categories;
-                                vm.ReportResult.Add(new KeyValuePair<int, double>(item.Key, item.Value));
-                            }
-                        };
+            spLoading.Visibility = System.Windows.Visibility.Visible;
 
-                        vm.PivotIndex = 1;
+            App.Instance.ServiceData.ReportTransactionByPeriod(vm.DateFrom, vm.DateTo, vm.TransactionType.TypeTransactionId, vm.Period,
+            (result, error) =>
+            {
+                if (error == null)
+                {
+
+                    spLoading.Visibility = System.Windows.Visibility.Collapsed;
+                    
+                    if (vm.IsSortByAmount)
+                    {
+                        vm.Total = result.Sum(x => x.Value);
+                        vm.ReportResult = new ObservableCollection<KeyValuePair<int, double>>();
+                        foreach (var item in result.ToList().OrderByDescending(x => x.Value))
+                        {
+                            //item.Key.Categories = vm.TransactionReasonList.FirstOrDefault(x => x.TypeTransactionReasonId == item.Key.TypeTransactionReasonId).Categories;
+                            vm.ReportResult.Add(new KeyValuePair<int, double>(item.Key, item.Value));
+                        }
                     }
-                });
+                    else
+                    {
+                        vm.ReportResult = new ObservableCollection<KeyValuePair<int, double>>();
+                        foreach (var item in result.ToList().OrderByDescending(x => x.Key))
+                        {
+                            //item.Key.Categories = vm.TransactionReasonList.FirstOrDefault(x => x.TypeTransactionReasonId == item.Key.TypeTransactionReasonId).Categories;
+                            vm.ReportResult.Add(new KeyValuePair<int, double>(item.Key, item.Value));
+                        }
+                    };
+
+                    vm.PivotIndex = 1;
+                }
+            });
         }
 
         private bool IsValid()

@@ -99,13 +99,19 @@ namespace BMA_WP.View.ReportsView
             if (!IsValid())
                 return;
 
+            spLoading.Visibility = System.Windows.Visibility.Visible;
+
             App.Instance.ServiceData.ReportTransactionReason(vm.DateFrom, vm.DateTo, vm.TransactionType.TypeTransactionId, 
                 (result, error) =>
                 {
+
+                    spLoading.Visibility = System.Windows.Visibility.Collapsed;
+                    
                     if (error == null)
                     {
                         if (vm.IsSortByAmount)
                         {
+                            vm.Total = result.Sum(x => x.Value);
                             vm.ReportResult = new ObservableCollection<KeyValuePair<TypeTransactionReason, double>>();
                             foreach (var item in result.ToList().OrderByDescending(x => x.Value))
                             {

@@ -292,6 +292,7 @@ namespace BMA_WP.View.AdminView
             vm.TransactionReasonList.Add(item);
             ReasonsMultiSelect.SelectedItem = item;
             vm.CurrTransactionReason = item;
+            ItemSelected();
 
             save.IsEnabled = vm.TransactionReasonList.HasItemsWithChanges() && vm.IsLoading == false;
             delete.IsEnabled = !vm.IsLoading;

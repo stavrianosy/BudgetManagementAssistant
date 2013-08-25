@@ -132,6 +132,12 @@
     </Compile>
     <Compile Include="ViewModel\Reports\TransactionByPeriodViewModel.cs" />
     <Compile Include="ViewModel\TransactionsIntervalViewModel.cs" />
+    <Compile Include="View\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Help.xaml.cs">
+      <DependentUpon>Help.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ReportsView\TransactionByPeriod.xaml.cs">
       <DependentUpon>TransactionByPeriod.xaml</DependentUpon>
     </Compile>
@@ -226,6 +232,14 @@
     <Page Include="Common\BMAStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Help.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ReportsView\TransactionByPeriod.xaml">
       <Generator>MSBuild:Compile</Generator>

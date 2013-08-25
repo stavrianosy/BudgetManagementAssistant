@@ -85,6 +85,7 @@
             <TextBlock Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
             <ProgressBar IsIndeterminate="True" />
         </StackPanel>
+        
         <phone:Pivot Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" >
             <phone:PivotItem CacheMode="{x:Null}" Header="Main" >
                 <Grid>

@@ -1740,7 +1740,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to checking status.
+        ///   Looks up a localized string similar to connecting.
         /// </summary>
         public static string Updating {
             get {

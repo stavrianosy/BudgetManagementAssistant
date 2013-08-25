@@ -331,10 +331,10 @@ namespace BMA_WP
             {
                 var isOnline = false;
 
-                isOnline = DeviceNetworkInformation.IsNetworkAvailable;
+                //isOnline = DeviceNetworkInformation.IsNetworkAvailable;
 
                 //custom way to check. MS suggests to use the DeviceNetworkInformation.IsNetworkAvailable
-                //isOnline = App.Instance.StaticDataOnlineStatus != StaticServiceData.ServerStatus.Ok;
+                isOnline = App.Instance.StaticDataOnlineStatus == StaticServiceData.ServerStatus.Ok;
 
                 return isOnline;
             }
@@ -489,13 +489,14 @@ namespace BMA_WP
 
         public void SyncBudgets(Action<bool> callback)
         {
-            callback(true);
-            //App.Instance.ServiceData.SyncBudgets((transError) => callback(transError == null));
+            //callback(true);
+            App.Instance.ServiceData.SyncBudgets((budgetError) => callback(budgetError == null));
         }
 
         public void SyncStaticData(Action<bool> callback)
         {
-            callback(true);
+            //callback(true);
+            App.Instance.StaticServiceData.SyncStaticData((staticDataError) => callback(staticDataError == null));
         }
     }
 }

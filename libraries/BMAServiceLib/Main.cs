@@ -731,17 +731,17 @@ namespace BMAServiceLib
             //var periodEnum = (Const.ReportPeriod)Enum.Parse(typeof(Const.ReportPeriod), period);
 
             switch (period)
-                {
-                    case Const.ReportPeriod.Monthly:
-                        periodStr = "yyyyMM";
-                        break;
-                    case Const.ReportPeriod.Yearly:
-                        periodStr = "yyyy";
-                        break;
-                    default:
-                        periodStr = "yyyyMMdd";
-                        break;
-                }
+            {
+                case Const.ReportPeriod.Monthly:
+                    periodStr = "yyyyMM";
+                    break;
+                case Const.ReportPeriod.Yearly:
+                    periodStr = "yyyy";
+                    break;
+                default:
+                    periodStr = "yyyyMMdd";
+                    break;
+            }
             
 
             var query = (from i in ReportTransaction(dateFrom, dateTo, transTypeId, -1, -1, userId)

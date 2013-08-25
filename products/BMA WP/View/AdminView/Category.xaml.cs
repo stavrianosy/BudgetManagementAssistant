@@ -288,6 +288,7 @@ namespace BMA_WP.View.AdminView
             vm.CategoryList.Add(item);
             CategoriesMultiSelect.SelectedItem = item;
             vm.CurrCategory = item;
+            ItemSelected();
 
             save.IsEnabled = vm.CategoryList.HasItemsWithChanges() && vm.IsLoading == false;
             delete.IsEnabled = !vm.IsLoading;
