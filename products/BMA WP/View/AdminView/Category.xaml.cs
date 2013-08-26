@@ -84,8 +84,11 @@ namespace BMA_WP.View.AdminView
                     else
                         container.IsSelected = true;
 
-                    if (item.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase))
+                    if ((vm.CurrCategory.Name != null && vm.CurrCategory.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase)) || 
+                        item.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase))
                         container.IsEnabled = false;
+                    else
+                        container.IsEnabled = true;
                 }
 
                 vm.CurrCategory.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.CategoryList.HasItemsWithChanges();
@@ -306,19 +309,33 @@ namespace BMA_WP.View.AdminView
             if (vm.CurrCategory.TypeTransactionReasons == null && isAdded)
                 vm.CurrCategory.TypeTransactionReasons = new List<TypeTransactionReason>();
 
-            if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) == null && isAdded)
+            if (isAdded)
             {
-                vm.CurrCategory.TypeTransactionReasons.Add(item);
-                vm.CurrCategory.ModifiedDate = DateTime.Now;
-                vm.CurrCategory.HasChanges = true;
+                if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) == null)
+                {
+                    vm.CurrCategory.TypeTransactionReasons.Add(item);
+                    CategoryChangeStatus();
+                }
+                else
+                {
+                    vm.CurrCategory.TypeTransactionReasons.Find(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId).IsDeleted = false;
+                    CategoryChangeStatus();
+                }
             }
-            else if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) != null && !isAdded)
+            else
             {
-                //vm.CurrCategory.TypeTransactionReasons.Remove(item);
-                vm.CurrCategory.TypeTransactionReasons.Find(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId).IsDeleted = true;
-                vm.CurrCategory.ModifiedDate = DateTime.Now;
-                vm.CurrCategory.HasChanges = true;
+                if (vm.CurrCategory.TypeTransactionReasons.FirstOrDefault(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId) != null)
+                {
+                    vm.CurrCategory.TypeTransactionReasons.Find(x => x.TypeTransactionReasonId == item.TypeTransactionReasonId).IsDeleted = true;
+                    CategoryChangeStatus();
+                }
             }
+        }
+
+        private void CategoryChangeStatus()
+        {
+            vm.CurrCategory.ModifiedDate = DateTime.Now;
+            vm.CurrCategory.HasChanges = true;
         }
     }
 }

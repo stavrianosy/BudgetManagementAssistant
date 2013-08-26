@@ -1,6 +1,7 @@
 ﻿using BMA.BusinessLogic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BMA_WP.ViewModel
@@ -35,7 +36,9 @@ namespace BMA_WP.ViewModel
             {
                 return new RelayCommand<object>((param) =>
                 {
-                    PivotIndex = 0;
+                    var selectedItem = (SelectionChangedEventArgs)param;
+                    if (selectedItem.AddedItems[0] != null)
+                        PivotIndex = 0;
                 });
             }
         }

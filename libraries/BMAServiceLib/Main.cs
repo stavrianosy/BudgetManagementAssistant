@@ -268,17 +268,41 @@ namespace BMAServiceLib
                 BudgetList budgetList = new BudgetList();
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.Budget
+                    var query = (from i in context.Budget
                                 .Include(i => i.CreatedUser)
-                                //.Include(i=>i.Transactions.Where(t=>t.CreatedDate >= i.FromDate && t.CreatedDate <=i.ToDate))
-                                select i;
+                                .Include(i => i.ModifiedUser)
+                                where !i.IsDeleted && i.ModifiedUser.UserId == userId
+                                select i).ToList();
 
-                    foreach (var item in query.ToList())
+                    //investigate if there is a better way to convert the generic list to ObservableCollection
+                    foreach (var item in query)
+                        budgetList.Add(item);
+
+                    GetTransactionsForBudgets(budgetList);
+
+                    budgetList.PrepareForServiceSerialization();
+
+                    return budgetList;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void GetTransactionsForBudgets(BudgetList budgetList)
+        {
+            try
+            {
+                using (EntityContext context = new EntityContext())
+                {
+                    foreach (var item in budgetList)
                     {
                         var inQuery = from t in context.Transaction
                                       .Include(t => t.TransactionType).Where(k => !k.IsDeleted)
-                                      where t.CreatedDate >= item.FromDate && t.CreatedDate <= item.ToDate
-                                      && !t.IsDeleted
+                                      where t.TransactionDate >= item.FromDate && t.TransactionDate <= item.ToDate
+                                      && !t.IsDeleted && t.ModifiedUser.UserId == item.ModifiedUser.UserId
                                       select t;
 
                         TransactionList tl = new TransactionList();
@@ -288,36 +312,29 @@ namespace BMAServiceLib
 
                         item.Transactions = tl;
 
-                        //Apply the rule to create a new budget if the expired one is set to Repeat
-                        if (item.Repeat && item.ToDate < DateTime.Now)
-                        {
-                            var dataSpanRange = item.ToDate - item.FromDate;
-                            var dataSpanToday = DateTime.Now - item.ToDate;
-                            var dateDif = dataSpanRange.Days;
-                            var diff = dataSpanToday.Days % dataSpanRange.Days;
-                            var newFromDate = DateTime.Now.AddDays(-diff + 1);
-                            var newToDate = newFromDate.AddDays(dataSpanRange.Days);
+                        ////Apply the rule to create a new budget if the expired one is set to Repeat
+                        //if (item.Repeat && item.ToDate < DateTime.Now)
+                        //{
+                        //    var dataSpanRange = item.ToDate - item.FromDate;
+                        //    var dataSpanToday = DateTime.Now - item.ToDate;
+                        //    var dateDif = dataSpanRange.Days;
+                        //    var diff = dataSpanToday.Days % dataSpanRange.Days;
+                        //    var newFromDate = DateTime.Now.AddDays(-diff + 1);
+                        //    var newToDate = newFromDate.AddDays(dataSpanRange.Days);
 
-                            var test = newToDate - newFromDate;
+                        //    var test = newToDate - newFromDate;
 
-                            var newBudget = item.Clone();
-                            newBudget.FromDate = newFromDate;
-                            newBudget.ToDate = newToDate;
+                        //    var newBudget = item.Clone();
+                        //    newBudget.FromDate = newFromDate;
+                        //    newBudget.ToDate = newToDate;
 
-                            item.Repeat = false;
-                            context.Budget.Add(newBudget);
+                        //    item.Repeat = false;
+                        //    context.Budget.Add(newBudget);
 
-                            //context.SaveChanges();
-                        }
+                        //    //context.SaveChanges();
+                        //}
                     }
-
-                    //investigate if there is a better way to convert the generic list to ObservableCollection
-                    foreach (var item in query)
-                        budgetList.Add(item);
-
-                    budgetList.PrepareForServiceSerialization();
-
-                    return budgetList;
+                    //return budgetList;
                 }
             }
             catch (Exception)
@@ -496,6 +513,9 @@ namespace BMAServiceLib
                                 original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                                 original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
 
+                                item.FromDate = new DateTime(item.FromDate.Year, item.FromDate.Month, item.FromDate.Day, 0, 0, 0);
+                                item.ToDate = new DateTime(item.ToDate.Year, item.ToDate.Month, item.ToDate.Day, 0, 0, 0);
+
                                 context.Entry(original).CurrentValues.SetValues(item);
 
                                 updateFound = true;
@@ -505,6 +525,9 @@ namespace BMAServiceLib
                         {
                             item.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.CreatedUser.UserId);
                             item.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == item.ModifiedUser.UserId);
+
+                            item.FromDate = new DateTime(item.FromDate.Year, item.FromDate.Month, item.FromDate.Day, 0, 0, 0);
+                            item.ToDate = new DateTime(item.ToDate.Year, item.ToDate.Month, item.ToDate.Day, 0, 0, 0);
 
                             context.Budget.Add(item);
 
@@ -516,6 +539,7 @@ namespace BMAServiceLib
                         context.SaveChanges();
                 }
 
+                GetTransactionsForBudgets(budgets);
                 budgets.PrepareForServiceSerialization();
 
                 return budgets;

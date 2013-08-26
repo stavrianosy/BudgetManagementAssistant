@@ -72,7 +72,7 @@
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock Text="Amount" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtAmount" 
+                        <TextBox x:Name="txtAmount" 
                                          Text="{Binding CurrBudget.Amount, Mode=TwoWay}" 
                                          InputScope="Number"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
@@ -84,7 +84,7 @@
                         <toolkit:DatePicker 
                             Value="{Binding CurrBudget.ToDate, Mode=TwoWay}"
                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="12 0">
                             <TextBlock Text="Duration" VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}"/>
                             <TextBox x:Name="txtDuration" Text="{Binding CurrBudget.DurrationDays, Mode=OneWay}" Width="130" IsEnabled="False"/>
                             <TextBlock Text="days"  VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}" />

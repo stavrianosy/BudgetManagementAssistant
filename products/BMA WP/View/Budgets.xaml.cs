@@ -47,38 +47,38 @@ namespace BMA_WP.View
         {
             string piName = (e.AddedItems[0] as PivotItem).Name;
 
-            vm.CurrBudget = (Budget)BudgetMultiSelect.SelectedItem;
-
-            if (vm.CurrBudget == null || vm.CurrBudget.IsDeleted)
-                vm.IsEnabled = false;
-            else
-                vm.IsEnabled = true;
-
             switch (piName)
             {
                 case "piBudget":
                     SetupAppBar_Budget();
+                    ItemSelected();
                    svItem.ScrollToVerticalOffset(0d);
                     break;
                 case "piBudgetList":
                     SetupAppBar_BudgetList();
+                    BudgetMultiSelect.SelectedItem = null;
+                    vm.CurrBudget = null;
                     break;
             }
+        }
 
-            if (vm.CurrBudget != null)
+        private void ItemSelected()
+        {
+            var budget = (Budget)BudgetMultiSelect.SelectedItem;
+
+            vm.CurrBudget = budget;
+
+            if (vm.CurrBudget == null || vm.CurrBudget.IsDeleted)
             {
-                vm.CurrBudget.PropertyChanged += (o, changedEventArgs) =>
-                {
-                    var items = vm.Budgets.Where(t => t.HasChanges).ToObservableCollection();
-                    if (items.Count > 0)
-                    {
-                        save.IsEnabled = true;
-                        delete.IsEnabled = true;
-                    }
-                };
-                delete.IsEnabled = true;
+                vm.IsEnabled = false;
             }
+            else
+            {
+                vm.CurrBudget.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.Budgets.HasItemsWithChanges();
 
+                vm.IsEnabled = !vm.IsLoading;
+                delete.IsEnabled = !vm.IsLoading;
+            }
         }
 
         private void SetupAppBar_BudgetList()
@@ -150,11 +150,17 @@ namespace BMA_WP.View
 
         private void Save_Click(object sender, EventArgs e)
         {
+            ManualUpdate();
+            if (!ValidateBudget())
+                return;
+
             SaveBudget();
         }
 
         private void SaveBudget()
         {
+            vm.IsLoading = true;
+
             var saveOC = vm.Budgets.Where(t => t.HasChanges).ToObservableCollection();
 
              App.Instance.ServiceData.SaveBudgets(saveOC, (error) => 
@@ -164,10 +170,45 @@ namespace BMA_WP.View
             });
 
             pivotContainer.SelectedIndex = 1;
+            save.IsEnabled = vm.Budgets.HasItemsWithChanges() && vm.IsLoading == false;
+        }
+
+        private bool ValidateBudget()
+        {
+            return true;
+        }
+
+        private void ManualUpdate()
+        {
+            //manually update model. textbox dont work well with numeric bindings
+            var amount = 0d;
+
+            double.TryParse(txtAmount.Text, out amount);
+
+            if (vm.CurrBudget != null)
+            {
+                vm.CurrBudget.Amount = amount;
+            }
+
+            //set the focus to a control without keyboard
+            piBudget.Focus();
+
+            //end of - manually update model
         }
 
         private void Add_Click(object sender, EventArgs e)
         {
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
+
+            ManualUpdate();
+
+            if (!ValidateBudget())
+                return;
+
             Budget item = new Budget(App.Instance.User);
 
             vm.PivotIndex = 0;
@@ -178,8 +219,9 @@ namespace BMA_WP.View
             BudgetMultiSelect.SelectedItem = item;
             vm.CurrBudget = item;
 
-            save.IsEnabled = true;
-            vm.IsEnabled = true;
+            save.IsEnabled = vm.Budgets.HasItemsWithChanges() && vm.IsLoading == false;
+            delete.IsEnabled = !vm.IsLoading;
+            vm.IsEnabled = !vm.IsLoading;
         }
     }
 }

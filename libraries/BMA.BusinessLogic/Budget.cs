@@ -131,7 +131,7 @@ namespace BMA.BusinessLogic
             get
             {
                 TimeSpan timeSpan = ToDate.Subtract(DateTime.Now);
-                var days = timeSpan.TotalDays;
+                var days = Math.Round(timeSpan.TotalDays, 2);
                 return days > 0 ?  days : 0;
             }
         }

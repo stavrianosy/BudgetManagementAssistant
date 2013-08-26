@@ -86,8 +86,11 @@ namespace BMA_WP.View.AdminView
                     else
                         container.IsSelected = true;
 
-                    if (item.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase))
+                    if ((vm.CurrTransactionReason.Name != null && vm.CurrTransactionReason .Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase)) ||
+                        item.Name.Trim().Equals("other", StringComparison.InvariantCultureIgnoreCase))
                         container.IsEnabled = false;
+                    else
+                        container.IsEnabled = true;
                 }
                 vm.CurrTransactionReason.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.TransactionReasonList.HasItemsWithChanges();
 
@@ -307,24 +310,37 @@ namespace BMA_WP.View.AdminView
             if (vm.CurrTransactionReason == null)
                 return;
 
+
             if (vm.CurrTransactionReason.Categories == null && isAdded)
                 vm.CurrTransactionReason.Categories = new List<BMA.BusinessLogic.Category>();
 
-            if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) == null && isAdded)
+            if (isAdded)
             {
-                vm.CurrTransactionReason.Categories.Add(item);
-                vm.CurrTransactionReason.ModifiedDate = DateTime.Now;
-                vm.CurrTransactionReason.HasChanges = true;
+                if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) == null && isAdded)
+                {
+                    vm.CurrTransactionReason.Categories.Add(item);
+                    TransactionReasonChangeStatus();
+                }
+                else
+                {
+                    vm.CurrTransactionReason.Categories.Find(x => x.CategoryId == item.CategoryId).IsDeleted = false;
+                    TransactionReasonChangeStatus();
+                }
             }
-            else if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) != null && !isAdded)
+            else
             {
-                vm.CurrTransactionReason.Categories.Find(x => x.CategoryId == item.CategoryId).IsDeleted = true;
-                vm.CurrTransactionReason.ModifiedDate = DateTime.Now;
-                vm.CurrTransactionReason.HasChanges = true;
+                if (vm.CurrTransactionReason.Categories.FirstOrDefault(x => x.CategoryId == item.CategoryId) != null && !isAdded)
+                {
+                    vm.CurrTransactionReason.Categories.Find(x => x.CategoryId == item.CategoryId).IsDeleted = true;
+                    TransactionReasonChangeStatus();
+                }
             }
-
-            
         }
 
+        private void TransactionReasonChangeStatus()
+        {
+            vm.CurrTransactionReason.ModifiedDate = DateTime.Now;
+            vm.CurrTransactionReason.HasChanges = true;
+        }
     }
 }

@@ -367,7 +367,7 @@ namespace BMA.BusinessLogic
             TransactionList result = new TransactionList();
 
             var query = from i in this
-                        where i.CreatedDate >= fromDate && i.CreatedDate <= toDate
+                        where i.TransactionDate >= fromDate && i.TransactionDate <= toDate
                         select i;
 
             foreach (var item in query)

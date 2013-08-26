@@ -136,7 +136,7 @@ namespace BMA_WP.View
             bindTransReasonType.Mode = BindingMode.TwoWay;
             bindTransReasonType.Source = vm.CurrTransaction == null ? null : vm.CurrTransaction;
             if (vm.CurrTransaction.TransactionReasonType != null &&
-                ((List<TypeTransactionReason>)cmbReason.ItemsSource)
+                ((ObservableCollection<TypeTransactionReason>)cmbReason.ItemsSource)
                     .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrTransaction.TransactionReasonType.TypeTransactionReasonId) != null)
                 cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
         }
@@ -298,7 +298,6 @@ namespace BMA_WP.View
             
             pivotContainer.SelectedIndex = 1;
             save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
-
         }
 
         private void ManualUpdate()

@@ -389,9 +389,6 @@ namespace BMA_WP.Model
 
                 StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId, App.Instance.User.UserName);
             }
-            var ord = CategoryList.OrderBy(x => x.Name).ToList();
-            CategoryList.Clear();
-            ord.ForEach(x => CategoryList.Add(x));
         }
 
         private async void SetupTypeTransactionReasonData(ICollection<TypeTransactionReason> existing, bool removeNew)
@@ -415,9 +412,6 @@ namespace BMA_WP.Model
 
                 StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId, App.Instance.User.UserName);
             }
-            var ord = TypeTransactionReasonList.OrderBy(x => x.Name).ToList();
-            TypeTransactionReasonList.Clear();
-            ord.ForEach(x => TypeTransactionReasonList.Add(x));
         }
 
         private async void SetupTypeTransactionData(ICollection<TypeTransaction> existing, bool removeNew)
@@ -1207,6 +1201,7 @@ namespace BMA_WP.Model
 
                         var client = new StaticClient();
 
+                        check update category from service. when remove reason, server is not updated
                         client.SaveCategoriesAsync(categories, App.Instance.User);
 
                         client.SaveCategoriesCompleted +=  (sender, completedEventArgs) =>

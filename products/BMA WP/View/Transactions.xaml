@@ -94,7 +94,7 @@
                             <StackPanel Grid.Column="1">
                                 <TextBlock 
                                     Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                    Margin="12 0 0 0" Foreground="{x:Null}" />
+                                    Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                                 <TextBox x:Name="txtAmount" Margin="0 -6 0 0"
                                          Text="{Binding CurrTransaction.Amount, Mode=TwoWay, NotifyOnValidationError=True}" 
                                          InputScope="Number"
@@ -121,7 +121,7 @@
                         </Grid>
                         <toolkit:ListPicker x:Name="cmbCategory" 
                                             Header="{Binding Path=LocalizedResources.Category, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
-                                          ItemsSource="{Binding CategoryList}"
+                                          ItemsSource="{Binding CategoryList, Converter={StaticResource converters}, ConverterParameter=categoryNotDeleted}"
                                           FullModeItemTemplate="{StaticResource PickerFullModeItemTemplate}"
                                           ItemTemplate="{StaticResource PickerItemTemplate}"
                                           ExpansionMode="FullScreenOnly"

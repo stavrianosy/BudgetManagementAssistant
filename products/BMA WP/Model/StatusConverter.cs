@@ -82,6 +82,9 @@ namespace BMA_WP.Model
                     case "categoryreasonlist":
                         return GetCategoryReasonList(value);
 
+                    case "categorynotdeleted":
+                        return GetCategoryNotDeleted(value);
+
                     case "changedcolor":
                         return GetChangedColor(value);
 
@@ -145,6 +148,16 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object GetCategoryNotDeleted(object value)
+        {
+            var result = value as ICollection<Category>;
+
+            if (result != null)
+                result = result.Where(x => !x.IsDeleted).ToObservableCollection();
+
+            return result;
         }
 
         private object PeriodToDate(object value)
@@ -256,19 +269,19 @@ namespace BMA_WP.Model
         private object CategoryCloneInstance(object value)
         {
             var category = value as Category;
-            return category.Clone();
+            return category == null ? null : category.Clone();
         }
 
         private object GetTypeTransactionReasonByCategory(object value)
         {
-            List<TypeTransactionReason> result = null;
+            ICollection<TypeTransactionReason> result = null;
             var cat = value as Category;
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
 
             if (query != null && query.TypeTransactionReasons != null)
-                result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToList();
+                result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToObservableCollection();
 
-            return result;
+            return result.Where(x => !x.IsDeleted).ToObservableCollection();
         }
 
         private object ConvertByteArrayToImage(object value)

@@ -111,7 +111,7 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.Category
-                                .Include(x => x.TypeTransactionReasons)
+                                //.Include(x => x.TypeTransactionReasons)
                                 .Include(i => i.ModifiedUser)
                                 .Include(i => i.CreatedUser)
                                  orderby i.Name ascending
@@ -121,7 +121,7 @@ namespace BMAServiceLib
                                      Category = i,
                                      CreatedUser = i.CreatedUser,
                                      ModifiedUser = i.ModifiedUser,
-                                     Reasons = i.TypeTransactionReasons.Where(x => !x.IsDeleted)
+                                     Reasons = context.TransactionReason.Where(x => !x.IsDeleted && (x.ModifiedUser.UserId == SYSTEM_USER_ID || x.ModifiedUser.UserId == userId))
                                  }).ToList();
 
                     query.ForEach(x =>
@@ -157,14 +157,15 @@ namespace BMAServiceLib
                     var query = (from i in context.TransactionReason
                                 .Include(x => x.CreatedUser)
                                 .Include(x => x.ModifiedUser)
-                                .Include(x => x.Categories)
+                                //.Include(x => x.Categories)
                                  orderby i.Name ascending
                                  where !i.IsDeleted && (i.ModifiedUser.UserId == SYSTEM_USER_ID || i.ModifiedUser.UserId == userId)
                                  select new {
                                      TransReason = i,
                                      CreatedUser = i.CreatedUser,
                                      ModifiedUser = i.ModifiedUser,
-                                     Categories=i.Categories.Where(x=>!x.IsDeleted) }).ToList();
+                                     Categories = context.Category.Where(x => !x.IsDeleted && (x.ModifiedUser.UserId == SYSTEM_USER_ID || x.ModifiedUser.UserId == userId))
+                                 }).ToList();
 
                     query.ForEach(x =>
                         {
