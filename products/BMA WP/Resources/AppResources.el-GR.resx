@@ -699,4 +699,10 @@ Update it from the list and save again.</value>
   <data name="Wednesday" xml:space="preserve">
     <value>Τεταρτη</value>
   </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Προϋπολογησμος</value>
+  </data>
+  <data name="Budgets" xml:space="preserve">
+    <value>Προϋπολογησμοι</value>
+  </data>
 </root>

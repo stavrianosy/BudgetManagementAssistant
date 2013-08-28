@@ -12,6 +12,8 @@ using BMA_WP.Resources;
 using BMA.BusinessLogic;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using System.Windows.Data;
+using BMA_WP.Model;
 
 namespace BMA_WP.View.AdminView
 {
@@ -34,7 +36,24 @@ namespace BMA_WP.View.AdminView
         {
             InitializeComponent();
 
+            SetupLoadingBinding();
         }
+
+        #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
+        }
+
+        #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -195,6 +214,12 @@ namespace BMA_WP.View.AdminView
             var result = true;
 
             result = ValidateSingleTransaction() && ValidateAllTransactions();
+
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                result = false;
+            }
 
             return result;   
         }

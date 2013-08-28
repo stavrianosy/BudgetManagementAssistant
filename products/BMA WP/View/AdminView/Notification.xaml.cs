@@ -207,12 +207,6 @@ namespace BMA_WP.View.AdminView
 
         private void Add_Click(object sender, EventArgs e)
         {
-            if (vm.IsLoading)
-            {
-                MessageBox.Show(AppResources.BusySynchronizing);
-                return;
-            }
-
             if (!ValidateNotification())
                 return;
 
@@ -236,6 +230,12 @@ namespace BMA_WP.View.AdminView
             var result = true;
 
             result = ValidateSingleNotification() && ValidateAllNotification();
+
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                result = false;
+            }
 
             return result;
         }

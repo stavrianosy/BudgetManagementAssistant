@@ -10,6 +10,9 @@ using Microsoft.Phone.Shell;
 using BMA_WP.ViewModel;
 using BMA.BusinessLogic;
 using BMA_WP.Resources;
+using System.Windows.Data;
+using BMA_WP.Model;
+using System.Windows.Media;
 
 namespace BMA_WP.View
 {
@@ -33,7 +36,25 @@ namespace BMA_WP.View
         public Budgets()
         {
             InitializeComponent();
+
+            SetupLoadingBinding();
         }
+
+        #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
+        }
+
+        #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -175,8 +196,82 @@ namespace BMA_WP.View
 
         private bool ValidateBudget()
         {
-            return true;
+            var result = true;
+
+            result = ValidateSingleBudget() && ValidateAllBudgets();
+
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                result = false;
+            }
+
+            return result;   
         }
+
+        private bool ValidateSingleBudget()
+        {
+            var result = true;
+            if (vm.CurrBudget == null)
+                return result;
+
+            SolidColorBrush okColor = new SolidColorBrush(new Color() { A = 255, B = 255, G = 255, R = 255 });
+            SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
+
+            txtName.Background = okColor;
+
+            if (vm.CurrBudget.Name == null || vm.CurrBudget.Name.Length == 0)
+            {
+                result = false;
+                txtName.Background = errColor;
+            }
+
+            if (vm.CurrBudget.Name != null)
+            {
+                var nameExists = vm.Budgets.FirstOrDefault(x => x.Name.Trim().Equals(vm.CurrBudget.Name.Trim(), StringComparison.InvariantCultureIgnoreCase) &&
+                                                                x.BudgetId != vm.CurrBudget.BudgetId && !x.IsDeleted);
+                if (nameExists != null)
+                {
+                    result = false;
+                    MessageBox.Show(AppResources.NameAlreadyExist);
+                }
+            }
+
+            if (!result)
+                svItem.ScrollToVerticalOffset(0);
+
+            return result;
+        }
+
+        private bool ValidateAllBudgets()
+        {
+            var result = true;
+
+            var tempBudgetCount = vm.Budgets.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Trim().Length == 0)).Count();
+
+            var tempBudgetNameExists = (from i in vm.Budgets
+                                          where i.Name != null && !i.IsDeleted
+                                          group i by i.Name.Trim().ToLower() into g
+                                          select new { item = g.Key, count = g.Count() }).Where(x => x.count > 1).Count();
+
+            if (tempBudgetNameExists > 0)
+            {
+                result = false;
+                MessageBox.Show(string.Format(AppResources.FaildValidationNameExists, AppResources.Budgets));
+            }
+            else if (tempBudgetCount > 0)
+            {
+                result = false;
+                //for more specific message
+                if (tempBudgetCount == 1)
+                    MessageBox.Show(string.Format(AppResources.FaildValidationSingle, AppResources.Budget));
+                else
+                    MessageBox.Show(string.Format(AppResources.FaildValidation, tempBudgetCount, AppResources.Budgets));
+            }
+
+            return result;
+        }
+
 
         private void ManualUpdate()
         {

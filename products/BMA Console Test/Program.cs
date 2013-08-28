@@ -32,14 +32,14 @@ namespace ConsoleApplication1
             //SyncTransactions(a, usr);
             //a.GetLatestTransactionsLimit(10, 11);
             //var tt = b.GetAllTypeTransactions(4);
-            //var cat = b.GetAllCategories(4);
+            var cat = b.GetAllCategories(usr.UserId);
             //var bud = a.GetAllBudgets(usr.UserId);
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransactionReasons(b, usr);
             //UpdateTypeInterval(a, b, usr);
-            var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
-            //SaveCategories(b, usr);
+            //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
+            //var cat = SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);
             //UpdateBudget(a, usr);
@@ -179,19 +179,29 @@ namespace ConsoleApplication1
 //            a.SaveTransactionImages(transImages);
         }
 
-        private static void SaveCategories(ServiceReference2.StaticClient b, User usr)
+        private static List<Category> SaveCategories(ServiceReference2.StaticClient b, User usr)
         {
             var allCat = b.GetAllCategories(usr.UserId);
             var allReasons = b.GetAllTypeTransactionReasons(usr.UserId);
 
             var catList = new CategoryList();
-            var newCat = new Category(usr);
-            newCat.Name = "CarTest";
+            var reasonList = new TypeTransactionReasonList();
 
-            if (newCat.TypeTransactionReasons == null)
-                newCat.TypeTransactionReasons = new List<TypeTransactionReason>();
+            allReasons.ForEach(x=>reasonList.Add(x));
+            var newCat = new Category(usr, reasonList);
+            newCat = allCat[2];
+            newCat.TypeTransactionReasons[1].IsDeleted = true;
+            newCat.TypeTransactionReasons[1].ModifiedDate = DateTime.Now;
 
-            newCat.TypeTransactionReasons.Add(allReasons[0]);
+            newCat.HasChanges = true;
+            newCat.ModifiedDate = DateTime.Now;
+
+            //newCat.Name = "CarTest";
+
+            //if (newCat.TypeTransactionReasons == null)
+            //    newCat.TypeTransactionReasons = new List<TypeTransactionReason>();
+
+            //newCat.TypeTransactionReasons.Add(allReasons[0]);
             //newCat.TypeTransactionReasons.Add(allReasons[1]);
 
             //var transReasonList = new List<TypeTransactionReason>();
@@ -207,6 +217,8 @@ namespace ConsoleApplication1
             //var arrC = st.ToList();
 
             //var c = b.SaveCategories(st.Categories);
+
+            return result;
         }
 
         private static void UpdateTypeInterval(ServiceReference1.MainClient a, ServiceReference2.StaticClient b, User usr)

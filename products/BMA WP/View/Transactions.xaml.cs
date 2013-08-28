@@ -322,12 +322,6 @@ namespace BMA_WP.View
 
         private void Add_Click(object sender, EventArgs e)
         {
-            if (vm.IsLoading)
-            {
-                MessageBox.Show(AppResources.BusySynchronizing);
-                return;
-            }
-
             ManualUpdate();
             
             if (!ValidateTransaction())
@@ -358,6 +352,12 @@ namespace BMA_WP.View
             var result = true;
 
             result = ValidateSingleTransaction() && ValidateAllTransactions();
+
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                result = false;
+            }
 
             return result;
         }

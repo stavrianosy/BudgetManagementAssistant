@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using BMA_WP.Model;
 
 namespace BMA_WP.View.AdminView
 {
@@ -36,7 +37,25 @@ namespace BMA_WP.View.AdminView
         public Interval()
         {
             InitializeComponent();
+
+            SetupLoadingBinding();
         }
+
+        #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsSyncing");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
+        }
+
+        #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -227,6 +246,7 @@ namespace BMA_WP.View.AdminView
             });
 
             pivotContainer.SelectedIndex = 1;
+            save.IsEnabled = vm.TypeIntervalList.HasItemsWithChanges() && vm.IsLoading == false;
         }
 
         private bool IsValid(ObservableCollection<TypeInterval> typeIntervalList)
@@ -255,13 +275,10 @@ namespace BMA_WP.View.AdminView
 
         private void Add_Click(object sender, EventArgs e)
         {
-            if (vm.IsLoading)
-            {
-                MessageBox.Show(AppResources.BusySynchronizing);
-                return;
-            }
-
             ManualUpdate();
+
+            if (!ValidateTypeInterval())
+                return;
 
             var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList, vm.TransactionReasonTypeList, vm.TypeTransactionList, App.Instance.User);
 
@@ -322,6 +339,12 @@ namespace BMA_WP.View.AdminView
             {
                 result = false;
                 txtDailyEvery.Background = errColor;
+            }
+
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                result = false;
             }
 
             return result;

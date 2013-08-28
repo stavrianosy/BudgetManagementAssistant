@@ -1,0 +1,234 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="BMA_WP.View.Help"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:ad="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
+    xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP8"
+    Loaded="PhoneApplicationPage_Loaded">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="ApplicationTitle" Margin="12 0 0 6"
+                           Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                           Style="{StaticResource PhoneTextNormalStyle}"/>
+        </Grid>
+
+        <phone:Panorama Grid.Row="1" >
+            <!--Panorama item one-->
+            <phone:PanoramaItem Header="Login">
+                <ScrollViewer Margin="0 -00 0 0">
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run Text="Login process comes with 3 options."/><LineBreak/>
+                            <Run Text="Register, ForgotPassword and Login"/><LineBreak/>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run Text="1. Register"/><LineBreak/>
+                            <Run Text="---------------"/><LineBreak/>
+                            <Run Text="Create a new user and use all the features of the app. There is no further authorizations on any parts of the app."/><LineBreak/>
+                            <Run Text="Username, Password and Email, are all required to register a new user."/><LineBreak/><LineBreak/>
+                            <Run Text="* Note that the app is able to work online and offline. For this reason, username must be unique and you need to be connected online with the system for validation. "/><LineBreak/>
+                            <Run Text="Registration of new user is the only part of the app that connection with the internet is mandatory."/>
+                        </TextBlock>
+                        <Image Margin="0 12" Source="/Assets/screenshots/720p/Register.png" />
+                        <TextBlock TextWrapping="Wrap">
+                            <Run Text="2. ForgotPassword"/><LineBreak/>
+                            <Run Text="---------------"/><LineBreak/>
+                            <Run Text="Once you forgot your password, you can supply the email or username you used upon registration."/><LineBreak/>
+                            <Run Text="An email will be sent with your password."/>
+                        </TextBlock>
+                        <Image Margin="0 12" Source="/Assets/screenshots/720p/ForgotPassword.png" />
+                        <TextBlock TextWrapping="Wrap">
+                            <Run Text="3. Login"/><LineBreak/>
+                            <Run Text="---------------"/><LineBreak/>
+                            <Run Text="This is your gate to access the app and all of its features."/><LineBreak/>
+                            <Run Text="Using your username and password you can gain access whether you are online or offline"/>
+                        </TextBlock>
+                        <Image Margin="0 12" Source="/Assets/screenshots/720p/Login.png" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PanoramaItem>
+
+            <!--Panorama item two-->
+            <phone:PanoramaItem Header="Main Menu">
+                <Grid>
+                    <ScrollViewer Margin="0 -00 0 0">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap">
+                            <Run x:Name="ln2_01" Text="Easy and quick access to the main options of the app, the Transaction and Budget"/><LineBreak/>
+                            </TextBlock>
+                            <Image Margin="0 12" Source="/Assets/screenshots/720p/MainMenu.png" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <!--Panorama item three-->
+            <phone:PanoramaItem Header="Transaction">
+                <Grid>
+                    <ScrollViewer Margin="0 -00 0 0">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap">
+                            <Run Text="The transactions page is the most important part of the app. Almost all other pages exist to support or as an extension of the the transactions."/><LineBreak/><LineBreak/>
+                                <Run Text="Transactions page is split into 2 sides." />
+                                <Run Text="On the one side you can view a maximum number of transactions (this is not necessarilly the total number of transactions) along with new other details. Like, whether is income or expense, the amount, etc."/><LineBreak/>
+                            </TextBlock>
+                            <Image Margin="0 12" Source="/Assets/screenshots/720p/Transactions.png" />
+                            <TextBlock>
+                                <Run Text="On the other side there are all available details of a transactions. Here you can view, edit or capture a new transaction." /><LineBreak/>
+                            </TextBlock>
+                            <Image Margin="0 12" Source="/Assets/screenshots/720p/TransactionEdit.png" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <!--Panorama item four-->
+            <phone:PanoramaItem Header="Budget">
+                <Grid>
+                    <ScrollViewer Margin="0 -00 0 0">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap">
+                            <Run Text="Budget is one of the main features of the app. Its purpose is to assist you set budgets and try to adjust your expenses to meet your goals."/><LineBreak/><LineBreak/>
+                                <Run Text="As most of the other screens, budgets have 2 sides. One for the budget list and the other for the budget details."/><LineBreak/>
+                            </TextBlock>
+                            <Image Margin="0 12" Source="/Assets/screenshots/720p/Budgets.png" />
+                            <Image Margin="0 12" Source="/Assets/screenshots/720p/BudgetEdit.png" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <!--Panorama item four-->
+            <phone:PanoramaItem Header="Admin">
+                <Grid>
+                    <ScrollViewer Margin="0 -000 0 0">
+                        <StackPanel>
+                            <StackPanel x:Name="AdminMenu">
+                                <TextBlock TextWrapping="Wrap">
+                                    <Run Text="Simple to use and very self-intuitive screens which are used to directly or even indirectly support the capturing of transactions."/>
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/AdminMenu.png" />
+                            </StackPanel>
+                            <StackPanel x:Name="Category">
+                                <TextBlock TextWrapping="Wrap">
+                                <Run Text="Category"/><LineBreak/>
+                                <Run Text="-------------"/><LineBreak/>
+                                <Run Text="- Name must be unique through all categories"/><LineBreak/>
+                                <Run Text="- Time range is used from the app to decide which category should appear as preselected according to the time of the day."/><LineBreak/>
+                                <Run Text="- Transaction Reason list is meant to be used as the sub-category for the transaction"/><LineBreak/>
+                                <Run Text="- * The Category with name Other, is predefined by the system and cannot be edited"/><LineBreak/>
+                                <Run Text="- ** The Transaction Reason with name Other, is by default selected for all categories and cannot be unselect."/>
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/CategoryEdit.png" />
+                            </StackPanel>
+                            <StackPanel x:Name="Interval">
+                                <TextBlock TextWrapping="Wrap">
+                                <Run Text="Interval"/><LineBreak/>
+                                <Run Text="-------------"/><LineBreak/>
+                                <Run Text="- Name must be unique through all categories"/><LineBreak/>
+                                <Run Text="- Setup all periodic income or expense according to the rules"/><LineBreak/>
+                                <Run Text="* Everytime the user logins to the app, if the todays date falls into the rules of any of the intervals, a new screen will appear and ask about the creation of new transactions"/>
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/IntervalEdit_Rule_1.png" />
+                            </StackPanel>
+                            <StackPanel x:Name="Notification">
+                                <TextBlock TextWrapping="Wrap">
+                                <Run Text="Notification"/><LineBreak/>
+                                <Run Text="----------------"/><LineBreak/>
+                                <Run Text="- Name must be unique through all categories"/><LineBreak/>
+                                <Run Text="- Setup all notifications according to the time of the day you would like to get a reminder. You can also include an indicational message."/><LineBreak/><LineBreak/>
+                                <Run Text="* The notifications appear inthe list, are from all users."/>
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/NotificationEdit.png" />
+                            </StackPanel>
+                            <StackPanel x:Name="TransactionReason">
+                                <TextBlock TextWrapping="Wrap">
+                                <Run Text="Transaction Reason"/><LineBreak/>
+                                <Run Text="----------------"/><LineBreak/>
+                                <Run Text="- Name must be unique through all categories"/><LineBreak/>
+                                <Run Text="- * The Transaction Reason with name Other, is predefined by the system and cannot be edited"/><LineBreak/>
+                                <Run Text="- ** The Category with name Other, is by default selected for all categories and cannot be unselect."/>
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/TransactionReasonEdit.png" />
+                            </StackPanel>
+                            <StackPanel x:Name="Security">
+                                <TextBlock TextWrapping="Wrap">
+                                    <Run Text="Security / User Details"/><LineBreak/>
+                                    <Run Text="----------------"/><LineBreak/>
+                                    <Run Text="In this two sided screen the user can change the password or some details like contact email (remember that the emails is very important to be valid, since it will be used when you forget your password). "/><LineBreak/>
+                                    <Run Text="In addition here you can capture new details like Name, Surname and Birthday" />
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/UserDetails.png" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </phone:PanoramaItem>
+
+            <!--Panorama item five-->
+            <phone:PanoramaItem Header="Reports">
+                <Grid>
+                    <ScrollViewer Margin="0 -000 0 0">
+                        <StackPanel>
+                            <StackPanel x:Name="Reports">
+                                <TextBlock TextWrapping="Wrap">
+                                <Run Text="Choose between several predefined reports abd project useful information regarding transactions."/><LineBreak/>
+                                <Run Text="You can also define criteria in order to make the report more specific to your needs."/><LineBreak/>
+                                <Run Text="In the report result, on top of the list there is a total of all items."/><LineBreak/><LineBreak/>
+                                <Run Text="Common report criteria"/><LineBreak/>
+                                <Run Text="------------------------------"/><LineBreak/>
+                                <Run Text="- Date range."/><LineBreak/>
+                                <Run Text="- Sort by amount or date"/>
+                                </TextBlock>
+                                <Image Margin="0 12" Source="/Assets/screenshots/720p/ReportTransAmount.png" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </phone:PanoramaItem>
+        </phone:Panorama>
+    </Grid>
+
+</phone:PhoneApplicationPage>

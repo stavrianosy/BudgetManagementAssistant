@@ -111,7 +111,7 @@ namespace BMAServiceLib
                 using (EntityContext context = new EntityContext())
                 {
                     var query = (from i in context.Category
-                                //.Include(x => x.TypeTransactionReasons)
+                                .Include(x => x.TypeTransactionReasons)
                                 .Include(i => i.ModifiedUser)
                                 .Include(i => i.CreatedUser)
                                  orderby i.Name ascending
@@ -121,17 +121,25 @@ namespace BMAServiceLib
                                      Category = i,
                                      CreatedUser = i.CreatedUser,
                                      ModifiedUser = i.ModifiedUser,
-                                     Reasons = context.TransactionReason.Where(x => !x.IsDeleted && (x.ModifiedUser.UserId == SYSTEM_USER_ID || x.ModifiedUser.UserId == userId))
+                                     Reasons = i.TypeTransactionReasons.Where(x => !x.IsDeleted)
                                  }).ToList();
 
                     query.ForEach(x =>
                     {
                         var reasons = x.Reasons.ToList();
 
-                        reasons.ForEach(z => z.HasChanges = false);
+                        reasons.ForEach(z =>
+                            {
+                                z = context.TransactionReason
+                                        .Include(i => i.CreatedUser)
+                                        .Include(i => i.ModifiedUser)
+                                        .FirstOrDefault(k => k.TypeTransactionReasonId == z.TypeTransactionReasonId);
+                                z.HasChanges = false; 
+                            });
+
                         x.Category.HasChanges = false;
 
-                        x.Category.TypeTransactionReasons = reasons;
+                        x.Category.TypeTransactionReasons = reasons.Where(z => z.ModifiedUser.UserId == SYSTEM_USER_ID || z.ModifiedUser.UserId == userId).ToList();
 
                         result.Add(x.Category);
                     });
@@ -157,21 +165,29 @@ namespace BMAServiceLib
                     var query = (from i in context.TransactionReason
                                 .Include(x => x.CreatedUser)
                                 .Include(x => x.ModifiedUser)
-                                //.Include(x => x.Categories)
+                                .Include(x => x.Categories)
                                  orderby i.Name ascending
                                  where !i.IsDeleted && (i.ModifiedUser.UserId == SYSTEM_USER_ID || i.ModifiedUser.UserId == userId)
                                  select new {
                                      TransReason = i,
                                      CreatedUser = i.CreatedUser,
                                      ModifiedUser = i.ModifiedUser,
-                                     Categories = context.Category.Where(x => !x.IsDeleted && (x.ModifiedUser.UserId == SYSTEM_USER_ID || x.ModifiedUser.UserId == userId))
+                                     Categories = i.Categories.Where(x => !x.IsDeleted)// && (x.ModifiedUser.UserId == SYSTEM_USER_ID || x.ModifiedUser.UserId == userId))
                                  }).ToList();
 
                     query.ForEach(x =>
                         {
                             var cats = x.Categories.ToList();
-                            
-                            cats.ForEach(z=>z.HasChanges = false);
+
+                            cats.ForEach(z =>
+                            {
+                                z = context.Category
+                                        .Include(i => i.CreatedUser)
+                                        .Include(i => i.ModifiedUser)
+                                        .FirstOrDefault(k => k.CategoryId == z.CategoryId);
+                                z.HasChanges = false;
+                            });
+
                             x.TransReason.HasChanges = false;
 
                             x.TransReason.Categories = cats;

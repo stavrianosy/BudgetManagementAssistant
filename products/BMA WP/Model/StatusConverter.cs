@@ -275,13 +275,18 @@ namespace BMA_WP.Model
         private object GetTypeTransactionReasonByCategory(object value)
         {
             ICollection<TypeTransactionReason> result = null;
+
+            if (value == null)
+                return null;
+
             var cat = value as Category;
             var query = App.Instance.StaticServiceData.CategoryList.Where(x => x.CategoryId == cat.CategoryId).FirstOrDefault();
 
             if (query != null && query.TypeTransactionReasons != null)
                 result = query.TypeTransactionReasons.OrderBy(x => x.Name).ToObservableCollection();
 
-            return result.Where(x => !x.IsDeleted).ToObservableCollection();
+
+            return result == null ? null : result.Where(x => !x.IsDeleted).ToObservableCollection();
         }
 
         private object ConvertByteArrayToImage(object value)

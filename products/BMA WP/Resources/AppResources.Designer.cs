@@ -304,6 +304,24 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Budget.
+        /// </summary>
+        public static string Budget {
+            get {
+                return ResourceManager.GetString("Budget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Budgets.
+        /// </summary>
+        public static string Budgets {
+            get {
+                return ResourceManager.GetString("Budgets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Budget Status.
         /// </summary>
         public static string BudgetStatus {

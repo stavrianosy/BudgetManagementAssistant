@@ -1201,7 +1201,6 @@ namespace BMA_WP.Model
 
                         var client = new StaticClient();
 
-                        check update category from service. when remove reason, server is not updated
                         client.SaveCategoriesAsync(categories, App.Instance.User);
 
                         client.SaveCategoriesCompleted +=  (sender, completedEventArgs) =>
