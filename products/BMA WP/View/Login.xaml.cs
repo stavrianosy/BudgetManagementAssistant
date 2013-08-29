@@ -385,7 +385,7 @@ namespace BMA_WP.View
         {
             App.Instance.IsSyncing = true;
 
-            CheckOnlineStatus(error => { 
+            CheckOnlineStatus(error => {
                 LoadAllData(() => App.Instance.IsSyncing = false);
             });
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
@@ -426,7 +426,12 @@ namespace BMA_WP.View
             App.Instance.StaticServiceData.LoadTypeIntervalConfiguration(true, errorCall =>
                 {
                     if (errorCall != null)
-                        callback();
+                    {
+                        typeInterval = true;
+
+                        if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
+                            callback();
+                    }
 
                     App.Instance.StaticServiceData.LoadTypeIntervals(true, error =>
                     {

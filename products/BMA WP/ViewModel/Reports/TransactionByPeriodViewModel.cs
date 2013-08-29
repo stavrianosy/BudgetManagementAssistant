@@ -1,6 +1,7 @@
 ﻿using BMA.BusinessLogic;
 using GalaSoft.MvvmLight;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -62,12 +63,15 @@ namespace BMA_WP.ViewModel.ReportsView
 
             DateFrom = new DateTime(from.Year, from.Month, from.Day, 0, 0, 0);
             DateTo = new DateTime(to.Year, to.Month, to.Day, 0, 0, 0);
-            
-            TransactionType = TransactionTypeList[0];
+
+            if (TransactionTypeList != null && TransactionTypeList.Count > 1)
+            {
+                var selected = TransactionTypeList.FirstOrDefault(x => x.Name.Equals("Expense", StringComparison.InvariantCultureIgnoreCase));
+                TransactionType = selected;
+            }
 
             PeriodList = new ObservableCollection<Const.ReportPeriod> { Const.ReportPeriod.Daily, Const.ReportPeriod.Monthly, Const.ReportPeriod.Yearly };
             Period = PeriodList[0];
-            Total = 0;
         }
     }
 }

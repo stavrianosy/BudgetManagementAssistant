@@ -109,9 +109,9 @@ namespace BMA_WP.View.ReportsView
                     
                     if (error == null)
                     {
+                        vm.Total = result.Sum(x => x.Value);
                         if (vm.IsSortByAmount)
                         {
-                            vm.Total = result.Sum(x => x.Value);
                             vm.ReportResult = new ObservableCollection<KeyValuePair<TypeTransactionReason, double>>();
                             foreach (var item in result.ToList().OrderByDescending(x => x.Value))
                             {

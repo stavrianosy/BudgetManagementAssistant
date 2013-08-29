@@ -32,13 +32,14 @@ namespace ConsoleApplication1
             //SyncTransactions(a, usr);
             //a.GetLatestTransactionsLimit(10, 11);
             //var tt = b.GetAllTypeTransactions(4);
-            var cat = b.GetAllCategories(usr.UserId);
+            //var cat = b.GetAllCategories(usr.UserId);
+            //var allTrans = a.GetLatestTransactions(usr.UserId);
             //var bud = a.GetAllBudgets(usr.UserId);
             //b.GetAllStaticData();
             //ForgotPass(b);
             //SaveTypeTransactionReasons(b, usr);
             //UpdateTypeInterval(a, b, usr);
-            //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
+            var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
             //var cat = SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);

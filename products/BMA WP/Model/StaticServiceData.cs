@@ -577,7 +577,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<Category>(STATIC_CATEGORY_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    CategoryList.Add(staticType);
                 }
 
             }
@@ -587,7 +587,7 @@ namespace BMA_WP.Model
                 //callback(null, ex);
             }
             //SetupTypeCategoryData(retVal, false);
-            CategoryList = retVal;
+            //CategoryList = retVal;
 
             callback(CategoryList, null);
         }
@@ -612,7 +612,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<TypeTransactionReason>(STATIC_TYPETRANSACTIONREASON_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    TypeTransactionReasonList.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -621,7 +621,7 @@ namespace BMA_WP.Model
                 //callback(null, ex);
             }
 
-            TypeTransactionReasonList = retVal;
+            //TypeTransactionReasonList = retVal;
 
             callback(TypeTransactionReasonList, null);
         }
@@ -645,7 +645,7 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_TYPETRANSACTION_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<TypeTransaction>(STATIC_TYPETRANSACTION_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    TypeTransactionList.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -655,7 +655,7 @@ namespace BMA_WP.Model
             }
             
             //SetupTypeTransactionData(retVal, false);
-            TypeTransactionList = retVal;
+            //TypeTransactionList = retVal;
 
             callback(TypeTransactionList, null);
         }
@@ -680,7 +680,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<Notification>(STATIC_NOTIFICATION_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    NotificationList.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -690,7 +690,7 @@ namespace BMA_WP.Model
             }
             
             //SetupNotificationData(retVal, false);
-            NotificationList = retVal;
+            //NotificationList = retVal;
 
             callback(NotificationList, null);
         }
@@ -715,7 +715,7 @@ namespace BMA_WP.Model
                 {
 
                     var staticType = await StorageUtility.RestoreItem<TypeFrequency>(STATIC_TYPEFREQUENCY_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    TypeFrequencyList.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -725,7 +725,7 @@ namespace BMA_WP.Model
             }
 
             //SetupTypeFrequencyData(retVal, false);
-            TypeFrequencyList = retVal ;
+            //TypeFrequencyList = retVal ;
 
             callback(TypeFrequencyList, null);
         }
@@ -749,7 +749,7 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<TypeInterval>(STATIC_TYPEINTERVAL_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    IntervalList.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -772,19 +772,18 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_TYPEINTERVAL_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<BMA.BusinessLogic.TypeIntervalConfiguration>(STATIC_TYPEINTERVALCONFIG_FOLDER, item, App.Instance.User.UserName);
-                    retVal = staticType;
+                    IntervalConfiguration = staticType;
                 }
+                //SetupIntervalData(retVal, false);
+                //IntervalConfiguration = retVal;
+
+                callback(IntervalConfiguration, null);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                //callback(null, ex);
+                callback(null, ex);
             }
-
-            //SetupIntervalData(retVal, false);
-            IntervalConfiguration = retVal;
-
-            callback(IntervalConfiguration, null);
         }
 
         private async void RemoveInsertedTypeIntervals()

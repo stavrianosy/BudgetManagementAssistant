@@ -131,22 +131,44 @@ namespace BMAServiceLib
 
         public TransactionList GetAllTransactions(int userId)
         {
+            return null;
             try
             {
                 TransactionList transList = new TransactionList();
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = from i in context.Transaction
+                    var query = (from i in context.Transaction
                                 .Include(i => i.Category)
                                 .Include(i => i.CreatedUser)
                                 .Include(i => i.ModifiedUser)
                                 .Include(i => i.TransactionReasonType)
                                 .Include(i => i.TransactionType)
                                 where !i.IsDeleted && i.ModifiedUser.UserId == userId
-                                select i;
+                                select new
+                                {
+                                    transaction = i,
+                                    category = i.Category.IsDeleted ? null : i.Category,
+                                    categoryOther = context.Category.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase)),
+                                    transReason = i.TransactionReasonType.IsDeleted ? null : i.TransactionReasonType,
+                                    transReasonOther = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase))
+                                }).ToList();
 
-                    foreach (var item in query.ToList())
-                        transList.Add(item);
+                    foreach (var item in query)
+                    {
+                        var trans = item.transaction;
+                        if (item.category == null)
+                        {
+                            trans.Category = item.categoryOther;
+                            trans.TransactionReasonType = item.transReasonOther;
+                        }
+
+                        if (item.transReason == null)
+                        {
+                            trans.TransactionReasonType = item.transReasonOther;
+                        }
+                        
+                        transList.Add(trans);
+                    }
 
                     transList.AcceptChanges();
 
@@ -178,7 +200,7 @@ namespace BMAServiceLib
                 {
                     context.Configuration.LazyLoadingEnabled = true;
 
-                    var query = (from i in context.Transaction
+                    var query1 = (from i in context.Transaction
                                 .Include(i => i.TransactionType)
                                 .Include(i => i.TransactionReasonType)
                                 .Include(i => i.Category)
@@ -187,11 +209,26 @@ namespace BMAServiceLib
                                 .Include(i => i.CreatedUser)
                                  where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                  orderby i.TransactionDate descending
-                                 select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs);
+                                  select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs);
 
+                    
                     //investigate if there is a better way to convert the generic list to ObservableCollection
-                    foreach (var item in query)
-                        transList.Add(item);
+                    foreach (var item in query1)
+                    {
+                        var trans = item;
+                        if (item.Category.IsDeleted)
+                        {
+                            trans.Category = context.Category.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
+                            trans.TransactionReasonType = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
+                        }
+
+                        if (item.TransactionReasonType.IsDeleted)
+                        {
+                            trans.TransactionReasonType = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
+                        }
+
+                        transList.Add(trans);
+                    }
 
                     transList.PrepareForServiceSerialization();
 

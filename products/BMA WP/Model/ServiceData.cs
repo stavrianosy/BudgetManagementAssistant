@@ -95,8 +95,8 @@ namespace BMA_WP.Model
                 }
                 catch (Exception ex)
                 {
-                    var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
-                    throw;
+                    //var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                    callback(ex);
                 }
             }
 
@@ -117,44 +117,22 @@ namespace BMA_WP.Model
                 }
                 catch (Exception ex)
                 {
-                    var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
-                    throw;
+                    //var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                    callback(ex);
                 }
             }
 
-            private void LoadLiveTransactionImages(int transactionId)
-            {
-                try
-                {
-                    var client = new MainClient();
-                    latestState = Guid.NewGuid().ToString();
-
-                    client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
-                    {
-                        SetupTransactionImageList(completedEventArgs.Result, transactionId);
-
-                        //UpdateCacheTransactionImages();
-                    };
-                    client.GetImagesForTransactionAsync(transactionId, latestState);
-                }
-                catch (Exception ex)
-                {
-                    var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
-                    throw;
-                }
-            }
             #endregion
 
             #region Load Cached Data
-            public async void LoadCachedTransactions(Action<TransactionList, Exception> callback)
+            public async void LoadCachedTransactions(Action<Exception> callback)
             {
-                var retVal = new TransactionList();
                 try
                 {
                     foreach (var item in await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserName))
                     {
                         var trans = await StorageUtility.RestoreItem<Transaction>(TRANSACTIONS_FOLDER, item, App.Instance.User.UserName);
-                        retVal.Add(trans);
+                        TransactionList.Add(trans);
                     }
                 }
                 catch (Exception ex)
@@ -163,9 +141,7 @@ namespace BMA_WP.Model
                     //callback(null, ex);
                 }
 
-                TransactionList = retVal;
-
-                callback(TransactionList, null);
+                callback(null);
             }
 
             private async void LoadCachedTransactionImages(Action<TransactionImageList, Exception> callback)
@@ -176,7 +152,7 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(TRANSACTIONIMAGES_FOLDER, App.Instance.User.UserName))
                     {
                         var trans = await StorageUtility.RestoreItem<TransactionImage>(TRANSACTIONIMAGES_FOLDER, item, App.Instance.User.UserName);
-                        retVal.Add(trans);
+                        TransactionImageList.Add(trans);
                     }
                 }
                 catch (Exception ex)
@@ -186,7 +162,7 @@ namespace BMA_WP.Model
                 }
                 
                 //SetupTransactionImageList(retVal);
-                TransactionImageList = retVal;
+                //TransactionImageList = retVal;
 
                 callback(TransactionImageList, null);
             }
@@ -199,7 +175,7 @@ namespace BMA_WP.Model
                     foreach (var item in await StorageUtility.ListItems(BUDGETS_FOLDER, App.Instance.User.UserName))
                     {
                         var budget = await StorageUtility.RestoreItem<Budget>(BUDGETS_FOLDER, item, App.Instance.User.UserName);
-                        retVal.Add(budget);
+                        BudgetList.Add(budget);
                     }
                 }
                 catch (Exception ex)
@@ -354,7 +330,7 @@ namespace BMA_WP.Model
                 TransactionList = new BMA.BusinessLogic.TransactionList();
 
                 if (!App.Instance.IsOnline)
-                    LoadCachedTransactions((transactionList, error) => callback(error));
+                    LoadCachedTransactions(error => callback(error));
                 else
                     LoadLiveTransactions(budgetId, error => callback(error));
             }
@@ -363,38 +339,36 @@ namespace BMA_WP.Model
             {
                 //ICollection<TransactionImage> existing = null;
 
-                if (!App.Instance.IsOnline)
+                App.Instance.StaticDataOnlineStatus = App.Instance.StaticServiceData.SetServerStatus(status =>
                 {
-                    try
+                    if (status != Model.StaticServiceData.ServerStatus.Ok)
                     {
-                        //## doesnt need to get anything from cache. Images is retrieved by the transaction
-                        //existing = await LoadCachedTransactionImages();
+                        //## doesn't need to get anything from cache. Images are retrieved by the transaction
                         callback(null);
                     }
-                    catch (Exception) { throw new Exception("Username"); }
-                }
-                else
-                {
-                    try
+                    else
                     {
-                        var client = new MainClient();
-                        latestState = Guid.NewGuid().ToString();
-
-                        client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
+                        try
                         {
-                            if (completedEventArgs.Error == null)
-                                SetupTransactionImageList(completedEventArgs.Result, transactionId);
+                            var client = new MainClient();
+                            latestState = Guid.NewGuid().ToString();
 
-                            callback(completedEventArgs.Error);
-                        };
-                        client.GetImagesForTransactionAsync(transactionId, latestState);
+                            client.GetImagesForTransactionCompleted += (sender, completedEventArgs) =>
+                            {
+                                if (completedEventArgs.Error == null)
+                                    SetupTransactionImageList(completedEventArgs.Result, transactionId);
+
+                                callback(completedEventArgs.Error);
+                            };
+                            client.GetImagesForTransactionAsync(transactionId, latestState);
+                        }
+                        catch (Exception ex)
+                        {
+                            //var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
+                            callback(ex);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        var msg = string.Format("There was an error accessing the weather service.\n\r{0}", ex.Message);
-                        throw;
-                    }
-                }
+                });
             }
 
             public void LoadAllBudgets(Action<Exception> callback)
@@ -453,9 +427,9 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    App.Instance.ServiceData.LoadCachedTransactions((cachedTransactions, error) =>
+                    App.Instance.ServiceData.LoadCachedTransactions(error =>
                         {
-                            var transList = cachedTransactions.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
+                            var transList = TransactionList.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
 
                             var client = new MainClient();
 

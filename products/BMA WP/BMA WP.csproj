@@ -604,10 +604,6 @@
       <Project>{36525B21-E773-403B-8882-18C4DBF996B4}</Project>
       <Name>BMA.BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libraries\NotificationReminderTaskAgent\NotificationReminderTaskAgent.csproj">
-      <Project>{D0848B73-72A9-4BC7-B163-DFA8BB66B826}</Project>
-      <Name>NotificationReminderTaskAgent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />

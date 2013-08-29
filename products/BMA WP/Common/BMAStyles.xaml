@@ -239,7 +239,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="BMA_Reason_ItemTemplate">
-        <Grid Margin="0 0 0 12">
+        <Grid Margin="0 0 0 12" Visibility="{Binding IsDeleted, Converter={StaticResource converters}, ConverterParameter=ItemIsDeleted}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>

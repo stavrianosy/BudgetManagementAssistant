@@ -190,7 +190,7 @@ namespace BMAServiceLib
 
                             x.TransReason.HasChanges = false;
 
-                            x.TransReason.Categories = cats;
+                            x.TransReason.Categories = cats.Where(z => z.ModifiedUser.UserId == SYSTEM_USER_ID || z.ModifiedUser.UserId == userId).ToList();
                             
                             result.Add(x.TransReason);
                         });
