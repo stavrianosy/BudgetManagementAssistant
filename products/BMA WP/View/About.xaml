@@ -60,24 +60,26 @@
                 <ScrollViewer>
                     <StackPanel>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
-                                   Text="Version 1.0 © 2013 Soft Carbon Gear."/>
+                                   Text="Money Saver Lite [Beta]"/>
+                        <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                   Text="Version 1.0.0 © 2013 Soft Carbon Gear."/>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Text="Support:info@softcarbongear.com"/>
-                        <TextBlock x:Name="Website"  Tap="Website_Tap"
+                        <HyperlinkButton x:Name="Website" 
+                                   NavigateUri="http://www.softcarbongear.com/moneysaver" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"  FontWeight="Bold"
                                    Margin="0 48 0 0" 
-                                   TextAlignment="Center"
-                                   Text="www.softcarbongear.com/moneysaver"/>
-                        <TextBlock x:Name="Rate" Tap="Rate_Tap"
+                                   Content="www.softcarbongear.com/moneysaver"/>
+                        <HyperlinkButton x:Name="Rate" 
+                                   NavigateUri="http://www.softcarbongear.com/moneysaver" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"  FontWeight="Bold"
                                    Margin="0 48 0 0" 
-                                   TextAlignment="Center"
-                                   Text="Rate Money Saver"/>
-                        <TextBlock x:Name="Donate" Tap="Donate_Tap"
+                                   Content="Rate Money Saver"/>
+                        <HyperlinkButton x:Name="Donate" 
+                                   NavigateUri="http://www.softcarbongear.com/moneysaver" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" FontWeight="Bold"
                                    Margin="0 48 0 0" 
-                                   TextAlignment="Center"
-                                   Text="Donate to keep Money Saver FREE"/>
+                                   Content="Donate to keep Money Saver FREE"/>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Margin="0 0 0 48" 
                                    TextAlignment="Center" TextWrapping="Wrap"
@@ -85,10 +87,11 @@
                         <TextBlock FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    TextWrapping="Wrap"
                                    Text="This is a free of charge and ad-free app. We intend to keep it this way as we believe that such app is a great personal tool helping you to control effectively your income and expenses."/>
-                        <TextBlock x:Name="Privacy" Tap="Privacy_Tap"
+                        <HyperlinkButton x:Name="Privacy"
+                                   NavigateUri="http://http://www.softcarbongear.com/privacystatement/wp8/MoneySaver_PrivacyPolicy.html" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
-                                   Margin="0 12"
-                                   Text="Privacy Statement"/>
+                                   Margin="0 12" HorizontalAlignment="Left"
+                                   Content="Privacy Statement" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
