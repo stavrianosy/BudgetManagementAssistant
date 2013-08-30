@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <Languages xmlns="">
-    <Language code="el-GR" />
-  </Languages>
-  <App xmlns="" ProductID="{06abd409-2e45-4c77-b258-8026a45bfc6d}" Title="Money Saver" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="BMA_WP author" Description="Capture all daily transactions and help your self save some cash" Publisher="BMA_WP" PublisherID="{e6a676d6-f39a-406f-9568-8cbb1a966691}">
+  <App xmlns="" ProductID="{06abd409-2e45-4c77-b258-8026a45bfc6d}" Title="Money Saver" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="SoftCarbonGear" Description="Capture all daily transactions and help your self save some cash" Publisher="SoftCarbonGear" PublisherID="{e6a676d6-f39a-406f-9568-8cbb1a966691}">
     <IconPath IsRelative="true" IsResource="false">Assets\application\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -22,10 +19,11 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>Money Saver</Title>
+          <Title>
+          </Title>
           <BackContent>
           </BackContent>
-          <BackBackgroundImageURI>
+          <BackBackgroundImageURI IsRelative="true" IsResource="false">
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
@@ -33,7 +31,7 @@
           <LargeBackContent />
           <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
           </LargeBackBackgroundImageURI>
-          <DeviceLockImageURI>
+          <DeviceLockImageURI IsRelative="true" IsResource="false">
           </DeviceLockImageURI>
           <HasLarge>True</HasLarge>
         </TemplateFlip>

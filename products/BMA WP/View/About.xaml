@@ -64,7 +64,7 @@
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Text="Version 1.0.0 © 2013 Soft Carbon Gear."/>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
-                                   Text="Support:info@softcarbongear.com"/>
+                                   Text="Support: info@softcarbongear.com"/>
                         <HyperlinkButton x:Name="Website" 
                                    NavigateUri="http://www.softcarbongear.com/moneysaver" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"  FontWeight="Bold"
@@ -88,7 +88,7 @@
                                    TextWrapping="Wrap"
                                    Text="This is a free of charge and ad-free app. We intend to keep it this way as we believe that such app is a great personal tool helping you to control effectively your income and expenses."/>
                         <HyperlinkButton x:Name="Privacy"
-                                   NavigateUri="http://http://www.softcarbongear.com/privacystatement/wp8/MoneySaver_PrivacyPolicy.html" TargetName="_blank"
+                                   NavigateUri="http://www.softcarbongear.com/privacystatement/wp8/MoneySaver_PrivacyPolicy.html" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Margin="0 12" HorizontalAlignment="Left"
                                    Content="Privacy Statement" />
