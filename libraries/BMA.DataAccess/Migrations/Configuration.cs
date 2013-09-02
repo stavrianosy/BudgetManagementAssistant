@@ -29,7 +29,7 @@ namespace BMA.DataAccess.Migrations
                 #region Initial DB Setup
                 ////Must add the first user in a more T-Sql way since there are fields in User table that references its self.
 
-                return;
+                //return;
 
                 //## User ##//
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [User] ON if not exists(select * from [User] where Username = {1}) BEGIN " +

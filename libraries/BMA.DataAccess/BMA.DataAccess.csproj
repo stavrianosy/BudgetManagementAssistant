@@ -49,21 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityContext.cs" />
-    <Compile Include="Migrations\201308112136228_aaa.cs" />
-    <Compile Include="Migrations\201308112136228_aaa.Designer.cs">
-      <DependentUpon>201308112136228_aaa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201308140816138_ttt.cs" />
-    <Compile Include="Migrations\201308140816138_ttt.Designer.cs">
-      <DependentUpon>201308140816138_ttt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201308161841169_interval.cs" />
-    <Compile Include="Migrations\201308161841169_interval.Designer.cs">
-      <DependentUpon>201308161841169_interval.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201308181539247_budget.cs" />
-    <Compile Include="Migrations\201308181539247_budget.Designer.cs">
-      <DependentUpon>201308181539247_budget.cs</DependentUpon>
+    <Compile Include="Migrations\201309021844189_newDB.cs" />
+    <Compile Include="Migrations\201309021844189_newDB.Designer.cs">
+      <DependentUpon>201309021844189_newDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,17 +70,8 @@
     <Content Include="Migrations\UsefulNuget Commands.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201308112136228_aaa.resx">
-      <DependentUpon>201308112136228_aaa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201308140816138_ttt.resx">
-      <DependentUpon>201308140816138_ttt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201308161841169_interval.resx">
-      <DependentUpon>201308161841169_interval.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201308181539247_budget.resx">
-      <DependentUpon>201308181539247_budget.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201309021844189_newDB.resx">
+      <DependentUpon>201309021844189_newDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
