@@ -24,7 +24,7 @@ namespace BMA_WP.ViewModel
             }
         }
 
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
 
         public StaticServiceData.ServerStatus Status { get { return status; } set { status = value; RaisePropertyChanged("Status"); } }
         /// <summary>

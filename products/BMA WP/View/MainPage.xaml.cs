@@ -50,10 +50,10 @@ namespace BMA_WP.View
 
             SetupLoadingBinding();
 
-            CheckOnlineStatus();
+            CheckOnlineStatus(error => { });
         }
 
-        private void CheckOnlineStatus()
+        private void CheckOnlineStatus(Action<Exception> callback)
         {
             App.Instance.StaticDataOnlineStatus = App.Instance.StaticServiceData.SetServerStatus(status =>
             {
@@ -61,17 +61,29 @@ namespace BMA_WP.View
                 vm.Status = status;
                 if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
                 {
-                    vm.IsLoading = true;
-
-                    App.Instance.Sync(() => vm.IsLoading = false);
+                    if (!App.Instance.IsSyncing)
+                    {
+                        App.Instance.IsSyncing = true;
+                        App.Instance.Sync(() =>
+                        {
+                            App.Instance.IsSyncing = false;
+                            if (callback != null)
+                                callback(null);
+                        });
+                    }
                 }
+                else
+                {
+                    callback(null);
+                }
+                
             });
             vm.Status = App.Instance.StaticDataOnlineStatus;
         }
 
         private void SetupLoadingBinding()
         {
-            Binding bind = new Binding("IsSyncing");
+            Binding bind = new Binding("IsBusyComm");
             bind.Mode = BindingMode.TwoWay;
             bind.Source = App.Instance;
 
@@ -146,7 +158,7 @@ namespace BMA_WP.View
 
         private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            CheckOnlineStatus();
+            CheckOnlineStatus(error => { });
         }
 
         private void MenuMultiSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)

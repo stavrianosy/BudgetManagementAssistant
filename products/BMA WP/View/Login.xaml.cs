@@ -61,7 +61,7 @@ namespace BMA_WP.View
 
             SetupLoadingBinding();
 
-            CheckOnlineStatus(null);
+            CheckOnlineStatus(error => { });
         }
 
         private void SetupLoadingBinding()
@@ -383,10 +383,19 @@ namespace BMA_WP.View
 
         void LoginSuccess()
         {
-            App.Instance.IsSyncing = true;
-
             CheckOnlineStatus(error => {
-                LoadAllData(() => App.Instance.IsSyncing = false);
+                if (App.Instance.IsLoading)
+                    return;
+
+                App.Instance.IsLoading = true;
+
+                LoadAllStaticData(() =>
+                {
+                    LoadAllData(() =>
+                    {
+                        App.Instance.IsLoading = false;
+                    });
+                });
             });
             NavigationService.Navigate(new Uri("/View/MainPage.xaml", UriKind.Relative));
         }
@@ -395,29 +404,34 @@ namespace BMA_WP.View
         {
             var transaction = false;
             var budget = false;
+
+            App.Instance.ServiceData.LoadTransactions(error =>
+            {
+                transaction = true;
+                if (AllDataLoaded(transaction, budget))
+                    callback();
+            });
+
+
+            App.Instance.ServiceData.LoadBudgets(error =>
+            {
+                budget = true;
+                if (AllDataLoaded(transaction, budget))
+                    callback();
+            });
+
+        }
+
+        private void LoadAllStaticData(Action callback)
+        {
             var staticData = false;
             var typeInterval = false;
             var notifications = false;
             
-            App.Instance.ServiceData.LoadTransactions(error=>
-                {
-                    transaction = true;
-                    if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
-                        callback();
-                });
-
-            
-            App.Instance.ServiceData.LoadBudgets(error =>
-                {
-                    budget = true;
-                    if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
-                        callback();
-                });
-
             App.Instance.StaticServiceData.LoadStaticData(error =>
             {
                 staticData = true;
-                if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
+                if (AllStaticDataLoaded(staticData, typeInterval, notifications))
                 {
                     callback();
                 }
@@ -429,7 +443,7 @@ namespace BMA_WP.View
                     {
                         typeInterval = true;
 
-                        if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
+                        if (AllStaticDataLoaded(staticData, typeInterval, notifications))
                             callback();
                     }
 
@@ -442,7 +456,7 @@ namespace BMA_WP.View
                         if (App.Instance.ServiceData.IntervalTransactionList != null && App.Instance.ServiceData.IntervalTransactionList.Count > 0)
                             NavigationService.Navigate(new Uri("/View/TransactionsInterval.xaml", UriKind.Relative));
 
-                        if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
+                        if (AllStaticDataLoaded(staticData, typeInterval, notifications))
                         {
                             callback();
                         }
@@ -458,7 +472,7 @@ namespace BMA_WP.View
 
                     notifications = true;
 
-                    if (AllDataLoaded(transaction, budget, staticData, typeInterval, notifications))
+                    if (AllStaticDataLoaded(staticData, typeInterval, notifications))
                     {
                         callback();
                     }
@@ -478,10 +492,14 @@ namespace BMA_WP.View
             }
         }
 
-        private bool AllDataLoaded(bool transaction, bool budget, bool staticData, bool recurrenceRule, bool notifications)
+        private bool AllDataLoaded(bool transaction, bool budget)
         {
-            return transaction && budget && staticData && recurrenceRule && notifications;
-            //return transaction && budget;
+            return transaction && budget;
+        }
+
+        private bool AllStaticDataLoaded(bool staticData, bool recurrenceRule, bool notifications)
+        {
+            return staticData && recurrenceRule && notifications;
         }
 
         void ProgressShow(bool visible)
@@ -511,7 +529,7 @@ namespace BMA_WP.View
 
         private void txtTryAgain_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            CheckOnlineStatus(null);
+            CheckOnlineStatus(error => { });
         }
 
 
@@ -523,13 +541,23 @@ namespace BMA_WP.View
                 vm.Status = status;
                 if (status == Model.StaticServiceData.ServerStatus.Ok && !App.Instance.IsSync)
                 {
-                    vm.IsLoading = true;
-
-                    App.Instance.Sync(() => vm.IsLoading = false);
+                    if (!App.Instance.IsSyncing )
+                    {
+                        App.Instance.IsSyncing = true;
+                        App.Instance.Sync(() =>
+                            {
+                                App.Instance.IsSyncing = false;
+                                if (callback != null)
+                                    callback(null);
+                            });
+                    }
                 }
-
-                if (callback != null)
+                else
+                {
                     callback(null);
+                }
+                
+                
             });
             vm.Status = App.Instance.StaticDataOnlineStatus;
         }

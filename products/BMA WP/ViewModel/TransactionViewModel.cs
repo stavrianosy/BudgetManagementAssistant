@@ -28,7 +28,7 @@ namespace BMA_WP.ViewModel
 
         #region Public Properties
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
         public Transaction CurrTransaction { get { return _currTransaction; } set {_currTransaction = value;RaisePropertyChanged("CurrTransaction");} }
         //public StaticServiceData.ServerStatus Status { get { return App.Instance.StaticDataOnlineStatus; }}
 

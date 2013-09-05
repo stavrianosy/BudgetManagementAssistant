@@ -32,7 +32,7 @@ namespace BMA_WP.ViewModel.ReportsView
         #endregion
 
         #region Public Properties
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
 
         public bool IsSortByAmount { get { return isSortByAmount; } set { isSortByAmount = value; RaisePropertyChanged("IsSortByAmount"); } }
         public DateTime DateFrom { get { return dateFrom; } set { dateFrom = value; RaisePropertyChanged("DateFrom"); } }

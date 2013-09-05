@@ -22,7 +22,7 @@ namespace BMA_WP.ViewModel.Admin
 
         #region Public Properties
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
         public Notification CurrNotification { get { return _currNotification; } set { _currNotification = value; RaisePropertyChanged("CurrNotification"); } }
 
         public NotificationList Notifications { get { return App.Instance.StaticServiceData.NotificationList; } }

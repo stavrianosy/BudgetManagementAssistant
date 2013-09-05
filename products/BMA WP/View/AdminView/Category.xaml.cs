@@ -43,7 +43,7 @@ namespace BMA_WP.View.AdminView
 
         private void SetupLoadingBinding()
         {
-            Binding bind = new Binding("IsSyncing");
+            Binding bind = new Binding("IsBusyComm");
             bind.Mode = BindingMode.TwoWay;
             bind.Source = App.Instance;
 

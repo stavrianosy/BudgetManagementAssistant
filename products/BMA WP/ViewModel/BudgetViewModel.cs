@@ -24,7 +24,7 @@ namespace BMA_WP.ViewModel
         #region Public Properties
         public Budget CurrBudget { get { return _currBudget; } set { _currBudget = value; RaisePropertyChanged("CurrBudget"); } }
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
         public BudgetList Budgets { get { return App.Instance.ServiceData.BudgetList; } }
         public int PivotIndex { get { return pivotIndex; } set { pivotIndex = value; RaisePropertyChanged("PivotIndex"); } }
         #endregion

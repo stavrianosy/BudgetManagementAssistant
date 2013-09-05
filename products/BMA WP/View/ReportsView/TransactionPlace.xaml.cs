@@ -51,7 +51,7 @@ namespace BMA_WP.View.ReportsView
 
         private void SetupLoadingBinding()
         {
-            Binding bind = new Binding("IsSyncing");
+            Binding bind = new Binding("IsBusyComm");
             bind.Mode = BindingMode.TwoWay;
             bind.Source = App.Instance;
 
@@ -143,7 +143,7 @@ namespace BMA_WP.View.ReportsView
                 result = false;
                 MessageBox.Show(errorMsg.ToString());
             }
-            else if (App.Instance.IsSyncing)
+            else if (App.Instance.IsBusyComm)
             {
                 result = false;
                 MessageBox.Show(AppResources.BusySynchronizing);

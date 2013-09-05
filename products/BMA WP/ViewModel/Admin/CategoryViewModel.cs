@@ -24,7 +24,7 @@ namespace BMA_WP.ViewModel.Admin
 
         #region Public Properties
         public bool IsEnabled { get { return isEnabled; } set { isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
         public Category CurrCategory { get { return currCategory; } set { currCategory = value; RaisePropertyChanged("CurrCategory"); } } 
         public CategoryList CategoryList { get { return App.Instance.StaticServiceData.CategoryList; } }
         public ObservableCollection<TypeTransactionReason> TransactionReasonList { get { return App.Instance.StaticServiceData.TypeTransactionReasonList; } }

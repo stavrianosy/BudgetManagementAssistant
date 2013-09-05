@@ -45,7 +45,7 @@ namespace BMA_WP.View.AdminView
 
         private void SetupLoadingBinding()
         {
-            Binding bind = new Binding("IsSyncing");
+            Binding bind = new Binding("IsBusyComm");
             bind.Mode = BindingMode.TwoWay;
             bind.Source = App.Instance;
 
@@ -107,8 +107,8 @@ namespace BMA_WP.View.AdminView
             Binding bindTransReasonType = new Binding("TransactionReasonType");
             bindTransReasonType.Mode = BindingMode.TwoWay;
             bindTransReasonType.Source = vm.CurrInterval == null ? null : vm.CurrInterval;
-            if (vm.CurrInterval.TransactionReasonType != null &&
-                ((List<TypeTransactionReason>)cmbReason.ItemsSource)
+            if (vm.CurrInterval.TransactionReasonType != null && cmbReason.ItemsSource!=null &&
+                ((ObservableCollection<TypeTransactionReason>)cmbReason.ItemsSource)
                     .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrInterval.TransactionReasonType.TypeTransactionReasonId) != null)
                 cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
         }

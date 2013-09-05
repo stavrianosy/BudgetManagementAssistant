@@ -20,7 +20,7 @@ namespace BMA_WP.ViewModel
         #endregion
 
         public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); } }
-        public bool IsLoading { get { return App.Instance.IsSyncing; } set { App.Instance.IsSyncing = value; } }
+        public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
 
         public TransactionList TransactionsInterval { get { return App.Instance.ServiceData.IntervalTransactionList; } }
         public TransactionList TransactionsIntervalSelectedList { get { return transactionsIntervalSelectedList; } set { transactionsIntervalSelectedList = value; } }

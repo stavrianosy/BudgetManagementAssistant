@@ -314,7 +314,17 @@ namespace BMA_WP
         public StaticServiceData.ServerStatus StaticDataOnlineStatus { get; set; }
         public ServiceData.ServerStatus OnlineStatus { get; set; }
 
-        public bool IsSyncing { get { return _isSyncing; } set { _isSyncing = value; OnPropertyChanged("IsSyncing"); } }
+        public bool IsSyncing { get { return _isSyncing; } set { _isSyncing = value; IsBusyComm = true; OnPropertyChanged("IsSyncing"); } }
+        public bool IsLoading { get { return _isLoading; } set { _isLoading = value; IsBusyComm = true; OnPropertyChanged("IsLoading"); } }
+        public bool IsBusyComm
+        {
+            get 
+        {
+            _isBusyComm = IsSyncing || IsLoading;
+            return _isBusyComm; 
+        }
+            set { _isBusyComm = value; OnPropertyChanged("IsBusyComm"); }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propName)
@@ -342,6 +352,8 @@ namespace BMA_WP
 
         bool _isUserAuthenticated;
         private bool _isSyncing;
+        private bool _isLoading;
+        private bool _isBusyComm;
 
         public bool IsAuthorized {get { return User.UserId > 0; }}
 
@@ -415,7 +427,7 @@ namespace BMA_WP
                 var staticRespont = false;
                 var staticSuccess = false;
 
-                App.Instance.IsSyncing = true;
+                //App.Instance.IsSyncing = true;
 
                 SyncTransactions((isSuccess) => 
                 { 

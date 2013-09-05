@@ -66,7 +66,7 @@ namespace BMA_WP.View
 
         private void SetupLoadingBinding()
         {
-            Binding bind = new Binding("IsSyncing");
+            Binding bind = new Binding("IsBusyComm");
             bind.Mode = BindingMode.TwoWay;
             bind.Source = App.Instance;
 
@@ -135,7 +135,7 @@ namespace BMA_WP.View
             Binding bindTransReasonType = new Binding("TransactionReasonType");
             bindTransReasonType.Mode = BindingMode.TwoWay;
             bindTransReasonType.Source = vm.CurrTransaction == null ? null : vm.CurrTransaction;
-            if (vm.CurrTransaction.TransactionReasonType != null &&
+            if (vm.CurrTransaction.TransactionReasonType != null && cmbReason.ItemsSource !=null &&
                 ((ObservableCollection<TypeTransactionReason>)cmbReason.ItemsSource)
                     .FirstOrDefault(x => x.TypeTransactionReasonId == vm.CurrTransaction.TransactionReasonType.TypeTransactionReasonId) != null)
                 cmbReason.SetBinding(ListPicker.SelectedItemProperty, bindTransReasonType);
