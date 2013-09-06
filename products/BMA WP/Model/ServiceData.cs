@@ -79,6 +79,7 @@ namespace BMA_WP.Model
                         {
                             if (completedEventArgs.Error == null)
                             {
+                                StorageUtility.DeleteAllItems<Transaction>(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
                                 SetupTransactionList(completedEventArgs.Result, true);
                                 callback(null);
                             }
@@ -108,9 +109,11 @@ namespace BMA_WP.Model
                     var client = new MainClient();
                     client.GetAllBudgetsCompleted += (sender, e) =>
                         {
-                            if(e.Error == null)
+                            if (e.Error == null)
+                            {
+                                StorageUtility.DeleteAllItems<Transaction>(BUDGETS_FOLDER, App.Instance.User.UserName);
                                 SetupBudgetList(e.Result, true);
-
+                            }
                             callback(e.Error);
                         };
                     client.GetAllBudgetsAsync(App.Instance.User.UserId);
@@ -138,7 +141,7 @@ namespace BMA_WP.Model
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());
-                    //callback(null, ex);
+                    callback(null);
                 }
 
                 callback(null);
@@ -191,7 +194,7 @@ namespace BMA_WP.Model
             }
             #endregion
 
-            private async void SetupTransactionList(ICollection<Transaction> existing, bool removeNew)
+            private void SetupTransactionList(ICollection<Transaction> existing, bool removeNew)
             {
                 existing = existing ?? new TransactionList();
 
@@ -211,7 +214,7 @@ namespace BMA_WP.Model
                         TransactionList[query.Index] = item;
 
                     //if(updateCache)
-                        await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserName);
+                        StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserName);
                 }
             }
 
@@ -233,7 +236,7 @@ namespace BMA_WP.Model
                 await StorageUtility.SaveItem<Transaction>(TRANSACTIONS_FOLDER, trans, trans.TransactionId, App.Instance.User.UserName);
             }
 
-            private async void SetupBudgetList(ICollection<Budget> existing, bool removeNew)
+            private void SetupBudgetList(ICollection<Budget> existing, bool removeNew)
             {
                 existing = existing ?? new ObservableCollection<Budget>();
 
@@ -252,7 +255,7 @@ namespace BMA_WP.Model
                     else
                         BudgetList[query.Index] = item;
 
-                    await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId, App.Instance.User.UserName);
+                    StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId, App.Instance.User.UserName);
                 }
             }
 
