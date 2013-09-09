@@ -159,9 +159,13 @@ namespace BMA_WP.View
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            vm.CurrBudget.IsDeleted = true;
+            var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
 
-            SaveBudget();
+            if (result == MessageBoxResult.OK)
+            {
+                vm.CurrBudget.IsDeleted = true;
+                vm.PivotIndex = 1;
+            }
         }
 
         private void Transaction_Click(object sender, EventArgs e)
@@ -219,6 +223,13 @@ namespace BMA_WP.View
             SolidColorBrush errColor = new SolidColorBrush(new Color() { A = 255, B = 75, G = 75, R = 240 });
 
             txtName.Background = okColor;
+            txtAmount.Background = okColor;
+
+            if (vm.CurrBudget.Amount <= 0)
+            {
+                result = false;
+                txtAmount.Background = errColor;
+            }
 
             if (vm.CurrBudget.Name == null || vm.CurrBudget.Name.Length == 0)
             {
@@ -247,7 +258,9 @@ namespace BMA_WP.View
         {
             var result = true;
 
-            var tempBudgetCount = vm.Budgets.Where(x => !x.IsDeleted && (x.Name == null || x.Name.Trim().Length == 0)).Count();
+            var tempBudgetCount = vm.Budgets.Where(x => !x.IsDeleted && 
+                                                    (x.Amount <= 0  ||  
+                                                    (x.Name == null || x.Name.Trim().Length == 0))).Count();
 
             var tempBudgetNameExists = (from i in vm.Budgets
                                           where i.Name != null && !i.IsDeleted

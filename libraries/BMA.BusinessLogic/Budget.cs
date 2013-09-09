@@ -82,8 +82,8 @@ namespace BMA.BusinessLogic
         { 
             get { return fromDate; } 
             set 
-            { 
-                fromDate = value;
+            {
+                fromDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
                 OnPropertyChanged("FromDate");
                 OnPropertyChanged("DurrationDays");
                 OnPropertyChanged("DaysLeft");
@@ -95,8 +95,8 @@ namespace BMA.BusinessLogic
         { 
             get { return toDate; } 
             set 
-            { 
-                toDate = value;
+            {
+                toDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
                 OnPropertyChanged("ToDate");
                 OnPropertyChanged("DurrationDays");
                 OnPropertyChanged("DaysLeft");

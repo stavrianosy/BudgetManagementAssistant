@@ -71,12 +71,12 @@
                                    Margin="0 48 0 0" 
                                    Content="www.softcarbongear.com/moneysaver"/>
                         <HyperlinkButton x:Name="Rate" 
-                                   NavigateUri="http://www.softcarbongear.com/moneysaver" TargetName="_blank"
+                                   NavigateUri="http://www.windowsphone.com/s?appid=355458c2-5d8d-4152-a55c-58369b258ffe" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"  FontWeight="Bold"
                                    Margin="0 48 0 0" 
                                    Content="Rate Money Saver"/>
                         <HyperlinkButton x:Name="Donate" 
-                                   NavigateUri="http://www.softcarbongear.com/moneysaver" TargetName="_blank"
+                                   NavigateUri="http://www.paypal.com" TargetName="_blank"
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" FontWeight="Bold"
                                    Margin="0 48 0 0" 
                                    Content="Donate to keep Money Saver FREE"/>
