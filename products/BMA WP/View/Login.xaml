@@ -120,9 +120,11 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical">
                                         <TextBlock x:Name="btnForgotPass"  Foreground="White" 
-                                                   Text="Forgot Password ?" Tap="btnForgotPass_Tap"  Margin="0 12 0 0" />
+                                                   Text="{Binding Path=LocalizedResources.ForgotPasswordQuest, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                                   Tap="btnForgotPass_Tap"  Margin="0 12 0 0" />
                                         <TextBlock x:Name="btnRegister"  Foreground="White"
-                                               Text="Register new user account" Tap="btnRegister_Tap"  Margin="0 12 0 0"/>
+                                                   Text="{Binding Path=LocalizedResources.RegisterUser, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                                   Tap="btnRegister_Tap"  Margin="0,12,0,0"/>
                                 </StackPanel>
                             </StackPanel>
                             <Grid Grid.Row="1" x:Name="grdProgress" Margin="0 24 0 0" Visibility="Visible">
@@ -175,7 +177,8 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical">
                                         <TextBlock  Foreground="White"
-                                                    Text="By Registering you are agreeing to our Terms of Service and Privacy Statement" TextWrapping="Wrap" />
+                                                    Text="{Binding Path=LocalizedResources.RegisterAcceptance, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                                    TextWrapping="Wrap" />
                                 </StackPanel>
                             </StackPanel>
                                 <Grid Grid.Row="1" x:Name="grdRegister" Visibility="Visible" Margin="0 24 0 0" >
@@ -214,7 +217,8 @@
                                     <TextBox Margin="0 -12 0 6" x:Name="txtForgotInfo"/>
                                 <StackPanel>
                                     <TextBlock Foreground="White"
-                                        Text="Please provide your Username or email address and we will send you an email to reset your password" TextWrapping="Wrap" />
+                                               Text="{Binding Path=LocalizedResources.ProvideUsernameOrEmail, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                               TextWrapping="Wrap" />
                                 </StackPanel>
                             </StackPanel>
                                 <Grid Grid.Row="1" x:Name="grdProgressForgot" Margin="0 24 0 0" Visibility="Visible">

@@ -68,36 +68,54 @@
                      SelectionChanged="Pivot_SelectionChanged">
 
             <!--Panorama item one-->
-            <phone:PivotItem Header="Budget" x:Name="piBudget">
+            <phone:PivotItem 
+                Header="{Binding Path=LocalizedResources.Budget, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                x:Name="piBudget">
                 <ScrollViewer x:Name="svItem">
                     <StackPanel>
-                        <TextBlock Text="Name" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <TextBlock 
+                            Text="{Binding Path=LocalizedResources.Name, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtName" 
                                          Text="{Binding CurrBudget.Name, Mode=TwoWay}" 
                                          Background="{StaticResource PhoneTextBoxBrush}"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                        <TextBlock Text="Amount" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <TextBlock 
+                            Text="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <TextBox x:Name="txtAmount" 
                                          Text="{Binding CurrBudget.Amount, Mode=TwoWay}" 
                                          InputScope="Number"
                                          IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                        <TextBlock Text="From" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <TextBlock 
+                            Text="{Binding Path=LocalizedResources.From, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:DatePicker 
                             Value="{Binding CurrBudget.FromDate, Mode=TwoWay}"
                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
-                        <TextBlock Text="To" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <TextBlock 
+                            Text="{Binding Path=LocalizedResources.To, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
+                                   Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:DatePicker 
                             Value="{Binding CurrBudget.ToDate, Mode=TwoWay}"
                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <StackPanel Orientation="Horizontal" Margin="12 0">
-                            <TextBlock Text="Duration" VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                            <TextBlock 
+                                Text="{Binding Path=LocalizedResources.Duration, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}"/>
                             <TextBox x:Name="txtDuration" Text="{Binding CurrBudget.DurrationDays, Mode=OneWay}" Width="130" IsEnabled="False"/>
-                            <TextBlock Text="days"  VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}" />
+                            <TextBlock 
+                                Text="{Binding Path=LocalizedResources.DaysSmall, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                       VerticalAlignment="Bottom" Margin="0 0 0 10" Foreground="{StaticResource PhoneSubtleBrush}" />
                         </StackPanel>
                         <StackPanel>
-                            <toolkit:ToggleSwitch Content="Reapeat on expiration" FontSize="22" Foreground="{StaticResource PhoneSubtleBrush}" IsChecked="{Binding Repeat, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
+                            <toolkit:ToggleSwitch 
+                                Content="{Binding Path=LocalizedResources.ReapeatOnExpiration, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                FontSize="22" Foreground="{StaticResource PhoneSubtleBrush}" IsChecked="{Binding Repeat, Converter={StaticResource converters}, ConverterParameter=bitConverter}" />
                         </StackPanel>
-                        <TextBlock Text="Comments" Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                        <TextBlock 
+                            Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                            Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtComments" 
                                  Text="{Binding CurrBudget.Comments, Mode=TwoWay}"
                                  VerticalAlignment="Top" Height="140"
@@ -107,7 +125,8 @@
             </phone:PivotItem>
 
             <!--Panorama item two-->
-            <phone:PivotItem x:Name="piBudgetList" Header="Budgets" >
+            <phone:PivotItem x:Name="piBudgetList" 
+                             Header="{Binding Path=LocalizedResources.Budgets, Source={StaticResource LocalizedStrings}, Mode=OneTime}" >
                 <phone:LongListSelector x:Name="BudgetMultiSelect" 
                                         Margin="0,12,-12,0"
                                         LayoutMode="List"

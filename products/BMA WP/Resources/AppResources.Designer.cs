@@ -61,6 +61,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Admin.
+        /// </summary>
+        public static string Admin {
+            get {
+                return ResourceManager.GetString("Admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Budget Threshold.
         /// </summary>
         public static string AdminMenuBudgetThreshold {
@@ -448,6 +457,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to days.
+        /// </summary>
+        public static string DaysSmall {
+            get {
+                return ResourceManager.GetString("DaysSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to December.
         /// </summary>
         public static string December {
@@ -462,6 +480,15 @@ namespace BMA_WP.Resources {
         public static string DeleteMessage {
             get {
                 return ResourceManager.GetString("DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
             }
         }
         
@@ -528,6 +555,15 @@ namespace BMA_WP.Resources {
         public static string ForgotPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot Password ?.
+        /// </summary>
+        public static string ForgotPasswordQuest {
+            get {
+                return ResourceManager.GetString("ForgotPasswordQuest", resourceCulture);
             }
         }
         
@@ -700,6 +736,15 @@ namespace BMA_WP.Resources {
         public static string LoginSuccess {
             get {
                 return ResourceManager.GetString("LoginSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main.
+        /// </summary>
+        public static string Main {
+            get {
+                return ResourceManager.GetString("Main", resourceCulture);
             }
         }
         
@@ -1326,6 +1371,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide your Username or email address and we will send you an email to reset your password.
+        /// </summary>
+        public static string ProvideUsernameOrEmail {
+            get {
+                return ResourceManager.GetString("ProvideUsernameOrEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Purpose.
         /// </summary>
         public static string Purpose {
@@ -1340,6 +1394,15 @@ namespace BMA_WP.Resources {
         public static string RangeOfOccurence {
             get {
                 return ResourceManager.GetString("RangeOfOccurence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reapeat on expiration.
+        /// </summary>
+        public static string ReapeatOnExpiration {
+            get {
+                return ResourceManager.GetString("ReapeatOnExpiration", resourceCulture);
             }
         }
         
@@ -1380,6 +1443,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By Registering you are agreeing to our Terms of Service and Privacy Statement.
+        /// </summary>
+        public static string RegisterAcceptance {
+            get {
+                return ResourceManager.GetString("RegisterAcceptance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registration failed. Please try again.
         /// </summary>
         public static string RegisterFail {
@@ -1416,6 +1488,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register new user account.
+        /// </summary>
+        public static string RegisterUser {
+            get {
+                return ResourceManager.GetString("RegisterUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registration Failed.
         /// </summary>
         public static string RegistrationFailed {
@@ -1439,6 +1520,15 @@ namespace BMA_WP.Resources {
         public static string ReminderForUser {
             get {
                 return ResourceManager.GetString("ReminderForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reports.
+        /// </summary>
+        public static string Reports {
+            get {
+                return ResourceManager.GetString("Reports", resourceCulture);
             }
         }
         
@@ -1801,6 +1891,15 @@ namespace BMA_WP.Resources {
         public static string UserNamePasswordWrongOffline {
             get {
                 return ResourceManager.GetString("UserNamePasswordWrongOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Report.
+        /// </summary>
+        public static string ViewReport {
+            get {
+                return ResourceManager.GetString("ViewReport", resourceCulture);
             }
         }
         

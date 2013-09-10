@@ -74,7 +74,8 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Margin="0 0 0 12"
-                               Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.IntervalTransactionsNotice, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
+                               Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" 
+                               Text="{Binding Path=LocalizedResources.IntervalTransactionsNotice, Source={StaticResource LocalizedStrings}, Mode=OneTime}" />
                 <toolkit:LongListMultiSelector Grid.Row="1" x:Name="TransactionMultiSelect" 
                                         Margin="0 12 0 0"
                                         LayoutMode="List"

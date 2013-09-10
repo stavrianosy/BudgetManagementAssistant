@@ -104,13 +104,16 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton x:Name="tglAmount" Grid.Column="0" 
-                                          Content="Amount"  IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=bitConverter, Mode=TwoWay}"/>
+                                          Content="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                              IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=bitConverter, Mode=TwoWay}"/>
                                 <ToggleButton x:Name="tglReason" Grid.Column="1" 
-                                          Content="Reason"  IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=reverseBit, Mode=TwoWay}"/>
+                                          Content="{Binding Path=LocalizedResources.Reason, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                              IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=reverseBit, Mode=TwoWay}"/>
 
                             </Grid>
                         </StackPanel>
-                        <Button x:Name="btnViewReport" Grid.Row="1" Content="View Report" 
+                        <Button x:Name="btnViewReport" Grid.Row="1" 
+                                Content="{Binding Path=LocalizedResources.ViewReport, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                                 Tap="btnViewReport_Tap" />
                     </Grid>
                 </ScrollViewer>

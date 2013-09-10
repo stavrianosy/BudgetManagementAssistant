@@ -708,4 +708,37 @@ Please connect to the live system to get the latest data.</value>
   <data name="Budgets" xml:space="preserve">
     <value>Budgets</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="DaysSmall" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="ForgotPasswordQuest" xml:space="preserve">
+    <value>Forgot Password ?</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="ProvideUsernameOrEmail" xml:space="preserve">
+    <value>Please provide your Username or email address and we will send you an email to reset your password</value>
+  </data>
+  <data name="ReapeatOnExpiration" xml:space="preserve">
+    <value>Reapeat on expiration</value>
+  </data>
+  <data name="RegisterAcceptance" xml:space="preserve">
+    <value>By Registering you are agreeing to our Terms of Service and Privacy Statement</value>
+  </data>
+  <data name="RegisterUser" xml:space="preserve">
+    <value>Register new user account</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="ViewReport" xml:space="preserve">
+    <value>View Report</value>
+  </data>
 </root>

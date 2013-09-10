@@ -87,7 +87,8 @@
         </StackPanel>
         
         <phone:Pivot Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" >
-            <phone:PivotItem CacheMode="{x:Null}" Header="Main" >
+            <phone:PivotItem CacheMode="{x:Null}" 
+                             Header="{Binding Path=LocalizedResources.Main, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -127,7 +128,8 @@
                     </toolkit:WrapPanel>
                 </Grid>
             </phone:PivotItem>
-            <phone:PivotItem CacheMode="{x:Null}" Header="Admin">
+            <phone:PivotItem CacheMode="{x:Null}" 
+                             Header="{Binding Path=LocalizedResources.Admin, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
                 <phone:LongListSelector x:Name="AdminMenuMultiSelect" 
                                         Margin="0,0,0,0"
                                         LayoutMode="List"
@@ -135,7 +137,8 @@
                                         ItemTemplate="{StaticResource BMA_Main_ItemTemplate}"
                                         SelectionChanged="MenuMultiSelect_SelectionChanged"/>
             </phone:PivotItem>
-            <phone:PivotItem CacheMode="{x:Null}" Header="Reports">
+            <phone:PivotItem CacheMode="{x:Null}" 
+                             Header="{Binding Path=LocalizedResources.Reports, Source={StaticResource LocalizedStrings}, Mode=OneTime}">
                 <phone:LongListSelector x:Name="ReportsMenuMultiSelect"
                                         Margin="0,0,0,0"                                        
                                         LayoutMode="List"

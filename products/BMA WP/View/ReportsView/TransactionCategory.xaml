@@ -105,10 +105,12 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton x:Name="tglAmount" Grid.Column="0" 
-                                          Content="Amount"  IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=bitConverter, Mode=TwoWay}"
+                                          Content="{Binding Path=LocalizedResources.Amount, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
+                                              IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=bitConverter, Mode=TwoWay}"
                                               IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                                 <ToggleButton x:Name="tglCategory" Grid.Column="1" 
-                                          Content="Category"  IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=reverseBit, Mode=TwoWay}"
+                                          Content="{Binding Path=LocalizedResources.Category, Source={StaticResource LocalizedStrings}, Mode=OneTime}"  
+                                              IsChecked="{Binding IsSortByAmount, Converter={StaticResource converters}, ConverterParameter=reverseBit, Mode=TwoWay}"
                                               IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
 
                             </Grid>

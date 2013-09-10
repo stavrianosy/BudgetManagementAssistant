@@ -155,7 +155,6 @@
     <Compile Include="Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\Admin\BudgetThresholdViewModel.cs" />
     <Compile Include="ViewModel\Admin\CategoryViewModel.cs" />
     <Compile Include="ViewModel\Admin\IntervalViewModel.cs" />
     <Compile Include="ViewModel\Admin\NotificationViewModel.cs" />
@@ -174,9 +173,6 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\Admin.xaml.cs">
       <DependentUpon>Admin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\AdminView\BudgetThreshold.xaml.cs">
-      <DependentUpon>BudgetThreshold.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AdminView\Category.xaml.cs">
       <DependentUpon>Category.xaml</DependentUpon>
@@ -221,9 +217,6 @@
     <Compile Include="View\ReportsView\TransactionPlace.xaml.cs">
       <DependentUpon>TransactionPlace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Resports.xaml.cs">
-      <DependentUpon>Resports.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Transactions.xaml.cs">
       <DependentUpon>Transactions.xaml</DependentUpon>
     </Compile>
@@ -260,10 +253,6 @@
     <Page Include="View\Admin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\AdminView\BudgetThreshold.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AdminView\Category.xaml">
       <SubType>Designer</SubType>
@@ -320,10 +309,6 @@
     <Page Include="View\ReportsView\TransactionPlace.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Resports.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Transactions.xaml">
       <Generator>MSBuild:Compile</Generator>

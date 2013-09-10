@@ -705,4 +705,37 @@ Update it from the list and save again.</value>
   <data name="Budgets" xml:space="preserve">
     <value>Προϋπολογησμοι</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Διαχηρηση</value>
+  </data>
+  <data name="DaysSmall" xml:space="preserve">
+    <value>ημερες</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Διαρκια</value>
+  </data>
+  <data name="ForgotPasswordQuest" xml:space="preserve">
+    <value>Υπενθυμιση κωδικου ;</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Κεντρικη</value>
+  </data>
+  <data name="ProvideUsernameOrEmail" xml:space="preserve">
+    <value>Παρακαλω καταχωρηστε το ονομα χρηστη ή την ηλεκτρονικη σας διευθηνση και θα σας σταλει μυνημα.</value>
+  </data>
+  <data name="ReapeatOnExpiration" xml:space="preserve">
+    <value>Επαναλυψη μετα τη ληξη</value>
+  </data>
+  <data name="RegisterAcceptance" xml:space="preserve">
+    <value>Με την εγγραφη σας, αποδεχεστε τους ορους χρησης του προγραμματος</value>
+  </data>
+  <data name="RegisterUser" xml:space="preserve">
+    <value>Εγγραφη νεου χρηστη</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Εκθεσεις</value>
+  </data>
+  <data name="ViewReport" xml:space="preserve">
+    <value>Εμφανιση εκθεσης</value>
+  </data>
 </root>

@@ -47,7 +47,6 @@ namespace BMA_WP.ViewModel
 
             #region Admin
             //## Admin ##//
-            SimpleIoc.Default.Register<BudgetThresholdViewModel>();
             SimpleIoc.Default.Register<CategoryViewModel>();
             SimpleIoc.Default.Register<IntervalViewModel>();
             SimpleIoc.Default.Register<NotificationViewModel>();
@@ -111,13 +110,6 @@ namespace BMA_WP.ViewModel
         }
 
         #region Admin
-        public BudgetThresholdViewModel BudgetThresholdViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<BudgetThresholdViewModel>();
-            }
-        }
         public CategoryViewModel CategoryViewModel
         {
             get
