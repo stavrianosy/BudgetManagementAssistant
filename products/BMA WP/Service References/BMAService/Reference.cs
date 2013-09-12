@@ -76,12 +76,12 @@ namespace BMA_WP.BMAService {
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SyncTransactions", ReplyAction="http://tempuri.org/IMain/SyncTransactionsResponse")]
         System.IAsyncResult BeginSyncTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState);
         
-        bool EndSyncTransactions(System.IAsyncResult result);
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndSyncTransactions(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SyncBudgets", ReplyAction="http://tempuri.org/IMain/SyncBudgetsResponse")]
         System.IAsyncResult BeginSyncBudgets(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> budgets, System.AsyncCallback callback, object asyncState);
         
-        bool EndSyncBudgets(System.IAsyncResult result);
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> EndSyncBudgets(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IMain/SaveTransactions", ReplyAction="http://tempuri.org/IMain/SaveTransactionsResponse")]
         System.IAsyncResult BeginSaveTransactions(System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> transactions, System.AsyncCallback callback, object asyncState);
@@ -353,10 +353,10 @@ namespace BMA_WP.BMAService {
             this.results = results;
         }
         
-        public bool Result {
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> Result {
             get {
                 base.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(this.results[0]));
             }
         }
     }
@@ -372,10 +372,10 @@ namespace BMA_WP.BMAService {
             this.results = results;
         }
         
-        public bool Result {
+        public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> Result {
             get {
                 base.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
+                return ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>)(this.results[0]));
             }
         }
     }
@@ -1298,7 +1298,7 @@ namespace BMA_WP.BMAService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        bool BMA_WP.BMAService.IMain.EndSyncTransactions(System.IAsyncResult result) {
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> BMA_WP.BMAService.IMain.EndSyncTransactions(System.IAsyncResult result) {
             return base.Channel.EndSyncTransactions(result);
         }
         
@@ -1308,7 +1308,7 @@ namespace BMA_WP.BMAService {
         }
         
         private object[] OnEndSyncTransactions(System.IAsyncResult result) {
-            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndSyncTransactions(result);
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> retVal = ((BMA_WP.BMAService.IMain)(this)).EndSyncTransactions(result);
             return new object[] {
                     retVal};
         }
@@ -1344,7 +1344,7 @@ namespace BMA_WP.BMAService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        bool BMA_WP.BMAService.IMain.EndSyncBudgets(System.IAsyncResult result) {
+        System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> BMA_WP.BMAService.IMain.EndSyncBudgets(System.IAsyncResult result) {
             return base.Channel.EndSyncBudgets(result);
         }
         
@@ -1354,7 +1354,7 @@ namespace BMA_WP.BMAService {
         }
         
         private object[] OnEndSyncBudgets(System.IAsyncResult result) {
-            bool retVal = ((BMA_WP.BMAService.IMain)(this)).EndSyncBudgets(result);
+            System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> retVal = ((BMA_WP.BMAService.IMain)(this)).EndSyncBudgets(result);
             return new object[] {
                     retVal};
         }
@@ -2065,9 +2065,9 @@ namespace BMA_WP.BMAService {
                 return _result;
             }
             
-            public bool EndSyncTransactions(System.IAsyncResult result) {
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> EndSyncTransactions(System.IAsyncResult result) {
                 object[] _args = new object[0];
-                bool _result = ((bool)(base.EndInvoke("SyncTransactions", _args, result)));
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Transaction>)(base.EndInvoke("SyncTransactions", _args, result)));
                 return _result;
             }
             
@@ -2078,9 +2078,9 @@ namespace BMA_WP.BMAService {
                 return _result;
             }
             
-            public bool EndSyncBudgets(System.IAsyncResult result) {
+            public System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> EndSyncBudgets(System.IAsyncResult result) {
                 object[] _args = new object[0];
-                bool _result = ((bool)(base.EndInvoke("SyncBudgets", _args, result)));
+                System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget> _result = ((System.Collections.ObjectModel.ObservableCollection<BMA.BusinessLogic.Budget>)(base.EndInvoke("SyncBudgets", _args, result)));
                 return _result;
             }
             

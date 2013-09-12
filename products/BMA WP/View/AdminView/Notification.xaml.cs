@@ -295,9 +295,9 @@ namespace BMA_WP.View.AdminView
                 result = false;
                 //for more specific message
                 if (tempNotificationCount == 1)
-                    MessageBox.Show(string.Format("There is another notification that failed validation.\nUpdate it from the list and save again."));
+                    MessageBox.Show(string.Format(AppResources.FaildValidationSingle, AppResources.Notification));
                 else
-                    MessageBox.Show(string.Format("There are another {0} notifications that failed validation.\nUpdate them from the list and save again.", tempNotificationCount));
+                    MessageBox.Show(string.Format(AppResources.FaildValidation, tempNotificationCount, AppResources.Notifications));
             }
 
             return result;

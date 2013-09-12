@@ -741,4 +741,10 @@ Please connect to the live system to get the latest data.</value>
   <data name="ViewReport" xml:space="preserve">
     <value>View Report</value>
   </data>
+  <data name="NewAndConfirmPassword" xml:space="preserve">
+    <value>New and confirm password do not match</value>
+  </data>
+  <data name="OldPasswordNotCorrect" xml:space="preserve">
+    <value>Old password is not correct</value>
+  </data>
 </root>

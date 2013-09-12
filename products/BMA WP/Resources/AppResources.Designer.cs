@@ -948,6 +948,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New and confirm password do not match.
+        /// </summary>
+        public static string NewAndConfirmPassword {
+            get {
+                return ResourceManager.GetString("NewAndConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Password.
         /// </summary>
         public static string NewPass {
@@ -1016,6 +1025,15 @@ namespace BMA_WP.Resources {
         public static string OldPass {
             get {
                 return ResourceManager.GetString("OldPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old password is not correct.
+        /// </summary>
+        public static string OldPasswordNotCorrect {
+            get {
+                return ResourceManager.GetString("OldPasswordNotCorrect", resourceCulture);
             }
         }
         

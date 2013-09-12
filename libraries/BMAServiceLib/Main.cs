@@ -29,7 +29,7 @@ namespace BMAServiceLib
             return result;
         }
 
-        public bool SyncTransactions(TransactionList transactions)
+        public TransactionList SyncTransactions(TransactionList transactions)
         {
             try
             {
@@ -50,17 +50,15 @@ namespace BMAServiceLib
                     }
                 }
 
-                SaveTransactions(transactions);
+                return SaveTransactions(transactions);
             }
             catch (Exception)
             {
                 throw;
             }
-
-            return true;
         }
 
-        public bool SyncBudgets(BudgetList budgets)
+        public BudgetList SyncBudgets(BudgetList budgets)
         {
             try
             {
@@ -81,14 +79,12 @@ namespace BMAServiceLib
                     }
                 }
 
-                SaveBudgets(budgets);
+                return SaveBudgets(budgets);
             }
             catch (Exception)
             {
                 throw;
             }
-
-            return true;
         }
 
 

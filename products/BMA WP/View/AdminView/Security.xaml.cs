@@ -136,14 +136,14 @@ namespace BMA_WP.View.AdminView
 
             if (oldPass != App.Instance.User.Password)
             {
-                MessageBox.Show("Old password is not correct");
+                MessageBox.Show(AppResources.OldPasswordNotCorrect);
                 ClearPass();
                 return;
             }
 
             if (newPass != confirmPass)
             {
-                MessageBox.Show("New and confirm password do not match");
+                MessageBox.Show(AppResources.NewAndConfirmPassword);
                 ClearPass();
                 return;
             }

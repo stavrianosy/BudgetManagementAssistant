@@ -61,8 +61,14 @@
                     <StackPanel>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Text="Money Saver Lite [Beta]"/>
-                        <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
-                                   Text="Version 1.0.0 © 2013 Soft Carbon Gear."/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                   Text="Version "/>
+                            <TextBlock x:Name="appVersion"  
+                                       FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"/>
+                            <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                   Text=" © 2013 Soft Carbon Gear."/>
+                        </StackPanel>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Text="Support: info@softcarbongear.com"/>
                         <HyperlinkButton x:Name="Website" 

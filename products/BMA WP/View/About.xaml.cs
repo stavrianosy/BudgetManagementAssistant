@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using BMA_WP.Resources;
+using System.Reflection;
 
 namespace BMA_WP.View
 {
@@ -18,10 +19,16 @@ namespace BMA_WP.View
             InitializeComponent();
 
             SetupAppBar();
+
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            var asm = Assembly.GetExecutingAssembly();
+            var parts = asm.FullName.Split(',');
+            //appVersion.Text = parts[1].Split('=')[1];
+            string strVersion = (from manifest in System.Xml.Linq.XElement.Load("WMAppManifest.xml").Descendants("App") select manifest).SingleOrDefault().Attribute("Version").Value;
+            appVersion.Text = strVersion;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

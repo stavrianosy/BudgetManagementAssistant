@@ -759,7 +759,7 @@ namespace BMA_WP.Model
             }
 
             //SetupIntervalData(retVal, false);
-            IntervalList = retVal;
+            //IntervalList = retVal;
 
             callback(IntervalList, null);
         }
@@ -805,7 +805,7 @@ namespace BMA_WP.Model
                 foreach (var item in await StorageUtility.ListItems(STATIC_RECURRENCE_FOLDER, App.Instance.User.UserName))
                 {
                     var staticType = await StorageUtility.RestoreItem<RecurrenceRule>(STATIC_RECURRENCE_FOLDER, item, App.Instance.User.UserName);
-                    retVal.Add(staticType);
+                    RecurrenceRuleList.Add(staticType);
                 }
             }
             catch (Exception ex)
@@ -815,7 +815,7 @@ namespace BMA_WP.Model
             }
 
             //SetupRecurrenceRuleData(retVal, false);
-            RecurrenceRuleList = retVal;
+            //RecurrenceRuleList = retVal;
 
             callback(RecurrenceRuleList, null);
         }
@@ -900,6 +900,8 @@ namespace BMA_WP.Model
         {
             try
             {
+                CategoryList = new BMA.BusinessLogic.CategoryList();
+
                 App.Instance.StaticServiceData.LoadCachedCategories((cachedCategories, error) =>
                 {
                     var categoryList = cachedCategories.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
@@ -908,7 +910,14 @@ namespace BMA_WP.Model
 
                     //client.SyncBudgetsAsync(budgetList);
 
-                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                    //client.SyncBudgetsCompleted += async (sender, e) =>
+                    //{
+                    //    if (e.Error == null)
+                    //        await SetupTypeCategoryData(e.Result, true);
+
+                    //    callback(e.Error);
+                    //};
+
                     callback(new Exception("Not Implemented"));
                 });
             }
@@ -922,6 +931,8 @@ namespace BMA_WP.Model
         {
             try
             {
+                TypeTransactionReasonList = new BMA.BusinessLogic.TypeTransactionReasonList();
+
                 App.Instance.StaticServiceData.LoadCachedTypeTransactionReasons((cachedTypeTransReasons, error) =>
                 {
                     var typeTransList = cachedTypeTransReasons.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
@@ -930,7 +941,14 @@ namespace BMA_WP.Model
 
                     //client.SyncBudgetsAsync(budgetList);
 
-                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                    //client.SyncBudgetsCompleted += async (sender, e) =>
+                    //{
+                    //    if (e.Error == null)
+                    //        await SetupTypeCategoryData(e.Result, true);
+
+                    //    callback(e.Error);
+                    //};
+
                     callback(new Exception("Not Implemented"));
                 });
             }
@@ -944,6 +962,8 @@ namespace BMA_WP.Model
         {
             try
             {
+                NotificationList = new BMA.BusinessLogic.NotificationList();
+
                 App.Instance.StaticServiceData.LoadCachedNotifications((cachedNotifications, error) =>
                 {
                     var notificationList = cachedNotifications.Where(x => x.ModifiedDate > App.Instance.LastSyncDate).ToObservableCollection();
@@ -952,7 +972,16 @@ namespace BMA_WP.Model
 
                     //client.SyncBudgetsAsync(budgetList);
 
-                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+
+                    //client.SyncBudgetsCompleted += async (sender, e) =>
+                    //{
+                    //    if (e.Error == null)
+                    //        await SetupTypeCategoryData(e.Result, true);
+
+                    //    callback(e.Error);
+                    //};
+
+
                     callback(new Exception("Not Implemented"));
                 });
             }
@@ -974,7 +1003,15 @@ namespace BMA_WP.Model
 
                     //client.SyncBudgetsAsync(budgetList);
 
-                    //client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+
+                    //client.SyncBudgetsCompleted += async (sender, e) =>
+                    //{
+                    //    if (e.Error == null)
+                    //        await SetupTypeCategoryData(e.Result, true);
+
+                    //    callback(e.Error);
+                    //};
+
                     callback(new Exception("Not Implemented"));
                 });
             }

@@ -738,4 +738,10 @@ Update it from the list and save again.</value>
   <data name="ViewReport" xml:space="preserve">
     <value>Εμφανιση εκθεσης</value>
   </data>
+  <data name="NewAndConfirmPassword" xml:space="preserve">
+    <value>Ο νεος κωδικος δεν ειναι ο ιδιος με τον κωδικο επαλιθεφσης</value>
+  </data>
+  <data name="OldPasswordNotCorrect" xml:space="preserve">
+    <value>Ο παλιος κωδικος δεν ειναι σωστος</value>
+  </data>
 </root>

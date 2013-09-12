@@ -47,10 +47,10 @@ namespace BMAServiceLib
         StartupInfo LoadItemCounts(int userId);
 
         [OperationContract]
-        bool SyncTransactions(TransactionList transactions);
+        TransactionList SyncTransactions(TransactionList transactions);
 
         [OperationContract]
-        bool SyncBudgets(BudgetList budgets);
+        BudgetList SyncBudgets(BudgetList budgets);
 
         #endregion
 

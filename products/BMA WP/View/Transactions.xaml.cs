@@ -411,9 +411,9 @@ namespace BMA_WP.View
                     result = false;
                     //for more specific message
                     if (tempTrans.Count == 1)
-                        MessageBox.Show(string.Format("There is another transaction that failed validation.\nUpdate it from the list and save again."));
+                        MessageBox.Show(string.Format(AppResources.FaildValidationSingle, AppResources.Transaction));
                     else
-                        MessageBox.Show(string.Format("There are another {0} transactions that failed validation.\nUpdate them from the list and save again.", tempTrans.Count));
+                        MessageBox.Show(string.Format(AppResources.FaildValidation, tempTrans.Count, AppResources.Transactions));
                 }
             }
 

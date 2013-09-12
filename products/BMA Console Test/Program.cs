@@ -39,7 +39,7 @@ namespace ConsoleApplication1
             //ForgotPass(b);
             //SaveTypeTransactionReasons(b, usr);
             //UpdateTypeInterval(a, b, usr);
-            var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
+            //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
             //var cat = SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
             //UpdateTransaction(a, usr);

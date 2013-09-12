@@ -142,10 +142,10 @@ namespace ConsoleApplication1.ServiceReference1 {
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, double>> ReportTransactionNameOfPlaceAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionByPeriod", ReplyAction="http://tempuri.org/IMain/ReportTransactionByPeriodResponse")]
-        System.Collections.Generic.Dictionary<string, double> ReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId);
+        System.Collections.Generic.Dictionary<int, double> ReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMain/ReportTransactionByPeriod", ReplyAction="http://tempuri.org/IMain/ReportTransactionByPeriodResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, double>> ReportTransactionByPeriodAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId);
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, double>> ReportTransactionByPeriodAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -343,11 +343,11 @@ namespace ConsoleApplication1.ServiceReference1 {
             return base.Channel.ReportTransactionNameOfPlaceAsync(dateFrom, dateTo, transTypeId, userId);
         }
         
-        public System.Collections.Generic.Dictionary<string, double> ReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId) {
+        public System.Collections.Generic.Dictionary<int, double> ReportTransactionByPeriod(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId) {
             return base.Channel.ReportTransactionByPeriod(dateFrom, dateTo, transTypeId, period, userId);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, double>> ReportTransactionByPeriodAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, double>> ReportTransactionByPeriodAsync(System.DateTime dateFrom, System.DateTime dateTo, int transTypeId, BMA.BusinessLogic.Const.ReportPeriod period, int userId) {
             return base.Channel.ReportTransactionByPeriodAsync(dateFrom, dateTo, transTypeId, period, userId);
         }
     }

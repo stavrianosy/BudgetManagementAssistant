@@ -197,7 +197,7 @@ namespace BMA_WP.Model
                 }
 
                 //SetupBudgetList(retVal, false);
-                BudgetList = retVal;
+                //BudgetList = retVal;
 
                 callback(BudgetList, null);
             }
@@ -206,14 +206,12 @@ namespace BMA_WP.Model
             private async Task SetupTransactionList(ICollection<Transaction> existing, bool removeNew)
             {
                 existing = existing ?? new TransactionList();
-                var z = 0;
                 //sync logic
                 if (removeNew)
                     RemoveInsertedTransactions();
 
                 foreach (var item in existing)
                 {
-                    z++;
                     var query = TransactionList.Select((x, i) => new { trans = x, Index = i }).Where(x => x.trans.TransactionId == item.TransactionId).FirstOrDefault();
                     //INSERT
                     if (query == null)
@@ -449,7 +447,13 @@ namespace BMA_WP.Model
 
                             client.SyncTransactionsAsync(transList);
 
-                            client.SyncTransactionsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                            client.SyncTransactionsCompleted += async (sender, e) =>
+                                {
+                                    if (e.Error == null)
+                                        await SetupTransactionList(e.Result, true);
+                                        
+                                    callback(e.Error);
+                                };
                         });
                 }
                 catch (Exception ex)
@@ -472,7 +476,13 @@ namespace BMA_WP.Model
 
                             client.SyncBudgetsAsync(budgetList);
 
-                            client.SyncBudgetsCompleted += (sender, e) => callback(e.Error == null ? null : e.Error);
+                            client.SyncBudgetsCompleted += async (sender, e) =>
+                            {
+                                if (e.Error == null)
+                                    await SetupBudgetList(e.Result, true);
+
+                                callback(e.Error);
+                            };
                         });
                 }
                 catch (Exception ex)
