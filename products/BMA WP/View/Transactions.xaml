@@ -89,7 +89,7 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" VerticalAlignment="Bottom">
-                                <TextBlock Text="€" Margin="0 0 0 20" FontSize="26" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                                <TextBlock Text="" Margin="0 0 0 20" FontSize="26" Foreground="{StaticResource PhoneSubtleBrush}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1">
                                 <TextBlock 
@@ -146,13 +146,14 @@
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:AutoCompleteBox x:Name="txtNameOfPlace" Margin="0 -6 0 0"
                                                  Text="{Binding CurrTransaction.NameOfPlace, Mode=TwoWay}"
-                                                    VerticalAlignment="Top"  
-                                                    IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
+                                                 VerticalAlignment="Top"
+                                                 IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtComments" Margin="0 -6 0 0"
+                        <TextBox x:Name="txtComments" Margin="0 -6 0 0"
                                  Text="{Binding CurrTransaction.Comments, Mode=TwoWay}"
+                                   InputScope="Text"
                                             VerticalAlignment="Top" 
                                             Height="140" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>

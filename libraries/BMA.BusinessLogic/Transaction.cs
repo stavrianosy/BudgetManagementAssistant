@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.ServiceModel;
+using System.Collections;
 
 namespace BMA.BusinessLogic
 {
@@ -66,6 +67,7 @@ namespace BMA.BusinessLogic
             }
         }
 
+        #region Rules
         private void ApplyRuleYearlyOnTheWeekDay(TypeInterval interval, DateTime ruleStartDate, DateTime ruleEndDate, DateTime lastGenerateDate, int ruleTotalOccurences, User user)
         {
             var totalOccurenceDates = new List<DateTime>();
@@ -283,6 +285,7 @@ namespace BMA.BusinessLogic
 
             GenerateIntervalTransactions(interval, totalOccurenceDates, user);
         }
+        #endregion
 
         protected override void InsertItem(int index, Transaction item)
         {
@@ -400,6 +403,13 @@ namespace BMA.BusinessLogic
                 var trans = new Transaction(typeInterval.Amount, typeInterval.Category, typeInterval.TransactionReasonType, typeInterval.Comments, typeInterval.Purpose, item, typeInterval.TransactionType, user);
                 this.Add(trans);
             }
+        }
+
+        public IEnumerable SplitComments()
+        {
+            //var query = this.SelectMany(x => x.NameOfPlace.Split(' ')).ToList();
+            var query = this.GroupBy(x=>x.NameOfPlace).Select(x => x.Key).ToList();
+            return query;
         }
     }
 

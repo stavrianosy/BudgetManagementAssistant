@@ -163,7 +163,7 @@
                             <Rectangle Grid.Column="1" Margin="0 12 0 0" Fill="Gray"/>
                             <TextBlock Grid.Column="2" Margin="12 2 0 0" Text="{Binding DaysLeft, Converter={StaticResource converters}, ConverterParameter=DaysLeft}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"></TextBlock>
                         </Grid>
-                            <TextBlock Grid.Row="1" Margin="0 0 6 0" Text="Balance €: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                            <TextBlock Grid.Row="1" Margin="0 0 6 0" Text="Balance: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
                             <Grid Grid.Column="1" Grid.Row="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="{Binding BalancePercent, Converter={StaticResource converters}, ConverterParameter=BalancePercent}"></ColumnDefinition>

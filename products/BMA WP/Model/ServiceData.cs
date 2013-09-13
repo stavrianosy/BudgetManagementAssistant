@@ -80,7 +80,7 @@ namespace BMA_WP.Model
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                await StorageUtility.DeleteAllItems<Transaction>(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
+                                await StorageUtility.DeleteAllItems(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
                                 //await delete;
                                //var test = await StorageUtility.ListItems(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
 
@@ -120,7 +120,7 @@ namespace BMA_WP.Model
                         {
                             if (e.Error == null)
                             {
-                                await StorageUtility.DeleteAllItems<Transaction>(BUDGETS_FOLDER, App.Instance.User.UserName);
+                                await StorageUtility.DeleteAllItems(BUDGETS_FOLDER, App.Instance.User.UserName);
                                 await SetupBudgetList(e.Result, true);
                             }
                             callback(e.Error);
@@ -274,7 +274,7 @@ namespace BMA_WP.Model
                 foreach (var x in newItems)
                     TransactionList.RemoveAt(x.Index);
 
-                await StorageUtility.DeleteNewItems<Transaction>(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
+                await StorageUtility.DeleteNewItems(TRANSACTIONS_FOLDER, App.Instance.User.UserName);
             }
 
             private async void RemoveInsertedBudgets()
@@ -285,7 +285,7 @@ namespace BMA_WP.Model
                 foreach (var x in newItems)
                     BudgetList.RemoveAt(x.Index);
 
-                await StorageUtility.DeleteNewItems<Transaction>(BUDGETS_FOLDER, App.Instance.User.UserName);
+                await StorageUtility.DeleteNewItems(BUDGETS_FOLDER, App.Instance.User.UserName);
             }
 
             #endregion
@@ -337,7 +337,7 @@ namespace BMA_WP.Model
             public void LoadAllTransactions(int budgetId, Action<Exception> callback)
             {
                 //Clean the list before fetch the new data
-                TransactionList = new BMA.BusinessLogic.TransactionList();
+                TransactionList.Clear();
 
                 if (!App.Instance.IsOnline)
                     LoadCachedTransactions(error => callback(error));
@@ -385,7 +385,7 @@ namespace BMA_WP.Model
             {
                 
                     //Clean the list before fetch the new data
-                    BudgetList = new BMA.BusinessLogic.BudgetList();
+                    BudgetList.Clear();
 
                     if (!App.Instance.IsOnline)
                         LoadCachedBudgets((budgetList, error) => callback(error));
@@ -437,7 +437,7 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    TransactionList = new BMA.BusinessLogic.TransactionList();
+                    TransactionList.Clear();
 
                     App.Instance.ServiceData.LoadCachedTransactions(error =>
                         {
@@ -466,7 +466,7 @@ namespace BMA_WP.Model
             {
                 try
                 {
-                    BudgetList = new BMA.BusinessLogic.BudgetList();
+                    BudgetList.Clear();
 
                     App.Instance.ServiceData.LoadCachedBudgets((cachedBudgets, error) =>
                         {

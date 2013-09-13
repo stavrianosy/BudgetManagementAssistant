@@ -23,6 +23,7 @@ using BMA_WP.Model;
 using Microsoft.Phone;
 using System.IO;
 using Microsoft.Devices;
+using System.Windows.Input;
 
 namespace BMA_WP.View
 {
@@ -174,6 +175,8 @@ namespace BMA_WP.View
             vm.CurrTransaction = trans;
 
             SetBindings();
+
+            txtNameOfPlace.ItemsSource = vm.Transactions.SplitComments();
 
             if (vm.CurrTransaction == null || vm.CurrTransaction.IsDeleted)
             {

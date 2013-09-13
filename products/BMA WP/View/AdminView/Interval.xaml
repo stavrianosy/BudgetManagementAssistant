@@ -107,8 +107,9 @@
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.Comments, Source={StaticResource LocalizedStrings}, Mode=OneTime}" 
                             Margin="12 0 0 0" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtComments" Margin="0 -6 0 0"
+                        <TextBox x:Name="txtComments" Margin="0 -6 0 0"
                                  Text="{Binding CurrInterval.Comments, Mode=TwoWay}"
+                                 InputScope="Text"
                                             VerticalAlignment="Top" 
                                             Height="120" 
                                             IsEnabled="{Binding IsEnabled, Converter={StaticResource converters}, ConverterParameter=bitConverter}"/>

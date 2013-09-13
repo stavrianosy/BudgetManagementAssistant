@@ -120,8 +120,7 @@ namespace BMA_WP.Common
             }
         }
 
-        public static async Task DeleteNewItems<T>(string folderName, string userName)
-            where T : BaseItem, new()
+        public static async Task DeleteNewItems(string folderName, string userName)
         {
             if (string.IsNullOrEmpty(folderName))
             {
@@ -161,8 +160,7 @@ namespace BMA_WP.Common
             }
         }
 
-        public static async Task DeleteAllItems<T>(string folderName, string userName)
-            where T : BaseItem, new()
+        public static async Task DeleteAllItems(string folderName, string userName)
         {
             if (string.IsNullOrEmpty(folderName))
             {
@@ -180,9 +178,12 @@ namespace BMA_WP.Common
                 if (userName != null && userName.Length > 0)
                 {
                     var folderUser = folderUsersAll.FirstOrDefault(x => x.Name == (userName));
-                    files = (await folderUser.GetFilesAsync()).ToList();
-                    foreach (var file in files)
-                        await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    if (folderUser != null)
+                    {
+                        files = (await folderUser.GetFilesAsync()).ToList();
+                        foreach (var file in files)
+                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    }
                 }
                 else
                 {
