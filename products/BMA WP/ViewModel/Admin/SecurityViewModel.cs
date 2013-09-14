@@ -29,9 +29,9 @@ namespace BMA_WP.ViewModel.Admin
         string serverResponse;
         User user;
         int pivotIndex;
-        private bool isLoading;
 
         public bool IsLoading { get { return App.Instance.IsBusyComm; } set { App.Instance.IsLoading = value; } }
+        public bool IsOnline { get { return App.Instance.IsOnline; } }
 
         public string OldPass { get { return oldPass; } set { oldPass = value; RaisePropertyChanged("OldPass"); } }
         public string NewPass { get { return newPass; } set { newPass = value; User.Password = value; RaisePropertyChanged("NewPass"); } }

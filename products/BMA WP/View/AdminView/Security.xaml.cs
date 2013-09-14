@@ -146,8 +146,8 @@ namespace BMA_WP.View.AdminView
         private void ClearPass()
         {
             txtOldPass.Text = "";
-            txtNewPass.Text = "";
-            txtConfirmPass.Text = "";
+            txtNewPass.Password = "";
+            txtConfirmPass.Password = "";
         }
 
         private void ChangePass_Click(object sender, EventArgs e)
@@ -155,8 +155,8 @@ namespace BMA_WP.View.AdminView
             vm.IsLoading = true;
 
             var oldPass = txtOldPass.Text.Trim();
-            var newPass = txtNewPass.Text.Trim();
-            var confirmPass = txtConfirmPass.Text.Trim();
+            var newPass = txtNewPass.Password.Trim();
+            var confirmPass = txtConfirmPass.Password.Trim();
 
             if (oldPass != App.Instance.User.Password)
             {

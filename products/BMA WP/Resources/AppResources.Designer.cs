@@ -151,7 +151,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From amount connot be greater than the To amount.
+        ///   Looks up a localized string similar to From amount cannot be greater than the To amount.
         /// </summary>
         public static string AmountFromBigger {
             get {
@@ -695,7 +695,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loging in....
+        ///   Looks up a localized string similar to Logging in....
         /// </summary>
         public static string LoggingIn {
             get {
@@ -812,7 +812,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Predifined time periods.
+        ///   Looks up a localized string similar to Predefined time periods.
         /// </summary>
         public static string MenuDescriptionFrequency {
             get {
@@ -821,7 +821,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Periodic occurances for expences or income.
+        ///   Looks up a localized string similar to Periodic occurrences for expenses or income.
         /// </summary>
         public static string MenuDescriptionInterval {
             get {
@@ -857,7 +857,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transactions grouped by bame of place according to the date range selected..
+        ///   Looks up a localized string similar to Transactions grouped by name of place according to the date range selected..
         /// </summary>
         public static string MenuDescriptionReportNameOfPlace {
             get {
@@ -1074,7 +1074,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password cannot be changed for for the following reasons:.
+        ///   Looks up a localized string similar to Password cannot be changed for the following reasons:.
         /// </summary>
         public static string PasswordValidationFailMessage {
             get {
@@ -1110,7 +1110,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 8th Eightth.
+        ///   Looks up a localized string similar to 8th Eighth.
         /// </summary>
         public static string PositionEightth {
             get {
@@ -1191,7 +1191,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 9th Nineth.
+        ///   Looks up a localized string similar to 9th Ninth.
         /// </summary>
         public static string PositionNineth {
             get {
@@ -1227,7 +1227,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 6th Sisth.
+        ///   Looks up a localized string similar to 6th Sixth.
         /// </summary>
         public static string PositionSisth {
             get {
@@ -1290,7 +1290,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 12th Twelveth.
+        ///   Looks up a localized string similar to 12th Twelfth.
         /// </summary>
         public static string PositionTwelveth {
             get {
@@ -1308,7 +1308,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 28th Twenty eightth.
+        ///   Looks up a localized string similar to 28th Twenty eighth.
         /// </summary>
         public static string PositionTwentyEightth {
             get {
@@ -1344,7 +1344,7 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 29th Twenty nineth.
+        ///   Looks up a localized string similar to 29th Twenty ninth.
         /// </summary>
         public static string PositionTwentyNineth {
             get {
@@ -1407,20 +1407,11 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Range of Occurence.
+        ///   Looks up a localized string similar to Range of Occurrence.
         /// </summary>
         public static string RangeOfOccurence {
             get {
                 return ResourceManager.GetString("RangeOfOccurence", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reapeat on expiration.
-        /// </summary>
-        public static string ReapeatOnExpiration {
-            get {
-                return ResourceManager.GetString("ReapeatOnExpiration", resourceCulture);
             }
         }
         
@@ -1538,6 +1529,15 @@ namespace BMA_WP.Resources {
         public static string ReminderForUser {
             get {
                 return ResourceManager.GetString("ReminderForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeat on expiration.
+        /// </summary>
+        public static string RepeatOnExpiration {
+            get {
+                return ResourceManager.GetString("RepeatOnExpiration", resourceCulture);
             }
         }
         
@@ -1682,15 +1682,6 @@ namespace BMA_WP.Resources {
         public static string Start {
             get {
                 return ResourceManager.GetString("Start", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String {
-            get {
-                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

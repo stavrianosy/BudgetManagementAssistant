@@ -267,7 +267,7 @@ Update it from the list and save again.</value>
     <value>Last login attempt failed. Please try again.</value>
   </data>
   <data name="LoggingIn" xml:space="preserve">
-    <value>Loging in...</value>
+    <value>Logging in...</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
@@ -297,10 +297,10 @@ Update it from the list and save again.</value>
     <value>Category of the transaction</value>
   </data>
   <data name="MenuDescriptionFrequency" xml:space="preserve">
-    <value>Predifined time periods</value>
+    <value>Predefined time periods</value>
   </data>
   <data name="MenuDescriptionInterval" xml:space="preserve">
-    <value>Periodic occurances for expences or income</value>
+    <value>Periodic occurrences for expenses or income</value>
   </data>
   <data name="MenuDescriptionNotification" xml:space="preserve">
     <value>Notifications for transaction capturing reminders</value>
@@ -348,7 +348,7 @@ Update it from the list and save again.</value>
     <value>Your Passwoed is sent to the email provided</value>
   </data>
   <data name="PasswordValidationFailMessage" xml:space="preserve">
-    <value>Password cannot be changed for for the following reasons:</value>
+    <value>Password cannot be changed for the following reasons:</value>
   </data>
   <data name="Place" xml:space="preserve">
     <value>Place</value>
@@ -357,7 +357,7 @@ Update it from the list and save again.</value>
     <value>Purpose</value>
   </data>
   <data name="RangeOfOccurence" xml:space="preserve">
-    <value>Range of Occurence</value>
+    <value>Range of Occurrence</value>
   </data>
   <data name="Reason" xml:space="preserve">
     <value>Reason</value>
@@ -482,9 +482,6 @@ Update it from the list and save again.</value>
     <value>List of all auto generated transactions as per interval commands.
 Choose the transactions that are completed</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value />
-  </data>
   <data name="IntervalTransactionsMsgCommon" xml:space="preserve">
     <value>Please choose the completed transactions carefully. The specific ones will not appear again.</value>
   </data>
@@ -498,7 +495,7 @@ Choose the transactions that are completed</value>
     <value>You have selected {0} out of {1} transactions.</value>
   </data>
   <data name="AmountFromBigger" xml:space="preserve">
-    <value>From amount connot be greater than the To amount</value>
+    <value>From amount cannot be greater than the To amount</value>
   </data>
   <data name="DateFromBigger" xml:space="preserve">
     <value>From date connot be greater than the To date</value>
@@ -542,7 +539,7 @@ Please use only unique names.</value>
     <value>Transactions grouped by category according to the date range selected.</value>
   </data>
   <data name="MenuDescriptionReportNameOfPlace" xml:space="preserve">
-    <value>Transactions grouped by bame of place according to the date range selected.</value>
+    <value>Transactions grouped by name of place according to the date range selected.</value>
   </data>
   <data name="MenuDescriptionReportPeriod" xml:space="preserve">
     <value>Transactions grouped by frequency, according to the date range selected.</value>
@@ -593,7 +590,7 @@ Please use only unique names.</value>
     <value>18th Eighteenth</value>
   </data>
   <data name="PositionEightth" xml:space="preserve">
-    <value>8th Eightth</value>
+    <value>8th Eighth</value>
   </data>
   <data name="PositionEleventh" xml:space="preserve">
     <value>11th Eleventh</value>
@@ -614,7 +611,7 @@ Please use only unique names.</value>
     <value>19th Nineteenth</value>
   </data>
   <data name="PositionNineth" xml:space="preserve">
-    <value>9th Nineth</value>
+    <value>9th Ninth</value>
   </data>
   <data name="PositionSecond" xml:space="preserve">
     <value>2nd Second</value>
@@ -626,7 +623,7 @@ Please use only unique names.</value>
     <value>7th Seventh</value>
   </data>
   <data name="PositionSisth" xml:space="preserve">
-    <value>6th Sisth</value>
+    <value>6th Sixth</value>
   </data>
   <data name="PositionSixteenth" xml:space="preserve">
     <value>16th Sixteenth</value>
@@ -647,13 +644,13 @@ Please use only unique names.</value>
     <value>31st Thirty first</value>
   </data>
   <data name="PositionTwelveth" xml:space="preserve">
-    <value>12th Twelveth</value>
+    <value>12th Twelfth</value>
   </data>
   <data name="PositionTwentieth" xml:space="preserve">
     <value>20th Twentieth</value>
   </data>
   <data name="PositionTwentyEightth" xml:space="preserve">
-    <value>28th Twenty eightth</value>
+    <value>28th Twenty eighth</value>
   </data>
   <data name="PositionTwentyFifth" xml:space="preserve">
     <value>25th Twenty fifth</value>
@@ -665,7 +662,7 @@ Please use only unique names.</value>
     <value>24th Twenty forth</value>
   </data>
   <data name="PositionTwentyNineth" xml:space="preserve">
-    <value>29th Twenty nineth</value>
+    <value>29th Twenty ninth</value>
   </data>
   <data name="PositionTwentySecond" xml:space="preserve">
     <value>22nd Twenty second</value>
@@ -726,8 +723,8 @@ Please connect to the live system to get the latest data.</value>
   <data name="ProvideUsernameOrEmail" xml:space="preserve">
     <value>Please provide your Username or email address and we will send you an email to reset your password</value>
   </data>
-  <data name="ReapeatOnExpiration" xml:space="preserve">
-    <value>Reapeat on expiration</value>
+  <data name="RepeatOnExpiration" xml:space="preserve">
+    <value>Repeat on expiration</value>
   </data>
   <data name="RegisterAcceptance" xml:space="preserve">
     <value>By Registering you are agreeing to our Terms of Service and Privacy Statement</value>

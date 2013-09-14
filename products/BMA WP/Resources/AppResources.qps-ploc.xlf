@@ -1,0 +1,852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="qps-ploc" original="AppResources.resx" tool-id="MultilingualAppToolkit" product-name="BMA WP" product-version="1.0.0.3" build-num="0">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="2.0.1000.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="Resx">
+        <trans-unit translate="yes" id="Resx/AdminMenuBudgetThreshold" xml:space="preserve">
+          <source>Budget Threshold</source>
+          <target state="new">Budget Threshold</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AdminMenuCategories" xml:space="preserve">
+          <source>Categories</source>
+          <target state="new">Categories</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AdminMenuFrequencies" xml:space="preserve">
+          <source>Frequencies</source>
+          <target state="new">Frequencies</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AdminMenuInterval" xml:space="preserve">
+          <source>Interval</source>
+          <target state="new">Interval</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AdminMenuNotifications" xml:space="preserve">
+          <source>Notifications</source>
+          <target state="new">Notifications</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AdminMenuSecurity" xml:space="preserve">
+          <source>Security</source>
+          <target state="new">Security</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AdminMenuTransactionReasons" xml:space="preserve">
+          <source>Transaction Reasons</source>
+          <target state="new">Transaction Reasons</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Amount" xml:space="preserve">
+          <source>Amount</source>
+          <target state="new">Amount</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AmountFrom" xml:space="preserve">
+          <source>Amount from</source>
+          <target state="new">Amount from</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AmountTo" xml:space="preserve">
+          <source>Amount to</source>
+          <target state="new">Amount to</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonAbout" xml:space="preserve">
+          <source>about</source>
+          <target state="new">about</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonAdd" xml:space="preserve">
+          <source>add</source>
+          <target state="new">add</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonBudget" xml:space="preserve">
+          <source>budget</source>
+          <target state="new">budget</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonCancel" xml:space="preserve">
+          <source>cancel</source>
+          <target state="new">cancel</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonContinue" xml:space="preserve">
+          <source>continue</source>
+          <target state="new">continue</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonDelete" xml:space="preserve">
+          <source>delete</source>
+          <target state="new">delete</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonHelp" xml:space="preserve">
+          <source>help</source>
+          <target state="new">help</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonMainMenu" xml:space="preserve">
+          <source>main menu</source>
+          <target state="new">main menu</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonRegister" xml:space="preserve">
+          <source>register</source>
+          <target state="new">register</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonSave" xml:space="preserve">
+          <source>save</source>
+          <target state="new">save</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonSend" xml:space="preserve">
+          <source>send</source>
+          <target state="new">send</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonSignIn" xml:space="preserve">
+          <source>sign in</source>
+          <target state="new">sign in</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AppBarButtonTransaction" xml:space="preserve">
+          <source>transaction</source>
+          <target state="new">transaction</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ApplicationTitle" xml:space="preserve">
+          <source>MONEY SAVER</source>
+          <target state="new">MONEY SAVER</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/BudgetStatus" xml:space="preserve">
+          <source>Budget Status</source>
+          <target state="new">Budget Status</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/BusySynchronizing" xml:space="preserve">
+          <source>Busy Synchronizing. Please wait...</source>
+          <target state="new">Busy Synchronizing. Please wait...</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Categories" xml:space="preserve">
+          <source>Categories</source>
+          <target state="new">Categories</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Category" xml:space="preserve">
+          <source>Category</source>
+          <target state="new">Category</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/CategoryNote" xml:space="preserve">
+          <source>* This will be the selected option according to the time of day</source>
+          <target state="new">* This will be the selected option according to the time of day</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ChangePassword" xml:space="preserve">
+          <source>Change Password</source>
+          <target state="new">Change Password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Color" xml:space="preserve">
+          <source>Color</source>
+          <target state="new">Color</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Comments" xml:space="preserve">
+          <source>Comments</source>
+          <target state="new">Comments</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ConfirmDeletion" xml:space="preserve">
+          <source>Confirm deletion</source>
+          <target state="new">Confirm deletion</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ConfirmPass" xml:space="preserve">
+          <source>Confirm Password</source>
+          <target state="new">Confirm Password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Date" xml:space="preserve">
+          <source>Date</source>
+          <target state="new">Date</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/DateFrom" xml:space="preserve">
+          <source>Date From</source>
+          <target state="new">Date From</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/DateTo" xml:space="preserve">
+          <source>Date To</source>
+          <target state="new">Date To</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/DeleteMessage" xml:space="preserve">
+          <source>Are you sure you want to delete ?</source>
+          <target state="new">Are you sure you want to delete ?</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Email" xml:space="preserve">
+          <source>Email</source>
+          <target state="new">Email</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/End" xml:space="preserve">
+          <source>End</source>
+          <target state="new">End</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/FaildValidation" xml:space="preserve">
+          <source>There are another {0} {1} that failed validation.
+Update them from the list and save again.</source>
+          <target state="new">There are another {0} {1} that failed validation.
+Update them from the list and save again.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/FaildValidationSingle" xml:space="preserve">
+          <source>There is another {0} that failed validation.
+Update it from the list and save again.</source>
+          <target state="new">There is another {0} that failed validation.
+Update it from the list and save again.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionFirst" xml:space="preserve">
+          <source>First</source>
+          <target state="new">First</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ForgotPassword" xml:space="preserve">
+          <source>Forgot Password</source>
+          <target state="new">Forgot Password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Forth" xml:space="preserve">
+          <source>Forth</source>
+          <target state="new">Forth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/From" xml:space="preserve">
+          <source>From</source>
+          <target state="new">From</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/FromTime" xml:space="preserve">
+          <source>Time From</source>
+          <target state="new">Time From</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionLast" xml:space="preserve">
+          <source>Last</source>
+          <target state="new">Last</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/LastLoginFail" xml:space="preserve">
+          <source>Last login attempt failed. Please try again.</source>
+          <target state="new">Last login attempt failed. Please try again.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/LoggingIn" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="new">Logging in...</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Login" xml:space="preserve">
+          <source>Login</source>
+          <target state="new">Login</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/LoginFail" xml:space="preserve">
+          <source>Login Failed</source>
+          <target state="new">Login Failed</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/LoginFailMessage" xml:space="preserve">
+          <source>Please review the following validation error</source>
+          <target state="new">Please review the following validation error</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/LoginSuccess" xml:space="preserve">
+          <source>Logged in successfully</source>
+          <target state="new">Logged in successfully</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MainMenuBudgets" xml:space="preserve">
+          <source>Budgets</source>
+          <target state="new">Budgets</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MainMenuTransactions" xml:space="preserve">
+          <source>Transactions</source>
+          <target state="new">Transactions</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MaxItemsCount" xml:space="preserve">
+          <source>You have reached the maximum allowed items [{0}]. You must delete before you add</source>
+          <target state="new">You have reached the maximum allowed items [{0}]. You must delete before you add</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionBudgetThreshold" xml:space="preserve">
+          <source>Budget will change its color to grab your attention when it reach the threshold</source>
+          <target state="new">Budget will change its color to grab your attention when it reach the threshold</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionCategory" xml:space="preserve">
+          <source>Category of the transaction</source>
+          <target state="new">Category of the transaction</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionFrequency" xml:space="preserve">
+          <source>Predefined time periods</source>
+          <target state="new">Predefined time periods</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionInterval" xml:space="preserve">
+          <source>Periodic occurrences for expenses or income</source>
+          <target state="new">Periodic occurrences for expenses or income</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionNotification" xml:space="preserve">
+          <source>Notifications for transaction capturing reminders</source>
+          <target state="new">Notifications for transaction capturing reminders</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionSecurity" xml:space="preserve">
+          <source>Manage users for accessing this application</source>
+          <target state="new">Manage users for accessing this application</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionTransactionReason" xml:space="preserve">
+          <source>Reason of the transaction. Like a sub-category</source>
+          <target state="new">Reason of the transaction. Like a sub-category</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Name" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/NameOfPlace" xml:space="preserve">
+          <source>Name of place</source>
+          <target state="new">Name of place</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/NetworkError" xml:space="preserve">
+          <source>Network error. Please check your internet connection.</source>
+          <target state="new">Network error. Please check your internet connection.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/NewPass" xml:space="preserve">
+          <source>New Password</source>
+          <target state="new">New Password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Notification" xml:space="preserve">
+          <source>Notification</source>
+          <target state="new">Notification</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Notifications" xml:space="preserve">
+          <source>Notifications</source>
+          <target state="new">Notifications</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Offline" xml:space="preserve">
+          <source>offline</source>
+          <target state="new">offline</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/OldPass" xml:space="preserve">
+          <source>Old Password</source>
+          <target state="new">Old Password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Password" xml:space="preserve">
+          <source>Password</source>
+          <target state="new">Password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PasswordSending" xml:space="preserve">
+          <source>Sending password...</source>
+          <target state="new">Sending password...</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PasswordSentFailed" xml:space="preserve">
+          <source>Password sent failed. Please try again</source>
+          <target state="new">Password sent failed. Please try again</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PasswordSentSuccess" xml:space="preserve">
+          <source>Your Passwoed is sent to the email provided</source>
+          <target state="new">Your Passwoed is sent to the email provided</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PasswordValidationFailMessage" xml:space="preserve">
+          <source>Password cannot be changed for the following reasons:</source>
+          <target state="new">Password cannot be changed for the following reasons:</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Place" xml:space="preserve">
+          <source>Place</source>
+          <target state="new">Place</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Purpose" xml:space="preserve">
+          <source>Purpose</source>
+          <target state="new">Purpose</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RangeOfOccurence" xml:space="preserve">
+          <source>Range of Occurrence</source>
+          <target state="new">Range of Occurrence</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Reason" xml:space="preserve">
+          <source>Reason</source>
+          <target state="new">Reason</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Reasons" xml:space="preserve">
+          <source>Reasons</source>
+          <target state="new">Reasons</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RecurrencePattern" xml:space="preserve">
+          <source>Recurrence Pattern</source>
+          <target state="new">Recurrence Pattern</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Register" xml:space="preserve">
+          <source>Register</source>
+          <target state="new">Register</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RegisterFail" xml:space="preserve">
+          <source>Registration failed. Please try again</source>
+          <target state="new">Registration failed. Please try again</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Registering" xml:space="preserve">
+          <source>Registering ...</source>
+          <target state="new">Registering ...</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RegisterMessage" xml:space="preserve">
+          <source>* Capture all fields to register</source>
+          <target state="new">* Capture all fields to register</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RegisterSuccess" xml:space="preserve">
+          <source>Registered successfully</source>
+          <target state="new">Registered successfully</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RegistrationFailed" xml:space="preserve">
+          <source>Registration Failed</source>
+          <target state="new">Registration Failed</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReportsMenuTransactionAmount" xml:space="preserve">
+          <source>Transaction Amount</source>
+          <target state="new">Transaction Amount</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReportsMenuTransactionBudget" xml:space="preserve">
+          <source>Transaction Budget</source>
+          <target state="new">Transaction Budget</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReportsMenuTransactionCategory" xml:space="preserve">
+          <source>Transaction Category</source>
+          <target state="new">Transaction Category</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReportsMenuTransactionPlace" xml:space="preserve">
+          <source>Transaction Place</source>
+          <target state="new">Transaction Place</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReportsMenuTransactionReason" xml:space="preserve">
+          <source>Transaction Reason</source>
+          <target state="new">Transaction Reason</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ResourceFlowDirection" xml:space="preserve">
+          <source>LeftToRight</source>
+          <target state="translated">LeftToRight</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</note>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ResourceLanguage" xml:space="preserve">
+          <source>en-US</source>
+          <target state="translated">qps-ploc</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</note>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/SaveFailed" xml:space="preserve">
+          <source>Save failed. Please try again.</source>
+          <target state="new">Save failed. Please try again.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Second" xml:space="preserve">
+          <source>Second</source>
+          <target state="new">Second</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Security" xml:space="preserve">
+          <source>Security</source>
+          <target state="new">Security</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Start" xml:space="preserve">
+          <source>Start</source>
+          <target state="new">Start</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/SuggestedTime" xml:space="preserve">
+          <source>Suggested time:</source>
+          <target state="new">Suggested time:</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Synchronizing" xml:space="preserve">
+          <source>Loading data...</source>
+          <target state="new">Loading data...</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Third" xml:space="preserve">
+          <source>Third</source>
+          <target state="new">Third</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Time" xml:space="preserve">
+          <source>Time</source>
+          <target state="new">Time</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Tip" xml:space="preserve">
+          <source>Tip</source>
+          <target state="new">Tip</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/To" xml:space="preserve">
+          <source>To</source>
+          <target state="new">To</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Total" xml:space="preserve">
+          <source>Total</source>
+          <target state="new">Total</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ToTime" xml:space="preserve">
+          <source>Time To</source>
+          <target state="new">Time To</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Transaction" xml:space="preserve">
+          <source>Transaction</source>
+          <target state="new">Transaction</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Transactions" xml:space="preserve">
+          <source>Transactions</source>
+          <target state="new">Transactions</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/TransactionType" xml:space="preserve">
+          <source>Transaction Type</source>
+          <target state="new">Transaction Type</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/TryAgain" xml:space="preserve">
+          <source>try again</source>
+          <target state="new">try again</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/TypeFrequencies" xml:space="preserve">
+          <source>Type Frequencies</source>
+          <target state="new">Type Frequencies</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/TypeFrequency" xml:space="preserve">
+          <source>Type Frequency</source>
+          <target state="new">Type Frequency</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Updating" xml:space="preserve">
+          <source>connecting</source>
+          <target state="new">connecting</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/UserDetails" xml:space="preserve">
+          <source>User Details</source>
+          <target state="new">User Details</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Username" xml:space="preserve">
+          <source>Username</source>
+          <target state="new">Username</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/UsernameOrEmail" xml:space="preserve">
+          <source>Username or Email</source>
+          <target state="new">Username or Email</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/IntervalTransactions" xml:space="preserve">
+          <source>Interv. Transactions</source>
+          <target state="new">Interv. Transactions</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/IntervalTransactionsNotice" xml:space="preserve">
+          <source>List of all auto generated transactions as per interval commands.
+Choose the transactions that are completed</source>
+          <target state="new">List of all auto generated transactions as per interval commands.
+Choose the transactions that are completed</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/IntervalTransactionsMsgCommon" xml:space="preserve">
+          <source>Please choose the completed transactions carefully. The specific ones will not appear again.</source>
+          <target state="new">Please choose the completed transactions carefully. The specific ones will not appear again.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/IntervalTransactionsMsgAll" xml:space="preserve">
+          <source>You have selected all transactions.</source>
+          <target state="new">You have selected all transactions.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/IntervalTransactionsMsgNone" xml:space="preserve">
+          <source>You have not selected any transactions.</source>
+          <target state="new">You have not selected any transactions.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/IntervalTransactionsMsgPartial" xml:space="preserve">
+          <source>You have selected {0} out of {1} transactions.</source>
+          <target state="new">You have selected {0} out of {1} transactions.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/AmountFromBigger" xml:space="preserve">
+          <source>From amount cannot be greater than the To amount</source>
+          <target state="new">From amount cannot be greater than the To amount</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/DateFromBigger" xml:space="preserve">
+          <source>From date connot be greater than the To date</source>
+          <target state="new">From date connot be greater than the To date</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/SortBy" xml:space="preserve">
+          <source>Sort by</source>
+          <target state="new">Sort by</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/NameAlreadyExist" xml:space="preserve">
+          <source>The name already exists.
+Please change the name.</source>
+          <target state="new">The name already exists.
+Please change the name.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/FaildValidationNameExists" xml:space="preserve">
+          <source>There are multiple {0} with same names. 
+Please use only unique names.</source>
+          <target state="new">There are multiple {0} with same names. 
+Please use only unique names.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/TransactionReason" xml:space="preserve">
+          <source>transaction reason</source>
+          <target state="new">transaction reason</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/TransactionReasons" xml:space="preserve">
+          <source>transaction reasons</source>
+          <target state="new">transaction reasons</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReminderError" xml:space="preserve">
+          <source>Reminders cannot be set</source>
+          <target state="new">Reminders cannot be set</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReminderForUser" xml:space="preserve">
+          <source>Reminder for user:</source>
+          <target state="new">Reminder for user:</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Period" xml:space="preserve">
+          <source>Period</source>
+          <target state="new">Period</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ReportsMenuTransactionByPeriod" xml:space="preserve">
+          <source>Transactions by Period</source>
+          <target state="new">Transactions by Period</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/NotificationNote" xml:space="preserve">
+          <source>Notification list display reminders from all users of this device.</source>
+          <target state="new">Notification list display reminders from all users of this device.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionReportAmount" xml:space="preserve">
+          <source>All transactions according to the date range selected.</source>
+          <target state="new">All transactions according to the date range selected.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionReportCategory" xml:space="preserve">
+          <source>Transactions grouped by category according to the date range selected.</source>
+          <target state="new">Transactions grouped by category according to the date range selected.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionReportNameOfPlace" xml:space="preserve">
+          <source>Transactions grouped by name of place according to the date range selected.</source>
+          <target state="new">Transactions grouped by name of place according to the date range selected.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionReportPeriod" xml:space="preserve">
+          <source>Transactions grouped by frequency, according to the date range selected.</source>
+          <target state="new">Transactions grouped by frequency, according to the date range selected.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/MenuDescriptionReportReason" xml:space="preserve">
+          <source>Transactions grouped by reason according to the date range selected.</source>
+          <target state="new">Transactions grouped by reason according to the date range selected.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/April" xml:space="preserve">
+          <source>April</source>
+          <target state="new">April</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/August" xml:space="preserve">
+          <source>August</source>
+          <target state="new">August</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/December" xml:space="preserve">
+          <source>December</source>
+          <target state="new">December</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/February" xml:space="preserve">
+          <source>February</source>
+          <target state="new">February</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Friday" xml:space="preserve">
+          <source>Friday</source>
+          <target state="new">Friday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/January" xml:space="preserve">
+          <source>January</source>
+          <target state="new">January</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/July" xml:space="preserve">
+          <source>July</source>
+          <target state="new">July</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/June" xml:space="preserve">
+          <source>June</source>
+          <target state="new">June</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/March" xml:space="preserve">
+          <source>March</source>
+          <target state="new">March</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/May" xml:space="preserve">
+          <source>May</source>
+          <target state="new">May</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Monday" xml:space="preserve">
+          <source>Monday</source>
+          <target state="new">Monday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Noveber" xml:space="preserve">
+          <source>November</source>
+          <target state="new">November</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/October" xml:space="preserve">
+          <source>October</source>
+          <target state="new">October</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionEighteenth" xml:space="preserve">
+          <source>18th Eighteenth</source>
+          <target state="new">18th Eighteenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionEightth" xml:space="preserve">
+          <source>8th Eighth</source>
+          <target state="new">8th Eighth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionEleventh" xml:space="preserve">
+          <source>11th Eleventh</source>
+          <target state="new">11th Eleventh</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionFifteenth" xml:space="preserve">
+          <source>15th Fifteenth</source>
+          <target state="new">15th Fifteenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionFifth" xml:space="preserve">
+          <source>5th Fifth</source>
+          <target state="new">5th Fifth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionForth" xml:space="preserve">
+          <source>4th Forth</source>
+          <target state="new">4th Forth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionFourteenth" xml:space="preserve">
+          <source>14th Fourteenth</source>
+          <target state="new">14th Fourteenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionNineteenth" xml:space="preserve">
+          <source>19th Nineteenth</source>
+          <target state="new">19th Nineteenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionNineth" xml:space="preserve">
+          <source>9th Ninth</source>
+          <target state="new">9th Ninth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionSecond" xml:space="preserve">
+          <source>2nd Second</source>
+          <target state="new">2nd Second</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionSeventeenth" xml:space="preserve">
+          <source>17th Seventeenth</source>
+          <target state="new">17th Seventeenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionSeventh" xml:space="preserve">
+          <source>7th Seventh</source>
+          <target state="new">7th Seventh</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionSisth" xml:space="preserve">
+          <source>6th Sixth</source>
+          <target state="new">6th Sixth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionSixteenth" xml:space="preserve">
+          <source>16th Sixteenth</source>
+          <target state="new">16th Sixteenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTenth" xml:space="preserve">
+          <source>10th Tenth</source>
+          <target state="new">10th Tenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionThird" xml:space="preserve">
+          <source>3rd Third</source>
+          <target state="new">3rd Third</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionThirteenth" xml:space="preserve">
+          <source>13th Thirteenth</source>
+          <target state="new">13th Thirteenth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionThirtyeth" xml:space="preserve">
+          <source>30th Thirtyeth</source>
+          <target state="new">30th Thirtyeth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionThirtyFirst" xml:space="preserve">
+          <source>31st Thirty first</source>
+          <target state="new">31st Thirty first</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwelveth" xml:space="preserve">
+          <source>12th Twelfth</source>
+          <target state="new">12th Twelfth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentieth" xml:space="preserve">
+          <source>20th Twentieth</source>
+          <target state="new">20th Twentieth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentyEightth" xml:space="preserve">
+          <source>28th Twenty eighth</source>
+          <target state="new">28th Twenty eighth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentyFifth" xml:space="preserve">
+          <source>25th Twenty fifth</source>
+          <target state="new">25th Twenty fifth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentyFirst" xml:space="preserve">
+          <source>21st Twenty first</source>
+          <target state="new">21st Twenty first</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentyForth" xml:space="preserve">
+          <source>24th Twenty forth</source>
+          <target state="new">24th Twenty forth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentyNineth" xml:space="preserve">
+          <source>29th Twenty ninth</source>
+          <target state="new">29th Twenty ninth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentySecond" xml:space="preserve">
+          <source>22nd Twenty second</source>
+          <target state="new">22nd Twenty second</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentySeventh" xml:space="preserve">
+          <source>27th Twenty seventh</source>
+          <target state="new">27th Twenty seventh</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentySixth" xml:space="preserve">
+          <source>26th Twenty sixth</source>
+          <target state="new">26th Twenty sixth</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/PositionTwentyThird" xml:space="preserve">
+          <source>23rd Twenty third</source>
+          <target state="new">23rd Twenty third</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Saturday" xml:space="preserve">
+          <source>Saturday</source>
+          <target state="new">Saturday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Septeber" xml:space="preserve">
+          <source>September</source>
+          <target state="new">September</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Sunday" xml:space="preserve">
+          <source>Sunday</source>
+          <target state="new">Sunday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Thursday" xml:space="preserve">
+          <source>Thursday</source>
+          <target state="new">Thursday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Tuesday" xml:space="preserve">
+          <source>Tuesday</source>
+          <target state="new">Tuesday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/UserNamePasswordWrongOffline" xml:space="preserve">
+          <source>Username or Password is incorrect.
+This might be due to that offline mode is not updated.
+Please connect to the live system to get the latest data.</source>
+          <target state="new">Username or Password is incorrect.
+This might be due to that offline mode is not updated.
+Please connect to the live system to get the latest data.</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Wednesday" xml:space="preserve">
+          <source>Wednesday</source>
+          <target state="new">Wednesday</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Budget" xml:space="preserve">
+          <source>Budget</source>
+          <target state="new">Budget</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Budgets" xml:space="preserve">
+          <source>Budgets</source>
+          <target state="new">Budgets</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Admin" xml:space="preserve">
+          <source>Admin</source>
+          <target state="new">Admin</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/DaysSmall" xml:space="preserve">
+          <source>days</source>
+          <target state="new">days</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Duration" xml:space="preserve">
+          <source>Duration</source>
+          <target state="new">Duration</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ForgotPasswordQuest" xml:space="preserve">
+          <source>Forgot Password ?</source>
+          <target state="new">Forgot Password ?</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Main" xml:space="preserve">
+          <source>Main</source>
+          <target state="new">Main</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ProvideUsernameOrEmail" xml:space="preserve">
+          <source>Please provide your Username or email address and we will send you an email to reset your password</source>
+          <target state="new">Please provide your Username or email address and we will send you an email to reset your password</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RepeatOnExpiration" xml:space="preserve">
+          <source>Repeat on expiration</source>
+          <target state="new">Repeat on expiration</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RegisterAcceptance" xml:space="preserve">
+          <source>By Registering you are agreeing to our Terms of Service and Privacy Statement</source>
+          <target state="new">By Registering you are agreeing to our Terms of Service and Privacy Statement</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/RegisterUser" xml:space="preserve">
+          <source>Register new user account</source>
+          <target state="new">Register new user account</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/Reports" xml:space="preserve">
+          <source>Reports</source>
+          <target state="new">Reports</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/ViewReport" xml:space="preserve">
+          <source>View Report</source>
+          <target state="new">View Report</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/NewAndConfirmPassword" xml:space="preserve">
+          <source>New and confirm password do not match</source>
+          <target state="new">New and confirm password do not match</target>
+        </trans-unit>
+        <trans-unit translate="yes" id="Resx/OldPasswordNotCorrect" xml:space="preserve">
+          <source>Old password is not correct</source>
+          <target state="new">Old password is not correct</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
