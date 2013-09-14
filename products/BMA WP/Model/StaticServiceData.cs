@@ -1705,17 +1705,14 @@ namespace BMA_WP.Model
                 {
                     try
                     {
-                        var userCallback = eventArgs.UserState as Action<User, Exception>;
-                        if (userCallback == null)
-                            return;
-
+                        //var userCallback = eventArgs.UserState as Action<User, Exception>;
                         if (eventArgs.Error != null)
                         {
-                            userCallback(null, eventArgs.Error);
+                            callback(null, eventArgs.Error);
                             return;
                         }
 
-                        userCallback(eventArgs.Result, null);
+                        callback(eventArgs.Result, null);
                     }
                     catch (Exception) { throw; }
                 };

@@ -336,13 +336,10 @@ namespace BMA_WP.View
                  App.Instance.StaticServiceData.ForgotPassword(App.Instance.User, (result, error) =>
                 {
                     if (result != null && error == null)
-                    {
                         txtMessageForgot.Text = AppResources.PasswordSentSuccess;
-                    }
                     else
-                    {
-                        throw new Exception(error.Message);
-                    }
+                        txtMessageForgot.Text = error.Message;
+
                     ProgressShow(false);
                 });
             }

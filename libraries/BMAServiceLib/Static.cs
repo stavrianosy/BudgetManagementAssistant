@@ -1351,12 +1351,17 @@ namespace BMAServiceLib
                 User result = new User();
                 using (EntityContext context = new EntityContext())
                 {
-                    var query = context.User.Where(i => i.UserName == user.UserName).FirstOrDefault();
+                    User queryUser = null;
 
-                    if (query == null)
+                    if(string.IsNullOrEmpty(user.Email))
+                        queryUser = context.User.Where(i => i.UserName == user.UserName).FirstOrDefault();
+                    else
+                        queryUser = context.User.Where(i => i.Email == user.Email).FirstOrDefault();
+
+                    if (queryUser == null)
                         throw new Exception("User doesn't exist");
 
-                    result = query;
+                    result = queryUser;
                 }
 
                 SendEmail(result, NoticeState.SendPassword, error => { var a = ""; });
@@ -1381,6 +1386,11 @@ namespace BMAServiceLib
                         user.HasChanges = false;
                         var original = context.User.Where(t => t.UserId == user.UserId && !t.IsDeleted).FirstOrDefault();
 
+                        if (context.User.Where(i => i.UserName == user.UserName && i.UserId != user.UserId).ToList().Count > 0)
+                            throw new Exception("Username exist");
+
+                        if (context.User.Where(i => i.Email == user.Email && i.UserId != user.UserId).ToList().Count > 0)
+                            throw new Exception("Email exist");
                         //original.CreatedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == user.CreatedUser.UserId);
                         //original.ModifiedUser = context.User.Where(k => !k.IsDeleted).Single(p => p.UserId == user.ModifiedUser.UserId);
 
@@ -1459,21 +1469,23 @@ namespace BMAServiceLib
 
                 MailMessage message = new MailMessage();
                 message.To.Add(user.Email);
-                message.IsBodyHtml = true;
-                message.Subject = "Automated mail notification";
-                message.From = new System.Net.Mail.MailAddress("yiannisezn@gmail.com");
+                message.IsBodyHtml = false;
+                message.From = new System.Net.Mail.MailAddress("info@softcarbongear.com");
 
                 switch (state)
                 {
                     case NoticeState.NewAccount:
-                        message.Body = string.Format("Thanks for creating a new account. Your details are \n\rUsername: {0}\n\rPassword{1}", 
+                        message.Subject = "Account registration notification";
+                        message.Body = string.Format(BodyText.NewAccount(), 
                                                     user.UserName, user.Password);
                         break;
                     case NoticeState.ResetPassword:
-                        message.Body = string.Format("Password reset successfully. Your new password is {0}", user.Password);
+                        message.Subject = "Reset password notification";
+                        message.Body = string.Format(BodyText.ResetPassword(), user.Password);
                         break;
                     case NoticeState.SendPassword:
-                        message.Body = string.Format("Password: {0}", user.Password);
+                        message.Subject = "Re-send password notification";
+                        message.Body = string.Format(BodyText.SendPassword(), user.Password);
                         break;
                     default:
                         message.Body = "This is the message body";

@@ -214,7 +214,7 @@
                             <StackPanel>
                                     <TextBlock  Foreground="White"
                             Text="{Binding Path=LocalizedResources.UsernameOrEmail, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
-                                    <TextBox Margin="0 -12 0 6" x:Name="txtForgotInfo"/>
+                                    <TextBox Margin="0 -12 0 6" x:Name="txtForgotInfo" InputScope="EmailNameOrAddress"/>
                                 <StackPanel>
                                     <TextBlock Foreground="White"
                                                Text="{Binding Path=LocalizedResources.ProvideUsernameOrEmail, Source={StaticResource LocalizedStrings}, Mode=OneTime}"

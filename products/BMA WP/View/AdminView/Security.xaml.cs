@@ -10,6 +10,8 @@ using Microsoft.Phone.Shell;
 using BMA_WP.Resources;
 using System.Text;
 using BMA_WP.ViewModel.Admin;
+using System.Windows.Data;
+using BMA_WP.Model;
 
 namespace BMA_WP.View.AdminView
 {
@@ -33,7 +35,25 @@ namespace BMA_WP.View.AdminView
         public Security()
         {
             InitializeComponent();
+
+            SetupLoadingBinding();
         }
+
+        #region Binding
+
+        private void SetupLoadingBinding()
+        {
+            Binding bind = new Binding("IsBusyComm");
+            bind.Mode = BindingMode.TwoWay;
+            bind.Source = App.Instance;
+
+            bind.Converter = new StatusConverter();
+            bind.ConverterParameter = "trueVisible";
+
+            spLoading.SetBinding(StackPanel.VisibilityProperty, bind);
+        }
+
+        #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -87,12 +107,14 @@ namespace BMA_WP.View.AdminView
 
         private void Save_Click(object sender, EventArgs e)
         {
+            vm.IsLoading = true;
+
             App.Instance.StaticServiceData.UpdateUser(vm.User, (error) =>
             {
                 if (error != null)
-                {
+                    MessageBox.Show(error.Message);
 
-                }
+                vm.IsLoading = false;
             });
             //close keypad
             dpBirthdate.Focus();
@@ -130,6 +152,8 @@ namespace BMA_WP.View.AdminView
 
         private void ChangePass_Click(object sender, EventArgs e)
         {
+            vm.IsLoading = true;
+
             var oldPass = txtOldPass.Text.Trim();
             var newPass = txtNewPass.Text.Trim();
             var confirmPass = txtConfirmPass.Text.Trim();
@@ -164,6 +188,8 @@ namespace BMA_WP.View.AdminView
                                             sb.ToString()),
                                             AppResources.LoginFail, MessageBoxButton.OK);
                 ClearPass();
+                vm.IsLoading = false;
+
                 return;
             }
 
@@ -171,9 +197,16 @@ namespace BMA_WP.View.AdminView
 
             App.Instance.StaticServiceData.ChangePassword(vm.User,  error =>
                     {
+                        if (error != null)
+                            MessageBox.Show(error.Message);
+
                         if (error == null)
                             ClearPass();
+
+                        vm.IsLoading = false;
                     });
+
+
             //close keypad
             dpBirthdate.Focus();
         }

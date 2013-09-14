@@ -21,9 +21,10 @@ namespace ConsoleApplication1
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
-            var usr = new User() { UserId = 1006, UserName = "qqqq", Password = "wwww" };
+            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww", Birthdate=new DateTime(1900, 1,1) };
 
-
+            UpdateRegisterUser(usr, b);
+             //ForgotPass(b);
             //var rep = Reports(a, usr);
             //var tic = b.GetAllTypeIntervals(usr.UserId);
             //SaveNotifications(b, usr);
@@ -36,7 +37,6 @@ namespace ConsoleApplication1
             //var allTrans = a.GetLatestTransactions(usr.UserId);
             //var bud = a.GetAllBudgets(usr.UserId);
             //b.GetAllStaticData();
-            //ForgotPass(b);
             //SaveTypeTransactionReasons(b, usr);
             //UpdateTypeInterval(a, b, usr);
             //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
@@ -313,9 +313,20 @@ namespace ConsoleApplication1
         {
 
             var user = new User();
-            user.UserName = "qqqq";
+            //            user.UserName = "qqqq";
+            user.Email = "stavrianosy@gmail.com";
 
             var forgot = client.ForgotPassword(user);
+        }
+
+        private static void UpdateRegisterUser(User user, ServiceReference2.StaticClient client)
+        {
+
+                        user.UserName = "eeee";
+            //user.Email = "admin@bma.com";
+
+            var update = client.UpdateUser(user);
+            //var register = client.RegisterUser(user);
         }
     }
 }

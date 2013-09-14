@@ -204,7 +204,9 @@ namespace BMA_WP.View.AdminView
 
             App.Instance.StaticServiceData.SaveCategory(saveOC,(error) => 
             {
-                if(error == null)
+                if (error != null)
+                    MessageBox.Show(error.Message);
+                //if(error == null)
                     vm.IsLoading = false;
             });
 

@@ -51,7 +51,11 @@
                        Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                        Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
-
+        <StackPanel x:Name="spLoading" Grid.Row="1" Margin="12 0">
+            <TextBlock Text="{Binding Path=LocalizedResources.Synchronizing, Source={StaticResource LocalizedStrings}, Mode=OneTime}"/>
+            <ProgressBar IsIndeterminate="True" />
+        </StackPanel>
+        
         <phone:Pivot x:Name="pivotContainer" Grid.Row="1"  SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem x:Name="piSecurity" 
@@ -67,14 +71,12 @@
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.NewPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtNewPass" 
-                                                 InputScope="Password"
+                        <PasswordBox x:Name="txtNewPass" 
                                                  Background="{StaticResource PhoneTextBoxBrush}"/>
                         <TextBlock 
                             Text="{Binding Path=LocalizedResources.ConfirmPass, Source={StaticResource LocalizedStrings}, Mode=OneTime}"
                             Margin="12 0 0 -6" Foreground="{StaticResource PhoneSubtleBrush}"/>
-                        <toolkit:AutoCompleteBox x:Name="txtConfirmPass" 
-                                                 InputScope="Password"
+                        <PasswordBox x:Name="txtConfirmPass"
                                                  Background="{StaticResource PhoneTextBoxBrush}"/>
                         </StackPanel>
                 </ScrollViewer>
@@ -99,6 +101,8 @@
                         <toolkit:AutoCompleteBox x:Name="txtEmail" Margin="0 -6 0 0" 
                                                  Text="{Binding User.Email, Mode=TwoWay}"
                                                  InputScope="EmailUserName"/>
+                        <TextBlock Text="*Email cannot be changed when offline" Margin="12 -6 0 12" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}"/>
                         <toolkit:DatePicker x:Name="dpBirthdate" Header="Birthdate"
                                             Value="{Binding User.Birthdate, Mode=TwoWay}"/>
                         
