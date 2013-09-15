@@ -9,7 +9,7 @@ namespace BMA.BusinessLogic
 {
     public class TypeTransactionReasonList : ObservableCollection<TypeTransactionReason>, IDataList
     {
-        public const int DEVICE_MAX_COUNT = 70;
+        public const int DEVICE_MAX_COUNT = 50;
 
         protected override void InsertItem(int index, TypeTransactionReason item)
         {
@@ -51,7 +51,7 @@ namespace BMA.BusinessLogic
         {
             this.OptimizeOnTopLevel();
 
-            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
 
             foreach (var item in deletedIDs)
                 this.RemoveAt(item.index);

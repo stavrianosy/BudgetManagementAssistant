@@ -236,115 +236,171 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="SaveCategories">
+  <xs:element name="SyncCategories">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="categories" nillable="true" type="q22:ArrayOfCategory" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="SyncCategoriesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SyncCategoriesResult" nillable="true" type="q23:ArrayOfCategory" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncNotifications">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="notifications" nillable="true" type="q24:ArrayOfNotification" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncNotificationsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SyncNotificationsResult" nillable="true" type="q25:ArrayOfNotification" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncTypeIntervals">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeIntervals" nillable="true" type="q26:ArrayOfTypeInterval" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncTypeIntervalsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SyncTypeIntervalsResult" nillable="true" type="q27:ArrayOfTypeInterval" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncTypeTransactionReasons">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeTransactionReasons" nillable="true" type="q28:ArrayOfTypeTransactionReason" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncTypeTransactionReasonsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SyncTypeTransactionReasonsResult" nillable="true" type="q29:ArrayOfTypeTransactionReason" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveCategories">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="categories" nillable="true" type="q30:ArrayOfCategory" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SaveCategoriesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveCategoriesResult" nillable="true" type="q23:ArrayOfCategory" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveCategoriesResult" nillable="true" type="q31:ArrayOfCategory" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeTransactionReasons">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeTransactionReason" nillable="true" type="q24:ArrayOfTypeTransactionReason" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeTransactionReason" nillable="true" type="q32:ArrayOfTypeTransactionReason" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeTransactionReasonsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeTransactionReasonsResult" nillable="true" type="q25:ArrayOfTypeTransactionReason" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeTransactionReasonsResult" nillable="true" type="q33:ArrayOfTypeTransactionReason" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveNotifications">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="notifications" nillable="true" type="q26:ArrayOfNotification" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="notifications" nillable="true" type="q34:ArrayOfNotification" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveNotificationsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveNotificationsResult" nillable="true" type="q27:ArrayOfNotification" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveNotificationsResult" nillable="true" type="q35:ArrayOfNotification" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeTransactions">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeTransactions" nillable="true" type="q28:ArrayOfTypeTransaction" />
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeTransactions" nillable="true" type="q36:ArrayOfTypeTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeTransactionsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeTransactionsResult" nillable="true" type="q29:ArrayOfTypeTransaction" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeTransactionsResult" nillable="true" type="q37:ArrayOfTypeTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeFrequencies">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeFrequencies" nillable="true" type="q30:ArrayOfTypeFrequency" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeFrequencies" nillable="true" type="q38:ArrayOfTypeFrequency" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeFrequenciesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeFrequenciesResult" nillable="true" type="q31:ArrayOfTypeFrequency" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeFrequenciesResult" nillable="true" type="q39:ArrayOfTypeFrequency" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeIntervals">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="interval" nillable="true" type="q32:ArrayOfTypeInterval" />
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="interval" nillable="true" type="q40:ArrayOfTypeInterval" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeIntervalsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeIntervalsResult" nillable="true" type="q33:ArrayOfTypeInterval" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeIntervalsResult" nillable="true" type="q41:ArrayOfTypeInterval" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeIntervalConfig">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeIntervalConfig" nillable="true" type="q34:TypeIntervalConfiguration" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="typeIntervalConfig" nillable="true" type="q42:TypeIntervalConfiguration" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveTypeIntervalConfigResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeIntervalConfigResult" nillable="true" type="q35:TypeIntervalConfiguration" />
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveTypeIntervalConfigResult" nillable="true" type="q43:TypeIntervalConfiguration" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveBudgetThresholds">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="budgetThreshold" nillable="true" type="q36:ArrayOfBudgetThreshold" />
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="budgetThreshold" nillable="true" type="q44:ArrayOfBudgetThreshold" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveBudgetThresholdsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveBudgetThresholdsResult" nillable="true" type="q37:ArrayOfBudgetThreshold" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" minOccurs="0" name="SaveBudgetThresholdsResult" nillable="true" type="q45:ArrayOfBudgetThreshold" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

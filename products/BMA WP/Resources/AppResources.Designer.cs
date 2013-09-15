@@ -659,6 +659,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The item Other, cannot be delete.
+        /// </summary>
+        public static string ItemOtherNoDelete {
+            get {
+                return ResourceManager.GetString("ItemOtherNoDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to January.
         /// </summary>
         public static string January {

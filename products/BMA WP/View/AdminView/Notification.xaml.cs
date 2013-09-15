@@ -212,6 +212,12 @@ namespace BMA_WP.View.AdminView
 
             BMA.BusinessLogic.Notification item = new BMA.BusinessLogic.Notification(App.Instance.User);
 
+            if (vm.Notifications.Where(x => !x.IsDeleted).Count() >= NotificationList.DEVICE_MAX_COUNT)
+            {
+                MessageBox.Show(string.Format(AppResources.MaxItemsCount, NotificationList.DEVICE_MAX_COUNT));
+                return;
+            }
+
             vm.PivotIndex = 0;
 
             svItem.ScrollToVerticalOffset(0d);

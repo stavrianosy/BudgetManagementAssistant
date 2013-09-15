@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using BMA.BusinessLogic;
+using System.Threading.Tasks;using BMA.BusinessLogic;
 using BMA.DataAccess;
 using System.Collections.ObjectModel;
 
@@ -23,8 +22,8 @@ namespace ConsoleApplication1
 
             var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww", Birthdate=new DateTime(1900, 1,1) };
 
-            UpdateRegisterUser(usr, b);
-             //ForgotPass(b);
+            //UpdateRegisterUser(usr, b);
+             ForgotPass(b);
             //var rep = Reports(a, usr);
             //var tic = b.GetAllTypeIntervals(usr.UserId);
             //SaveNotifications(b, usr);
@@ -42,9 +41,40 @@ namespace ConsoleApplication1
             //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
             //var cat = SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
+
+            //DeleteTransactions(a, usr);
+            //SyncCategories(b, usr);
             //UpdateTransaction(a, usr);
+            
             //UpdateBudget(a, usr);
             //var dd = a.GetLatestTransactionDate(usr.UserId);
+        }
+
+        private static void SyncCategories(ServiceReference2.StaticClient b, User user)
+        {
+            var typeTrans = b.GetAllTypeTransactionReasons(user.UserId);
+            var cats = b.GetAllCategories(user.UserId);
+
+            var catList = new List<Category>();
+
+            var cat1 = cats[0];
+            cat1.CategoryId = 0;
+            cat1.Name = "ys1";
+            cat1.TypeTransactionReasons = new List<TypeTransactionReason> { typeTrans.FirstOrDefault(x => x.Name == "Other") };
+            cat1.ModifiedDate = DateTime.Now;
+            
+            var cat2 = cats[1];
+            cat2.CategoryId = -1;
+            cat2.Name = "ys2";
+            cat2.TypeTransactionReasons = new List<TypeTransactionReason> { 
+                                                            typeTrans.FirstOrDefault(x => x.Name == "Other"),
+                                                            typeTrans.FirstOrDefault(x => x.Name != "Other")};
+            cat2.ModifiedDate = DateTime.Now;
+
+            catList.AddRange(new List<Category> { cat1, cat2 });
+            //catList.AddRange(new List<Category> { cat1});
+
+            b.SyncCategories(catList);
         }
 
         private static object Reports(ServiceReference1.MainClient a, User usr)
@@ -124,6 +154,31 @@ namespace ConsoleApplication1
             var budgetList = new ObservableCollection<Budget> { budget, budget2, budget3 };
 
             var result = a.SaveBudgets(budgetList);
+        }
+
+        private static void DeleteTransactions(ServiceReference1.MainClient a, User usr)
+        {
+            var transactions = a.GetLatestTransactions(usr.UserId);
+
+            var trans = transactions[0];
+            var trans2 = transactions[1];
+            var trans3 = transactions[2];
+
+            trans.IsDeleted = true;
+            trans.ModifiedDate = DateTime.Now;
+
+            trans2.IsDeleted = true;
+            trans2.ModifiedDate = DateTime.Now;
+
+            trans3.IsDeleted = true;
+            trans3.ModifiedDate = DateTime.Now;
+
+            var transList = new ObservableCollection<Transaction> { trans, trans2, trans3 };
+            foreach (var item in transList)
+                item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
+
+            
+            var result = a.SaveTransactions(transList);
         }
 
         private static void UpdateTransaction(ServiceReference1.MainClient a, User usr)

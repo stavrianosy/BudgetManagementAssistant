@@ -10,7 +10,7 @@ namespace BMA.BusinessLogic
 {
     public class CategoryList : ObservableCollection<Category>, IDataList
     {
-        public const int DEVICE_MAX_COUNT = 40;
+        public const int DEVICE_MAX_COUNT = 30;
         protected override void InsertItem(int index, Category item)
         {
             bool added = false;
@@ -50,8 +50,8 @@ namespace BMA.BusinessLogic
         public void PrepareForServiceSerialization()
         {
             this.OptimizeOnTopLevel();
-            
-            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
             
             foreach (var item in deletedIDs)
                 this.RemoveAt(item.index);

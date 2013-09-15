@@ -282,6 +282,12 @@ namespace BMA_WP.View.AdminView
 
             var item = new BMA.BusinessLogic.TypeInterval(vm.CategoryList, vm.TransactionReasonTypeList, vm.TypeTransactionList, App.Instance.User);
 
+            if (vm.TypeIntervalList.Where(x => !x.IsDeleted).Count() >= TypeIntervalList.DEVICE_MAX_COUNT)
+            {
+                MessageBox.Show(string.Format(AppResources.MaxItemsCount, TypeIntervalList.DEVICE_MAX_COUNT));
+                return;
+            }
+
             ResetRules();
 
             vm.PivotIndex = 0;

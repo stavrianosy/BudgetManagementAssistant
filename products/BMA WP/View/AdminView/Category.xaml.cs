@@ -113,8 +113,16 @@ namespace BMA_WP.View.AdminView
 
                 vm.CurrCategory.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.CategoryList.HasItemsWithChanges();
 
-                vm.IsEnabled = !vm.IsLoading;
-                delete.IsEnabled = !vm.IsLoading;
+                if (!string.IsNullOrEmpty(vm.CurrCategory.Name) && vm.CurrCategory.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    vm.IsEnabled = false;
+                    delete.IsEnabled = false;
+                }
+                else
+                {
+                    vm.IsEnabled = !vm.IsLoading;
+                    delete.IsEnabled = !vm.IsLoading;
+                }
             }
         }
 
@@ -179,12 +187,19 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
+            if (vm.CurrCategory.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
+            {
+                MessageBox.Show(AppResources.ItemOtherNoDelete);
+                return;
+            }
+
             var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
                 vm.CurrCategory.IsDeleted = true;
-                SaveCategory();
+                vm.PivotIndex = 1;
+                //SaveCategory();
             }
         }
 
@@ -300,7 +315,7 @@ namespace BMA_WP.View.AdminView
 
             var item = new BMA.BusinessLogic.Category(App.Instance.User, App.Instance.StaticServiceData.TypeTransactionReasonList);
 
-            if (vm.CategoryList.Count + 1 >= CategoryList.DEVICE_MAX_COUNT)
+            if (vm.CategoryList.Where(x=>!x.IsDeleted).Count() >= CategoryList.DEVICE_MAX_COUNT)
             {
                 MessageBox.Show(string.Format(AppResources.MaxItemsCount, CategoryList.DEVICE_MAX_COUNT));
                 return;

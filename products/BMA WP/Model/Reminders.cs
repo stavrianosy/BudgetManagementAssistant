@@ -30,7 +30,7 @@ namespace BMA_WP.Model
                         //    // NOTE: setting the Title property is supported for reminders 
                         //    // in contrast to alarms where setting the Title property is not supported
                         Title = string.Format("{0} {1}\n{2}", AppResources.ReminderForUser, item.ModifiedUser.UserName, item.Name),
-                        Content = item.Description,
+                        Content = item.Description ?? "",
                         //    //double.TryParse(this.txtSeconds.Text, out seconds);
 
                         //    //NOTE: the value of BeginTime must be after the current time

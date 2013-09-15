@@ -113,8 +113,16 @@ namespace BMA_WP.View.AdminView
                 }
                 vm.CurrTransactionReason.PropertyChanged += (o, changedEventArgs) => save.IsEnabled = vm.TransactionReasonList.HasItemsWithChanges();
 
-                vm.IsEnabled = !vm.IsLoading;
-                delete.IsEnabled = !vm.IsLoading;
+                if (!string.IsNullOrEmpty(vm.CurrTransactionReason.Name) && vm.CurrTransactionReason.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    vm.IsEnabled = false;
+                    delete.IsEnabled = false;
+                }
+                else
+                {
+                    vm.IsEnabled = !vm.IsLoading;
+                    delete.IsEnabled = !vm.IsLoading;
+                }
             }
         }
 
@@ -181,12 +189,19 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
+            if (vm.CurrTransactionReason.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
+            {
+                MessageBox.Show(AppResources.ItemOtherNoDelete);
+                return;
+            }
+
             var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
                 vm.CurrTransactionReason.IsDeleted = true;
-                SaveTransactionReason();
+                vm.PivotIndex = 1;
+                //SaveTransactionReason();
             }
         }
 
@@ -307,7 +322,7 @@ namespace BMA_WP.View.AdminView
 
             var item = new BMA.BusinessLogic.TypeTransactionReason(App.Instance.User, App.Instance.StaticServiceData.CategoryList);
 
-            if (vm.TransactionReasonList.Count + 1 >= TypeTransactionReasonList.DEVICE_MAX_COUNT)
+            if (vm.TransactionReasonList.Where(x => !x.IsDeleted).Count() >= TypeTransactionReasonList.DEVICE_MAX_COUNT)
             {
                 MessageBox.Show(string.Format(AppResources.MaxItemsCount, TypeTransactionReasonList.DEVICE_MAX_COUNT));
                 return;

@@ -109,6 +109,30 @@
   <wsdl:message name="IStatic_GetTypeIntervalConfiguration_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetTypeIntervalConfigurationResponse" />
   </wsdl:message>
+  <wsdl:message name="IStatic_SyncCategories_InputMessage">
+    <wsdl:part name="parameters" element="tns:SyncCategories" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncCategories_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SyncCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncNotifications_InputMessage">
+    <wsdl:part name="parameters" element="tns:SyncNotifications" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncNotifications_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SyncNotificationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncTypeIntervals_InputMessage">
+    <wsdl:part name="parameters" element="tns:SyncTypeIntervals" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncTypeIntervals_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SyncTypeIntervalsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncTypeTransactionReasons_InputMessage">
+    <wsdl:part name="parameters" element="tns:SyncTypeTransactionReasons" />
+  </wsdl:message>
+  <wsdl:message name="IStatic_SyncTypeTransactionReasons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SyncTypeTransactionReasonsResponse" />
+  </wsdl:message>
   <wsdl:message name="IStatic_SaveCategories_InputMessage">
     <wsdl:part name="parameters" element="tns:SaveCategories" />
   </wsdl:message>
@@ -225,6 +249,22 @@
     <wsdl:operation name="GetTypeIntervalConfiguration">
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/GetTypeIntervalConfiguration" message="tns:IStatic_GetTypeIntervalConfiguration_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStatic/GetTypeIntervalConfigurationResponse" message="tns:IStatic_GetTypeIntervalConfiguration_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SyncCategories">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/SyncCategories" message="tns:IStatic_SyncCategories_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/SyncCategoriesResponse" message="tns:IStatic_SyncCategories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SyncNotifications">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/SyncNotifications" message="tns:IStatic_SyncNotifications_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/SyncNotificationsResponse" message="tns:IStatic_SyncNotifications_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SyncTypeIntervals">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/SyncTypeIntervals" message="tns:IStatic_SyncTypeIntervals_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/SyncTypeIntervalsResponse" message="tns:IStatic_SyncTypeIntervals_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SyncTypeTransactionReasons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatic/SyncTypeTransactionReasons" message="tns:IStatic_SyncTypeTransactionReasons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatic/SyncTypeTransactionReasonsResponse" message="tns:IStatic_SyncTypeTransactionReasons_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SaveCategories">
       <wsdl:input wsaw:Action="http://tempuri.org/IStatic/SaveCategories" message="tns:IStatic_SaveCategories_InputMessage" />
@@ -407,6 +447,42 @@
     </wsdl:operation>
     <wsdl:operation name="GetTypeIntervalConfiguration">
       <soap:operation soapAction="http://tempuri.org/IStatic/GetTypeIntervalConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SyncCategories">
+      <soap:operation soapAction="http://tempuri.org/IStatic/SyncCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SyncNotifications">
+      <soap:operation soapAction="http://tempuri.org/IStatic/SyncNotifications" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SyncTypeIntervals">
+      <soap:operation soapAction="http://tempuri.org/IStatic/SyncTypeIntervals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SyncTypeTransactionReasons">
+      <soap:operation soapAction="http://tempuri.org/IStatic/SyncTypeTransactionReasons" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

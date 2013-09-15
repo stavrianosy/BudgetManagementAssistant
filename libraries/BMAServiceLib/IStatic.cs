@@ -72,26 +72,17 @@ namespace BMAServiceLib
         //[OperationContract]
         //StaticTypeList SyncStaticData(StaticTypeList staticData);
 
-        //[OperationContract]
-        //List<Category> SyncCategories(List<Category> categories);
+        [OperationContract]
+        CategoryList SyncCategories(CategoryList categories);
 
-        //[OperationContract]
-        //List<TypeTransactionReason> SyncTypeTransactionReasons(List<TypeTransactionReason> typeTransactionReason);
+        [OperationContract]
+        NotificationList SyncNotifications(NotificationList notifications);
 
-        //[OperationContract]
-        //List<Notification> SyncNotifications(List<Notification> notifications);
+        [OperationContract]
+        TypeIntervalList SyncTypeIntervals(TypeIntervalList typeIntervals);
 
-        //[OperationContract]
-        //List<TypeTransaction> SyncTypeTransactions(List<TypeTransaction> typeTransactions);
-
-        //[OperationContract]
-        //List<TypeFrequency> SyncTypeFrequencies(List<TypeFrequency> typeFrequencies);
-
-        //[OperationContract]
-        //List<TypeInterval> SyncTypeIntervals(List<TypeInterval> interval);
-
-        //[OperationContract]
-        //List<BudgetThreshold> SyncBudgetThresholds(List<BudgetThreshold> budgetThreshold);
+        [OperationContract]
+        TypeTransactionReasonList SyncTypeTransactionReasons(TypeTransactionReasonList typeTransactionReasons);
 
         [OperationContract]
         CategoryList SaveCategories(CategoryList categories);

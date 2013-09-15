@@ -744,4 +744,7 @@ Update it from the list and save again.</value>
   <data name="OldPasswordNotCorrect" xml:space="preserve">
     <value>Ο παλιός κωδικός δεν είναι σωστός</value>
   </data>
+  <data name="ItemOtherNoDelete" xml:space="preserve">
+    <value>Το αντικείμενο Other δεν μπορεί να διαγραφεί</value>
+  </data>
 </root>

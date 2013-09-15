@@ -11,6 +11,7 @@ namespace BMA.BusinessLogic
 {
     public class TypeIntervalList : ObservableCollection<TypeInterval>, IDataList
     {
+        public const int DEVICE_MAX_COUNT = 30;
         public void AcceptChanges()
         {
             foreach (var item in Items)
@@ -19,7 +20,7 @@ namespace BMA.BusinessLogic
 
         public void PrepareForServiceSerialization()
         {
-            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
 
             foreach (var item in deletedIDs)
                 this.RemoveAt(item.index);

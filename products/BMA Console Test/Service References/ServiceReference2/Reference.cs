@@ -117,6 +117,30 @@ namespace ConsoleApplication1.ServiceReference2 {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/GetTypeIntervalConfiguration", ReplyAction="http://tempuri.org/IStatic/GetTypeIntervalConfigurationResponse")]
         System.Threading.Tasks.Task<BMA.BusinessLogic.TypeIntervalConfiguration> GetTypeIntervalConfigurationAsync(int userId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncCategories", ReplyAction="http://tempuri.org/IStatic/SyncCategoriesResponse")]
+        System.Collections.Generic.List<BMA.BusinessLogic.Category> SyncCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncCategories", ReplyAction="http://tempuri.org/IStatic/SyncCategoriesResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SyncCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncNotifications", ReplyAction="http://tempuri.org/IStatic/SyncNotificationsResponse")]
+        System.Collections.Generic.List<BMA.BusinessLogic.Notification> SyncNotifications(System.Collections.Generic.List<BMA.BusinessLogic.Notification> notifications);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncNotifications", ReplyAction="http://tempuri.org/IStatic/SyncNotificationsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Notification>> SyncNotificationsAsync(System.Collections.Generic.List<BMA.BusinessLogic.Notification> notifications);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncTypeIntervals", ReplyAction="http://tempuri.org/IStatic/SyncTypeIntervalsResponse")]
+        System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> SyncTypeIntervals(System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> typeIntervals);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncTypeIntervals", ReplyAction="http://tempuri.org/IStatic/SyncTypeIntervalsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval>> SyncTypeIntervalsAsync(System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> typeIntervals);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncTypeTransactionReasons", ReplyAction="http://tempuri.org/IStatic/SyncTypeTransactionReasonsResponse")]
+        System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> SyncTypeTransactionReasons(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReasons);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SyncTypeTransactionReasons", ReplyAction="http://tempuri.org/IStatic/SyncTypeTransactionReasonsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason>> SyncTypeTransactionReasonsAsync(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReasons);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveCategories", ReplyAction="http://tempuri.org/IStatic/SaveCategoriesResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories);
         
@@ -152,6 +176,12 @@ namespace ConsoleApplication1.ServiceReference2 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveTypeIntervals", ReplyAction="http://tempuri.org/IStatic/SaveTypeIntervalsResponse")]
         System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval>> SaveTypeIntervalsAsync(System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> interval);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveTypeIntervalConfig", ReplyAction="http://tempuri.org/IStatic/SaveTypeIntervalConfigResponse")]
+        BMA.BusinessLogic.TypeIntervalConfiguration SaveTypeIntervalConfig(BMA.BusinessLogic.TypeIntervalConfiguration typeIntervalConfig);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveTypeIntervalConfig", ReplyAction="http://tempuri.org/IStatic/SaveTypeIntervalConfigResponse")]
+        System.Threading.Tasks.Task<BMA.BusinessLogic.TypeIntervalConfiguration> SaveTypeIntervalConfigAsync(BMA.BusinessLogic.TypeIntervalConfiguration typeIntervalConfig);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStatic/SaveBudgetThresholds", ReplyAction="http://tempuri.org/IStatic/SaveBudgetThresholdsResponse")]
         System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold> SaveBudgetThresholds(System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold> budgetThreshold);
@@ -323,6 +353,38 @@ namespace ConsoleApplication1.ServiceReference2 {
             return base.Channel.GetTypeIntervalConfigurationAsync(userId);
         }
         
+        public System.Collections.Generic.List<BMA.BusinessLogic.Category> SyncCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
+            return base.Channel.SyncCategories(categories);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Category>> SyncCategoriesAsync(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
+            return base.Channel.SyncCategoriesAsync(categories);
+        }
+        
+        public System.Collections.Generic.List<BMA.BusinessLogic.Notification> SyncNotifications(System.Collections.Generic.List<BMA.BusinessLogic.Notification> notifications) {
+            return base.Channel.SyncNotifications(notifications);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.Notification>> SyncNotificationsAsync(System.Collections.Generic.List<BMA.BusinessLogic.Notification> notifications) {
+            return base.Channel.SyncNotificationsAsync(notifications);
+        }
+        
+        public System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> SyncTypeIntervals(System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> typeIntervals) {
+            return base.Channel.SyncTypeIntervals(typeIntervals);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval>> SyncTypeIntervalsAsync(System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> typeIntervals) {
+            return base.Channel.SyncTypeIntervalsAsync(typeIntervals);
+        }
+        
+        public System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> SyncTypeTransactionReasons(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReasons) {
+            return base.Channel.SyncTypeTransactionReasons(typeTransactionReasons);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason>> SyncTypeTransactionReasonsAsync(System.Collections.Generic.List<BMA.BusinessLogic.TypeTransactionReason> typeTransactionReasons) {
+            return base.Channel.SyncTypeTransactionReasonsAsync(typeTransactionReasons);
+        }
+        
         public System.Collections.Generic.List<BMA.BusinessLogic.Category> SaveCategories(System.Collections.Generic.List<BMA.BusinessLogic.Category> categories) {
             return base.Channel.SaveCategories(categories);
         }
@@ -369,6 +431,14 @@ namespace ConsoleApplication1.ServiceReference2 {
         
         public System.Threading.Tasks.Task<System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval>> SaveTypeIntervalsAsync(System.Collections.Generic.List<BMA.BusinessLogic.TypeInterval> interval) {
             return base.Channel.SaveTypeIntervalsAsync(interval);
+        }
+        
+        public BMA.BusinessLogic.TypeIntervalConfiguration SaveTypeIntervalConfig(BMA.BusinessLogic.TypeIntervalConfiguration typeIntervalConfig) {
+            return base.Channel.SaveTypeIntervalConfig(typeIntervalConfig);
+        }
+        
+        public System.Threading.Tasks.Task<BMA.BusinessLogic.TypeIntervalConfiguration> SaveTypeIntervalConfigAsync(BMA.BusinessLogic.TypeIntervalConfiguration typeIntervalConfig) {
+            return base.Channel.SaveTypeIntervalConfigAsync(typeIntervalConfig);
         }
         
         public System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold> SaveBudgetThresholds(System.Collections.Generic.List<BMA.BusinessLogic.BudgetThreshold> budgetThreshold) {

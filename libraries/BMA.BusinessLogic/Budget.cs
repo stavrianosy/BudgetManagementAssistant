@@ -31,7 +31,7 @@ namespace BMA.BusinessLogic
         public void PrepareForServiceSerialization()
         {
             //one way to handle circular referenceis to explicitly set the child to null
-            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).ToList();
+            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
             foreach (var item in deletedIDs)
                 this.RemoveAt(item.index);
 
