@@ -447,8 +447,14 @@ namespace BMA_WP.View
                     App.Instance.StaticServiceData.LoadTypeIntervals(true, error =>
                     {
                         typeInterval = true;
-
-                        App.Instance.ServiceData.IntervalTransactionList = new TransactionList(App.Instance.StaticServiceData.IntervalList, App.Instance.StaticServiceData.IntervalConfiguration, App.Instance.User);
+                        try
+                        {
+                            App.Instance.ServiceData.IntervalTransactionList = new TransactionList(App.Instance.StaticServiceData.IntervalList, App.Instance.StaticServiceData.IntervalConfiguration, App.Instance.User);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(AppResources.IntervelNotSet);
+                        }
 
                         if (App.Instance.ServiceData.IntervalTransactionList != null && App.Instance.ServiceData.IntervalTransactionList.Count > 0)
                             NavigationService.Navigate(new Uri("/View/TransactionsInterval.xaml", UriKind.Relative));

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class TypeTransactionReasonList : ObservableCollection<TypeTransactionReason>, IDataList
+    public class TypeTransactionReasonList : BaseList<TypeTransactionReason>, IDataList
     {
         public const int DEVICE_MAX_COUNT = 50;
 
@@ -41,12 +41,6 @@ namespace BMA.BusinessLogic
                 base.InsertItem(index, item);
         }
 
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
-
         public void PrepareForServiceSerialization()
         {
             this.OptimizeOnTopLevel();
@@ -65,14 +59,20 @@ namespace BMA.BusinessLogic
                 item.OptimizeOnTopLevel();
         }
 
-        public bool HasItemsWithChanges()
-        {
-            bool result = false;
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
 
-            result = this.FirstOrDefault(x => x.HasChanges) != null;
+        //public bool HasItemsWithChanges()
+        //{
+        //    bool result = false;
 
-            return result;
-        }
+        //    result = this.FirstOrDefault(x => x.HasChanges) != null;
+
+        //    return result;
+        //}
     }
     public class TypeTransactionReason : BaseItem
     {

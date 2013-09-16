@@ -747,4 +747,7 @@ Update it from the list and save again.</value>
   <data name="ItemOtherNoDelete" xml:space="preserve">
     <value>Το αντικείμενο Other δεν μπορεί να διαγραφεί</value>
   </data>
+  <data name="IntervelNotSet" xml:space="preserve">
+    <value>H λίστα με τις επαναλαμβανόμενες συναλλαγές, δεν μπορεί να δημιουργηθεί.</value>
+  </data>
 </root>

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class BudgetList : ObservableCollection<Budget>, IDataList
+    public class BudgetList : BaseList<Budget>, IDataList
     {
         public BudgetList GetChanges()
         {
@@ -22,11 +22,11 @@ namespace BMA.BusinessLogic
             return result;
         }
 
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
 
         public void PrepareForServiceSerialization()
         {
@@ -38,14 +38,14 @@ namespace BMA.BusinessLogic
             this.AcceptChanges();
         }
 
-        public bool HasItemsWithChanges()
-        {
-            bool result = false;
+        //public bool HasItemsWithChanges()
+        //{
+        //    bool result = false;
 
-            result = this.FirstOrDefault(x => x.HasChanges) != null;
+        //    result = this.FirstOrDefault(x => x.HasChanges) != null;
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 
     public class Budget:BaseItem

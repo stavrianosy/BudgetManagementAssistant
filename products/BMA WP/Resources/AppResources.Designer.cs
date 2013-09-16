@@ -659,6 +659,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The list with interval transactions can not be set.
+        /// </summary>
+        public static string IntervelNotSet {
+            get {
+                return ResourceManager.GetString("IntervelNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The item Other, cannot be delete.
         /// </summary>
         public static string ItemOtherNoDelete {

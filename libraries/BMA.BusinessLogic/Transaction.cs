@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace BMA.BusinessLogic
 {
-    public class TransactionList : ObservableCollection<Transaction>, IDataList
+    public class TransactionList : BaseList<Transaction>, IDataList
     {
         public TransactionList()
         {
@@ -19,51 +19,58 @@ namespace BMA.BusinessLogic
 
         public TransactionList(TypeIntervalList typeIntervalList, TypeIntervalConfiguration typeIntervalConfiguration, User user)
         {
-            foreach (var interval in typeIntervalList)
+            try
             {
-                //## setup all range elements
-                var intervalStartDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
-                var intervalStartDate = Helper.ConvertStringToDate(intervalStartDateStr);
-
-                var intervalEndDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeEndBy.ToString());
-                var intervalEndDate = intervalEndDateStr != null ? Helper.ConvertStringToDate(intervalEndDateStr.Value) : DateTime.Now.AddYears(1);
-
-                var intervalTotalOccStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString());
-                var intervalTotalOcc = intervalTotalOccStr != null ? int.Parse(intervalTotalOccStr.Value) : -1;
-
-                var lastGeneratedDate = intervalStartDate;
-                if (typeIntervalConfiguration != null)
-                    lastGeneratedDate = typeIntervalConfiguration.GeneratedDate;
-
-                var recRule = (Const.Rule)Enum.Parse(typeof(Const.Rule), interval.RecurrenceRuleValue.RecurrenceRule.Name);
-
-                //## setup recurrence transactions
-                if (intervalStartDate <= DateTime.Now)
+                foreach (var interval in typeIntervalList)
                 {
-                    switch (recRule)
+                    //## setup all range elements
+                    var intervalStartDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeStartDate.ToString()).Value;
+                    var intervalStartDate = Helper.ConvertStringToDate(intervalStartDateStr);
+
+                    var intervalEndDateStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeEndBy.ToString());
+                    var intervalEndDate = intervalEndDateStr != null ? Helper.ConvertStringToDate(intervalEndDateStr.Value) : DateTime.Now.AddYears(1);
+
+                    var intervalTotalOccStr = interval.RecurrenceRangeRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.RangeTotalOcurrences.ToString());
+                    var intervalTotalOcc = intervalTotalOccStr != null ? int.Parse(intervalTotalOccStr.Value) : -1;
+
+                    var lastGeneratedDate = intervalStartDate;
+                    if (typeIntervalConfiguration != null)
+                        lastGeneratedDate = typeIntervalConfiguration.GeneratedDate;
+
+                    var recRule = (Const.Rule)Enum.Parse(typeof(Const.Rule), interval.RecurrenceRuleValue.RecurrenceRule.Name);
+
+                    //## setup recurrence transactions
+                    if (intervalStartDate <= DateTime.Now)
                     {
-                        case Const.Rule.RuleDailyEveryDays:
-                            ApplyRuleDailyEveryDays(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
-                            break;
-                        case Const.Rule.RuleWeeklyEveryWeek:
-                            ApplyRuleWeeklyEveryWeek(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
-                            break;
-                        case Const.Rule.RuleMonthlyDayNum:
-                            ApplyRuleMonthlyDayNum(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
-                            break;
-                        case Const.Rule.RuleMonthlyPrecise:
-                            ApplyRuleMonthlyPrecise(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
-                            break;
-                        case Const.Rule.RuleYearlyOnMonth:
-                            ApplyRuleYearlyOnMonth(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
-                            break;
-                        case Const.Rule.RuleYearlyOnTheWeekDay:
-                            ApplyRuleYearlyOnTheWeekDay(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
-                            break;
-                        default:
-                            break;
+                        switch (recRule)
+                        {
+                            case Const.Rule.RuleDailyEveryDays:
+                                ApplyRuleDailyEveryDays(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                                break;
+                            case Const.Rule.RuleWeeklyEveryWeek:
+                                ApplyRuleWeeklyEveryWeek(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                                break;
+                            case Const.Rule.RuleMonthlyDayNum:
+                                ApplyRuleMonthlyDayNum(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                                break;
+                            case Const.Rule.RuleMonthlyPrecise:
+                                ApplyRuleMonthlyPrecise(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                                break;
+                            case Const.Rule.RuleYearlyOnMonth:
+                                ApplyRuleYearlyOnMonth(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                                break;
+                            case Const.Rule.RuleYearlyOnTheWeekDay:
+                                ApplyRuleYearlyOnTheWeekDay(interval, intervalStartDate, intervalEndDate, lastGeneratedDate, intervalTotalOcc, user);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -257,7 +264,8 @@ namespace BMA.BusinessLogic
             int newTotalOccurences = 0;
 
             var onlyWeekDaysStr = interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyOnlyWeekdays.ToString());
-            var onlyWeekDays = onlyWeekDaysStr != null ? bool.Parse(onlyWeekDaysStr.Value) : false;
+            var onlyWeekDays = false;
+            bool.TryParse(onlyWeekDaysStr.Value, out onlyWeekDays);
 
             var frequency = int.Parse(interval.RecurrenceRuleValue.RulePartValueList.FirstOrDefault(x => x.RulePart.FieldName == Const.RuleField.DailyEveryDay.ToString()).Value);
 
@@ -359,12 +367,6 @@ namespace BMA.BusinessLogic
             return result;
         }
 
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
-
         public TransactionList FilterOnDateRange(DateTime fromDate, DateTime toDate)
         {
             TransactionList result = new TransactionList();
@@ -389,9 +391,7 @@ namespace BMA.BusinessLogic
         {
             //one way to handle circular referenceis to explicitly set the child to null
             this.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.All);
-            var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
-            foreach (var item in deletedIDs)
-                this.RemoveAt(item.index);
+            RemoveDeleted();
 
             this.AcceptChanges();
         }
@@ -404,6 +404,20 @@ namespace BMA.BusinessLogic
                 this.Add(trans);
             }
         }
+
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
+
+        //public void RemoveDeleted()
+        //{
+        //    var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
+
+        //    foreach (var item in deletedIDs)
+        //        this.RemoveAt(item.index);
+        //}
 
         public IEnumerable SplitComments()
         {

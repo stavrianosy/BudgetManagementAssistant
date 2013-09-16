@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class CategoryList : ObservableCollection<Category>, IDataList
+    public class CategoryList : BaseList<Category>, IDataList
     {
         public const int DEVICE_MAX_COUNT = 30;
         protected override void InsertItem(int index, Category item)
@@ -40,13 +40,6 @@ namespace BMA.BusinessLogic
                 base.InsertItem(index, item);
         }
 
-
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
-
         public void PrepareForServiceSerialization()
         {
             this.OptimizeOnTopLevel();
@@ -64,15 +57,23 @@ namespace BMA.BusinessLogic
             foreach (var item in this)
                 item.OptimizeOnTopLevel();
         }
-        
-        public bool HasItemsWithChanges()
-        {
-            bool result = false;
 
-            result = this.FirstOrDefault(x => x.HasChanges) != null;
 
-            return result;
-        }
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
+
+
+        //public bool HasItemsWithChanges()
+        //{
+        //    bool result = false;
+
+        //    result = this.FirstOrDefault(x => x.HasChanges) != null;
+
+        //    return result;
+        //}
     }
 
     public class Category : BaseItem

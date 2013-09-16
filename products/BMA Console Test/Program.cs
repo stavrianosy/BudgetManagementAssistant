@@ -20,10 +20,10 @@ namespace ConsoleApplication1
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
-            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww", Birthdate=new DateTime(1900, 1,1) };
+            var usr = new User() { UserId = 1006, UserName = "qqqq", Password = "wwww", Birthdate=new DateTime(1900, 1,1) };
 
             //UpdateRegisterUser(usr, b);
-             ForgotPass(b);
+             //ForgotPass(b);
             //var rep = Reports(a, usr);
             //var tic = b.GetAllTypeIntervals(usr.UserId);
             //SaveNotifications(b, usr);
@@ -37,7 +37,8 @@ namespace ConsoleApplication1
             //var bud = a.GetAllBudgets(usr.UserId);
             //b.GetAllStaticData();
             //SaveTypeTransactionReasons(b, usr);
-            //UpdateTypeInterval(a, b, usr);
+             DeleteTypeInterval(b, usr);
+             //UpdateTypeInterval(a, b, usr);
             //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
             //var cat = SaveCategories(b, usr);
             //SaveTransactionImages(a, usr);
@@ -275,6 +276,27 @@ namespace ConsoleApplication1
             //var c = b.SaveCategories(st.Categories);
 
             return result;
+        }
+
+        private static void DeleteTypeInterval(ServiceReference2.StaticClient b, User usr)
+        {
+            var typeIntervals = b.GetAllTypeIntervals(usr.UserId);
+
+            var interval1 = typeIntervals[0];
+            interval1.IsDeleted = true;
+            interval1.ModifiedDate = DateTime.Now;
+
+            var interval2 = typeIntervals[1];
+            interval2.IsDeleted = true;
+            interval2.ModifiedDate = DateTime.Now;
+
+            var interval3 = typeIntervals[2];
+            interval3.IsDeleted = true;
+            interval3.ModifiedDate = DateTime.Now;
+
+            var k = new List<TypeInterval> { interval1, interval2, interval3 };
+            
+            var update = b.SaveTypeIntervals(k);
         }
 
         private static void UpdateTypeInterval(ServiceReference1.MainClient a, ServiceReference2.StaticClient b, User usr)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BMA.BusinessLogic
 {
-    public class TransactionImageList : ObservableCollection<TransactionImage>
+    public class TransactionImageList : BaseList<TransactionImage>
     {
         public TransactionImageList()
         {
@@ -29,11 +29,19 @@ namespace BMA.BusinessLogic
             base.InsertItem(index, item);
         }
 
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
+
+        //public void RemoveDeleted()
+        //{
+        //    var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
+
+        //    foreach (var item in deletedIDs)
+        //        this.RemoveAt(item.index);
+        //}
 
     }
 

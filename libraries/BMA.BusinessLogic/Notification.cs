@@ -8,15 +8,10 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class NotificationList : ObservableCollection<Notification>, IDataList
+    public class NotificationList : BaseList<Notification>, IDataList
     {
         public const int DEVICE_MAX_COUNT = 10;
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
-
+        
         public void PrepareForServiceSerialization()
         {
             var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
@@ -27,14 +22,20 @@ namespace BMA.BusinessLogic
             this.AcceptChanges();
         }
 
-        public bool HasItemsWithChanges()
-        {
-            bool result = false;
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
 
-            result = this.FirstOrDefault(x => x.HasChanges) != null;
+        //public bool HasItemsWithChanges()
+        //{
+        //    bool result = false;
 
-            return result;
-        }
+        //    result = this.FirstOrDefault(x => x.HasChanges) != null;
+
+        //    return result;
+        //}
     }
 
 

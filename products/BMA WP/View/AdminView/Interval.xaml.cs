@@ -221,9 +221,15 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            vm.CurrInterval.IsDeleted = true;
+            var result = MessageBox.Show(AppResources.DeleteMessage, AppResources.ConfirmDeletion, MessageBoxButton.OKCancel);
 
-             SaveTypeInterval();
+            if (result == MessageBoxResult.OK)
+            {
+                vm.CurrInterval.IsDeleted = true;
+                vm.PivotIndex = 1;
+                //SaveTypeInterval();
+            }
+
         }
 
 
@@ -491,7 +497,7 @@ namespace BMA_WP.View.AdminView
                 
                 //## Default values
                 vm.DailyEveryDay = "1";
-                vm.DailyOnlyWeekdays = "1";
+                vm.DailyOnlyWeekdays = "False";
                 
             }
         }

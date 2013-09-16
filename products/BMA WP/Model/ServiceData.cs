@@ -221,8 +221,11 @@ namespace BMA_WP.Model
                         TransactionList[query.Index] = item;
 
                     //if(updateCache)
-                         await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserName);
+                    await StorageUtility.SaveItem(TRANSACTIONS_FOLDER, item, item.TransactionId, App.Instance.User.UserName);
                 }
+
+                TransactionList.AcceptChanges();
+                TransactionList.RemoveDeleted();
             }
 
             private async void SetupTransactionImageList(ICollection<TransactionImage> existing, int transactionId)
@@ -264,6 +267,9 @@ namespace BMA_WP.Model
 
                     await StorageUtility.SaveItem(BUDGETS_FOLDER, item, item.BudgetId, App.Instance.User.UserName);
                 }
+
+                BudgetList.AcceptChanges();
+                BudgetList.RemoveDeleted();
             }
 
             private async void RemoveInsertedTransactions()
@@ -497,7 +503,7 @@ namespace BMA_WP.Model
 
             public void SaveTransaction(ObservableCollection<Transaction> transactions, Action<Exception> callback)
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
+                App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
@@ -510,7 +516,7 @@ namespace BMA_WP.Model
                             foreach (var item in TransactionList.Where(x => x.HasChanges))
                                 item.HasChanges = false;
 
-                            SetupTransactionList(transactions, false);
+                            await SetupTransactionList(transactions, false);
 
                             App.Instance.IsSync = false;
 
@@ -529,11 +535,11 @@ namespace BMA_WP.Model
                             item.OptimizeOnTopLevel(Transaction.ImageRemovalStatus.Unchanged);
 
                         client.SaveTransactionsAsync(transactions);
-                        client.SaveTransactionsCompleted +=  (sender, completedEventArgs) =>
+                        client.SaveTransactionsCompleted +=  async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                SetupTransactionList(completedEventArgs.Result, true);
+                                await SetupTransactionList(completedEventArgs.Result, true);
 
                                 //Only update sync when offline and in login and main pages
                                 //App.Instance.IsSync = true;
@@ -582,7 +588,7 @@ namespace BMA_WP.Model
             
             public void SaveBudgets(ObservableCollection<Budget> budgets, Action<Exception> callback)
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
+                App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
@@ -592,7 +598,7 @@ namespace BMA_WP.Model
                             foreach (var item in BudgetList.Where(x => x.HasChanges))
                                 item.HasChanges = false;
 
-                            SetupBudgetList(budgets, false);
+                            await SetupBudgetList(budgets, false);
 
                             App.Instance.IsSync = false;
 
@@ -607,11 +613,11 @@ namespace BMA_WP.Model
                     {
                         var client = new MainClient();
                         client.SaveBudgetsAsync(budgets);
-                        client.SaveBudgetsCompleted +=  (sender, completedEventArgs) =>
+                        client.SaveBudgetsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                SetupBudgetList(completedEventArgs.Result, true);
+                                await SetupBudgetList(completedEventArgs.Result, true);
 
                                 //Only update sync when offline and in login and main pages
                                 //App.Instance.IsSync = true;

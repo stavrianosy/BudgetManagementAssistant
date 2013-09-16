@@ -747,4 +747,7 @@ Please connect to the live system to get the latest data.</value>
   <data name="ItemOtherNoDelete" xml:space="preserve">
     <value>The item Other, cannot be delete</value>
   </data>
+  <data name="IntervelNotSet" xml:space="preserve">
+    <value>The list with interval transactions can not be set</value>
+  </data>
 </root>

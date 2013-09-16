@@ -7,14 +7,9 @@ using System.Text;
 
 namespace BMA.BusinessLogic
 {
-    public class TypeTransactionList : ObservableCollection<TypeTransaction>, IDataList
+    public class TypeTransactionList : BaseList<TypeTransaction>, IDataList
     {
-        public void AcceptChanges()
-        {
-            foreach (var item in Items)
-                item.HasChanges = false;
-        }
-
+        
         public void PrepareForServiceSerialization()
         {
             var deletedIDs = this.Select((x, i) => new { item = x, index = i }).Where(x => x.item.IsDeleted).OrderByDescending(x => x.index).ToList();
@@ -25,15 +20,20 @@ namespace BMA.BusinessLogic
             this.AcceptChanges();
         }
 
+        //public void AcceptChanges()
+        //{
+        //    foreach (var item in Items)
+        //        item.HasChanges = false;
+        //}
 
-        public bool HasItemsWithChanges()
-        {
-            bool result = false;
+        //public bool HasItemsWithChanges()
+        //{
+        //    bool result = false;
 
-            result = this.FirstOrDefault(x => x.HasChanges) != null;
+        //    result = this.FirstOrDefault(x => x.HasChanges) != null;
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 
     public class TypeTransaction : BaseItem

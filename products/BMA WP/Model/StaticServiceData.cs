@@ -389,6 +389,9 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_CATEGORY_FOLDER, item, item.CategoryId, App.Instance.User.UserName);
             }
+
+            CategoryList.AcceptChanges();
+            CategoryList.RemoveDeleted();
         }
 
         private async Task SetupTypeTransactionReasonData(ICollection<TypeTransactionReason> existing, bool removeNew)
@@ -412,6 +415,10 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_TYPETRANSACTIONREASON_FOLDER, item, item.TypeTransactionReasonId, App.Instance.User.UserName);
             }
+
+            TypeTransactionReasonList.AcceptChanges();
+            TypeTransactionReasonList.RemoveDeleted();
+
         }
 
         private async Task SetupTypeTransactionData(ICollection<TypeTransaction> existing, bool removeNew)
@@ -435,9 +442,10 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_TYPETRANSACTION_FOLDER, item, item.TypeTransactionId, App.Instance.User.UserName);
             }
-            var ord = TypeTransactionList.OrderBy(x => x.Name).ToList();
-            TypeTransactionList.Clear();
-            ord.ForEach(x => TypeTransactionList.Add(x));
+
+            TypeTransactionList.AcceptChanges();
+            TypeTransactionList.RemoveDeleted();
+
         }
 
         private async Task SetupNotificationData(ICollection<Notification> existing, bool removeNew)
@@ -461,7 +469,10 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_NOTIFICATION_FOLDER, item, item.NotificationId, App.Instance.User.UserName);
             }
-            
+
+            NotificationList.AcceptChanges();
+            NotificationList.RemoveDeleted();
+
         }
 
         private async Task SetupTypeFrequencyData(ICollection<TypeFrequency> existing, bool removeNew)
@@ -485,7 +496,10 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_TYPEFREQUENCY_FOLDER, item, item.TypeFrequencyId, App.Instance.User.UserName);
             }
-            
+
+            TypeFrequencyList.AcceptChanges();
+            TypeFrequencyList.RemoveDeleted();
+
         }
 
         private async Task SetupIntervalData(ICollection<TypeInterval> existing, bool removeNew)
@@ -509,7 +523,9 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_TYPEINTERVAL_FOLDER, item, item.TypeIntervalId, App.Instance.User.UserName);
             }
-            
+
+            IntervalList.AcceptChanges();
+            IntervalList.RemoveDeleted();
         }
 
         private void SetupIntervalConfigurationData(BMA.BusinessLogic.TypeIntervalConfiguration existing, bool removeNew)
@@ -544,9 +560,10 @@ namespace BMA_WP.Model
 
                 await StorageUtility.SaveItem(STATIC_RECURRENCE_FOLDER, item, item.RecurrenceRuleId, App.Instance.User.UserName);
             }
-            var ord = RecurrenceRuleList.OrderBy(x => x.Name).ToList();
-            RecurrenceRuleList.Clear();
-            ord.ForEach(x => RecurrenceRuleList.Add(x));
+
+            RecurrenceRuleList.AcceptChanges();
+            RecurrenceRuleList.RemoveDeleted();
+
         }
 
         private void SetupTypeIntervalConfigData(TypeIntervalConfiguration existing, bool removeNew)
@@ -1230,12 +1247,12 @@ namespace BMA_WP.Model
         {
             try
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
+                App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
-                        SaveCachedCategory(categories, callback);
+                        await SaveCachedCategory(categories, callback);
                     }
                     else
                     {
@@ -1246,7 +1263,7 @@ namespace BMA_WP.Model
 
                         client.SaveCategoriesAsync(categories, App.Instance.User);
 
-                        client.SaveCategoriesCompleted +=  (sender, completedEventArgs) =>
+                        client.SaveCategoriesCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
@@ -1254,7 +1271,7 @@ namespace BMA_WP.Model
                                 LoadTypeTransactionReasons(true, errorTransReason =>
                                     callback(errorTransReason));
 
-                                SetupTypeCategoryData(completedEventArgs.Result, true);
+                                await SetupTypeCategoryData(completedEventArgs.Result, true);
 
                                 //Only update sync when offline and in login and main pages
                                 //App.Instance.IsSync = true;
@@ -1275,7 +1292,7 @@ namespace BMA_WP.Model
             }
         }
 
-        public void SaveCachedCategory(ObservableCollection<Category> categories, Action<Exception> callback)
+        public async Task SaveCachedCategory(ObservableCollection<Category> categories, Action<Exception> callback)
         {
             try
             {
@@ -1285,7 +1302,7 @@ namespace BMA_WP.Model
                 foreach (var item in CategoryList.Where(x => x.HasChanges))
                     item.HasChanges = false;
 
-                SetupTypeCategoryData(categories, false);
+                await SetupTypeCategoryData(categories, false);
 
                 App.Instance.IsSync = false;
 
@@ -1301,12 +1318,12 @@ namespace BMA_WP.Model
         {
             try
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
+                App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
                     {
-                        SaveCachedTransactionReason(transactionReasons, callback);
+                        await SaveCachedTransactionReason(transactionReasons, callback);
                     }
                     else
                     {
@@ -1315,7 +1332,7 @@ namespace BMA_WP.Model
 
                         var client = new StaticClient();
                         client.SaveTypeTransactionReasonsAsync(transactionReasons);
-                        client.SaveTypeTransactionReasonsCompleted +=  (sender, completedEventArgs) =>
+                        client.SaveTypeTransactionReasonsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
@@ -1323,7 +1340,7 @@ namespace BMA_WP.Model
                                 LoadCategories(true, errorCat => 
                                     callback(errorCat));
 
-                                SetupTypeTransactionReasonData(completedEventArgs.Result, true);
+                                await SetupTypeTransactionReasonData(completedEventArgs.Result, true);
 
                                 //Only update sync when offline and in login and main pages
                                 //App.Instance.IsSync = true;
@@ -1343,7 +1360,7 @@ namespace BMA_WP.Model
             }
         }
 
-        private void SaveCachedTransactionReason(ObservableCollection<TypeTransactionReason> transactionReasons, Action<Exception> callback)
+        private async Task SaveCachedTransactionReason(ObservableCollection<TypeTransactionReason> transactionReasons, Action<Exception> callback)
         {
             try
             {
@@ -1353,7 +1370,7 @@ namespace BMA_WP.Model
                 foreach (var item in TypeTransactionReasonList.Where(x => x.HasChanges))
                     item.HasChanges = false;
 
-                SetupTypeTransactionReasonData(transactionReasons, false);
+                await SetupTypeTransactionReasonData(transactionReasons, false);
 
                 App.Instance.IsSync = false;
 
@@ -1369,7 +1386,7 @@ namespace BMA_WP.Model
         {
             try
             {
-                 App.Instance.StaticServiceData.SetServerStatus(status =>
+                App.Instance.StaticServiceData.SetServerStatus(async(status) =>
                 {
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
@@ -1379,7 +1396,7 @@ namespace BMA_WP.Model
                             foreach (var item in IntervalList.Where(x => x.HasChanges))
                                 item.HasChanges = false;
 
-                            SetupIntervalData(typeInterval, false);
+                            await SetupIntervalData(typeInterval, false);
 
                             App.Instance.IsSync = false;
 
@@ -1394,11 +1411,11 @@ namespace BMA_WP.Model
                     {
                         var client = new StaticClient();
                         client.SaveTypeIntervalsAsync(typeInterval, App.Instance.User);
-                        client.SaveTypeIntervalsCompleted += (sender, completedEventArgs) =>
+                        client.SaveTypeIntervalsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                SetupIntervalData(completedEventArgs.Result, true);
+                                await SetupIntervalData(completedEventArgs.Result, true);
 
                                 //Only update sync when offline and in login and main pages
                                 //App.Instance.IsSync = true;
@@ -1421,7 +1438,7 @@ namespace BMA_WP.Model
         {
             try
             {
-                App.Instance.StaticServiceData.SetServerStatus(status =>
+                App.Instance.StaticServiceData.SetServerStatus(async status =>
                 {
                     //continue with local if status is ok but is pending Sync
                     if (status != Model.StaticServiceData.ServerStatus.Ok || !App.Instance.IsSync)
@@ -1431,7 +1448,7 @@ namespace BMA_WP.Model
                             foreach (var item in NotificationList.Where(x => x.HasChanges))
                                 item.HasChanges = false;
 
-                            SetupNotificationData(notifications, false);
+                            await SetupNotificationData(notifications, false);
 
                             App.Instance.IsSync = false;
 
@@ -1448,11 +1465,11 @@ namespace BMA_WP.Model
 
                         client.SaveNotificationsAsync(notifications, App.Instance.User);
 
-                        client.SaveNotificationsCompleted +=  (sender, completedEventArgs) =>
+                        client.SaveNotificationsCompleted += async (sender, completedEventArgs) =>
                         {
                             if (completedEventArgs.Error == null)
                             {
-                                SetupNotificationData(completedEventArgs.Result, true);
+                                await SetupNotificationData(completedEventArgs.Result, true);
 
                                 //Only update sync when offline and in login and main pages
                                 //App.Instance.IsSync = true;
