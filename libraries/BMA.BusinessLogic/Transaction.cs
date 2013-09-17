@@ -557,13 +557,13 @@ namespace BMA.BusinessLogic
                     c =>
                     {
                         bool found = false;
-                        if (c.FromDate.Hour <= c.ToDate.Hour)
-                            found = c.FromDate.Hour <= DateTime.Now.Hour && c.ToDate.Hour >= DateTime.Now.Hour;
+                        if (c.FromDate.TimeOfDay <= c.ToDate.TimeOfDay)
+                            found = c.FromDate.TimeOfDay <= DateTime.Now.TimeOfDay && c.ToDate.TimeOfDay >= DateTime.Now.TimeOfDay;
                         else
                         {
                             //if it is a cross day there are 2 cases
-                            found = (c.FromDate.Hour <= DateTime.Now.Hour && c.ToDate.Hour <= DateTime.Now.Hour) ||
-                                (c.FromDate.Hour >= DateTime.Now.Hour && c.ToDate.Hour >= DateTime.Now.Hour);
+                            found = (c.FromDate.TimeOfDay <= DateTime.Now.TimeOfDay && c.ToDate.TimeOfDay <= DateTime.Now.TimeOfDay) ||
+                                (c.FromDate.TimeOfDay >= DateTime.Now.TimeOfDay && c.ToDate.TimeOfDay >= DateTime.Now.TimeOfDay);
                         }
                         return found ? found : c.Name == "Other";
                     });
