@@ -80,6 +80,9 @@ namespace BMA_WP.View
         //workaround for the ListPicker issue when binding object becomes null
         private void SetBindings()
         {
+            //## Combobox doesnt update well when there is a converter
+            cmbCategory.ItemsSource = vm.CategoryList;
+
             if (vm.CurrTransaction == null)
                 return;
 

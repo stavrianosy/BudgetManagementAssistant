@@ -191,9 +191,6 @@
     <Compile Include="View\AdminView\Security.xaml.cs">
       <DependentUpon>Security.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AdminView\TypeFrequency.xaml.cs">
-      <DependentUpon>TypeFrequency.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\BaseView.cs" />
     <Compile Include="View\Budgets.xaml.cs">
       <DependentUpon>Budgets.xaml</DependentUpon>
@@ -273,10 +270,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AdminView\Security.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AdminView\TypeFrequency.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -424,52 +417,26 @@
     <Content Include="Assets\icons\Light\transport.play.png" />
     <Content Include="Assets\icons\Light\transport.rew.png" />
     <Content Include="Assets\icons\Light\upload.png" />
-    <Content Include="Assets\income.png" />
     <Content Include="Assets\interval.png" />
     <Content Include="Assets\interval_expense.png" />
     <Content Include="Assets\interval_income.png" />
     <Content Include="Assets\login_white.png" />
     <Content Include="Assets\Notification.png" />
-    <Content Include="Assets\outcome.png" />
-    <Content Include="Assets\screenshots\720p\AdminMenu.png" />
-    <Content Include="Assets\screenshots\720p\BudgetEdit.png" />
-    <Content Include="Assets\screenshots\720p\Budgets.png" />
-    <Content Include="Assets\screenshots\720p\Categories.png" />
-    <Content Include="Assets\screenshots\720p\CategoryEdit.png" />
-    <Content Include="Assets\screenshots\720p\ForgotPassword.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_1.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_2.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Range_1.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Range_2.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Range_3.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Rule_1.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Rule_2.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Rule_3.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Rule_4.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Rule_5.png" />
-    <Content Include="Assets\screenshots\720p\IntervalEdit_Rule_6.png" />
-    <Content Include="Assets\screenshots\720p\Intervals.png" />
-    <Content Include="Assets\screenshots\720p\IntervalTrans_1.png" />
-    <Content Include="Assets\screenshots\720p\IntervalTrans_2.png" />
-    <Content Include="Assets\screenshots\720p\Login.png" />
-    <Content Include="Assets\screenshots\720p\MainMenu.png" />
-    <Content Include="Assets\screenshots\720p\NotificationEdit.png" />
-    <Content Include="Assets\screenshots\720p\Notifications.png" />
-    <Content Include="Assets\screenshots\720p\Register.png" />
-    <Content Include="Assets\screenshots\720p\ReportsMenu.png" />
-    <Content Include="Assets\screenshots\720p\ReportTransAmount.png" />
-    <Content Include="Assets\screenshots\720p\ReportTransCategory.png" />
-    <Content Include="Assets\screenshots\720p\ReportTransPeriod.png" />
-    <Content Include="Assets\screenshots\720p\ReportTransPlace.png" />
-    <Content Include="Assets\screenshots\720p\ReportTransReason.png" />
-    <Content Include="Assets\screenshots\720p\Security.png" />
-    <Content Include="Assets\screenshots\720p\TransactionCategories.png" />
-    <Content Include="Assets\screenshots\720p\TransactionEdit.png" />
-    <Content Include="Assets\screenshots\720p\TransactionReason.png" />
-    <Content Include="Assets\screenshots\720p\TransactionReasonEdit.png" />
-    <Content Include="Assets\screenshots\720p\TransactionReasons.png" />
-    <Content Include="Assets\screenshots\720p\Transactions.png" />
-    <Content Include="Assets\screenshots\720p\UserDetails.png" />
+    <Content Include="Assets\screenshots\WXGA\AdminMenu.png" />
+    <Content Include="Assets\screenshots\WXGA\BudgetEdit.png" />
+    <Content Include="Assets\screenshots\WXGA\Budgets.png" />
+    <Content Include="Assets\screenshots\WXGA\CategoryEdit.png" />
+    <Content Include="Assets\screenshots\WXGA\ForgotPassword.png" />
+    <Content Include="Assets\screenshots\WXGA\IntervalEdit_Rule_1.png" />
+    <Content Include="Assets\screenshots\WXGA\Login.png" />
+    <Content Include="Assets\screenshots\WXGA\MainMenu.png" />
+    <Content Include="Assets\screenshots\WXGA\NotificationEdit.png" />
+    <Content Include="Assets\screenshots\WXGA\Register.png" />
+    <Content Include="Assets\screenshots\WXGA\ReportTransAmount.png" />
+    <Content Include="Assets\screenshots\WXGA\TransactionEdit.png" />
+    <Content Include="Assets\screenshots\WXGA\TransactionReasonEdit.png" />
+    <Content Include="Assets\screenshots\WXGA\Transactions.png" />
+    <Content Include="Assets\screenshots\WXGA\UserDetails.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\TileBudgets.png" />
     <Content Include="Assets\TileTransactions.png" />

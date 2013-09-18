@@ -191,6 +191,12 @@ namespace BMA_WP.View
             //close keyboard
             piLoginPage.Focus();
 
+            if (App.Instance.IsSyncing)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
+
             App.Instance.User.UserName = txtUsername.Text.Trim();
             App.Instance.User.Password = txtPassword.Password.Trim();
 
@@ -263,6 +269,12 @@ namespace BMA_WP.View
             //close keyboard
             piLoginPage.Focus();
 
+            if (App.Instance.IsSyncing)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
+
             App.Instance.User.UserName = txtRegUsername.Text.Trim();
             App.Instance.User.Email = txtRegEmail.Text.Trim();
             App.Instance.User.Password = txtRegPassword.Password.Trim();
@@ -323,6 +335,12 @@ namespace BMA_WP.View
         {
             //close keyboard
             piLoginPage.Focus();
+
+            if (App.Instance.IsSyncing)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
 
             var userItem = txtForgotInfo.Text.Trim();
             App.Instance.User.UserName = userItem.Contains("@") ? "" : userItem;

@@ -312,7 +312,6 @@ namespace BMA_WP.View.AdminView
             if (!ValidateCaregory())
                 return;
 
-
             var item = new BMA.BusinessLogic.Category(App.Instance.User, App.Instance.StaticServiceData.TypeTransactionReasonList);
 
             if (vm.CategoryList.Where(x=>!x.IsDeleted).Count() >= CategoryList.DEVICE_MAX_COUNT)

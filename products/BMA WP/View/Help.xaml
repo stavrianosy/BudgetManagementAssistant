@@ -71,21 +71,21 @@
                             <Run Text="* Note that the app is able to work online and offline. For this reason, username must be unique and you need to be connected online with the system for validation. "/><LineBreak/>
                             <Run Text="Registration of new user is the only part of the app that connection with the internet is mandatory."/>
                         </TextBlock>
-                        <Image Margin="0 12" Source="/Assets/screenshots/720p/Register.png" />
+                        <Image Margin="0 12" Source="/Assets/screenshots/WXGA/Register.png" />
                         <TextBlock TextWrapping="Wrap">
                             <Run Text="2. ForgotPassword"/><LineBreak/>
                             <Run Text="---------------"/><LineBreak/>
                             <Run Text="Once you forgot your password, you can supply the email or username you used upon registration."/><LineBreak/>
                             <Run Text="An email will be sent with your password."/>
                         </TextBlock>
-                        <Image Margin="0 12" Source="/Assets/screenshots/720p/ForgotPassword.png" />
+                        <Image Margin="0 12" Source="/Assets/screenshots/WXGA/ForgotPassword.png" />
                         <TextBlock TextWrapping="Wrap">
                             <Run Text="3. Login"/><LineBreak/>
                             <Run Text="---------------"/><LineBreak/>
                             <Run Text="This is your gate to access the app and all of its features."/><LineBreak/>
                             <Run Text="Using your username and password you can gain access whether you are online or offline"/>
                         </TextBlock>
-                        <Image Margin="0 12" Source="/Assets/screenshots/720p/Login.png" />
+                        <Image Margin="0 12" Source="/Assets/screenshots/WXGA/Login.png" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PanoramaItem>
@@ -98,7 +98,7 @@
                             <TextBlock TextWrapping="Wrap">
                             <Run x:Name="ln2_01" Text="Easy and quick access to the main options of the app, the Transaction and Budget"/><LineBreak/>
                             </TextBlock>
-                            <Image Margin="0 12" Source="/Assets/screenshots/720p/MainMenu.png" />
+                            <Image Margin="0 12" Source="/Assets/screenshots/WXGA/MainMenu.png" />
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -114,11 +114,11 @@
                                 <Run Text="Transactions page is split into 2 sides." />
                                 <Run Text="On the one side you can view a maximum number of transactions (this is not necessarilly the total number of transactions) along with new other details. Like, whether is income or expense, the amount, etc."/><LineBreak/>
                             </TextBlock>
-                            <Image Margin="0 12" Source="/Assets/screenshots/720p/Transactions.png" />
+                            <Image Margin="0 12" Source="/Assets/screenshots/WXGA/Transactions.png" />
                             <TextBlock>
                                 <Run Text="On the other side there are all available details of a transactions. Here you can view, edit or capture a new transaction." /><LineBreak/>
                             </TextBlock>
-                            <Image Margin="0 12" Source="/Assets/screenshots/720p/TransactionEdit.png" />
+                            <Image Margin="0 12" Source="/Assets/screenshots/WXGA/TransactionEdit.png" />
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -133,8 +133,8 @@
                             <Run Text="Budget is one of the main features of the app. Its purpose is to assist you set budgets and try to adjust your expenses to meet your goals."/><LineBreak/><LineBreak/>
                                 <Run Text="As most of the other screens, budgets have 2 sides. One for the budget list and the other for the budget details."/><LineBreak/>
                             </TextBlock>
-                            <Image Margin="0 12" Source="/Assets/screenshots/720p/Budgets.png" />
-                            <Image Margin="0 12" Source="/Assets/screenshots/720p/BudgetEdit.png" />
+                            <Image Margin="0 12" Source="/Assets/screenshots/WXGA/Budgets.png" />
+                            <Image Margin="0 12" Source="/Assets/screenshots/WXGA/BudgetEdit.png" />
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -149,7 +149,7 @@
                                 <TextBlock TextWrapping="Wrap">
                                     <Run Text="Simple to use and very self-intuitive screens which are used to directly or even indirectly support the capturing of transactions."/>
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/AdminMenu.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/AdminMenu.png" />
                             </StackPanel>
                             <StackPanel x:Name="Category">
                                 <TextBlock TextWrapping="Wrap">
@@ -161,7 +161,7 @@
                                 <Run Text="- * The Category with name Other, is predefined by the system and cannot be edited"/><LineBreak/>
                                 <Run Text="- ** The Transaction Reason with name Other, is by default selected for all categories and cannot be unselect."/>
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/CategoryEdit.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/CategoryEdit.png" />
                             </StackPanel>
                             <StackPanel x:Name="Interval">
                                 <TextBlock TextWrapping="Wrap">
@@ -171,7 +171,7 @@
                                 <Run Text="- Setup all periodic income or expense according to the rules"/><LineBreak/>
                                 <Run Text="* Everytime the user logins to the app, if the todays date falls into the rules of any of the intervals, a new screen will appear and ask about the creation of new transactions"/>
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/IntervalEdit_Rule_1.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/IntervalEdit_Rule_1.png" />
                             </StackPanel>
                             <StackPanel x:Name="Notification">
                                 <TextBlock TextWrapping="Wrap">
@@ -181,7 +181,7 @@
                                 <Run Text="- Setup all notifications according to the time of the day you would like to get a reminder. You can also include an indicational message."/><LineBreak/><LineBreak/>
                                 <Run Text="* The notifications appear inthe list, are from all users."/>
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/NotificationEdit.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/NotificationEdit.png" />
                             </StackPanel>
                             <StackPanel x:Name="TransactionReason">
                                 <TextBlock TextWrapping="Wrap">
@@ -191,7 +191,7 @@
                                 <Run Text="- * The Transaction Reason with name Other, is predefined by the system and cannot be edited"/><LineBreak/>
                                 <Run Text="- ** The Category with name Other, is by default selected for all categories and cannot be unselect."/>
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/TransactionReasonEdit.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/TransactionReasonEdit.png" />
                             </StackPanel>
                             <StackPanel x:Name="Security">
                                 <TextBlock TextWrapping="Wrap">
@@ -200,7 +200,7 @@
                                     <Run Text="In this two sided screen the user can change the password or some details like contact email (remember that the emails is very important to be valid, since it will be used when you forget your password). "/><LineBreak/>
                                     <Run Text="In addition here you can capture new details like Name, Surname and Birthday" />
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/UserDetails.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/UserDetails.png" />
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -222,7 +222,7 @@
                                 <Run Text="- Date range."/><LineBreak/>
                                 <Run Text="- Sort by amount or date"/>
                                 </TextBlock>
-                                <Image Margin="0 12" Source="/Assets/screenshots/720p/ReportTransAmount.png" />
+                                <Image Margin="0 12" Source="/Assets/screenshots/WXGA/ReportTransAmount.png" />
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

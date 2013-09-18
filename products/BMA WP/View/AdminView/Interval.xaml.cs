@@ -70,8 +70,21 @@ namespace BMA_WP.View.AdminView
         //workaround for the ListPicker issue when binding object becomes null
         private void SetBindings()
         {
+            //## Combobox doesnt update well when there is a converter
+            cmbCategory.ItemsSource = vm.CategoryList;
+
             if (vm.CurrInterval == null)
                 return;
+
+            if (vm.CurrInterval.Category == null && vm.CategoryList.Count > 0)
+                vm.CurrInterval.Category = vm.CategoryList[0];
+
+            var catFound = vm.CategoryList.FirstOrDefault(x => x.CategoryId == vm.CurrInterval.Category.CategoryId);
+            if (vm.CurrInterval.TransactionReasonType == null &&
+                catFound != null &&
+                catFound.TypeTransactionReasons != null &&
+                catFound.TypeTransactionReasons.Count > 0)
+                vm.CurrInterval.TransactionReasonType = catFound.TypeTransactionReasons[0];
 
             SetupTransactionTypeBinding();
             SetupCategoryBinding();
@@ -83,10 +96,14 @@ namespace BMA_WP.View.AdminView
         {
             Binding bindCategory = new Binding("Category");
             bindCategory.Mode = BindingMode.TwoWay;
-            bindCategory.Source = vm.CurrInterval;
+            bindCategory.Source = vm.CurrInterval == null ? null : vm.CurrInterval;
+
+            bindCategory.Converter = new StatusConverter();
+            bindCategory.ConverterParameter = "categoryCloneInstance";
+
             if (vm.CurrInterval.Category != null &&
                 ((ObservableCollection<BMA.BusinessLogic.Category>)cmbCategory.ItemsSource)
-                    .FirstOrDefault(x => x.CategoryId == vm.CurrInterval.Category.CategoryId) != null)
+                .FirstOrDefault(x => x.CategoryId == vm.CurrInterval.Category.CategoryId) != null)
                 cmbCategory.SetBinding(ListPicker.SelectedItemProperty, bindCategory);
         }
 
@@ -282,6 +299,12 @@ namespace BMA_WP.View.AdminView
         private void Add_Click(object sender, EventArgs e)
         {
             ManualUpdate();
+
+            if (vm.IsLoading)
+            {
+                MessageBox.Show(AppResources.BusySynchronizing);
+                return;
+            }
 
             if (!ValidateTypeInterval())
                 return;

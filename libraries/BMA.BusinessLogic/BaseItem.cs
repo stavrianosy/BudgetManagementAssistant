@@ -14,7 +14,7 @@ namespace BMA.BusinessLogic
         //DateTime syncDate;
 
         [DataMember]
-        public  DateTime ModifiedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
 
         //[Required]
         [DataMember]
@@ -25,9 +25,6 @@ namespace BMA.BusinessLogic
 
         [DataMember]
         public DateTime CreatedDate { get { return createdDate; } set { createdDate = value; OnPropertyChanged("CreatedDate"); } }
-
-        //[DataMember]
-        //public DateTime SyncDate { get { return syncDate; } set { syncDate = value; OnPropertyChanged("SyncDate"); } }
 
         //[IgnoreDataMember]
         [DataMember]
