@@ -35,6 +35,9 @@ namespace BMA_WP.View
         {
             //Explicitely set the language and use localized resources
             //SetUILanguage("el-GR");
+            //SetUILanguage("ru-RU");
+            //SetUILanguage("es-ES");
+            //SetUILanguage("es-AR");
 
             InitializeComponent();
 
