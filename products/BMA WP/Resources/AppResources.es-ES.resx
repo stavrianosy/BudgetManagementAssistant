@@ -1,0 +1,753 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="AdminMenuBudgetThreshold" xml:space="preserve">
+    <value>Budget Threshold</value>
+  </data>
+  <data name="AdminMenuCategories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="AdminMenuFrequencies" xml:space="preserve">
+    <value>Frequencies</value>
+  </data>
+  <data name="AdminMenuInterval" xml:space="preserve">
+    <value>Interval</value>
+  </data>
+  <data name="AdminMenuNotifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="AdminMenuSecurity" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="AdminMenuTransactionReasons" xml:space="preserve">
+    <value>Transaction Reasons</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="AmountFrom" xml:space="preserve">
+    <value>Amount from</value>
+  </data>
+  <data name="AmountFromBigger" xml:space="preserve">
+    <value>From amount cannot be greater than the To amount</value>
+  </data>
+  <data name="AmountTo" xml:space="preserve">
+    <value>Amount to</value>
+  </data>
+  <data name="AppBarButtonAbout" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="AppBarButtonAdd" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="AppBarButtonBudget" xml:space="preserve">
+    <value>budget</value>
+  </data>
+  <data name="AppBarButtonCancel" xml:space="preserve">
+    <value>cancel</value>
+  </data>
+  <data name="AppBarButtonContinue" xml:space="preserve">
+    <value>continue</value>
+  </data>
+  <data name="AppBarButtonDelete" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="AppBarButtonHelp" xml:space="preserve">
+    <value>help</value>
+  </data>
+  <data name="AppBarButtonMainMenu" xml:space="preserve">
+    <value>main menu</value>
+  </data>
+  <data name="AppBarButtonRegister" xml:space="preserve">
+    <value>register</value>
+  </data>
+  <data name="AppBarButtonSave" xml:space="preserve">
+    <value>save</value>
+  </data>
+  <data name="AppBarButtonSend" xml:space="preserve">
+    <value>send</value>
+  </data>
+  <data name="AppBarButtonSignIn" xml:space="preserve">
+    <value>sign in</value>
+  </data>
+  <data name="AppBarButtonTransaction" xml:space="preserve">
+    <value>transaction</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>MONEY SAVER</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="Budgets" xml:space="preserve">
+    <value>Budgets</value>
+  </data>
+  <data name="BudgetStatus" xml:space="preserve">
+    <value>Budget Status</value>
+  </data>
+  <data name="BusySynchronizing" xml:space="preserve">
+    <value>Busy Synchronizing. Please wait...</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CategoryNote" xml:space="preserve">
+    <value>* This will be the selected option according to the time of day</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="ConfirmDeletion" xml:space="preserve">
+    <value>Confirm deletion</value>
+  </data>
+  <data name="ConfirmPass" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Date From</value>
+  </data>
+  <data name="DateFromBigger" xml:space="preserve">
+    <value>From date connot be greater than the To date</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Date To</value>
+  </data>
+  <data name="DaysSmall" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete ?</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="FaildValidation" xml:space="preserve">
+    <value>There are another {0} {1} that failed validation.
+Update them from the list and save again.</value>
+  </data>
+  <data name="FaildValidationNameExists" xml:space="preserve">
+    <value>There are multiple {0} with same names. 
+Please use only unique names.</value>
+  </data>
+  <data name="FaildValidationSingle" xml:space="preserve">
+    <value>There is another {0} that failed validation.
+Update it from the list and save again.</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot Password</value>
+  </data>
+  <data name="ForgotPasswordQuest" xml:space="preserve">
+    <value>Forgot Password ?</value>
+  </data>
+  <data name="Forth" xml:space="preserve">
+    <value>Forth</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="FromTime" xml:space="preserve">
+    <value>Time From</value>
+  </data>
+  <data name="IntervalTransactions" xml:space="preserve">
+    <value>Interv. Transactions</value>
+  </data>
+  <data name="IntervalTransactionsMsgAll" xml:space="preserve">
+    <value>You have selected all transactions.</value>
+  </data>
+  <data name="IntervalTransactionsMsgCommon" xml:space="preserve">
+    <value>Please choose the completed transactions carefully. The specific ones will not appear again.</value>
+  </data>
+  <data name="IntervalTransactionsMsgNone" xml:space="preserve">
+    <value>You have not selected any transactions.</value>
+  </data>
+  <data name="IntervalTransactionsMsgPartial" xml:space="preserve">
+    <value>You have selected {0} out of {1} transactions.</value>
+  </data>
+  <data name="IntervalTransactionsNotice" xml:space="preserve">
+    <value>List of all auto generated transactions as per interval commands.
+Choose the transactions that are completed</value>
+  </data>
+  <data name="IntervelNotSet" xml:space="preserve">
+    <value>The list with interval transactions can not be set</value>
+  </data>
+  <data name="ItemOtherNoDelete" xml:space="preserve">
+    <value>The item Other, cannot be delete</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="LastLoginFail" xml:space="preserve">
+    <value>Last login attempt failed. Please try again.</value>
+  </data>
+  <data name="LoggingIn" xml:space="preserve">
+    <value>Logging in...</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login ES</value>
+  </data>
+  <data name="LoginFail" xml:space="preserve">
+    <value>Login Failed</value>
+  </data>
+  <data name="LoginFailMessage" xml:space="preserve">
+    <value>Please review the following validation error</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>Logged in successfully</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="MainMenuBudgets" xml:space="preserve">
+    <value>Budgets</value>
+  </data>
+  <data name="MainMenuTransactions" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="MaxItemsCount" xml:space="preserve">
+    <value>You have reached the maximum allowed items [{0}]. You must delete before you add</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="MenuDescriptionBudgetThreshold" xml:space="preserve">
+    <value>Budget will change its color to grab your attention when it reach the threshold</value>
+  </data>
+  <data name="MenuDescriptionCategory" xml:space="preserve">
+    <value>Category of the transaction</value>
+  </data>
+  <data name="MenuDescriptionFrequency" xml:space="preserve">
+    <value>Predefined time periods</value>
+  </data>
+  <data name="MenuDescriptionInterval" xml:space="preserve">
+    <value>Periodic occurrences for expenses or income</value>
+  </data>
+  <data name="MenuDescriptionNotification" xml:space="preserve">
+    <value>Notifications for transaction capturing reminders</value>
+  </data>
+  <data name="MenuDescriptionReportAmount" xml:space="preserve">
+    <value>All transactions according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportCategory" xml:space="preserve">
+    <value>Transactions grouped by category according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportNameOfPlace" xml:space="preserve">
+    <value>Transactions grouped by name of place according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportPeriod" xml:space="preserve">
+    <value>Transactions grouped by frequency, according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionReportReason" xml:space="preserve">
+    <value>Transactions grouped by reason according to the date range selected.</value>
+  </data>
+  <data name="MenuDescriptionSecurity" xml:space="preserve">
+    <value>Manage users for accessing this application</value>
+  </data>
+  <data name="MenuDescriptionTransactionReason" xml:space="preserve">
+    <value>Reason of the transaction. Like a sub-category</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameAlreadyExist" xml:space="preserve">
+    <value>The name already exists.
+Please change the name.</value>
+  </data>
+  <data name="NameOfPlace" xml:space="preserve">
+    <value>Name of place</value>
+  </data>
+  <data name="NetworkError" xml:space="preserve">
+    <value>Network error. Please check your internet connection.</value>
+  </data>
+  <data name="NewAndConfirmPassword" xml:space="preserve">
+    <value>New and confirm password do not match</value>
+  </data>
+  <data name="NewPass" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="NotificationNote" xml:space="preserve">
+    <value>Notification list display reminders from all users of this device.</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Noveber" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>offline</value>
+  </data>
+  <data name="OldPass" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="OldPasswordNotCorrect" xml:space="preserve">
+    <value>Old password is not correct</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordSending" xml:space="preserve">
+    <value>Sending password...</value>
+  </data>
+  <data name="PasswordSentFailed" xml:space="preserve">
+    <value>Password sent failed. Please try again</value>
+  </data>
+  <data name="PasswordSentSuccess" xml:space="preserve">
+    <value>Your Passwoed is sent to the email provided</value>
+  </data>
+  <data name="PasswordValidationFailMessage" xml:space="preserve">
+    <value>Password cannot be changed for the following reasons:</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="PositionEighteenth" xml:space="preserve">
+    <value>18th Eighteenth</value>
+  </data>
+  <data name="PositionEightth" xml:space="preserve">
+    <value>8th Eighth</value>
+  </data>
+  <data name="PositionEleventh" xml:space="preserve">
+    <value>11th Eleventh</value>
+  </data>
+  <data name="PositionFifteenth" xml:space="preserve">
+    <value>15th Fifteenth</value>
+  </data>
+  <data name="PositionFifth" xml:space="preserve">
+    <value>5th Fifth</value>
+  </data>
+  <data name="PositionFirst" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="PositionForth" xml:space="preserve">
+    <value>4th Forth</value>
+  </data>
+  <data name="PositionFourteenth" xml:space="preserve">
+    <value>14th Fourteenth</value>
+  </data>
+  <data name="PositionLast" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="PositionNineteenth" xml:space="preserve">
+    <value>19th Nineteenth</value>
+  </data>
+  <data name="PositionNineth" xml:space="preserve">
+    <value>9th Ninth</value>
+  </data>
+  <data name="PositionSecond" xml:space="preserve">
+    <value>2nd Second</value>
+  </data>
+  <data name="PositionSeventeenth" xml:space="preserve">
+    <value>17th Seventeenth</value>
+  </data>
+  <data name="PositionSeventh" xml:space="preserve">
+    <value>7th Seventh</value>
+  </data>
+  <data name="PositionSisth" xml:space="preserve">
+    <value>6th Sixth</value>
+  </data>
+  <data name="PositionSixteenth" xml:space="preserve">
+    <value>16th Sixteenth</value>
+  </data>
+  <data name="PositionTenth" xml:space="preserve">
+    <value>10th Tenth</value>
+  </data>
+  <data name="PositionThird" xml:space="preserve">
+    <value>3rd Third</value>
+  </data>
+  <data name="PositionThirteenth" xml:space="preserve">
+    <value>13th Thirteenth</value>
+  </data>
+  <data name="PositionThirtyeth" xml:space="preserve">
+    <value>30th Thirtyeth</value>
+  </data>
+  <data name="PositionThirtyFirst" xml:space="preserve">
+    <value>31st Thirty first</value>
+  </data>
+  <data name="PositionTwelveth" xml:space="preserve">
+    <value>12th Twelfth</value>
+  </data>
+  <data name="PositionTwentieth" xml:space="preserve">
+    <value>20th Twentieth</value>
+  </data>
+  <data name="PositionTwentyEightth" xml:space="preserve">
+    <value>28th Twenty eighth</value>
+  </data>
+  <data name="PositionTwentyFifth" xml:space="preserve">
+    <value>25th Twenty fifth</value>
+  </data>
+  <data name="PositionTwentyFirst" xml:space="preserve">
+    <value>21st Twenty first</value>
+  </data>
+  <data name="PositionTwentyForth" xml:space="preserve">
+    <value>24th Twenty forth</value>
+  </data>
+  <data name="PositionTwentyNineth" xml:space="preserve">
+    <value>29th Twenty ninth</value>
+  </data>
+  <data name="PositionTwentySecond" xml:space="preserve">
+    <value>22nd Twenty second</value>
+  </data>
+  <data name="PositionTwentySeventh" xml:space="preserve">
+    <value>27th Twenty seventh</value>
+  </data>
+  <data name="PositionTwentySixth" xml:space="preserve">
+    <value>26th Twenty sixth</value>
+  </data>
+  <data name="PositionTwentyThird" xml:space="preserve">
+    <value>23rd Twenty third</value>
+  </data>
+  <data name="ProvideUsernameOrEmail" xml:space="preserve">
+    <value>Please provide your Username or email address and we will send you an email to reset your password</value>
+  </data>
+  <data name="Purpose" xml:space="preserve">
+    <value>Purpose</value>
+  </data>
+  <data name="RangeOfOccurence" xml:space="preserve">
+    <value>Range of Occurrence</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="Reasons" xml:space="preserve">
+    <value>Reasons</value>
+  </data>
+  <data name="RecurrencePattern" xml:space="preserve">
+    <value>Recurrence Pattern</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterAcceptance" xml:space="preserve">
+    <value>By Registering you are agreeing to our Terms of Service and Privacy Statement</value>
+  </data>
+  <data name="RegisterFail" xml:space="preserve">
+    <value>Registration failed. Please try again</value>
+  </data>
+  <data name="Registering" xml:space="preserve">
+    <value>Registering ...</value>
+  </data>
+  <data name="RegisterMessage" xml:space="preserve">
+    <value>* Capture all fields to register</value>
+  </data>
+  <data name="RegisterSuccess" xml:space="preserve">
+    <value>Registered successfully</value>
+  </data>
+  <data name="RegisterUser" xml:space="preserve">
+    <value>Register new user account</value>
+  </data>
+  <data name="RegistrationFailed" xml:space="preserve">
+    <value>Registration Failed</value>
+  </data>
+  <data name="ReminderError" xml:space="preserve">
+    <value>Reminders cannot be set</value>
+  </data>
+  <data name="ReminderForUser" xml:space="preserve">
+    <value>Reminder for user:</value>
+  </data>
+  <data name="RepeatOnExpiration" xml:space="preserve">
+    <value>Repeat on expiration</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="ReportsMenuTransactionAmount" xml:space="preserve">
+    <value>Transaction Amount</value>
+  </data>
+  <data name="ReportsMenuTransactionBudget" xml:space="preserve">
+    <value>Transaction Budget</value>
+  </data>
+  <data name="ReportsMenuTransactionByPeriod" xml:space="preserve">
+    <value>Transactions by Period</value>
+  </data>
+  <data name="ReportsMenuTransactionCategory" xml:space="preserve">
+    <value>Transaction Category</value>
+  </data>
+  <data name="ReportsMenuTransactionPlace" xml:space="preserve">
+    <value>Transaction Place</value>
+  </data>
+  <data name="ReportsMenuTransactionReason" xml:space="preserve">
+    <value>Transaction Reason</value>
+  </data>
+  <data name="ResourceFlowDirection" xml:space="preserve">
+    <value>LeftToRight</value>
+    <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
+  </data>
+  <data name="ResourceLanguage" xml:space="preserve">
+    <value>en-US</value>
+    <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="SaveFailed" xml:space="preserve">
+    <value>Save failed. Please try again.</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Septeber" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="SuggestedTime" xml:space="preserve">
+    <value>Suggested time:</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="Synchronizing" xml:space="preserve">
+    <value>Loading data...</value>
+  </data>
+  <data name="Third" xml:space="preserve">
+    <value>Third</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ToTime" xml:space="preserve">
+    <value>Time To</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>Transaction</value>
+  </data>
+  <data name="TransactionReason" xml:space="preserve">
+    <value>transaction reason</value>
+  </data>
+  <data name="TransactionReasons" xml:space="preserve">
+    <value>transaction reasons</value>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value>Transaction Type</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>try again</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="TypeFrequencies" xml:space="preserve">
+    <value>Type Frequencies</value>
+  </data>
+  <data name="TypeFrequency" xml:space="preserve">
+    <value>Type Frequency</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>connecting</value>
+  </data>
+  <data name="UserDetails" xml:space="preserve">
+    <value>User Details</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernameOrEmail" xml:space="preserve">
+    <value>Username or Email</value>
+  </data>
+  <data name="UserNamePasswordWrongOffline" xml:space="preserve">
+    <value>Username or Password is incorrect.
+This might be due to that offline mode is not updated.
+Please connect to the live system to get the latest data.</value>
+  </data>
+  <data name="ViewReport" xml:space="preserve">
+    <value>View Report</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+</root>
