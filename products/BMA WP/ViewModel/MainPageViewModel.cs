@@ -98,7 +98,7 @@ namespace BMA_WP.ViewModel
         /// </summary>
         public MainPageViewModel()
         {
-            var themAssetsDir = IsLightThemeUsed() ? "Light" : "Dark";
+            var themeAssetsDir = IsLightThemeUsed() ? "Light" : "Dark";
 
 
             HubTileTransactions = new MenuItem { Name = AppResources.MainMenuTransactions, SubName = "a11", Description = "a22", IconPath = "/Assets/TileTransactions.png", NavigateTo = "/View/Transactions.xaml" };
@@ -110,20 +110,20 @@ namespace BMA_WP.ViewModel
             };
 
             ReportsMenuList = new ObservableCollection<MenuItem> { 
-                new MenuItem{Name=AppResources.ReportsMenuTransactionAmount, SubName="a11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themAssetsDir), Description=AppResources.MenuDescriptionReportAmount, NavigateTo="/View/ReportsView/TransactionAmount.xaml"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionByPeriod, SubName="b11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themAssetsDir), Description=AppResources.MenuDescriptionReportPeriod, NavigateTo="/View/ReportsView/TransactionByPeriod.xaml"},
-                //new MenuItem{Name=AppResources.ReportsMenuTransactionBudget, SubName="b11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themAssetsDir), Description="b22", NavigateTo="/View/ReportsView/TransactionBudget.xaml"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionCategory, SubName="c11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themAssetsDir), Description=AppResources.MenuDescriptionReportCategory, NavigateTo="/View/ReportsView/TransactionCategory.xaml"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionReason, SubName="c11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themAssetsDir), Description=AppResources.MenuDescriptionReportReason, NavigateTo="/View/ReportsView/TransactionReason.xaml"},
-                new MenuItem{Name=AppResources.ReportsMenuTransactionPlace, SubName="c11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themAssetsDir), Description=AppResources.MenuDescriptionReportNameOfPlace, NavigateTo="/View/ReportsView/TransactionPlace.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionAmount, SubName="a11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themeAssetsDir), Description=AppResources.MenuDescriptionReportAmount, NavigateTo="/View/ReportsView/TransactionAmount.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionByPeriod, SubName="b11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themeAssetsDir), Description=AppResources.MenuDescriptionReportPeriod, NavigateTo="/View/ReportsView/TransactionByPeriod.xaml"},
+                //new MenuItem{Name=AppResources.ReportsMenuTransactionBudget, SubName="b11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themeAssetsDir), Description="b22", NavigateTo="/View/ReportsView/TransactionBudget.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionCategory, SubName="c11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themeAssetsDir), Description=AppResources.MenuDescriptionReportCategory, NavigateTo="/View/ReportsView/TransactionCategory.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionReason, SubName="c11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themeAssetsDir), Description=AppResources.MenuDescriptionReportReason, NavigateTo="/View/ReportsView/TransactionReason.xaml"},
+                new MenuItem{Name=AppResources.ReportsMenuTransactionPlace, SubName="c11", IconPath=string.Format("/Assets/icons/{0}/reports.png", themeAssetsDir), Description=AppResources.MenuDescriptionReportNameOfPlace, NavigateTo="/View/ReportsView/TransactionPlace.xaml"},
             };
 
             AdminMenuList = new ObservableCollection<MenuItem> { 
-                new MenuItem{Name=AppResources.AdminMenuCategories, SubName=AppResources.MenuDescriptionCategory, Description=AppResources.MenuDescriptionCategory, IconPath=string.Format("/Assets/icons/{0}/category.png", themAssetsDir),NavigateTo="/View/AdminView/Category.xaml"},
-                new MenuItem{Name=AppResources.AdminMenuInterval, SubName=AppResources.MenuDescriptionInterval, Description=AppResources.MenuDescriptionInterval, IconPath=string.Format("/Assets/icons/{0}/refresh.png", themAssetsDir),NavigateTo="/View/AdminView/Interval.xaml"},
-                new MenuItem{Name=AppResources.AdminMenuNotifications, SubName=AppResources.MenuDescriptionNotification, Description=AppResources.MenuDescriptionNotification, IconPath=string.Format("/Assets/icons/{0}/feature.alarm.png", themAssetsDir),NavigateTo="/View/AdminView/Notification.xaml"},
-                new MenuItem{Name=AppResources.AdminMenuTransactionReasons, SubName=AppResources.MenuDescriptionTransactionReason, Description=AppResources.MenuDescriptionTransactionReason, IconPath=string.Format("/Assets/icons/{0}/reason.png", themAssetsDir), NavigateTo="/View/AdminView/Reason.xaml"},
-                new MenuItem{Name=AppResources.AdminMenuSecurity, SubName=AppResources.MenuDescriptionSecurity, Description=AppResources.MenuDescriptionSecurity, IconPath=string.Format("/Assets/icons/{0}/admin.png", themAssetsDir), NavigateTo="/View/AdminView/Security.xaml"},
+                new MenuItem{Name=AppResources.AdminMenuCategories, SubName=AppResources.MenuDescriptionCategory, Description=AppResources.MenuDescriptionCategory, IconPath=string.Format("/Assets/icons/{0}/category.png", themeAssetsDir),NavigateTo="/View/AdminView/Category.xaml"},
+                new MenuItem{Name=AppResources.AdminMenuInterval, SubName=AppResources.MenuDescriptionInterval, Description=AppResources.MenuDescriptionInterval, IconPath=string.Format("/Assets/icons/{0}/refresh.png", themeAssetsDir),NavigateTo="/View/AdminView/Interval.xaml"},
+                new MenuItem{Name=AppResources.AdminMenuNotifications, SubName=AppResources.MenuDescriptionNotification, Description=AppResources.MenuDescriptionNotification, IconPath=string.Format("/Assets/icons/{0}/feature.alarm.png", themeAssetsDir),NavigateTo="/View/AdminView/Notification.xaml"},
+                new MenuItem{Name=AppResources.AdminMenuTransactionReasons, SubName=AppResources.MenuDescriptionTransactionReason, Description=AppResources.MenuDescriptionTransactionReason, IconPath=string.Format("/Assets/icons/{0}/reason.png", themeAssetsDir), NavigateTo="/View/AdminView/Reason.xaml"},
+                new MenuItem{Name=AppResources.AdminMenuSecurity, SubName=AppResources.MenuDescriptionSecurity, Description=AppResources.MenuDescriptionSecurity, IconPath=string.Format("/Assets/icons/{0}/admin.png", themeAssetsDir), NavigateTo="/View/AdminView/Security.xaml"},
             };
         }
     }

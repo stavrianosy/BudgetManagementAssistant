@@ -510,7 +510,9 @@ namespace BMA_WP.View
                 if (vm.CurrTransaction.TransactionImages == null)
                     vm.CurrTransaction.TransactionImages = new TransactionImageList();
                 vm.CurrTransaction.TransactionImages.Add(transImage);
+                vm.CurrTransaction.HasPhotos = true;
                 vm.CurrTransaction.HasChanges = true;
+
                 save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
                 //imgReceipt.Source = bitmap;
             }
@@ -530,6 +532,8 @@ namespace BMA_WP.View
 
             transImage.IsDeleted = true;
             transImage.HasChanges = true;
+
+            vm.CurrTransaction.HasPhotos = vm.CurrTransaction.TransactionImages.Count(x=>!x.IsDeleted)>0;
             vm.CurrTransaction.HasChanges = true;
 
             //save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;
@@ -548,6 +552,8 @@ namespace BMA_WP.View
 
             transImage.IsDeleted = false;
             transImage.HasChanges = true;
+
+            vm.CurrTransaction.HasPhotos = vm.CurrTransaction.TransactionImages.Count(x => !x.IsDeleted) > 0;
             vm.CurrTransaction.HasChanges = true;
 
             //save.IsEnabled = vm.Transactions.HasItemsWithChanges() && vm.IsLoading == false;

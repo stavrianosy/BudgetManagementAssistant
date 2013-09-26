@@ -117,6 +117,9 @@ namespace BMA_WP.Model
 
                     case "periodtodate":
                         return PeriodToDate(value);
+
+                    case "hasphotos":
+                        return HasPhotos(value);
                 }
             }
 
@@ -148,6 +151,18 @@ namespace BMA_WP.Model
             }
 
             return null;
+        }
+
+        private object HasPhotos(object value)
+        {
+            var result = (bool)value;
+            
+            var themeAssetsDir = IsLightThemeUsed() ? "Light" : "Dark";
+
+            string path = string.Format("/Assets/icons/{0}/camera.png", themeAssetsDir);
+            
+            Uri uri = new Uri(path, UriKind.Relative);
+            return new BitmapImage(uri);
         }
 
         private object GetCategoryNotDeleted(object value)

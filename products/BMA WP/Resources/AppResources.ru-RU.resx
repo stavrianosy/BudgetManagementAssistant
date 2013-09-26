@@ -750,4 +750,10 @@ Please change the name.</value>
   <data name="Wednesday" xml:space="preserve">
     <value>Среда</value>
   </data>
+  <data name="AppBarButtonCategory" xml:space="preserve">
+    <value>категория</value>
+  </data>
+  <data name="AppBarButtonReason" xml:space="preserve">
+    <value>причина</value>
+  </data>
 </root>

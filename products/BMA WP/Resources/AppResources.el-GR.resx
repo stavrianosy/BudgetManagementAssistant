@@ -750,4 +750,10 @@ Update it from the list and save again.</value>
   <data name="IntervelNotSet" xml:space="preserve">
     <value>H λίστα με τις επαναλαμβανόμενες συναλλαγές, δεν μπορεί να δημιουργηθεί.</value>
   </data>
+  <data name="AppBarButtonCategory" xml:space="preserve">
+    <value>κατηγορία</value>
+  </data>
+  <data name="AppBarButtonReason" xml:space="preserve">
+    <value>αιτία</value>
+  </data>
 </root>

@@ -205,6 +205,15 @@ namespace BMA_WP.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to category.
+        /// </summary>
+        public static string AppBarButtonCategory {
+            get {
+                return ResourceManager.GetString("AppBarButtonCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to continue.
         /// </summary>
         public static string AppBarButtonContinue {
@@ -237,6 +246,15 @@ namespace BMA_WP.Resources {
         public static string AppBarButtonMainMenu {
             get {
                 return ResourceManager.GetString("AppBarButtonMainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to reason.
+        /// </summary>
+        public static string AppBarButtonReason {
+            get {
+                return ResourceManager.GetString("AppBarButtonReason", resourceCulture);
             }
         }
         
