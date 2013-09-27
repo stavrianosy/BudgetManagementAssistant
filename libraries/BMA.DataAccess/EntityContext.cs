@@ -69,6 +69,7 @@ namespace BMA.DataAccess
             //modelBuilder.Entity<Security>().Ignore(i => i.SyncDate);
 
             modelBuilder.Entity<Transaction>().Ignore(i => i.HasChanges);
+            modelBuilder.Entity<Transaction>().Ignore(i => i.HasPhotos);
             //modelBuilder.Entity<Transaction>().Ignore(i => i.SyncDate);
             ////modelBuilder.Entity<Transaction>().HasRequired(c => c.Category).WithMany(c => c.Transactions);
             ////modelBuilder.Entity<Transaction>().HasRequired(c => c.TransactionReason).WithRequiredDependent(c => c.Transaction);

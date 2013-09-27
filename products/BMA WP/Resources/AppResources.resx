@@ -750,4 +750,10 @@ Please connect to the live system to get the latest data.</value>
   <data name="IntervelNotSet" xml:space="preserve">
     <value>The list with interval transactions can not be set</value>
   </data>
+  <data name="AppBarButtonCategory" xml:space="preserve">
+    <value>category</value>
+  </data>
+  <data name="AppBarButtonReason" xml:space="preserve">
+    <value>reason</value>
+  </data>
 </root>

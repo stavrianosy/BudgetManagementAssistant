@@ -20,7 +20,7 @@ namespace ConsoleApplication1
             ServiceReference1.MainClient a = new ServiceReference1.MainClient();
             ServiceReference2.StaticClient b = new ServiceReference2.StaticClient();
 
-            var usr = new User() { UserId = 1006, UserName = "qqqq", Password = "wwww", Birthdate=new DateTime(1900, 1,1) };
+            var usr = new User() { UserId = 4, UserName = "qqqq", Password = "wwww", Birthdate=new DateTime(1900, 1,1) };
 
             //UpdateRegisterUser(usr, b);
              //ForgotPass(b);
@@ -30,14 +30,14 @@ namespace ConsoleApplication1
             //var newuser = CreateUser(b);
             //var db = b.GetDBStatus();
             //SyncTransactions(a, usr);
-            //a.GetLatestTransactionsLimit(10, 11);
+            a.GetLatestTransactionsLimit(100, usr.UserId);
             //var tt = b.GetAllTypeTransactions(4);
             //var cat = b.GetAllCategories(usr.UserId);
             //var allTrans = a.GetLatestTransactions(usr.UserId);
             //var bud = a.GetAllBudgets(usr.UserId);
             //b.GetAllStaticData();
             //SaveTypeTransactionReasons(b, usr);
-             DeleteTypeInterval(b, usr);
+            // DeleteTypeInterval(b, usr);
              //UpdateTypeInterval(a, b, usr);
             //var typeTransReason = b.GetAllTypeTransactionReasons(usr.UserId);
             //var cat = SaveCategories(b, usr);

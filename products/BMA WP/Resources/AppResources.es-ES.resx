@@ -750,4 +750,10 @@ Please connect to the live system to get the latest data.</value>
   <data name="Wednesday" xml:space="preserve">
     <value>Wednesday</value>
   </data>
+  <data name="AppBarButtonCategory" xml:space="preserve">
+    <value>###</value>
+  </data>
+  <data name="AppBarButtonReason" xml:space="preserve">
+    <value>###</value>
+  </data>
 </root>

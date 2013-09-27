@@ -205,25 +205,27 @@ namespace BMAServiceLib
                                 .Include(i => i.CreatedUser)
                                  where !i.IsDeleted && i.ModifiedUser.UserId == userId
                                  orderby i.TransactionDate descending
-                                  select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs);
+                                 select i).Take(latestRecs == 0 ? int.MaxValue : latestRecs).ToList();
 
                     
                     //investigate if there is a better way to convert the generic list to ObservableCollection
                     foreach (var item in query1)
                     {
-                        var trans = item;
+                        //item.trans.HasPhotos = item.hasPhotos;
+                        item.HasPhotos = context.TransactionImage.Count(x => x.Transaction.TransactionId == item.TransactionId && !x.IsDeleted) > 0;
+                        //var trans = item.item;
                         if (item.Category.IsDeleted)
                         {
-                            trans.Category = context.Category.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
-                            trans.TransactionReasonType = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
+                            item.Category = context.Category.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
+                            item.TransactionReasonType = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
                         }
 
                         if (item.TransactionReasonType.IsDeleted)
                         {
-                            trans.TransactionReasonType = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
+                            item.TransactionReasonType = context.TransactionReason.FirstOrDefault(x => x.Name.Equals("other", StringComparison.InvariantCultureIgnoreCase));
                         }
 
-                        transList.Add(trans);
+                        transList.Add(item);
                     }
 
                     transList.PrepareForServiceSerialization();
@@ -482,8 +484,10 @@ namespace BMAServiceLib
 
                                     //item.TransactionImages.Add(x);
                                 }
+                                item.HasPhotos = item.TransactionImages.Count > 0;
                             }
 
+                            
                             context.Transaction.Add(item);
                             updateFound = true;
                         }

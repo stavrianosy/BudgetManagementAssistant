@@ -23,6 +23,7 @@ namespace BMA_WP.View.AdminView
         ApplicationBarIconButton save;
         ApplicationBarIconButton delete;
         ApplicationBarIconButton add;
+        ApplicationBarMenuItem categories;
         ApplicationBarMenuItem transactions;
         ApplicationBarMenuItem mainMenu;
         #endregion
@@ -171,10 +172,20 @@ namespace BMA_WP.View.AdminView
             ApplicationBar.MenuItems.Add(mainMenu);
             mainMenu.Click += new EventHandler(MainMenu_Click);
 
+            categories = new ApplicationBarMenuItem();
+            categories.Text = AppResources.AppBarButtonCategory;
+            ApplicationBar.MenuItems.Add(categories);
+            categories.Click += new EventHandler(Categories_Click);
+
             transactions = new ApplicationBarMenuItem();
             transactions.Text = AppResources.AppBarButtonTransaction;
             ApplicationBar.MenuItems.Add(transactions);
             transactions.Click += new EventHandler(Transactions_Click);
+        }
+
+        private void Categories_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/View/AdminView/Category.xaml", UriKind.Relative));
         }
 
         private void Transactions_Click(object sender, EventArgs e)

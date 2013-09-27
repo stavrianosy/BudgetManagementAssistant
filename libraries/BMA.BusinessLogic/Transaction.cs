@@ -500,6 +500,8 @@ namespace BMA.BusinessLogic
         
         //[DataMember]
         public double TotalAmount { get { return Amount + TipAmount; } }
+
+        public bool HasPhotos { get; set; }
         
         //[DataMember]
         public string NameOfPlace { get { return nameOfPlace; } set { nameOfPlace = value; OnPropertyChanged("NameOfPlace"); OnPropertyChanged("HasChanges"); } }

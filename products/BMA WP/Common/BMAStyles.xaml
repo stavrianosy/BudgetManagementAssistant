@@ -108,10 +108,20 @@
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding NameOfPlace}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Date: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
-                        <TextBlock Text="{Binding TransactionDate, StringFormat=\{0:g\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Date: " Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                            <TextBlock Text="{Binding TransactionDate, StringFormat=\{0:g\}}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Right"
+                                    Visibility="{Binding HasPhotos, Converter={StaticResource converters}, ConverterParameter=trueVisible}">
+                            <Image Source="{Binding HasPhotos, Converter={StaticResource converters}, ConverterParameter=hasPhotos}" Stretch="None" Opacity="1.0"/>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
             </StackPanel>
         </Grid>

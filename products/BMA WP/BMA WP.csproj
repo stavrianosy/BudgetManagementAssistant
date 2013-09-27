@@ -339,6 +339,7 @@
     <Content Include="Assets\icons\Dark\admin.png" />
     <Content Include="Assets\icons\Dark\back.png" />
     <Content Include="Assets\icons\Dark\basecircle.png" />
+    <Content Include="Assets\icons\Dark\camera.png" />
     <Content Include="Assets\icons\Dark\cancel.png" />
     <Content Include="Assets\icons\Dark\category.png" />
     <Content Include="Assets\icons\Dark\check.png" />
@@ -380,6 +381,7 @@
     <Content Include="Assets\icons\Light\admin.png" />
     <Content Include="Assets\icons\Light\back.png" />
     <Content Include="Assets\icons\Light\basecircle.png" />
+    <Content Include="Assets\icons\Light\camera.png" />
     <Content Include="Assets\icons\Light\cancel.png" />
     <Content Include="Assets\icons\Light\category.png" />
     <Content Include="Assets\icons\Light\check.png" />
