@@ -200,7 +200,7 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (vm.CurrTransactionReason.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
+            if (!string.IsNullOrEmpty(vm.CurrTransactionReason.Name) && vm.CurrTransactionReason.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
             {
                 MessageBox.Show(AppResources.ItemOtherNoDelete);
                 return;

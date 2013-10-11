@@ -13,6 +13,7 @@
           <xs:element minOccurs="0" name="Amount" type="xs:double" />
           <xs:element minOccurs="0" name="Category" nillable="true" type="tns:Category" />
           <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="HasPhotos" type="xs:boolean" />
           <xs:element minOccurs="0" name="NameOfPlace" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="TipAmount" type="xs:double" />
           <xs:element minOccurs="0" name="TransactionDate" type="xs:dateTime" />

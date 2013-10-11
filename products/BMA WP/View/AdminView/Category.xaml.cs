@@ -198,7 +198,7 @@ namespace BMA_WP.View.AdminView
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (vm.CurrCategory.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
+            if (!string.IsNullOrEmpty(vm.CurrCategory.Name) && vm.CurrCategory.Name.Equals("other", StringComparison.CurrentCultureIgnoreCase))
             {
                 MessageBox.Show(AppResources.ItemOtherNoDelete);
                 return;
