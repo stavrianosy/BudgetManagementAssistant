@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
 using System.Windows.Navigation;
+using System.Collections.ObjectModel;
 
 namespace BMA_WP.View
 {
@@ -112,7 +113,11 @@ namespace BMA_WP.View
         {
             vm.IsLoading = true;
 
-            var saveOC = vm.TransactionsIntervalSelectedList.ToObservableCollection();
+            var saveOC = new ObservableCollection<Transaction>();
+            
+            if(vm.TransactionsIntervalSelectedList != null)
+                saveOC = vm.TransactionsIntervalSelectedList.ToObservableCollection();
+            
             var all = vm.TransactionsInterval;
 
             if (saveOC.Count == 0)
