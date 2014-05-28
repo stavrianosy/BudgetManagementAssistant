@@ -1,4 +1,5 @@
-﻿using BMA_WP.Resources;
+﻿using BMA.BusinessLogic;
+using BMA_WP.Resources;
 using Microsoft.Phone.Scheduler;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace BMA_WP.Model
         {
             try
             {
+
+                DeleteReminder(App.Instance.StaticServiceData.NotificationList);
                 foreach (var item in App.Instance.StaticServiceData.NotificationList)
                 {
                     string reminderName = item.Name;
@@ -22,9 +25,7 @@ namespace BMA_WP.Model
                                                     item.Time.Hour, item.Time.Minute, item.Time.Second);
 
                     var reminder = ScheduledActionService.Find(reminderName);
-                    if (reminder != null)
-                        ScheduledActionService.Remove(reminderName);
-                    
+
                     reminder = new Reminder(reminderName)
                     {
                         //    // NOTE: setting the Title property is supported for reminders 
@@ -56,6 +57,16 @@ namespace BMA_WP.Model
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        internal static void DeleteReminder(NotificationList notificationList)
+        {
+            foreach (var item in notificationList)
+            {
+                var reminder = ScheduledActionService.Find(item.Name);
+                if (reminder != null)
+                    ScheduledActionService.Remove(item.Name);
             }
         }
     }

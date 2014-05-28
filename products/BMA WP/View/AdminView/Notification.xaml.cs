@@ -189,13 +189,21 @@ namespace BMA_WP.View.AdminView
             vm.IsLoading = true;
 
             var saveOC = vm.Notifications.Where(t => t.HasChanges).ToObservableCollection();
+            NotificationList deletedList = new NotificationList();
+            vm.Notifications.Where(x => x.IsDeleted).ToList().ForEach(x=>
+            {
+                deletedList.Add(x);
+            });
 
              App.Instance.StaticServiceData.SaveNotification(saveOC, (error) =>
             {
                 if (error != null)
                     MessageBox.Show(AppResources.SaveFailed);
                 else
+                {
+                    Model.Reminders.DeleteReminder(deletedList);
                     Model.Reminders.SetupReminders();
+                }
 
                 vm.IsLoading = false;
 

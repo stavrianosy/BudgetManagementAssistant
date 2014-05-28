@@ -105,7 +105,6 @@ namespace BMA.BusinessLogic
         public int CategoryId { get; set; }
 
         public string Name { get { return name; } set { name = value; OnPropertyChanged("Name"); } }
-
         
         /// <summary>
         /// Although this property should be TimeSpan, it is set as DateTime due to WCF serialization issues.

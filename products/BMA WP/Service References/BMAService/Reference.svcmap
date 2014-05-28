@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="597a263b-5341-405e-84ed-42e816f3f7dc" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6e338883-c19f-4150-8527-045086cbf6cf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -23,12 +23,12 @@
     <MetadataSource Address="http://localhost/BMAService/BMAService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="BMAService.xsd" MetadataType="Schema" ID="67ac1917-9e37-4551-b138-9550c0c325b2" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd2" />
-    <MetadataFile FileName="BMAService1.xsd" MetadataType="Schema" ID="bff73993-094d-44a5-b829-f997aa262986" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd3" />
-    <MetadataFile FileName="BMAService2.xsd" MetadataType="Schema" ID="d42c3ae8-972a-4c4a-88b4-1d59f51797b7" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd0" />
-    <MetadataFile FileName="BMAService3.xsd" MetadataType="Schema" ID="0e2a274a-1b8e-4932-b9ee-0f6e31832d76" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?xsd=xsd1" />
-    <MetadataFile FileName="Main.wsdl" MetadataType="Wsdl" ID="d8ddf3ad-5793-47ed-ab7a-01bbb4974c4e" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?wsdl" />
-    <MetadataFile FileName="BMAService.disco" MetadataType="Disco" ID="71174189-a824-4932-81e9-cd59c4df1d89" SourceId="1" SourceUrl="http://win-vvthsubpmki/BMAService/BMAService.svc?disco" />
+    <MetadataFile FileName="BMAService.xsd" MetadataType="Schema" ID="32d78175-7181-47cd-9114-901ef8948e7e" SourceId="1" SourceUrl="http://localhost/BMAService/BMAService.svc?xsd=xsd2" />
+    <MetadataFile FileName="Main.wsdl" MetadataType="Wsdl" ID="b1bc9104-3ef4-4686-9485-241cf3bc3c4f" SourceId="1" SourceUrl="http://localhost/BMAService/BMAService.svc?wsdl" />
+    <MetadataFile FileName="BMAService1.xsd" MetadataType="Schema" ID="0709b832-d2e3-4352-849e-73da4728cc83" SourceId="1" SourceUrl="http://localhost/BMAService/BMAService.svc?xsd=xsd1" />
+    <MetadataFile FileName="BMAService2.xsd" MetadataType="Schema" ID="c963c82a-99c5-44e7-8169-ff82402a3b9a" SourceId="1" SourceUrl="http://localhost/BMAService/BMAService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BMAService.disco" MetadataType="Disco" ID="d551fb44-7b97-4091-b731-fae28c71682c" SourceId="1" SourceUrl="http://localhost/BMAService/BMAService.svc?disco" />
+    <MetadataFile FileName="BMAService3.xsd" MetadataType="Schema" ID="a1816d9c-ff21-4330-996f-124fd47e254c" SourceId="1" SourceUrl="http://localhost/BMAService/BMAService.svc?xsd=xsd3" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

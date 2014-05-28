@@ -1,253 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BMA.BusinessLogic" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="User">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Birthdate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="UserId" type="xs:int" />
-          <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="User" nillable="true" type="tns:User" />
-  <xs:complexType name="BaseItem">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="CreatedDate" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="CreatedUser" nillable="true" type="tns:User" />
-      <xs:element minOccurs="0" name="HasChanges" type="xs:boolean" />
-      <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
-      <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="ModifiedUser" nillable="true" type="tns:User" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="BaseItem" nillable="true" type="tns:BaseItem" />
-  <xs:complexType name="ArrayOfCategory">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Category" nillable="true" type="tns:Category" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfCategory" nillable="true" type="tns:ArrayOfCategory" />
-  <xs:complexType name="Category">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="CategoryId" type="xs:int" />
-          <xs:element minOccurs="0" name="FromDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="ToDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="TypeTransactionReasons" nillable="true" type="tns:ArrayOfTypeTransactionReason" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="Category" nillable="true" type="tns:Category" />
-  <xs:complexType name="ArrayOfTypeTransactionReason">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeTransactionReason" nillable="true" type="tns:TypeTransactionReason" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeTransactionReason" nillable="true" type="tns:ArrayOfTypeTransactionReason" />
-  <xs:complexType name="TypeTransactionReason">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Categories" nillable="true" type="tns:ArrayOfCategory" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="TypeTransactionReasonId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeTransactionReason" nillable="true" type="tns:TypeTransactionReason" />
-  <xs:complexType name="ArrayOfTypeTransaction">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeTransaction" nillable="true" type="tns:ArrayOfTypeTransaction" />
-  <xs:complexType name="TypeTransaction">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="IsIncome" type="xs:boolean" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="TypeTransactionId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeTransaction" nillable="true" type="tns:TypeTransaction" />
-  <xs:complexType name="ArrayOfTypeSavingsDencity">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeSavingsDencity" nillable="true" type="tns:TypeSavingsDencity" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeSavingsDencity" nillable="true" type="tns:ArrayOfTypeSavingsDencity" />
-  <xs:complexType name="TypeSavingsDencity">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence />
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeSavingsDencity" nillable="true" type="tns:TypeSavingsDencity" />
-  <xs:complexType name="ArrayOfNotification">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Notification" nillable="true" type="tns:Notification" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfNotification" nillable="true" type="tns:ArrayOfNotification" />
-  <xs:complexType name="Notification">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="NotificationId" type="xs:int" />
-          <xs:element minOccurs="0" name="Time" type="xs:dateTime" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="Notification" nillable="true" type="tns:Notification" />
-  <xs:complexType name="ArrayOfTypeInterval">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeInterval" nillable="true" type="tns:TypeInterval" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeInterval" nillable="true" type="tns:ArrayOfTypeInterval" />
-  <xs:complexType name="TypeInterval">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Amount" type="xs:double" />
-          <xs:element minOccurs="0" name="Category" nillable="true" type="tns:Category" />
-          <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="Purpose" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="RecurrenceRangeRuleValue" nillable="true" type="tns:RecurrenceRulePart" />
-          <xs:element minOccurs="0" name="RecurrenceRuleValue" nillable="true" type="tns:RecurrenceRulePart" />
-          <xs:element minOccurs="0" name="TransactionReasonType" nillable="true" type="tns:TypeTransactionReason" />
-          <xs:element minOccurs="0" name="TransactionType" nillable="true" type="tns:TypeTransaction" />
-          <xs:element minOccurs="0" name="TypeIntervalId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeInterval" nillable="true" type="tns:TypeInterval" />
-  <xs:complexType name="RecurrenceRulePart">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="RecurrenceRule" nillable="true" type="tns:RecurrenceRule" />
-      <xs:element minOccurs="0" name="RecurrenceRulePartId" type="xs:int" />
-      <xs:element minOccurs="0" name="RulePartValueList" nillable="true" type="tns:ArrayOfRulePartValue" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="RecurrenceRulePart" nillable="true" type="tns:RecurrenceRulePart" />
-  <xs:complexType name="RecurrenceRule">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="RecurrenceRuleId" type="xs:int" />
-          <xs:element minOccurs="0" name="RuleParts" nillable="true" type="tns:ArrayOfRulePart" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="RecurrenceRule" nillable="true" type="tns:RecurrenceRule" />
-  <xs:complexType name="ArrayOfRulePart">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="RulePart" nillable="true" type="tns:RulePart" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfRulePart" nillable="true" type="tns:ArrayOfRulePart" />
-  <xs:complexType name="RulePart">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="FieldName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="FieldType" nillable="true" type="tns:FieldType" />
-      <xs:element minOccurs="0" name="RulePartId" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="RulePart" nillable="true" type="tns:RulePart" />
-  <xs:complexType name="FieldType">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="DefaultValue" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="FieldTypeId" type="xs:int" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="FieldType" nillable="true" type="tns:FieldType" />
-  <xs:complexType name="ArrayOfRulePartValue">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="RulePartValue" nillable="true" type="tns:RulePartValue" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfRulePartValue" nillable="true" type="tns:ArrayOfRulePartValue" />
-  <xs:complexType name="RulePartValue">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="RulePart" nillable="true" type="tns:RulePart" />
-      <xs:element minOccurs="0" name="RulePartValueId" type="xs:int" />
-      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="RulePartValue" nillable="true" type="tns:RulePartValue" />
-  <xs:complexType name="ArrayOfTypeFrequency">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TypeFrequency" nillable="true" type="tns:TypeFrequency" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfTypeFrequency" nillable="true" type="tns:ArrayOfTypeFrequency" />
-  <xs:complexType name="TypeFrequency">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Count" type="xs:int" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="TypeFrequencyId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeFrequency" nillable="true" type="tns:TypeFrequency" />
-  <xs:complexType name="ArrayOfBudgetThreshold">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="BudgetThreshold" nillable="true" type="tns:BudgetThreshold" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfBudgetThreshold" nillable="true" type="tns:ArrayOfBudgetThreshold" />
-  <xs:complexType name="BudgetThreshold">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="Amount" type="xs:double" />
-          <xs:element minOccurs="0" name="BudgetThresholdId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="BudgetThreshold" nillable="true" type="tns:BudgetThreshold" />
-  <xs:complexType name="ArrayOfRecurrenceRule">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="RecurrenceRule" nillable="true" type="tns:RecurrenceRule" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfRecurrenceRule" nillable="true" type="tns:ArrayOfRecurrenceRule" />
-  <xs:complexType name="TypeIntervalConfiguration">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseItem">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="GeneratedDate" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="TypeIntervalConfigurationId" type="xs:int" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="TypeIntervalConfiguration" nillable="true" type="tns:TypeIntervalConfiguration" />
+<xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="anyType" nillable="true" type="xs:anyType" />
+  <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+  <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+  <xs:element name="boolean" nillable="true" type="xs:boolean" />
+  <xs:element name="byte" nillable="true" type="xs:byte" />
+  <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+  <xs:element name="decimal" nillable="true" type="xs:decimal" />
+  <xs:element name="double" nillable="true" type="xs:double" />
+  <xs:element name="float" nillable="true" type="xs:float" />
+  <xs:element name="int" nillable="true" type="xs:int" />
+  <xs:element name="long" nillable="true" type="xs:long" />
+  <xs:element name="QName" nillable="true" type="xs:QName" />
+  <xs:element name="short" nillable="true" type="xs:short" />
+  <xs:element name="string" nillable="true" type="xs:string" />
+  <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+  <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+  <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+  <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+  <xs:element name="char" nillable="true" type="tns:char" />
+  <xs:simpleType name="char">
+    <xs:restriction base="xs:int" />
+  </xs:simpleType>
+  <xs:element name="duration" nillable="true" type="tns:duration" />
+  <xs:simpleType name="duration">
+    <xs:restriction base="xs:duration">
+      <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+      <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+      <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="guid" nillable="true" type="tns:guid" />
+  <xs:simpleType name="guid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:attribute name="FactoryType" type="xs:QName" />
+  <xs:attribute name="Id" type="xs:ID" />
+  <xs:attribute name="Ref" type="xs:IDREF" />
 </xs:schema>

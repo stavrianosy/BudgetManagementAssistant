@@ -21,6 +21,7 @@ namespace BMA.DataAccess.Migrations
         {
             try
             {
+
                 string buildInAdmin = "admin";
                 string buildInAdminEmail = "admin@bma.com";
                 string buildInAdminPass = "1234";

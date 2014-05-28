@@ -312,7 +312,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\AppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\BMA.BusinessLogic.Budget.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.BudgetThreshold.datasource" />
     <None Include="Properties\DataSources\BMA.BusinessLogic.Category.datasource" />
@@ -448,23 +450,6 @@
     <Content Include="Assets\wallet_out.png" />
     <Content Include="MVVMLight.Nuget.Readme.txt" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
-    <None Include="Service References\BMAService\BMAService.disco" />
-    <None Include="Service References\BMAService\configuration91.svcinfo" />
-    <None Include="Service References\BMAService\configuration.svcinfo" />
-    <None Include="Service References\BMAService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
-    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
-    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
-    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <Content Include="ServiceReferences.ClientConfig">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Service References\BMAService\BMAService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -478,6 +463,14 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BMAService\Main.wsdl" />
+    <None Include="Service References\BMAStaticDataService\BMAStaticDataService.disco" />
+    <None Include="Service References\BMAStaticDataService\configuration91.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\configuration.svcinfo" />
+    <None Include="Service References\BMAStaticDataService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\BMAStaticDataService\BMAStaticDataService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -510,6 +503,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README_FIRST.txt" />
+    <None Include="Service References\BMAService\BMAService.disco" />
+    <None Include="Service References\BMAService\configuration91.svcinfo" />
+    <None Include="Service References\BMAService\configuration.svcinfo" />
+    <None Include="Service References\BMAService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />

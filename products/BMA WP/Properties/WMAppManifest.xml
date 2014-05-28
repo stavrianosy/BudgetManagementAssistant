@@ -8,7 +8,7 @@
     <Language code="sah-RU" />
     <Language code="ru" />
   </Languages>
-  <App xmlns="" ProductID="{06abd409-2e45-4c77-b258-8026a45bfc6d}" Title="Money Saver Lite" RuntimeType="Silverlight" Version="1.0.1.0" Genre="apps.normal" Author="SoftCarbonGear" Description="Capture all daily transactions and help your self save some cash" Publisher="SoftCarbonGear" PublisherID="{e6a676d6-f39a-406f-9568-8cbb1a966691}">
+  <App xmlns="" ProductID="{06abd409-2e45-4c77-b258-8026a45bfc6d}" Title="Money Saver Lite" RuntimeType="Silverlight" Version="1.0.2.0" Genre="apps.normal" Author="SoftCarbonGear" Description="Capture all daily transactions and help your self save some cash" Publisher="SoftCarbonGear" PublisherID="{e6a676d6-f39a-406f-9568-8cbb1a966691}">
     <IconPath IsRelative="true" IsResource="false">Assets\application\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

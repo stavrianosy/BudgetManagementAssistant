@@ -29,10 +29,10 @@
         contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
     </client>-->
     <!--<client>
-      <endpoint address="http://192.168.2.10/BMAService/BMAService.svc"
+      <endpoint address="http://192.168.2.14/BMAService/BMAService.svc"
         binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IMain"
         contract="BMAService.IMain" name="BasicHttpBinding_IMain" />
-      <endpoint address="http://192.168.2.10/BMAService/BMAStaticDataService.svc"
+      <endpoint address="http://192.168.2.14/BMAService/BMAStaticDataService.svc"
         binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStatic2"
         contract="BMAStaticDataService.IStatic" name="BasicHttpBinding_IStatic" />
     </client>-->
